@@ -1,21 +1,29 @@
 import type { ElementType, OptionsType } from '../types.d'
 export default class WebLoading {
+    // 动画canvas
     canvas: HTMLCanvasElement
+    // 动画元素id
     loadingId: string | null
+    // 画笔
     ctx: CanvasRenderingContext2D | null
+    // 动画元素
     element: ElementType
+    // 配置options
+    options: OptionsType
     constructor(element: HTMLElement, options?: OptionsType) {
-        // 动画canvas
         this.canvas = document.createElement("canvas");
         this.loadingId = String(Date.now());
         this.canvas.id = this.loadingId;
-        // 画笔
         this.ctx = this.canvas.getContext("2d");
-        // 动画元素
         this.element = element;
         this.element.loadingId = this.loadingId;
         this.element.append(this.canvas);
+        this.options = this.defOptions(options)
         this.init();
+    }
+    // 初始options参数
+    defOptions(options?: OptionsType): OptionsType {
+        return Object.assign({ delay: 0.26, optimization: false }, options)
     }
     init(): void {
         let elementW = this.element.offsetWidth,
@@ -27,7 +35,7 @@ export default class WebLoading {
         left:0px;
         top:0px;
         zIndex:2001;
-        transition: 0.26s;
+        transition: ${this.options.delay}s;
         background-color: rgb(0 0 0 / 42%);
     `;
         this.canvas.width = elementW;
@@ -57,6 +65,6 @@ export default class WebLoading {
         setTimeout(() => {
             // 清空dom
             this.canvas.remove();
-        }, 0.26 * 1000);
+        }, this.options.delay * 1000);
     }
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>foundation</title>
+  </head>
+  <body>
+    <div id="app"><button>测试1</button></div>
+    <div id="app2">测试插件2</div>
+    <button id="start">加载</button>
+    <button id="close">停止</button>
+    <script type="module" src="./dist/main.js"></script>
+    <script>
+      // 测试使用
+      window.onload = () => {
+        let doc = document.getElementById("app");
+        let doc2 = document.getElementById("app2");
+        const loading = doc.loading();
+        const loading2 = doc2.loading();
+        window.addEventListener("resize", loading.resize);
+        document.getElementById("start").onclick = function () {
+          loading.reload();
+        };
+        document.getElementById("close").onclick = function () {
+          loading.close();
+        };
+      };
+    </script>
+  </body>
+  <style>
+    #app {
+      margin: 12px;
+      padding: 12px;
+      height: 200px;
+      border: 1px solid sienna;
+    }
+    #app2 {
+      margin: 12px;
+      padding: 12px;
+      height: 200px;
+      border: 1px solid sienna;
+    }
+  </style>
+</html>

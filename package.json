@@ -5,6 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "build": "webpack",
+    "dev": "webpack-dev-server",
     "lint:es": "eslint --cache --max-warnings 0  \"src/**/*.{vue,ts,tsx}\" --fix"
   },
   "devDependencies": {
@@ -15,6 +16,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.7.0",
+    "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.4.2",
     "typescript": "^4.6.4",
     "webpack": "^5.75.0",

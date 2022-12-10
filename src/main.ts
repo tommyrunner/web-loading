@@ -1,10 +1,9 @@
-import WebLoading from './loading/index'
+import WebLoading from './Webloading/index'
 import type { OptionsType } from './types.d'
 interface HTMLElementType extends HTMLElement {
   loading?: Function
 }
 let htmlElement: HTMLElementType = HTMLElement.prototype
-
 htmlElement.loading = function loading(options?: OptionsType) {
   // 默认调用
   let webLoading = new WebLoading(this, options);

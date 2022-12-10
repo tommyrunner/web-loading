@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 module.exports = {
   mode: "development",
@@ -8,6 +9,11 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+  },
+  devServer: {
+    port: 8888,
+    open: true,
+    hot: true,
   },
   module: {
     rules: [
@@ -21,4 +27,10 @@ module.exports = {
       },
     ],
   },
+  // 热启动html   <script defer src="main.js"></script>
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./index.html",
+    }),
+  ],
 };

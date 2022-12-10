@@ -4,17 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>foundation</title>
-  </head>
+  <script defer src="main.js"></script></head>
   <body>
     <div id="app"><button>测试1</button></div>
-    <div id="app2"><button>测试12</button></div>
     <button id="start">加载</button>
     <button id="close">停止</button>
     <script>
       // 测试使用
       window.onload = () => {
         let doc = document.getElementById("app");
-        let doc2 = document.getElementById("app2");
         const loading = doc.loading();
         window.addEventListener("resize", loading.resize);
         document.getElementById("start").onclick = function () {

@@ -11,8 +11,12 @@ export default class BaseModel {
         this.ctx = ctx
         this.options = options
         this.store = store
-        // 初始化位置
+        this.initPoint()
+    }
+    // 初始化画笔
+    initPoint() {
         this.ctx.clearRect(0, 0, this.w, this.h);
+        this.ctx.fillStyle = this.options.themeColor;
         this.ctx.strokeStyle = this.options.themeColor;
         this.ctx.save()
         this.ctx.translate(this.w / 2, this.h / 2)

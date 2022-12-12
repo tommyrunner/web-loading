@@ -1,5 +1,5 @@
 import type { ElementType, OptionsType } from "../types";
-import { MODEL_TYPES } from "../utils";
+import { getDefOptions } from "../utils";
 import drawController from '../draw/index'
 export default class WebLoading {
     // 动画canvas
@@ -26,17 +26,7 @@ export default class WebLoading {
     }
     // 初始options参数
     defOptions(options?: OptionsType): OptionsType {
-        return Object.assign(
-            {
-                model: MODEL_TYPES.GEAR,
-                delay: 0.26,
-                optimization: false,
-                zIndex: "2001",
-                themeColor: "rgba(64,158,255,1)",
-                bgColor: "rgba(0, 0, 0, 0.8)",
-            },
-            options
-        );
+        return Object.assign(getDefOptions(), options);
     }
     init(): void {
         let elementW = this.element.offsetWidth,
@@ -50,7 +40,7 @@ export default class WebLoading {
         canvasStyle.left = "0px";
         canvasStyle.top = "0px";
         canvasStyle.zIndex = this.options.zIndex;
-        canvasStyle.transition = `${this.options.delay}s`;
+        canvasStyle.transition = `${this.options.delayColse}s`;
         canvasStyle.backgroundColor = this.options.bgColor
         // 设置画布大小
         this.canvas.width = elementW;
@@ -74,13 +64,14 @@ export default class WebLoading {
         this.draw();
     }
     close(): void {
+        // 先视觉过渡
         this.canvas.style.opacity = "0";
         this.canvas.style.zIndex = "-2001";
         this.loadingId = null;
+        // 清空dom
         setTimeout(() => {
-            // 清空dom
             this.canvas.remove();
-        }, this.options.delay * 1000);
+        }, this.options.delayColse * 1000);
     }
     initStore() {
         this.element.$store = {

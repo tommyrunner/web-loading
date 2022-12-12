@@ -20,6 +20,8 @@ export default class WebLoading {
         this.element = element;
         this.element.loadingId = this.loadingId;
         this.options = this.defOptions(options);
+        // 初始化储存属性
+        this.initStore()
         this.init();
     }
     // 初始options参数
@@ -30,8 +32,8 @@ export default class WebLoading {
                 delay: 0.26,
                 optimization: false,
                 zIndex: "2001",
-                themeColor: "#13C2C2",
-                bgColor: "rgba(0, 0, 0, 0.26)",
+                themeColor: "rgba(64,158,255,1)",
+                bgColor: "rgba(0, 0, 0, 0.8)",
             },
             options
         );
@@ -60,8 +62,8 @@ export default class WebLoading {
     draw(): void {
         let w = this.canvas.offsetWidth,
             h = this.canvas.offsetHeight;
-        if (this.ctx) {
-            drawController(w, h, this.ctx, this.options)
+        if (this.ctx && this.element.$store) {
+            drawController(w, h, this.ctx, this.options, this.element.$store)
         } else {
             console.warn('WebLoading:canvas or ctx null')
         }
@@ -79,5 +81,10 @@ export default class WebLoading {
             // 清空dom
             this.canvas.remove();
         }, this.options.delay * 1000);
+    }
+    initStore() {
+        this.element.$store = {
+            animationId: undefined
+        }
     }
 }

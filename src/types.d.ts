@@ -8,6 +8,10 @@ export interface OptionsType {
     bgColor: string
 
 }
+export interface ElementStoreType {
+    animationId: number | undefined
+}
 export interface ElementType extends HTMLElement {
     loadingId?: string | null
+    $store?: ElementStoreType
 }

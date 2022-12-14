@@ -14,6 +14,11 @@ export default class BaseModel<T extends OptionsType> {
         this.store = store
         this.initPoint()
     }
+    /**
+     * 初始化options默认值
+     * @param options 传入默认值
+     * @param limits 值的限制
+     */
     initOptions(options: T, limits?: Array<LimitType>) {
         // 判断需要限制属性值(只做提示)
         this.options = Object.assign(options, this.options)
@@ -28,11 +33,11 @@ export default class BaseModel<T extends OptionsType> {
     }
     // 初始化画笔
     initPoint() {
-        this.ctx.clearRect(0, 0, this.w, this.h);
         if (this.options.themeColor) {
             this.ctx.fillStyle = this.options.themeColor;
             this.ctx.strokeStyle = this.options.themeColor;
         }
+        this.ctx.clearRect(0, 0, this.w, this.h);
         this.ctx.save()
         this.ctx.translate(this.w / 2, this.h / 2)
     }

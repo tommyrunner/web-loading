@@ -23,6 +23,8 @@ export interface GearOptionsType extends OptionsType {
     lineCap?: CanvasLineCap
     // 线个数
     lineNum?: number
+    // 方向:true:顺,则反
+    direction?: boolean
     // 延迟
     delay?: number
 }

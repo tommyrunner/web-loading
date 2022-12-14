@@ -12,7 +12,7 @@ export default class BaseModel<T extends OptionsType> {
         this.ctx = ctx
         this.options = options
         this.store = store
-        this.initPoint()
+        this._$initPoint()
     }
     /**
      * 初始化options默认值
@@ -32,7 +32,7 @@ export default class BaseModel<T extends OptionsType> {
         }
     }
     // 初始化画笔
-    initPoint() {
+    _$initPoint() {
         if (this.options.themeColor) {
             this.ctx.fillStyle = this.options.themeColor;
             this.ctx.strokeStyle = this.options.themeColor;

@@ -27,13 +27,23 @@ export default class Gear extends BaseModel<GearOptionsType> {
     aps: Array<number>
     constructor(w: number, h: number, ctx: CanvasRenderingContext2D, options: GearOptionsType, store: ElementStoreType) {
         super(w, h, ctx, options, store)
-        // 初始化options(防止属性为空)
+        // 1.初始化options(防止属性为空)
         this.initOptions(defaultOptions, limits)
-        // 开始动画针并记录状态
-        this.aps = Array.from({ length: this.options.lineNum! }, (o, _index) => _index)
-        // 根据高宽优化默认值
+        // 2.根据高宽优化默认值
         this.optimization(this.options.textInterval! + this.options.lineEnd!)
+        // 3.初始化画笔
+        this.initPoint()
+        // 4.开始动画针并记录状态
+        this.aps = Array.from({ length: this.options.lineNum! }, (o, _index) => _index)
         this.run(this.draw, this.options.delay!)
+    }
+    initPoint(): void {
+        let op = this.options
+        this.ctx.lineCap = op.lineCap!;
+        this.ctx.lineWidth = op.lineWidth!
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
     }
     draw() {
         let op = this.options
@@ -42,20 +52,17 @@ export default class Gear extends BaseModel<GearOptionsType> {
             this.aps = this.aps.map(a => a - 1 <= 0 ? this.aps.length - 1 : a - 1)
         else
             this.aps = this.aps.map(a => a + 1 > this.aps.length ? 0 : a + 1)
+        // 绘制加载齿轮
         for (let i = 0; i < this.aps.length; i++) {
             this.ctx.beginPath()
-            this.ctx.strokeStyle = `rgba(64,158,255,0.${this.aps[i]})`
+            this.ctx.globalAlpha = this.aps[i] / 10
             this.ctx.moveTo(op.lineEndSkew!, op.lineStart!)
-            this.ctx.lineCap = op.lineCap!;
             this.ctx.lineTo(op.lineStartSkew!, op.lineEnd!)
-            this.ctx.lineWidth = op.lineWidth!
             this.ctx.stroke()
             this.ctx.rotate(2 * Math.PI / op.lineNum!)
         }
-        this.ctx.beginPath()
-        this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "middle";
+        // 绘制文字
+        this.ctx.globalAlpha = 1
         // 位置+文字+间隔
         let x = 0, y = op.lineEnd! + op.fontSize! + op.textInterval!
         this.ctx.fillText(op.text!, x, y)

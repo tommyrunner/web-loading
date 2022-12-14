@@ -1,5 +1,5 @@
 import type { ElementType, OptionsType } from "../types";
-import { getDefOptions } from "../utils";
+import { getDefOptions, $log } from "../utils";
 import drawController from '../draw/index'
 export default class WebLoading {
     // 动画canvas
@@ -19,14 +19,11 @@ export default class WebLoading {
         this.ctx = this.canvas.getContext("2d");
         this.element = element;
         this.element.loadingId = this.loadingId;
-        this.options = this.defOptions(options);
+        // 初始化默认配置
+        this.options = Object.assign(getDefOptions(), options);
         // 初始化储存属性
         this.initStore()
         this.init();
-    }
-    // 初始options参数
-    defOptions(options?: OptionsType): OptionsType {
-        return Object.assign(getDefOptions(), options);
     }
     init(): void {
         let elementW = this.element.offsetWidth,
@@ -39,9 +36,9 @@ export default class WebLoading {
         canvasStyle.position = "absolute";
         canvasStyle.left = "0px";
         canvasStyle.top = "0px";
-        canvasStyle.zIndex = this.options.zIndex;
-        canvasStyle.transition = `${this.options.delayColse}s`;
-        canvasStyle.backgroundColor = this.options.bgColor
+        canvasStyle.zIndex = this.options.zIndex!
+        canvasStyle.transition = `${this.options.delayColse!}s`;
+        canvasStyle.backgroundColor = this.options.bgColor!
         // 设置画布大小
         this.canvas.width = elementW;
         this.canvas.height = elementH;
@@ -55,7 +52,7 @@ export default class WebLoading {
         if (this.ctx && this.element.$store) {
             drawController(w, h, this.ctx, this.options, this.element.$store)
         } else {
-            console.warn('WebLoading:canvas or ctx null')
+            $log('WebLoading:canvas or ctx null')
         }
     }
     resize(): void {
@@ -71,10 +68,13 @@ export default class WebLoading {
         // 清空dom
         setTimeout(() => {
             this.canvas.remove();
-        }, this.options.delayColse * 1000);
+        }, (this.options.delayColse!) * 1000);
     }
     initStore() {
+        // 储存状态
         this.element.$store = {
+            options: this.options,
+            element: this.element,
             animationId: undefined
         }
     }

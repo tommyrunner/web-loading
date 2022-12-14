@@ -1,11 +1,12 @@
-import type { ElementStoreType, OptionsType } from "../../types";
-export default class BaseModel {
+import type { ElementStoreType, OptionsType, LimitType } from "../../types";
+import { $log, LogConfigType, LOG_TYPES } from '../../utils'
+export default class BaseModel<T extends OptionsType> {
     w: number
     h: number
     ctx: CanvasRenderingContext2D
-    options: OptionsType
+    options: T
     store: ElementStoreType
-    constructor(w: number, h: number, ctx: CanvasRenderingContext2D, options: OptionsType, store: ElementStoreType) {
+    constructor(w: number, h: number, ctx: CanvasRenderingContext2D, options: T, store: ElementStoreType) {
         this.w = w
         this.h = h
         this.ctx = ctx
@@ -13,13 +14,37 @@ export default class BaseModel {
         this.store = store
         this.initPoint()
     }
+    initOptions(options: T, limits?: Array<LimitType>) {
+        // 判断需要限制属性值(只做提示)
+        this.options = Object.assign(this.options, options)
+        // 记录options
+        this.store.options = this.options
+        if (limits) {
+            limits.forEach((l: LimitType) => {
+                let mayKey = this.options[l.key as keyof typeof this.options]
+                if (mayKey && !l.limit(mayKey)) this.webLog(l.message, { type: LOG_TYPES.WARN })
+            })
+        }
+    }
     // 初始化画笔
     initPoint() {
         this.ctx.clearRect(0, 0, this.w, this.h);
-        this.ctx.fillStyle = this.options.themeColor;
-        this.ctx.strokeStyle = this.options.themeColor;
+        if (this.options.themeColor) {
+            this.ctx.fillStyle = this.options.themeColor;
+            this.ctx.strokeStyle = this.options.themeColor;
+        }
         this.ctx.save()
         this.ctx.translate(this.w / 2, this.h / 2)
+    }
+    // 日志输出
+    webLog(message: string, config?: LogConfigType): void {
+        $log(message, config)
+    }
+    // 开始动画
+    run(fun: Function, time?: number) {
+        // 如果已经处于加载状态，无须重新实例
+        if (!this.store.animationId)
+            this.store.animationId = this.animationFrame(fun, time)
     }
     /**
      * 封装 requestAnimationFrame 触发动画针
@@ -29,7 +54,6 @@ export default class BaseModel {
      */
     animationFrame(fun: Function, time?: number): number | undefined {
         // 兼容
-        if (this.store.animationId) return undefined
         if (!time) time = 65
         if (!window.requestAnimationFrame) {
             return window.setInterval(fun, time)

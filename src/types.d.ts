@@ -1,23 +1,38 @@
 import { MODEL_TYPES } from './utils'
 export interface OptionsType {
     // model 模式
-    model: MODEL_TYPES
+    model?: MODEL_TYPES
     // 过渡关闭动画时间
-    delayColse: number
+    delayColse?: number
     // 优化处理
-    optimization: boolean
+    optimization?: boolean
     // 动画层级
-    zIndex: string
+    zIndex?: string
     // 主题色
-    themeColor: string
+    themeColor?: string
     // 背景色
-    bgColor: string
+    bgColor?: string
 
 }
+export interface LoadingType {
+    reload: Function
+    resize: Function
+    close: Function
+}
+export interface HTMLElementType extends HTMLElement {
+    loading?: (options: OptionsType) => LoadingType
+}
 export interface ElementStoreType {
+    element: HTMLElement
+    options: OptionsType
     animationId: number | undefined
 }
 export interface ElementType extends HTMLElement {
     loadingId?: string | null
     $store?: ElementStoreType
+}
+export interface LimitType {
+    key: string,
+    message: string,
+    limit: (key: any) => boolean
 }

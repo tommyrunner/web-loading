@@ -1,4 +1,4 @@
-import { MODEL_TYPES } from './utils'
+import { MODEL_TYPES, LOG_TYPES } from './utils'
 export interface OptionsType {
     // model 模式
     model?: MODEL_TYPES
@@ -35,4 +35,12 @@ export interface LimitType {
     key: string,
     message: string,
     limit: (key: any) => boolean
+}
+export type LogConfigType = {
+    // 日志类型
+    type?: LOG_TYPES
+    // 文字颜色
+    color?: string
+    // 提示毕竟
+    bgColor?: string
 }

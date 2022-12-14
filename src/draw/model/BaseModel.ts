@@ -1,5 +1,5 @@
-import type { ElementStoreType, OptionsType, LimitType } from "../../types";
-import { $log, LogConfigType, LOG_TYPES } from '../../utils'
+import type { ElementStoreType, OptionsType, LimitType, LogConfigType } from "../../types";
+import { $log, LOG_TYPES } from '../../utils'
 export default class BaseModel<T extends OptionsType> {
     w: number
     h: number
@@ -16,7 +16,7 @@ export default class BaseModel<T extends OptionsType> {
     }
     initOptions(options: T, limits?: Array<LimitType>) {
         // 判断需要限制属性值(只做提示)
-        this.options = Object.assign(this.options, options)
+        this.options = Object.assign(options, this.options)
         // 记录options
         this.store.options = this.options
         if (limits) {

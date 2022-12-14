@@ -27,6 +27,8 @@ export default class Gear extends BaseModel<GearOptionsType> {
         }])
         // 开始动画针并记录状态
         this.aps = Array.from({ length: this.options.lineNum! }, (o, _index) => _index)
+        // 根据高宽优化默认值
+        this.optimization(this.options.textInterval! + this.options.lineEnd!)
         this.run(this.draw, this.options.delay!)
     }
     draw() {
@@ -51,5 +53,20 @@ export default class Gear extends BaseModel<GearOptionsType> {
         let x = 0, y = op.lineEnd! + op.fontSize! + op.textInterval!
         this.ctx.fillText(op.text!, x, y)
         this.ctx.closePath()
+    }
+    /**
+   * 优化处理(主要优化默认文字位置)
+   * @param textY 
+   */
+    optimization(textY: number) {
+        // 如果开启优化(优化字体位置)
+        if (this.options.optimization) {
+            // 根据宽高调整
+            if (textY * 4 > this.h) {
+                this.options.lineStart = this.h / 6 - 5
+                this.options.lineEnd = this.h / 6
+                this.options.textInterval = 2
+            }
+        }
     }
 }

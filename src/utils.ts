@@ -1,4 +1,4 @@
-import { OptionsType } from "./types"
+import { LogConfigType } from "./types"
 
 /**
  * 支持的 model
@@ -22,14 +22,6 @@ export function getDefOptions() {
 }
 export enum LOG_TYPES {
     INFO = 1, WARN = 2, ERROR = 3
-}
-export type LogConfigType = {
-    // 日志类型
-    type?: LOG_TYPES
-    // 文字颜色
-    color?: string
-    // 提示毕竟
-    bgColor?: string
 }
 /**
  * 日志输出

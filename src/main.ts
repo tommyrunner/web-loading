@@ -9,7 +9,7 @@ htmlElement.loading = function loading(options?: OptionsType) {
   };
   const reload = () => {
     // 防止重复注册
-    if (!webLoading.loadingId) webLoading = new WebLoading(this);
+    if (!webLoading.loadingId) webLoading = new WebLoading(this, options);
   };
   const close = () => {
     webLoading.close();

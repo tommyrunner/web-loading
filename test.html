@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>菜鸟教程(runoob.com)</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="300" height="150" style="border: 1px solid #d3d3d3">您的浏览器不支持 HTML5 canvas 标签。</canvas>
+    <script>
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.rotate((20 * Math.PI) / 180);
+      ctx.save();
+      ctx.fillRect(50, 20, 100, 50);
+      ctx.restore();
+      ctx.fillStyle = "red";
+      ctx.fillText("测试", 100, 40);
+      //---
+      ctx = c.getContext("2d");
+      ctx.rotate((20 * Math.PI) / 180);
+      ctx.fillRect(50, 20, 100, 50);
+      ctx.fillText("测试", 100, 40);
+    </script>
+  </body>
+</html>

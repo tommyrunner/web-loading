@@ -49,7 +49,14 @@ export default class WebLoading {
     draw(): void {
         let w = this.canvas.offsetWidth,
             h = this.canvas.offsetHeight;
-        if (this.ctx && this.element.$store) {
+            if (this.ctx && this.element.$store) {
+            // 抗锯齿
+            if (window.devicePixelRatio) {
+                devicePixelRatio = window.devicePixelRatio;
+                this.canvas.width = w * devicePixelRatio;
+                this.canvas.height = h * devicePixelRatio;
+                this.ctx.scale(devicePixelRatio, devicePixelRatio);
+            }
             drawController(w, h, this.ctx, this.options, this.element.$store)
         } else {
             $log('WebLoading:canvas or ctx null')

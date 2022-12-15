@@ -7,12 +7,15 @@ htmlElement.loading = function loading(options?: OptionsType) {
   const resize = () => {
     webLoading.resize()
   };
-  const reload = () => {
+  const reload = (options?: OptionsType) => {
     // 防止重复注册
-    if (!webLoading.loadingId) webLoading = new WebLoading(this, options);
+    if (!webLoading.loadingId) {
+      // 保留上次传入参数
+      webLoading = new WebLoading(this, Object.assign(webLoading.options, options));
+    }
   };
   const close = () => {
-    webLoading.close();
+    webLoading.close()
   };
   return {
     reload,

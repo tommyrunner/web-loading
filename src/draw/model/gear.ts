@@ -6,7 +6,7 @@ const defaultOptions: GearOptionsType = {
     fontSize: 12,
     fontFamily: 'Microsoft YaHei',
     text: '加载中...',
-    textInterval: 16,
+    textGap: 16,
     lineStartSkew: 0,
     lineStart: 10,
     lineEndSkew: 0,
@@ -29,7 +29,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
         // 1.初始化options(防止属性为空)
         this.initOptions(defaultOptions, limits)
         // 2.根据高宽优化默认值
-        this.optimization(this.options.textInterval! + this.options.lineEnd!)
+        this.optimization(this.options.textGap! + this.options.lineEnd!)
         // 3.初始化画笔
         this.initPoint()
         // 4.开始动画针并记录状态
@@ -63,7 +63,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
         // 绘制文字
         this.ctx.globalAlpha = 1
         // 位置+文字+间隔
-        let x = 0, y = op.lineEnd! + op.fontSize! + op.textInterval!
+        let x = 0, y = op.lineEnd! + op.fontSize! + op.textGap!
         this.ctx.fillText(op.text!, x, y)
         this.ctx.closePath()
     }
@@ -78,7 +78,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
             if (textY * 4 > this.h) {
                 this.options.lineStart = this.h / 6 - 5
                 this.options.lineEnd = this.h / 6
-                this.options.textInterval = 2
+                this.options.textGap = 2
             }
         }
     }

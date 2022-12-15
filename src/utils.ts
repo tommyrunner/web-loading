@@ -14,7 +14,7 @@ export enum MODEL_TYPES {
 export function getDefOptions() {
     return {
         model: MODEL_TYPES.RING,
-        delayColse: 0.26,
+        delayColse: 520,
         optimization: false,
         zIndex: "2001",
         themeColor: "rgba(64,158,255,1)",

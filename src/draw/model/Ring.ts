@@ -16,7 +16,7 @@ const defaultOptions: RingOptionsType = {
 }
 // 值的限制
 const limits = [{
-    key: 'ringNum', message: 'lineNum value 1-10', limit: (key: any) => {
+    key: 'ringNum', message: 'ringNum value 1-10', limit: (key: any) => {
         return key >= 1 && key <= 10
     }
 }]

@@ -1,6 +1,7 @@
 import type { ElementType, OptionsType } from "../types";
 import { getDefOptions, $log } from "../utils";
 import drawController from '../draw/index'
+import style from './style'
 export default class WebLoading {
     // 动画canvas
     canvas: HTMLCanvasElement;
@@ -13,14 +14,12 @@ export default class WebLoading {
     // 配置options
     options: OptionsType;
     constructor(element: HTMLElement, options?: OptionsType) {
-        this.canvas = document.createElement("canvas");
-        this.loadingId = String(Date.now());
-        this.canvas.id = this.loadingId;
-        this.ctx = this.canvas.getContext("2d");
-        this.element = element;
-        this.element.loadingId = this.loadingId;
         // 初始化默认配置
         this.options = Object.assign(getDefOptions(), options);
+        this.canvas = document.createElement("canvas");
+        this.loadingId = String('wl_' + Date.now());
+        this.ctx = this.canvas.getContext("2d");
+        this.element = element;
         // 初始化储存属性
         this.initStore()
         this.init();
@@ -30,14 +29,19 @@ export default class WebLoading {
             elementH = this.element.offsetHeight,
             elementStyle = this.element.style,
             canvasStyle = this.canvas.style;
+        // 初始化元素的样式
+        this.element.loadingId = this.loadingId;
         if (!elementStyle.position || elementStyle.position === 'static')
             elementStyle.position = "relative";
-        // 初始化样式
+        // 初始化canvas样式
+        this.canvas.id = this.loadingId!;
+        document.styleSheets[0].insertRule(style)
+        this.canvas.style.animation = `wl_show ${this.options.delayColse! / 1000}s linear`
         canvasStyle.position = "absolute";
         canvasStyle.left = "0px";
         canvasStyle.top = "0px";
         canvasStyle.zIndex = this.options.zIndex!
-        canvasStyle.transition = `${this.options.delayColse!}s`;
+        canvasStyle.transition = `${this.options.delayColse! / 1000}s`;
         canvasStyle.backgroundColor = this.options.bgColor!
         // 设置画布大小
         this.canvas.width = elementW;
@@ -49,7 +53,7 @@ export default class WebLoading {
     draw(): void {
         let w = this.canvas.offsetWidth,
             h = this.canvas.offsetHeight;
-            if (this.ctx && this.element.$store) {
+        if (this.ctx && this.element.$store) {
             // 抗锯齿
             if (window.devicePixelRatio) {
                 devicePixelRatio = window.devicePixelRatio;
@@ -75,7 +79,7 @@ export default class WebLoading {
         // 清空dom
         setTimeout(() => {
             this.canvas.remove();
-        }, (this.options.delayColse!) * 1000);
+        }, this.options.delayColse!);
     }
     initStore() {
         // 储存状态

@@ -77,7 +77,6 @@ export default class BaseModel<T extends OptionsType> {
             }
             window.requestAnimationFrame(run)
         }
-
         return window.requestAnimationFrame(run)
     }
     /**

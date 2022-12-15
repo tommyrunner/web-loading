@@ -14,8 +14,7 @@ const defaultOptions: GearOptionsType = {
     lineWidth: 4,
     lineCap: 'round',
     lineNum: 10,
-    direction: true,
-    delay: 62
+    direction: true
 }
 // 值的限制
 const limits = [{
@@ -35,7 +34,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
         this.initPoint()
         // 4.开始动画针并记录状态
         this.aps = Array.from({ length: this.options.lineNum! }, (o, _index) => _index)
-        this.run(this.draw, this.options.delay!)
+        this.run(this.draw)
     }
     initPoint(): void {
         let op = this.options
@@ -47,7 +46,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
     }
     draw() {
         let op = this.options
-        this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
+        this.clearRect()
         if (op.direction)
             this.aps = this.aps.map(a => a - 1 <= 0 ? this.aps.length - 1 : a - 1)
         else

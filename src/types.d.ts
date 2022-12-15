@@ -2,6 +2,8 @@ import { MODEL_TYPES, LOG_TYPES } from './utils'
 export interface OptionsType {
     // model 模式
     model?: MODEL_TYPES
+    // 初始延迟
+    delay?: number
     // 过渡关闭动画时间
     delayColse?: number
     // 优化处理

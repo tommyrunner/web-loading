@@ -4,7 +4,8 @@ import { LogConfigType } from "./types"
  * 支持的 model
  */
 export enum MODEL_TYPES {
-    GEAR = 'Gear'
+    GEAR = 'Gear',
+    RING = 'Ring'
 }
 /**
  * 
@@ -12,12 +13,13 @@ export enum MODEL_TYPES {
  */
 export function getDefOptions() {
     return {
-        model: MODEL_TYPES.GEAR,
+        model: MODEL_TYPES.RING,
         delayColse: 0.26,
         optimization: false,
         zIndex: "2001",
         themeColor: "rgba(64,158,255,1)",
         bgColor: "rgba(0, 0, 0, 0.8)",
+        delay: 80
     }
 }
 export enum LOG_TYPES {

@@ -20,10 +20,10 @@ export default class BaseModel<T extends OptionsType> {
      * @param limits 值的限制
      */
     initOptions(options: T, limits?: Array<LimitType>) {
-        // 判断需要限制属性值(只做提示)
-        this.options = Object.assign(options, this.options)
         // 记录options
+        this.options = Object.assign(options, this.options)
         this.store.options = this.options
+        // 判断需要限制属性值(只做提示)
         if (limits) {
             limits.forEach((l: LimitType) => {
                 let mayKey = this.options[l.key as keyof typeof this.options]
@@ -32,24 +32,29 @@ export default class BaseModel<T extends OptionsType> {
         }
     }
     // 初始化画笔
-    _$initPoint() {
+    private _$initPoint() {
         if (this.options.themeColor) {
             this.ctx.fillStyle = this.options.themeColor;
             this.ctx.strokeStyle = this.options.themeColor;
         }
         this.ctx.clearRect(0, 0, this.w, this.h);
-        this.ctx.save()
         this.ctx.translate(this.w / 2, this.h / 2)
+        this.ctx.save()
+    }
+    // 清空画布
+    clearRect() {
+        // 因为已经把起点设置到中心，所需要扩张
+        this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
     }
     // 日志输出
     webLog(message: string, config?: LogConfigType): void {
         $log(message, config)
     }
     // 开始动画
-    run(fun: Function, time?: number) {
+    run(fun: Function) {
         // 如果已经处于加载状态，无须重新实例
         if (!this.store.animationId)
-            this.store.animationId = this.animationFrame(fun, time)
+            this.store.animationId = this.animationFrame(fun)
     }
     /**
      * 封装 requestAnimationFrame 触发动画针
@@ -57,25 +62,23 @@ export default class BaseModel<T extends OptionsType> {
      * @param time 触发周期
      * @returns 
      */
-    animationFrame(fun: Function, time?: number): number | undefined {
+    animationFrame(fun: Function): number | undefined {
         // 兼容
-        if (!time) time = 65
         if (!window.requestAnimationFrame) {
-            return window.setInterval(fun, time)
+            return window.setInterval(fun, this.options.delay)
         }
         // 利用时间轴控制触发时间
-        let endTime = Date.now() + time
-        let animationId: number | undefined = undefined
+        let endTime = Date.now() + this.options.delay!
         fun.call(this)
         const run = () => {
             if (Date.now() > endTime) {
                 fun.call(this)
-                time && (endTime = Date.now() + time)
+                endTime = Date.now() + this.options.delay!
             }
             window.requestAnimationFrame(run)
         }
-        animationId = window.requestAnimationFrame(run)
-        return animationId
+
+        return window.requestAnimationFrame(run)
     }
     /**
      * 取消 animationFrame 动画针

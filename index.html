@@ -14,7 +14,7 @@
       // 测试使用
       window.onload = () => {
         let doc = document.getElementById("app");
-        const loading = doc.loading();
+        const loading = doc.loading({});
         window.addEventListener("resize", loading.resize);
         document.getElementById("start").onclick = function () {
           loading.reload();

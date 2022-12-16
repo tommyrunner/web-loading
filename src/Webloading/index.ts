@@ -7,8 +7,6 @@ export default class WebLoading {
     canvas: HTMLCanvasElement;
     // 动画元素id
     loadingId: string | null;
-    // 画笔
-    ctx: CanvasRenderingContext2D | null;
     // 动画元素
     element: ElementType;
     // 配置options
@@ -18,7 +16,6 @@ export default class WebLoading {
         this.options = Object.assign(getDefOptions(), options);
         this.canvas = document.createElement("canvas");
         this.loadingId = String('wl_' + Date.now());
-        this.ctx = this.canvas.getContext("2d");
         this.element = element;
         // 初始化储存属性
         this.initStore()
@@ -53,15 +50,8 @@ export default class WebLoading {
     draw(): void {
         let w = this.canvas.offsetWidth,
             h = this.canvas.offsetHeight;
-        if (this.ctx && this.element.$store) {
-            // 抗锯齿
-            if (window.devicePixelRatio) {
-                devicePixelRatio = window.devicePixelRatio;
-                this.canvas.width = w * devicePixelRatio;
-                this.canvas.height = h * devicePixelRatio;
-                this.ctx.scale(devicePixelRatio, devicePixelRatio);
-            }
-            drawController(w, h, this.ctx, this.options, this.element.$store)
+        if (this.element.$store) {
+            drawController(w, h, this.canvas, this.options, this.element.$store)
         } else {
             $log('WebLoading:canvas or ctx null')
         }

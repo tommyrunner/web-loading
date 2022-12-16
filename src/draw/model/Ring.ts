@@ -24,8 +24,8 @@ const limits = [{
 }]
 export default class Ring extends BaseModel<RingOptionsType> {
     rotate: number // 每次旋转角度(默认每次旋转10)
-    constructor(w: number, h: number, ctx: CanvasRenderingContext2D, options: RingOptionsType, store: ElementStoreType) {
-        super(w, h, ctx, options, store)
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: RingOptionsType, store: ElementStoreType) {
+        super(w, h, canvas, options, store)
         this.rotate = 10
         // 1.初始化options(防止属性为空)
         this.initOptions(defaultOptions, limits)

@@ -24,8 +24,8 @@ const limits = [{
 }]
 export default class Gear extends BaseModel<GearOptionsType> {
     aps: Array<number>
-    constructor(w: number, h: number, ctx: CanvasRenderingContext2D, options: GearOptionsType, store: ElementStoreType) {
-        super(w, h, ctx, options, store)
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: GearOptionsType, store: ElementStoreType) {
+        super(w, h, canvas, options, store)
         // 1.初始化options(防止属性为空)
         this.initOptions(defaultOptions, limits)
         // 2.根据高宽优化默认值

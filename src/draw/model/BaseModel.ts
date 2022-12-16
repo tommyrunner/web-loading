@@ -3,13 +3,16 @@ import { $log, LOG_TYPES, isNull } from '../../utils'
 export default class BaseModel<T extends OptionsType> {
     w: number
     h: number
+    canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
     options: T
     store: ElementStoreType
-    constructor(w: number, h: number, ctx: CanvasRenderingContext2D, options: T, store: ElementStoreType) {
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: T, store: ElementStoreType) {
         this.w = w
         this.h = h
-        this.ctx = ctx
+        this.canvas = canvas;
+        // 默认获取一个2d画笔
+        this.ctx = canvas.getContext("2d")!;
         this.options = options
         this.store = store
         this._$initPoint()
@@ -33,11 +36,17 @@ export default class BaseModel<T extends OptionsType> {
     }
     // 初始化画笔
     private _$initPoint() {
-        if (this.options.themeColor) {
-            this.ctx.fillStyle = this.options.themeColor;
-            this.ctx.strokeStyle = this.options.themeColor;
+        // 像素处理
+        if (window.devicePixelRatio) {
+            devicePixelRatio = window.devicePixelRatio;
+            this.canvas.width = this.w * devicePixelRatio;
+            this.canvas.height = this.h * devicePixelRatio;
+            this.ctx.scale(devicePixelRatio, devicePixelRatio);
         }
         this.clearRect();
+        // 默认主题色
+        this.ctx.fillStyle = this.options.themeColor!;
+        this.ctx.strokeStyle = this.options.themeColor!;
         this.ctx.translate(this.w / 2, this.h / 2)
         this.ctx.save()
     }

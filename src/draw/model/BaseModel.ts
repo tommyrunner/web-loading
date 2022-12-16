@@ -1,5 +1,5 @@
 import type { ElementStoreType, OptionsType, LimitType, LogConfigType } from "../../types";
-import { $log, LOG_TYPES } from '../../utils'
+import { $log, LOG_TYPES, isNull } from '../../utils'
 export default class BaseModel<T extends OptionsType> {
     w: number
     h: number
@@ -27,7 +27,7 @@ export default class BaseModel<T extends OptionsType> {
         if (limits) {
             limits.forEach((l: LimitType) => {
                 let mayKey = this.options[l.key as keyof typeof this.options]
-                if (mayKey && !l.limit(mayKey)) this.webLog(l.message, { type: LOG_TYPES.WARN })
+                if (!isNull(mayKey) && !l.limit(mayKey)) this.webLog(l.message, { type: LOG_TYPES.WARN })
             })
         }
     }
@@ -37,7 +37,7 @@ export default class BaseModel<T extends OptionsType> {
             this.ctx.fillStyle = this.options.themeColor;
             this.ctx.strokeStyle = this.options.themeColor;
         }
-        this.ctx.clearRect(0, 0, this.w, this.h);
+        this.clearRect();
         this.ctx.translate(this.w / 2, this.h / 2)
         this.ctx.save()
     }

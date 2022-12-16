@@ -8,10 +8,12 @@ const defaultOptions: RingOptionsType = {
     fontFamily: 'Microsoft YaHei',
     text: '加载中...',
     arcGap: Math.PI / 4,
+    ringGap: 10,
     lineWidth: 2,
     ringNum: 2,
-    radius: 5,
+    radius: 6,
     lineCap: 'round',
+    turn: 10,
     direction: true
 }
 // 值的限制
@@ -39,6 +41,7 @@ export default class Ring extends BaseModel<RingOptionsType> {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
+        this.ctx.save()
     }
     draw() {
         let op = this.options
@@ -47,15 +50,16 @@ export default class Ring extends BaseModel<RingOptionsType> {
         this.ctx.rotate(rotate)
         // 画环
         for (let i = 1; i <= op.ringNum!; i++) {
-            this.drawRing(op.radius! * i, op.arcGap, Math.PI / i)
+            this.drawRing(op.radius! + ((i - 1) * op.ringGap!), op.arcGap, Math.PI / i)
         }
         // 绘制文字
-        this.ctx.rotate(-rotate)
         this.ctx.beginPath()
-        let x = 0, y = op.ringNum! * op.radius! * 2 + op.textGap!
+        this.ctx.rotate(-rotate)
+        // 数量*(半径+环空隙)+文字空隙
+        let x = 0, y = op.ringNum! * (op.radius! + op.ringGap!) + op.textGap!
         this.ctx.fillText(op.text!, x, y)
         this.ctx.closePath()
-        this.rotate += 10
+        this.rotate += op.turn!
 
     }
     drawRing(r: number, arcGap: number = 1, angle: number = 0) {

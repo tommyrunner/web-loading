@@ -43,6 +43,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
+        this.ctx.save()
     }
     draw() {
         let op = this.options

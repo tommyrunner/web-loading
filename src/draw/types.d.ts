@@ -37,6 +37,8 @@ export interface RingOptionsType extends OptionsType {
     text?: string
     // 加载文字与加载动画空隙
     textGap?: number
+    // 环与环空隙
+    ringGap?: number
     // 弧线之间间隔
     arcGap?: number
     // 环个数
@@ -47,6 +49,8 @@ export interface RingOptionsType extends OptionsType {
     lineCap?: CanvasLineCap
     // 线宽度
     lineWidth?: number
+    // 每次旋转角度
+    turn?: number
     // 方向:true:顺,则反
     direction?: boolean
 

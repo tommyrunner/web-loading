@@ -19,7 +19,7 @@ export function getDefOptions() {
         zIndex: "2001",
         themeColor: "rgba(64,158,255,1)",
         bgColor: "rgba(0, 0, 0, 0.8)",
-        delay: 80
+        delay: 65
     }
 }
 export enum LOG_TYPES {
@@ -45,4 +45,12 @@ export function $log(message: string, config: LogConfigType = {
     border: 1px solid;`;
     console.log(`%c web-loading:${message} `, style);
 
+}
+/**
+ * 判空
+ * @param value 判断值
+ * @returns boolean
+ */
+export function isNull(value: any): boolean {
+    return value === undefined || value === null
 }

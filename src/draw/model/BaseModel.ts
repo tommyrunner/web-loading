@@ -27,7 +27,7 @@ export default class BaseModel<T extends OptionsType> {
         this.options = Object.assign(options, this.options)
         this.store.options = this.options
         // 判断需要限制属性值(只做提示)
-        if (limits) {
+        if (limits && limits.length) {
             limits.forEach((l: LimitType) => {
                 let mayKey = this.options[l.key as keyof typeof this.options]
                 if (!isNull(mayKey) && !l.limit(mayKey)) this.webLog(l.message, { type: LOG_TYPES.WARN })

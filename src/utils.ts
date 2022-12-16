@@ -5,7 +5,8 @@ import { LogConfigType } from "./types"
  */
 export enum MODEL_TYPES {
     GEAR = 'Gear',
-    RING = 'Ring'
+    RING = 'Ring',
+    Zoom = 'Zoom',
 }
 /**
  * 

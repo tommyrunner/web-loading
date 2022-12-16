@@ -57,3 +57,33 @@ export interface RingOptionsType extends OptionsType {
     direction?: boolean
 
 }
+
+export interface ZoomOptionsType extends OptionsType {
+    // 字体大小
+    fontSize?: number
+    // 字体
+    fontFamily?: string
+    // 加载文字
+    text?: string
+    // 加载文字与加载动画空隙
+    textGap?: number
+    // 环与环空隙
+    ringGap?: number
+    // 弧线之间间隔
+    arcGap?: number
+    // 环个数
+    zoomNum?: number
+    // 半径
+    radius?: number
+    // 线的样式
+    lineCap?: CanvasLineCap
+    // 线宽度
+    lineWidth?: number
+    // 每次旋转角度
+    turn?: number
+    // 每个环不同角度
+    ringsTurn?: Array<number>
+    // 方向:true:顺,则反
+    direction?: boolean
+
+}

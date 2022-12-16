@@ -14,12 +14,17 @@ const defaultOptions: RingOptionsType = {
     radius: 6,
     lineCap: 'round',
     turn: 10,
+    ringsTurn: [Math.PI, Math.PI / 4],
     direction: true
 }
 // 值的限制
 const limits = [{
     key: 'ringNum', message: 'ringNum value 1-10', limit: (key: any) => {
         return key >= 1 && key <= 10
+    }
+}, {
+    key: 'ringsTurn', message: `ringsTurn size ${defaultOptions.ringNum}`, limit: (key: any) => {
+        return key.length <= defaultOptions.ringNum!
     }
 }]
 export default class Ring extends BaseModel<RingOptionsType> {
@@ -50,7 +55,7 @@ export default class Ring extends BaseModel<RingOptionsType> {
         this.ctx.rotate(rotate)
         // 画环
         for (let i = 1; i <= op.ringNum!; i++) {
-            this.drawRing(op.radius! + ((i - 1) * op.ringGap!), op.arcGap, Math.PI / i)
+            this.drawRing(op.radius! + ((i - 1) * op.ringGap!), op.arcGap, op.ringsTurn && op.ringsTurn.length > 0 ? op.ringsTurn[i - 1] : Math.PI / i)
         }
         // 绘制文字
         this.ctx.beginPath()

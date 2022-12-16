@@ -51,6 +51,8 @@ export interface RingOptionsType extends OptionsType {
     lineWidth?: number
     // 每次旋转角度
     turn?: number
+    // 每个环不同角度
+    ringsTurn?: Array<number>
     // 方向:true:顺,则反
     direction?: boolean
 

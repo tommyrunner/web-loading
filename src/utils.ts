@@ -1,6 +1,13 @@
 import { LogConfigType } from "./types"
 
 /**
+ * 支持的 loading 方式
+ */
+export enum LOADING_TYPES {
+    DEF = 'def',
+    MINI = 'mini',
+}
+/**
  * 支持的 model
  */
 export enum MODEL_TYPES {
@@ -14,6 +21,7 @@ export enum MODEL_TYPES {
  */
 export function getDefOptions() {
     return {
+        type: LOADING_TYPES.DEF,
         model: MODEL_TYPES.RING,
         delayColse: 520,
         optimization: false,

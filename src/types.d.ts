@@ -1,5 +1,9 @@
-import { MODEL_TYPES, LOG_TYPES } from './utils'
+import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES } from './utils'
 export interface OptionsType {
+    // loading显示方式(默认DEF)
+    type?: LOADING_TYPES
+    // mini模式的class
+    miniClass?: string,
     // model 模式
     model?: MODEL_TYPES
     // 初始延迟

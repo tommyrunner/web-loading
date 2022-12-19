@@ -15,7 +15,8 @@
       window.onload = () => {
         let doc = document.getElementById("app");
         const loading = doc.loading({
-          model: "Zoom",
+          type: "mini",
+          model: "Ring",
           delay: 65,
         });
         window.addEventListener("resize", loading.resize);
@@ -40,6 +41,9 @@
       padding: 12px;
       height: 200px;
       border: 1px solid sienna;
+    }
+    .wl_mini {
+      width: 300px !important;
     }
   </style>
 </html>

@@ -11,7 +11,7 @@ export default class WebLoading {
     // 动画元素
     element: ElementType;
     // 配置options
-    options: OptionsType;
+    options: Required<OptionsType>;
     // miniLoading
     miniLoading: MiniLoading | null
     constructor(element: HTMLElement, options?: OptionsType) {
@@ -45,7 +45,7 @@ export default class WebLoading {
             // 如果是min，清空父元素(父元素是webLoading创建)
             if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.getElement().remove()
             else this.canvas.remove();
-        }, this.options.delayColse!);
+        }, this.options.delayColse);
     }
     private init() {
         // 初始化样式
@@ -71,13 +71,13 @@ export default class WebLoading {
         // 初始化canvas样式
         this.canvas.id = this.loadingId!;
         document.styleSheets[0].insertRule(style)
-        this.canvas.style.animation = `wl_show ${this.options.delayColse! / 1000}s linear`
+        this.canvas.style.animation = `wl_show ${this.options.delayColse / 1000}s linear`
         canvasStyle.position = "absolute";
         canvasStyle.left = "0px";
         canvasStyle.top = "0px";
-        canvasStyle.zIndex = this.options.zIndex!
-        canvasStyle.transition = `${this.options.delayColse! / 1000}s`;
-        canvasStyle.backgroundColor = this.options.bgColor!
+        canvasStyle.zIndex = this.options.zIndex
+        canvasStyle.transition = `${this.options.delayColse / 1000}s`;
+        canvasStyle.backgroundColor = this.options.bgColor
         canvasStyle.borderRadius = readElementStyle.borderRadius
         // 设置画布大小
         this.canvas.width = elementW;

@@ -1,4 +1,4 @@
-import { LogConfigType } from "./types"
+import { LogConfigType, OptionsType } from "./types"
 
 /**
  * 支持的 loading 方式
@@ -20,10 +20,11 @@ export enum MODEL_TYPES {
  * 
  * @returns 返回默认配置
  */
-export function getDefOptions() {
+export function getDefOptions(): Required<OptionsType> {
     return {
         type: LOADING_TYPES.DEF,
         model: MODEL_TYPES.RING,
+        miniClass: 'mini',
         delayColse: 520,
         optimization: false,
         zIndex: "2001",

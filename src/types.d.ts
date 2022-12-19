@@ -3,7 +3,7 @@ export interface OptionsType {
     // loading显示方式(默认DEF)
     type?: LOADING_TYPES
     // mini模式的class
-    miniClass?: string,
+    miniClass?: string | null | undefined,
     // model 模式
     model?: MODEL_TYPES
     // 初始延迟

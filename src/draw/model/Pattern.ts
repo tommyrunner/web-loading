@@ -1,8 +1,10 @@
 import type { ElementStoreType } from "../../types";
 import type { GearOptionsType } from "../types.d";
+import { getDefOptions } from '../../utils'
 import BaseModel from "./BaseModel";
 // 默认值
-const defaultOptions: GearOptionsType = {
+const defaultOptions: Required<GearOptionsType> = {
+    ...getDefOptions(),
     fontSize: 12,
     fontFamily: 'Microsoft YaHei',
     text: '加载中...',
@@ -29,7 +31,7 @@ interface PatternType {
 }
 export default class Gear extends BaseModel<GearOptionsType> {
     pattern: PatternType
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: GearOptionsType, store: ElementStoreType) {
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<GearOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store)
         // 1.初始化options(防止属性为空)
         this.initOptions(defaultOptions, limits)

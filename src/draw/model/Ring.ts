@@ -1,8 +1,10 @@
 import type { ElementStoreType } from "../../types";
 import type { RingOptionsType } from '../types'
+import { getDefOptions } from '../../utils'
 import BaseModel from "./BaseModel";
 // 默认值
-const defaultOptions: RingOptionsType = {
+const defaultOptions: Required<RingOptionsType> = {
+    ...getDefOptions(),
     fontSize: 12,
     textGap: 4,
     fontFamily: 'Microsoft YaHei',
@@ -24,12 +26,12 @@ const limits = [{
     }
 }, {
     key: 'ringsTurn', message: `ringsTurn size ${defaultOptions.ringNum}`, limit: (key: any) => {
-        return key.length <= defaultOptions.ringNum!
+        return key.length <= defaultOptions.ringNum
     }
 }]
-export default class Ring extends BaseModel<RingOptionsType> {
+export default class Ring extends BaseModel<Required<RingOptionsType>> {
     rotate: number // 每次旋转角度(默认每次旋转10)
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: RingOptionsType, store: ElementStoreType) {
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<RingOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store)
         this.rotate = 10
         // 1.初始化options(防止属性为空)
@@ -41,11 +43,11 @@ export default class Ring extends BaseModel<RingOptionsType> {
     }
     initPoint(): void {
         let op = this.options
-        this.ctx.lineCap = op.lineCap!;
-        this.ctx.lineWidth = op.lineWidth!
+        this.ctx.lineCap = op.lineCap;
+        this.ctx.lineWidth = op.lineWidth
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
-        this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
+        this.ctx.font = `${op.fontSize}px ${op.fontFamily}`;
         this.ctx.save()
     }
     draw() {
@@ -54,11 +56,11 @@ export default class Ring extends BaseModel<RingOptionsType> {
         let rotate = this.rotate * Math.PI / 180 * (op.direction ? 1 : -1)
         this.ctx.rotate(rotate)
         // 画环
-        this.ctx.shadowOffsetX = op.shadowOffsetX!
-        this.ctx.shadowOffsetY = op.shadowOffsetY!
-        this.ctx.shadowBlur = op.shadowBlur!
-        for (let i = 1; i <= op.ringNum!; i++) {
-            this.drawRing(op.radius! + ((i - 1) * op.ringGap!), op.arcGap, op.ringsTurn && op.ringsTurn.length > 0 ? op.ringsTurn[i - 1] : Math.PI / i)
+        this.ctx.shadowOffsetX = op.shadowOffsetX
+        this.ctx.shadowOffsetY = op.shadowOffsetY
+        this.ctx.shadowBlur = op.shadowBlur
+        for (let i = 1; i <= op.ringNum; i++) {
+            this.drawRing(op.radius + ((i - 1) * op.ringGap), op.arcGap, op.ringsTurn && op.ringsTurn.length > 0 ? op.ringsTurn[i - 1] : Math.PI / i)
         }
         // 绘制文字
         this.ctx.beginPath()
@@ -67,10 +69,10 @@ export default class Ring extends BaseModel<RingOptionsType> {
         this.ctx.shadowBlur = 0
         this.ctx.rotate(-rotate)
         // 数量*(半径+环空隙)+文字空隙
-        let x = 0, y = op.ringNum! * (op.radius! + op.ringGap!) + op.textGap!
-        this.ctx.fillText(op.text!, x, y)
+        let x = 0, y = op.ringNum * (op.radius + op.ringGap) + op.textGap
+        this.ctx.fillText(op.text, x, y)
         this.ctx.closePath()
-        this.rotate += op.turn!
+        this.rotate += op.turn
 
     }
     drawRing(r: number, arcGap: number = 1, angle: number = 0) {

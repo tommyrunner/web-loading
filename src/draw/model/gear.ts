@@ -1,8 +1,10 @@
 import type { ElementStoreType } from "../../types";
 import type { GearOptionsType } from "../types.d";
+import { getDefOptions } from '../../utils'
 import BaseModel from "./BaseModel";
 // 默认值
-const defaultOptions: GearOptionsType = {
+const defaultOptions: Required<GearOptionsType> = {
+    ...getDefOptions(),
     fontSize: 12,
     fontFamily: 'Microsoft YaHei',
     text: '加载中...',
@@ -22,27 +24,27 @@ const limits = [{
         return key >= 4 && key <= 18
     }
 }]
-export default class Gear extends BaseModel<GearOptionsType> {
+export default class Gear extends BaseModel<Required<GearOptionsType>> {
     aps: Array<number>
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: GearOptionsType, store: ElementStoreType) {
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<GearOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store)
         // 1.初始化options(防止属性为空)
         this.initOptions(defaultOptions, limits)
         // 2.根据高宽优化默认值
-        this.optimization(this.options.textGap! + this.options.lineEnd!)
+        this.optimization(this.options.textGap + this.options.lineEnd)
         // 3.初始化画笔
         this.initPoint()
         // 4.开始动画针并记录状态
-        this.aps = Array.from({ length: this.options.lineNum! }, (o, _index) => _index)
+        this.aps = Array.from({ length: this.options.lineNum }, (_, _index) => _index)
         this.run(this.draw)
     }
     initPoint(): void {
         let op = this.options
-        this.ctx.lineCap = op.lineCap!;
-        this.ctx.lineWidth = op.lineWidth!
+        this.ctx.lineCap = op.lineCap;
+        this.ctx.lineWidth = op.lineWidth
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
-        this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
+        this.ctx.font = `${op.fontSize}px ${op.fontFamily}`;
         this.ctx.save()
     }
     draw() {
@@ -53,18 +55,18 @@ export default class Gear extends BaseModel<GearOptionsType> {
         else
             this.aps = this.aps.map(a => a + 1 > this.aps.length ? 0 : a + 1)
         // 设置阴影
-        this.ctx.shadowOffsetX = op.shadowOffsetX!
-        this.ctx.shadowOffsetY = op.shadowOffsetY!
-        this.ctx.shadowBlur = op.shadowBlur!
+        this.ctx.shadowOffsetX = op.shadowOffsetX
+        this.ctx.shadowOffsetY = op.shadowOffsetY
+        this.ctx.shadowBlur = op.shadowBlur
         // 绘制加载齿轮
         for (let i = 0; i < this.aps.length; i++) {
             this.ctx.beginPath()
             this.ctx.globalAlpha = this.aps[i] / 10
             this.ctx.save()
-            this.ctx.moveTo(op.lineEndSkew!, op.lineStart!)
-            this.ctx.lineTo(op.lineStartSkew!, op.lineEnd!)
+            this.ctx.moveTo(op.lineEndSkew, op.lineStart)
+            this.ctx.lineTo(op.lineStartSkew, op.lineEnd)
             this.ctx.stroke()
-            this.ctx.rotate(2 * Math.PI / op.lineNum!)
+            this.ctx.rotate(2 * Math.PI / op.lineNum)
         }
         // 绘制文字
         this.ctx.shadowOffsetX = 0
@@ -72,8 +74,8 @@ export default class Gear extends BaseModel<GearOptionsType> {
         this.ctx.shadowBlur = 0
         this.ctx.globalAlpha = 1
         // 位置+文字+间隔
-        let x = 0, y = op.lineEnd! + op.fontSize! + op.textGap!
-        this.ctx.fillText(op.text!, x, y)
+        let x = 0, y = op.lineEnd + op.fontSize + op.textGap
+        this.ctx.fillText(op.text, x, y)
         this.ctx.closePath()
     }
     /**

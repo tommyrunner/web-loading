@@ -14,6 +14,7 @@ export enum MODEL_TYPES {
     GEAR = 'Gear',
     RING = 'Ring',
     Zoom = 'Zoom',
+    PATTERN = 'Pattern',
 }
 /**
  * 
@@ -28,6 +29,10 @@ export function getDefOptions() {
         zIndex: "2001",
         themeColor: "rgba(64,158,255,1)",
         bgColor: "rgba(0, 0, 0, 0.8)",
+        shadowColor: 'rgba(64,158,255,0.6)',
+        shadowOffsetX: 2,
+        shadowOffsetY: 2,
+        shadowBlur: 5,
         delay: 65
     }
 }

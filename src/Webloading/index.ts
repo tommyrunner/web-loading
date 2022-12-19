@@ -36,9 +36,7 @@ export default class WebLoading {
         this.draw();
     }
     close(): void {
-        // 先视觉过渡
-        this.canvas.style.opacity = "0";
-        this.canvas.style.zIndex = "-2001";
+        this.clearStyle()
         this.loadingId = null;
         // 清空mini影响样式
         if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.clearStyle()
@@ -54,6 +52,11 @@ export default class WebLoading {
         this.initStyle()
         // 默认启动
         this.draw();
+    }
+    private clearStyle() {
+        // 先视觉过渡
+        this.canvas.style.opacity = "0";
+        this.canvas.style.zIndex = "-2001";
     }
     private initStyle() {
         let elementW = this.element.offsetWidth,

@@ -18,6 +18,14 @@ export interface OptionsType {
     themeColor?: string
     // 背景色
     bgColor?: string
+    // 阴影色
+    shadowColor?: string
+    // 阴影X
+    shadowOffsetX?: number
+    // 阴影Y
+    shadowOffsetY?: number
+    // 阴影范围
+    shadowBlur?: number
 
 }
 export interface LoadingType {

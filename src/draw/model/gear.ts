@@ -52,16 +52,24 @@ export default class Gear extends BaseModel<GearOptionsType> {
             this.aps = this.aps.map(a => a - 1 <= 0 ? this.aps.length - 1 : a - 1)
         else
             this.aps = this.aps.map(a => a + 1 > this.aps.length ? 0 : a + 1)
+        // 设置阴影
+        this.ctx.shadowOffsetX = op.shadowOffsetX!
+        this.ctx.shadowOffsetY = op.shadowOffsetY!
+        this.ctx.shadowBlur = op.shadowBlur!
         // 绘制加载齿轮
         for (let i = 0; i < this.aps.length; i++) {
             this.ctx.beginPath()
             this.ctx.globalAlpha = this.aps[i] / 10
+            this.ctx.save()
             this.ctx.moveTo(op.lineEndSkew!, op.lineStart!)
             this.ctx.lineTo(op.lineStartSkew!, op.lineEnd!)
             this.ctx.stroke()
             this.ctx.rotate(2 * Math.PI / op.lineNum!)
         }
         // 绘制文字
+        this.ctx.shadowOffsetX = 0
+        this.ctx.shadowOffsetY = 0
+        this.ctx.shadowBlur = 0
         this.ctx.globalAlpha = 1
         // 位置+文字+间隔
         let x = 0, y = op.lineEnd! + op.fontSize! + op.textGap!

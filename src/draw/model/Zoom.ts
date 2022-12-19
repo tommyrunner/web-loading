@@ -3,11 +3,11 @@ import type { ZoomOptionsType } from '../types'
 import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: ZoomOptionsType = {
-    zoomGap: 20,
+    zoomGap: 10,
     maxSize: 16,
     zoomNum: 5,
     lineWidth: 10,
-    zoomHeight: 6,
+    zoomHeight: 2,
     lineCap: 'round',
     direction: true
 }

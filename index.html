@@ -15,9 +15,8 @@
       window.onload = () => {
         let doc = document.getElementById("app");
         const loading = doc.loading({
-          type: "mini",
-          model: "Ring",
-          delay: 65,
+          model: "Pattern",
+          // delay: 65,
         });
         window.addEventListener("resize", loading.resize);
         document.getElementById("start").onclick = function () {

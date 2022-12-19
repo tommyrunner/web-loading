@@ -40,6 +40,7 @@ export default class BaseModel<T extends OptionsType> {
         // 默认主题色
         this.ctx.fillStyle = this.options.themeColor!;
         this.ctx.strokeStyle = this.options.themeColor!;
+        this.ctx.shadowColor = this.options.shadowColor!
         this.ctx.translate(this.w / 2, this.h / 2)
         this.ctx.save()
     }

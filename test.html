@@ -9,17 +9,23 @@
     <script>
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
-      ctx.rotate((20 * Math.PI) / 180);
-      ctx.save();
-      ctx.fillRect(50, 20, 100, 50);
-      ctx.restore();
+      // 移动的所有操作都是操作 坐标系
       ctx.fillStyle = "red";
-      ctx.fillText("测试", 100, 40);
-      //---
-      ctx = c.getContext("2d");
-      ctx.rotate((20 * Math.PI) / 180);
-      ctx.fillRect(50, 20, 100, 50);
-      ctx.fillText("测试", 100, 40);
+      ctx.shadowOffsetX = 5;
+      ctx.shadowOffsetY = 5;
+      ctx.shadowBlur = 5;
+      ctx.shadowColor = "red";
+      ctx.save(); // 保存(入栈)
+      ctx.fillStyle = "blue";
+      this.ctx.globalAlpha = 0;
+      ctx.shadowColor = "blue";
+      ctx.shadowOffsetX = 100;
+      ctx.fillRect(10, 10, 100, 100);
+      ctx.save(); // 保存(入栈)
+      ctx.fillRect(10, 10, 100, 100);
+      // 读取最近(出栈)
+      ctx.restore();
+      ctx.fillRect(40, 20, 100, 100);
     </script>
   </body>
 </html>

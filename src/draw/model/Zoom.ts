@@ -15,6 +15,12 @@ interface ListType {
     value: number,
     state: number
 }
+// 值的限制
+const limits = [{
+    key: 'lineWidth', message: 'lineWidth(default:10) <=  maxSize(default:16)', limit: (key: any) => {
+        return defaultOptions.lineWidth! <= defaultOptions.maxSize!
+    }
+}]
 export default class Zoom extends BaseModel<ZoomOptionsType> {
     list: Array<ListType> // 每次旋转角度(默认每次旋转10)
     zoomIndex: number
@@ -22,7 +28,7 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
         super(w, h, canvas, options, store)
         this.zoomIndex = defaultOptions.direction ? 0 : defaultOptions.zoomNum! - 1
         // 1.初始化options(防止属性为空)
-        this.initOptions(defaultOptions, [])
+        this.initOptions(defaultOptions, limits)
         // 2.初始化画笔
         this.initPoint()
         // 3.开始动画针并记录状态

@@ -36,13 +36,6 @@ export default class BaseModel<T extends OptionsType> {
     }
     // 初始化画笔
     private _$initPoint() {
-        // 像素处理
-        // if (window.devicePixelRatio) {
-        //     devicePixelRatio = window.devicePixelRatio;
-        //     this.canvas.width = this.w * devicePixelRatio;
-        //     this.canvas.height = this.h * devicePixelRatio;
-        //     this.ctx.scale(devicePixelRatio, devicePixelRatio);
-        // }
         this.clearRect();
         // 默认主题色
         this.ctx.fillStyle = this.options.themeColor!;

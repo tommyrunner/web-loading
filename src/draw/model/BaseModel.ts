@@ -45,9 +45,11 @@ export default class BaseModel<T extends OptionsType> {
         this.ctx.save()
     }
     // 清空画布
-    clearRect() {
+    clearRect(x?: number, y?: number, w?: number, h?: number) {
         // 因为已经把起点设置到中心，所需要扩张
-        this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
+        if (isNull(x) || isNull(y) || isNull(w) || isNull(h))
+            this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
+        else this.ctx.clearRect(x!, y!, w!, h!)
     }
     // 日志输出
     webLog(message: string, config?: LogConfigType): void {

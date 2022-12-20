@@ -1,4 +1,5 @@
 import { OptionsType } from "../types";
+import { PATTERN_CHART } from './utils'
 
 export interface GearOptionsType extends OptionsType {
     // 字体大小
@@ -73,5 +74,24 @@ export interface ZoomOptionsType extends OptionsType {
     lineWidth?: number
     // 方向:true:顺,则反
     direction?: boolean
+
+}
+export interface PatternOptionsType extends OptionsType {
+    // 字体大小
+    fontSize?: number
+    // 字体
+    fontFamily?: string
+    // 加载文字
+    text?: string
+    // 加载文字与加载动画空隙
+    textGap?: number
+    // 支持的图形
+    charts?: Array<PATTERN_CHART>
+    // 图形大小
+    chartSize?: number
+    // 颜色
+    chartColors?: Array<string>
+    // 高度
+    maxHeight?: number
 
 }

@@ -11,21 +11,9 @@
       var ctx = c.getContext("2d");
       // 移动的所有操作都是操作 坐标系
       ctx.fillStyle = "red";
-      ctx.shadowOffsetX = 5;
-      ctx.shadowOffsetY = 5;
-      ctx.shadowBlur = 5;
-      ctx.shadowColor = "red";
-      ctx.save(); // 保存(入栈)
-      ctx.fillStyle = "blue";
-      this.ctx.globalAlpha = 0;
-      ctx.shadowColor = "blue";
-      ctx.shadowOffsetX = 100;
-      ctx.fillRect(10, 10, 100, 100);
-      ctx.save(); // 保存(入栈)
-      ctx.fillRect(10, 10, 100, 100);
-      // 读取最近(出栈)
-      ctx.restore();
-      ctx.fillRect(40, 20, 100, 100);
+
+      ctx.save();
+
     </script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 import { OptionsType } from "../types";
-import { PATTERN_CHART } from './utils'
+import { PATTERN_CHART, ZOOM_ACTION } from './utils'
 
 export interface GearOptionsType extends OptionsType {
     // 加载文字
@@ -68,6 +68,8 @@ export interface ZoomOptionsType extends OptionsType {
     lineCap?: CanvasLineCap
     // 线宽度
     lineWidth?: number
+    // 动作
+    action: ZOOM_ACTION
     // 方向:true:顺,则反
     direction?: boolean
 

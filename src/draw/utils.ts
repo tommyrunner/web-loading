@@ -1,3 +1,7 @@
+
+export enum ZOOM_ACTION {
+    SCALE = 'scale', WAVE = 'wave', HEIGHT = 'height'
+}
 export enum PATTERN_CHART {
     RECT = 'rect', ARC = 'arc', TRIANGLE = 'triangle', HEART = "heart", POLYGON = "polygon"
 }

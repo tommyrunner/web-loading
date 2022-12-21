@@ -1,6 +1,7 @@
 import type { ElementStoreType } from "../../types";
 import type { ZoomOptionsType } from '../types'
 import { getDefOptions } from '../../utils'
+import { ZOOM_ACTION } from '../utils'
 import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<ZoomOptionsType> = {
@@ -11,6 +12,7 @@ const defaultOptions: Required<ZoomOptionsType> = {
     lineWidth: 10,
     zoomHeight: 2,
     lineCap: 'round',
+    action: ZOOM_ACTION.SCALE,
     direction: true
 }
 interface ListType {
@@ -73,19 +75,26 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
             // 流程变化
             if (this.list[i].state === 1) this.list[i].value += 2
             else if (this.list[i].state === 2 && this.list[i].value >= op.lineWidth) this.list[i].value--
-            this.ctx.lineWidth = this.list[i].value
+            if (op.action === ZOOM_ACTION.SCALE) this.ctx.lineWidth = this.list[i].value
             // 状态变化
             if (i === this.zoomIndex) {
                 if (this.list[i].value > op.maxSize) {
                     this.list[i].state = 2
-                    op.direction ? this.zoomIndex++ : this.zoomIndex--
+                    op.direction ? this.zoomIndex++ : this.zoomIndex - 1 >= 0 ? this.zoomIndex-- : this.zoomIndex = op.zoomNum - 1
                 }
                 if (this.list[i].value <= op.lineWidth) this.list[i].state = 1
             }
             // 根据num绘制
             this.ctx.beginPath()
-            this.ctx.moveTo((i + 1) * (op.lineWidth + op.zoomGap), 0)
-            this.ctx.lineTo((i + 1) * (op.lineWidth + op.zoomGap), op.zoomHeight)
+            let sH = 0, eH = op.zoomHeight
+            if (op.action === ZOOM_ACTION.HEIGHT || op.action === ZOOM_ACTION.WAVE) {
+                sH = -this.list[i].value
+            }
+            if (op.action === ZOOM_ACTION.WAVE) {
+                eH = -this.list[i].value
+            }
+            this.ctx.moveTo((i + 1) * (op.lineWidth + op.zoomGap), sH)
+            this.ctx.lineTo((i + 1) * (op.lineWidth + op.zoomGap), eH)
             this.ctx.stroke()
             this.ctx.closePath()
         }

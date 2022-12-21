@@ -49,7 +49,6 @@ export default class Gear extends BaseModel<Required<PatternOptionsType>> {
         this.run(this.draw)
     }
     initPoint(): void {
-        this.ctx.save()
         // 初始化速度
         this.options.delay = 10
     }

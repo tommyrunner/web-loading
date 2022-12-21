@@ -82,8 +82,8 @@ export default class Gear extends BaseModel<Required<GearOptionsType>> {
         this.ctx.save()
         this.ctx.beginPath()
         // 位置+文字+间隔
-        let x = 0, y = op.lineEnd + op.fontSize + op.textGap
-        this.ctx.fillText(op.text, x, y)
+        let y = op.lineEnd + op.fontSize + op.textGap
+        this.ctx.fillText(op.text, 0, y)
         this.ctx.closePath()
         this.ctx.restore()
     }

@@ -15,6 +15,7 @@ export enum MODEL_TYPES {
     RING = 'Ring',
     Zoom = 'Zoom',
     PATTERN = 'Pattern',
+    CLOCK = 'Clock'
 }
 /**
  * 

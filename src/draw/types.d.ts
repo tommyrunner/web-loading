@@ -26,10 +26,6 @@ export interface GearOptionsType extends OptionsType {
 
 
 export interface RingOptionsType extends OptionsType {
-    // 字体大小
-    fontSize?: number
-    // 字体
-    fontFamily?: string
     // 加载文字
     text?: string
     // 加载文字与加载动画空隙
@@ -75,10 +71,6 @@ export interface ZoomOptionsType extends OptionsType {
 
 }
 export interface PatternOptionsType extends OptionsType {
-    // 字体大小
-    fontSize?: number
-    // 字体
-    fontFamily?: string
     // 加载文字
     text?: string
     // 加载文字与加载动画空隙
@@ -92,4 +84,25 @@ export interface PatternOptionsType extends OptionsType {
     // 高度
     maxHeight?: number
 
+}
+export interface ClockOptionsType extends OptionsType {
+    // 加载文字
+    text?: string
+    // 计时
+    textTime: boolean
+    // 加载文字与加载动画空隙
+    textGap?: number
+    // 颜色
+    lineColors?: Array<string>
+    lineCap?: CanvasLineCap
+    // 线宽度
+    lineWidth?: number
+    // clock大小
+    clockSize?: number
+    // clock 空隙
+    clockGap?: number
+    // 时分秒指针
+    hLine?: boolean
+    mLine?: boolean
+    sLine?: boolean
 }

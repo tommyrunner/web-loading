@@ -72,8 +72,8 @@ export default class Ring extends BaseModel<Required<RingOptionsType>> {
         this.ctx.save()
         this.ctx.beginPath()
         // 数量*(半径+环空隙)+文字空隙
-        let x = 0, y = op.ringNum * (op.radius + op.ringGap) + op.textGap
-        this.ctx.fillText(op.text, x, y)
+        let y = op.ringNum * (op.radius + op.ringGap) + op.textGap
+        this.ctx.fillText(op.text, 0, y)
         this.ctx.closePath()
         this.ctx.restore()
     }

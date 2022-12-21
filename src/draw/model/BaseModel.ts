@@ -38,9 +38,11 @@ export default class BaseModel<T extends OptionsType> {
     private _$initPoint() {
         this.clearRect();
         // 默认主题色
-        this.ctx.fillStyle = this.options.themeColor!;
-        this.ctx.strokeStyle = this.options.themeColor!;
-        this.ctx.shadowColor = this.options.shadowColor!
+        let op = this.options
+        this.ctx.fillStyle = op.themeColor!;
+        this.ctx.strokeStyle = op.themeColor!;
+        this.ctx.shadowColor = op.shadowColor!
+        this.ctx.font = `${op.fontSize}px ${op.fontFamily}`;
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.translate(this.w / 2, this.h / 2)

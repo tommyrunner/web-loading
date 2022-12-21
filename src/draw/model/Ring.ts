@@ -5,9 +5,7 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<RingOptionsType> = {
     ...getDefOptions(),
-    fontSize: 12,
     textGap: 4,
-    fontFamily: 'Microsoft YaHei',
     text: '加载中...',
     arcGap: Math.PI / 4,
     ringGap: 10,
@@ -45,14 +43,18 @@ export default class Ring extends BaseModel<Required<RingOptionsType>> {
         let op = this.options
         this.ctx.lineCap = op.lineCap;
         this.ctx.lineWidth = op.lineWidth
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "middle";
-        this.ctx.font = `${op.fontSize}px ${op.fontFamily}`;
         this.ctx.save()
     }
     draw() {
-        let op = this.options
         this.clearRect()
+        // 流程
+        this.controller()
+        // 绘制文字
+        this.drawText()
+    }
+    controller() {
+        this.ctx.save()
+        let op = this.options
         let rotate = this.rotate * Math.PI / 180 * (op.direction ? 1 : -1)
         this.ctx.rotate(rotate)
         // 画环
@@ -62,18 +64,18 @@ export default class Ring extends BaseModel<Required<RingOptionsType>> {
         for (let i = 1; i <= op.ringNum; i++) {
             this.drawRing(op.radius + ((i - 1) * op.ringGap), op.arcGap, op.ringsTurn && op.ringsTurn.length > 0 ? op.ringsTurn[i - 1] : Math.PI / i)
         }
-        // 绘制文字
+        this.rotate += op.turn
+        this.ctx.restore()
+    }
+    drawText() {
+        let op = this.options
+        this.ctx.save()
         this.ctx.beginPath()
-        this.ctx.shadowOffsetX = 0
-        this.ctx.shadowOffsetY = 0
-        this.ctx.shadowBlur = 0
-        this.ctx.rotate(-rotate)
         // 数量*(半径+环空隙)+文字空隙
         let x = 0, y = op.ringNum * (op.radius + op.ringGap) + op.textGap
         this.ctx.fillText(op.text, x, y)
         this.ctx.closePath()
-        this.rotate += op.turn
-
+        this.ctx.restore()
     }
     drawRing(r: number, arcGap: number = 1, angle: number = 0) {
         // 第一个弧形

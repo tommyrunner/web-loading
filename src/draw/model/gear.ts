@@ -5,8 +5,6 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<GearOptionsType> = {
     ...getDefOptions(),
-    fontSize: 12,
-    fontFamily: 'Microsoft YaHei',
     text: '加载中...',
     textGap: 16,
     lineStartSkew: 0,
@@ -42,18 +40,27 @@ export default class Gear extends BaseModel<Required<GearOptionsType>> {
         let op = this.options
         this.ctx.lineCap = op.lineCap;
         this.ctx.lineWidth = op.lineWidth
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "middle";
-        this.ctx.font = `${op.fontSize}px ${op.fontFamily}`;
         this.ctx.save()
     }
     draw() {
-        let op = this.options
         this.clearRect()
+        // 流程
+        this.controller()
+        // 绘制齿轮
+        this.drawGear()
+        // 绘制文字
+        this.drawText()
+    }
+    controller() {
+        let op = this.options
         if (op.direction)
             this.aps = this.aps.map(a => a - 1 <= 0 ? this.aps.length - 1 : a - 1)
         else
             this.aps = this.aps.map(a => a + 1 > this.aps.length ? 0 : a + 1)
+    }
+    drawGear() {
+        let op = this.options
+        this.ctx.save()
         // 设置阴影
         this.ctx.shadowOffsetX = op.shadowOffsetX
         this.ctx.shadowOffsetY = op.shadowOffsetY
@@ -62,21 +69,23 @@ export default class Gear extends BaseModel<Required<GearOptionsType>> {
         for (let i = 0; i < this.aps.length; i++) {
             this.ctx.beginPath()
             this.ctx.globalAlpha = this.aps[i] / 10
-            this.ctx.save()
             this.ctx.moveTo(op.lineEndSkew, op.lineStart)
             this.ctx.lineTo(op.lineStartSkew, op.lineEnd)
             this.ctx.stroke()
+            this.ctx.closePath()
             this.ctx.rotate(2 * Math.PI / op.lineNum)
         }
-        // 绘制文字
-        this.ctx.shadowOffsetX = 0
-        this.ctx.shadowOffsetY = 0
-        this.ctx.shadowBlur = 0
-        this.ctx.globalAlpha = 1
+        this.ctx.restore()
+    }
+    drawText() {
+        let op = this.options
+        this.ctx.save()
+        this.ctx.beginPath()
         // 位置+文字+间隔
         let x = 0, y = op.lineEnd + op.fontSize + op.textGap
         this.ctx.fillText(op.text, x, y)
         this.ctx.closePath()
+        this.ctx.restore()
     }
     /**
    * 优化处理(主要优化默认文字位置)

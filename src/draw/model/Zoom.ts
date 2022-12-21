@@ -56,8 +56,19 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
 
     }
     draw() {
-        let op = this.options
         this.clearRect()
+        // 绘制zoom
+        this.drawZoom()
+        // 流程
+        this.controller()
+    }
+    controller() {
+        let op = this.options
+        if (op.direction && this.zoomIndex >= op.zoomNum) this.zoomIndex = 0
+        else if (op.direction && this.zoomIndex < 0) this.zoomIndex = op.zoomNum - 1
+    }
+    drawZoom() {
+        let op = this.options
         for (let i = 0; i < op.zoomNum; i++) {
             // 流程变化
             if (this.list[i].state === 1) this.list[i].value += 2
@@ -78,7 +89,5 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
             this.ctx.stroke()
             this.ctx.closePath()
         }
-        if (op.direction && this.zoomIndex >= op.zoomNum) this.zoomIndex = 0
-        else if (op.direction && this.zoomIndex < 0) this.zoomIndex = op.zoomNum - 1
     }
 }

@@ -34,7 +34,9 @@ export function getDefOptions(): Required<OptionsType> {
         shadowOffsetX: 2,
         shadowOffsetY: 2,
         shadowBlur: 5,
-        delay: 65
+        delay: 65,
+        fontSize: 12,
+        fontFamily: 'Microsoft YaHei'
     }
 }
 export enum LOG_TYPES {

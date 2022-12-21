@@ -2,10 +2,6 @@ import { OptionsType } from "../types";
 import { PATTERN_CHART } from './utils'
 
 export interface GearOptionsType extends OptionsType {
-    // 字体大小
-    fontSize?: number
-    // 字体
-    fontFamily?: string
     // 加载文字
     text?: string
     // 加载文字与加载动画空隙

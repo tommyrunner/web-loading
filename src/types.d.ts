@@ -6,6 +6,10 @@ export interface OptionsType {
     miniClass?: string | null | undefined,
     // model 模式
     model?: MODEL_TYPES
+    // 字体大小
+    fontSize?: number
+    // 字体
+    fontFamily?: string
     // 初始延迟
     delay?: number
     // 过渡关闭动画时间

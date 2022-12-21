@@ -6,8 +6,6 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<PatternOptionsType> = {
     ...getDefOptions(),
-    fontSize: 12,
-    fontFamily: 'Microsoft YaHei',
     text: '加载中...',
     textGap: 10,
     charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
@@ -17,8 +15,12 @@ const defaultOptions: Required<PatternOptionsType> = {
 }
 // 值的限制
 const limits = [{
-    key: 'chartSize', message: 'chartSize value 5-24', limit: (key: any) => {
+    key: 'chartSize', message: 'chartSize value 5-24', limit: (key: any) => { 
         return key >= 5 && key <= 24
+    }
+}, {
+    key: 'delay', message: 'Pattern.delay not allowed update', limit: (key: any) => {
+        return key === getDefOptions().delay
     }
 }]
 interface PatternType {
@@ -45,13 +47,11 @@ export default class Gear extends BaseModel<Required<PatternOptionsType>> {
         this.initPoint()
         this.pattern = { color: getDefOptions().themeColor, nowHeight: 10, chart: PATTERN_CHART.RECT, shadow: 0, nowSatate: 1, turn: 0 }
         this.run(this.draw)
-        // 待优化其他代码
     }
     initPoint(): void {
-        let op = this.options
-        this.ctx.font = `${op.fontSize!}px ${op.fontFamily!}`;
         this.ctx.save()
-        op.delay = 10
+        // 初始化速度
+        this.options.delay = 10
     }
     draw() {
         let op = this.options

@@ -13,7 +13,8 @@ const defaultOptions: Required<ZoomOptionsType> = {
     zoomHeight: 2,
     lineCap: 'round',
     action: ZOOM_ACTION.SCALE,
-    direction: true
+    direction: true,
+    zoomColors: []
 }
 interface ListType {
     value: number,
@@ -86,6 +87,8 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
             }
             // 根据num绘制
             this.ctx.beginPath()
+            if (op.zoomColors.length > 0 && op.zoomColors[i]) this.ctx.strokeStyle = op.zoomColors[i]
+            else this.ctx.strokeStyle = op.themeColor
             let sH = 0, eH = op.zoomHeight
             if (op.action === ZOOM_ACTION.HEIGHT || op.action === ZOOM_ACTION.WAVE) {
                 sH = -this.list[i].value

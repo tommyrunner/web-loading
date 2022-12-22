@@ -60,6 +60,8 @@ export interface ZoomOptionsType extends OptionsType {
     zoomHeight?: number
     // 环个数
     zoomNum?: number
+    // zoom的自定义颜色
+    zoomColors?: Array<string>
     // 线的样式
     lineCap?: CanvasLineCap
     // 线宽度

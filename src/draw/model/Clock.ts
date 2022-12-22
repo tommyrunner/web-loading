@@ -9,7 +9,7 @@ const defaultOptions: Required<ClockOptionsType> = {
     textGap: 4,
     lineCap: 'round',
     lineWidth: 2,
-    lineColors: ['#d4d4d4', '#06ab2d', '#930808'],
+    lineColors: ['#d4d4d4', '#06ab2d', '#8a0303'],
     clockSize: 15,
     clockGap: 4,
     hLine: true,
@@ -43,9 +43,6 @@ export default class Gear extends BaseModel<Required<ClockOptionsType>> {
         // 绘制clock
         this.drawClock()
     }
-    controller(op: Required<ClockOptionsType>) {
-
-    }
     drawText(h: number, m: number, s: number) {
         let op = this.options
         this.ctx.save()
@@ -65,12 +62,14 @@ export default class Gear extends BaseModel<Required<ClockOptionsType>> {
         // 顶
         this.ctx.save()
         this.ctx.beginPath()
+        this.setShadow()
         this.ctx.moveTo(-5, -(op.clockSize + op.clockGap))
         this.ctx.lineTo(5, -(op.clockSize + op.clockGap))
         this.ctx.stroke()
         this.ctx.closePath()
         // 外圆
         this.ctx.beginPath()
+        this.setShadow()
         this.ctx.arc(0, 0, op.clockSize, 0, Math.PI * 2)
         this.ctx.stroke()
         this.ctx.closePath()
@@ -135,6 +134,12 @@ export default class Gear extends BaseModel<Required<ClockOptionsType>> {
         // 绘制文字
         this.drawText(h, m, s)
 
+    }
+    setShadow() {
+        let op = this.options
+        this.ctx.shadowOffsetX = op.shadowOffsetX
+        this.ctx.shadowOffsetY = op.shadowOffsetY
+        this.ctx.shadowBlur = op.shadowBlur
     }
 
 }

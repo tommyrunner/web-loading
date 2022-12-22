@@ -106,3 +106,8 @@ export interface ClockOptionsType extends OptionsType {
     mLine?: boolean
     sLine?: boolean
 }
+
+export interface BeanOptionsType extends OptionsType {
+    beanSize?: number
+    pointLength?: number
+}

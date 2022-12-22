@@ -15,7 +15,8 @@ export enum MODEL_TYPES {
     RING = 'Ring',
     Zoom = 'Zoom',
     PATTERN = 'Pattern',
-    CLOCK = 'Clock'
+    CLOCK = 'Clock',
+    BEAN = 'Bean'
 }
 /**
  * 
@@ -69,6 +70,6 @@ export function $log(message: string, config: LogConfigType = {
  * @param value 判断值
  * @returns boolean
  */
-export function isNull(value: any): boolean {
+export function isNull(value: any): value is null | undefined {
     return value === undefined || value === null
 }

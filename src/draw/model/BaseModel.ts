@@ -7,6 +7,7 @@ export default class BaseModel<T extends OptionsType> {
     ctx: CanvasRenderingContext2D
     options: T
     store: ElementStoreType
+    private stepClear: number
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: T, store: ElementStoreType) {
         this.w = w
         this.h = h
@@ -15,6 +16,7 @@ export default class BaseModel<T extends OptionsType> {
         this.ctx = canvas.getContext("2d")!;
         this.options = options
         this.store = store
+        this.stepClear = 1
         this._$initPoint()
     }
     /**
@@ -49,11 +51,28 @@ export default class BaseModel<T extends OptionsType> {
         this.ctx.save()
     }
     // 清空画布
-    clearRect(x?: number, y?: number, w?: number, h?: number) {
+    clearRect(x?: number, y?: number, w_r?: number, h?: number) {
         // 因为已经把起点设置到中心，所需要扩张
-        if (isNull(x) || isNull(y) || isNull(w) || isNull(h))
-            this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
-        else this.ctx.clearRect(x!, y!, w!, h!)
+        if (!isNull(x) && !isNull(y) && !isNull(w_r) && !isNull(h)) {
+            this.ctx.clearRect(x, y, w_r, h)
+        }
+        // 圆形区域清空
+        else if (!isNull(x) && !isNull(y) && !isNull(w_r) && isNull(h)) {
+            let calcWidth = w_r - this.stepClear;
+            let calcHeight = Math.sqrt(w_r * w_r - calcWidth * calcWidth);
+            let posX = x - calcWidth;
+            let posY = y - calcHeight;
+            let widthX = 2 * calcWidth;
+            let heightY = 2 * calcHeight;
+            if (this.stepClear <= w_r) {
+                this.ctx.clearRect(posX, posY, widthX, heightY);
+                this.stepClear += 1;
+                this.clearRect(x, y, w_r);
+            } else {
+                this.stepClear = 1
+            }
+        }
+        else this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
     }
     // 日志输出
     webLog(message: string, config?: LogConfigType): void {

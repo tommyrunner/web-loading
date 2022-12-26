@@ -26,7 +26,7 @@ interface BeanType {
     beanState: number
     beanAnimaIndex: number
 }
-export default class Gear extends BaseModel<Required<BeanOptionsType>> {
+export default class Bean extends BaseModel<Required<BeanOptionsType>> {
     bean: BeanType
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<BeanOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store)

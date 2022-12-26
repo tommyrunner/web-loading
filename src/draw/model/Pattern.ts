@@ -15,7 +15,7 @@ const defaultOptions: Required<PatternOptionsType> = {
 }
 // 值的限制
 const limits = [{
-    key: 'chartSize', message: 'chartSize value 5-24', limit: (key: any) => { 
+    key: 'chartSize', message: 'chartSize value 5-24', limit: (key: any) => {
         return key >= 5 && key <= 24
     }
 }, {
@@ -37,7 +37,7 @@ interface PatternType {
     // 0:初始化,1:上升,2:下降
     nowSatate: number
 }
-export default class Gear extends BaseModel<Required<PatternOptionsType>> {
+export default class Pattern extends BaseModel<Required<PatternOptionsType>> {
     pattern: PatternType
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<PatternOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store)

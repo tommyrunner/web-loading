@@ -18,7 +18,7 @@ const defaultOptions: Required<ClockOptionsType> = {
     textTime: true
 }
 // 值的限制
-export default class Gear extends BaseModel<Required<ClockOptionsType>> {
+export default class Clock extends BaseModel<Required<ClockOptionsType>> {
     // 记录
     nowTime: number
     nowS: number

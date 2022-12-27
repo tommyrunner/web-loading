@@ -58,6 +58,8 @@ export default class Bean extends BaseModel<Required<BeanOptionsType>> {
         this.drawPoint()
         // 过滤画布
         this.drawFillter()
+        // 绘制文字
+        this.drawText()
         // 流程
         this.controller()
 
@@ -109,6 +111,15 @@ export default class Bean extends BaseModel<Required<BeanOptionsType>> {
         this.ctx.shadowOffsetX = op.shadowOffsetX
         this.ctx.shadowOffsetY = op.shadowOffsetY
         this.ctx.shadowBlur = op.shadowBlur
+    }
+    drawText() {
+        let op = this.options
+        this.ctx.save()
+        this.ctx.beginPath()
+        let y = op.fontSize + op.textGap + op.beanSize
+        this.ctx.fillText(op.text, 0, y)
+        this.ctx.closePath()
+        this.ctx.restore()
     }
 
 }

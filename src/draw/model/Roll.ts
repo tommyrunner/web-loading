@@ -6,16 +6,14 @@ import { ROLL_CHART } from "../utils";
 // 默认值
 const defaultOptions: Required<RollOptionsType> = {
     ...getDefOptions(),
-    text: '加载中...',
-    textGap: 8,
     rollGap: 12,
     childNum: 4,
     rollSize: 16,
     showChild: true,
-    chart: ROLL_CHART.WINDMILL,
+    chart: ROLL_CHART.WHEEL,
     windmills: ['#1ab3ea', '#de6834', '#30925d', '#f48ea5'],
     windmillPointColor: '#f2c31f',
-    fixad: true
+    fixad: false
 }
 // 值的限制
 const limits = [{
@@ -50,12 +48,7 @@ export default class Roll extends BaseModel<Required<RollOptionsType>> {
             state: 2,
             child: []
         }
-        this.initPoint()
         this.run(this.draw)
-    }
-    initPoint() {
-
-
     }
     draw() {
         this.clearRect()
@@ -119,6 +112,7 @@ export default class Roll extends BaseModel<Required<RollOptionsType>> {
     drawRect() {
         let op = this.options
         this.ctx.save()
+        this.setShadow()
         this.ctx.translate(-op.rollSize / 2, -op.rollSize / 2)
         this.ctx.fillRect(0, 0, op.rollSize, op.rollSize)
         this.ctx.restore()

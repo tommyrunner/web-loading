@@ -6,8 +6,6 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<PatternOptionsType> = {
     ...getDefOptions(),
-    text: '加载中...',
-    textGap: 10,
     charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
     chartColors: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
     maxHeight: 60,
@@ -156,7 +154,7 @@ export default class Pattern extends BaseModel<Required<PatternOptionsType>> {
         this.ctx.save();
         this.ctx.beginPath()
         this.setShadow()
-        this.ctx.arc(x, y, size/2, 0, Math.PI * 2)
+        this.ctx.arc(x, y, size / 2, 0, Math.PI * 2)
         this.ctx.fill()
         this.ctx.closePath()
         this.ctx.restore()

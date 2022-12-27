@@ -5,8 +5,6 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<ClockOptionsType> = {
     ...getDefOptions(),
-    text: '',
-    textGap: 4,
     lineCap: 'round',
     lineWidth: 2,
     lineColors: ['#d4d4d4', '#06ab2d', '#8a0303'],

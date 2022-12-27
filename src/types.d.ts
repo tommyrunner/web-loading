@@ -6,6 +6,10 @@ export interface OptionsType {
     miniClass?: string | null | undefined,
     // model 模式
     model?: MODEL_TYPES
+    // 字体内容
+    text?: string,
+    // 字体间距
+    textGap?: number,
     // 字体大小
     fontSize?: number
     // 字体

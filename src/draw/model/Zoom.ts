@@ -62,6 +62,8 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
         this.clearRect()
         // 绘制zoom
         this.drawZoom()
+        // 绘制字体
+        this.drawText()
         // 流程
         this.controller()
     }
@@ -101,5 +103,14 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
             this.ctx.stroke()
             this.ctx.closePath()
         }
+    }
+    drawText() {
+        let op = this.options
+        this.ctx.save()
+        this.ctx.beginPath()
+        let y = op.fontSize + op.maxSize
+        this.ctx.fillText(op.text, (((op.lineWidth) * (op.zoomNum + 1)) + (op.zoomGap * (op.zoomNum + 1))) / 2, y)
+        this.ctx.closePath()
+        this.ctx.restore()
     }
 }

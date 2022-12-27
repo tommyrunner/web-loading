@@ -38,6 +38,8 @@ export function getDefOptions(): Required<OptionsType> {
         shadowOffsetY: 2,
         shadowBlur: 5,
         delay: 65,
+        text: '加载中...',
+        textGap: 8,
         fontSize: 12,
         fontFamily: 'Microsoft YaHei'
     }

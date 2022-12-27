@@ -5,8 +5,6 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<RingOptionsType> = {
     ...getDefOptions(),
-    textGap: 4,
-    text: '加载中...',
     arcGap: Math.PI / 4,
     ringGap: 10,
     lineWidth: 2,

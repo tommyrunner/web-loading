@@ -2,10 +2,6 @@ import { OptionsType } from "../types";
 import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION } from './utils'
 
 export interface GearOptionsType extends OptionsType {
-    // 加载文字
-    text?: string
-    // 加载文字与加载动画空隙
-    textGap?: number
     // 线端
     lineStart?: number
     // 线端偏移
@@ -26,10 +22,6 @@ export interface GearOptionsType extends OptionsType {
 
 
 export interface RingOptionsType extends OptionsType {
-    // 加载文字
-    text?: string
-    // 加载文字与加载动画空隙
-    textGap?: number
     // 环与环空隙
     ringGap?: number
     // 弧线之间间隔
@@ -73,10 +65,6 @@ export interface ZoomOptionsType extends OptionsType {
 
 }
 export interface PatternOptionsType extends OptionsType {
-    // 加载文字
-    text?: string
-    // 加载文字与加载动画空隙
-    textGap?: number
     // 支持的图形
     charts?: Array<PATTERN_CHART>
     // 图形大小
@@ -88,12 +76,8 @@ export interface PatternOptionsType extends OptionsType {
 
 }
 export interface ClockOptionsType extends OptionsType {
-    // 加载文字
-    text?: string
     // 计时
     textTime: boolean
-    // 加载文字与加载动画空隙
-    textGap?: number
     // 颜色
     lineColors?: Array<string>
     lineCap?: CanvasLineCap
@@ -115,10 +99,6 @@ export interface BeanOptionsType extends OptionsType {
 }
 
 export interface RollOptionsType extends OptionsType {
-    // 加载文字
-    text?: string
-    // 加载文字与加载动画空隙
-    textGap?: number
     // Roll直接空隙
     rollGap?: number
     // roll大小

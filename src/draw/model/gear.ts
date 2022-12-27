@@ -5,8 +5,6 @@ import BaseModel from "./BaseModel";
 // 默认值
 const defaultOptions: Required<GearOptionsType> = {
     ...getDefOptions(),
-    text: '加载中...',
-    textGap: 16,
     lineStartSkew: 0,
     lineStart: 10,
     lineEndSkew: 0,

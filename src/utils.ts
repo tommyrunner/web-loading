@@ -17,7 +17,7 @@ export enum MODEL_TYPES {
     PATTERN = 'Pattern',
     CLOCK = 'Clock',
     BEAN = 'Bean',
-    DEVOUR = 'Devour',
+    ROLL = 'Roll',
 }
 /**
  * 

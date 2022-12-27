@@ -1,5 +1,5 @@
 import { OptionsType } from "../types";
-import { PATTERN_CHART, ZOOM_ACTION } from './utils'
+import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION } from './utils'
 
 export interface GearOptionsType extends OptionsType {
     // 加载文字
@@ -112,4 +112,28 @@ export interface ClockOptionsType extends OptionsType {
 export interface BeanOptionsType extends OptionsType {
     beanSize?: number
     pointLength?: number
+}
+
+export interface RollOptionsType extends OptionsType {
+    // 加载文字
+    text?: string
+    // 加载文字与加载动画空隙
+    textGap?: number
+    // Roll直接空隙
+    rollGap?: number
+    // roll大小
+    rollSize?: number
+    // 是否现实child
+    showChild?: boolean
+    // child 个数
+    childNum?: number
+    // chart 
+    chart?: ROLL_CHART
+    // Windmills 颜色并增加
+    windmills?: Array<string>
+    // windmill 中心颜色
+    windmillPointColor?: string
+    // 是否固定
+    fixad?: boolean
+
 }

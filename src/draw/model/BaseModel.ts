@@ -87,7 +87,6 @@ export default class BaseModel<T extends OptionsType> {
     /**
      * 封装 requestAnimationFrame 触发动画针
      * @param fun 触发函数
-     * @param time 触发周期
      * @returns 
      */
     animationFrame(fun: Function): number | undefined {

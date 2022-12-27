@@ -153,11 +153,10 @@ export default class Pattern extends BaseModel<Required<PatternOptionsType>> {
         this.ctx.restore()
     }
     drawArc(x: number, y: number, size: number) {
-        size = size / 2
         this.ctx.save();
         this.ctx.beginPath()
         this.setShadow()
-        this.ctx.arc(x, y, size, 0, Math.PI * 2)
+        this.ctx.arc(x, y, size/2, 0, Math.PI * 2)
         this.ctx.fill()
         this.ctx.closePath()
         this.ctx.restore()

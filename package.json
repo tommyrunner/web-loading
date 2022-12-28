@@ -17,6 +17,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.7.0",
     "html-webpack-plugin": "^5.5.0",
+    "html2canvas": "^1.4.1",
     "ts-loader": "^9.4.2",
     "typescript": "^4.6.4",
     "webpack": "^5.75.0",

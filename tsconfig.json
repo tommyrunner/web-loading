@@ -3,6 +3,7 @@
     "module": "ES2020",
     "target": "ES2020",
     "strict": true,
+    "moduleResolution": "node",
     "removeComments": true // 删除ts文件中的注释，不算打包生成的注释
   },
   "files": [

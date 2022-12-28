@@ -6,7 +6,44 @@
     <title>foundation</title>
   </head>
   <body>
-    <div id="app"><button>测试1</button></div>
+    <div id="app">
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <span>测试</span>
+      <p>漂浮</p>
+    </div>
     <div id="app2"><button>测试12</button></div>
     <button id="start">加载</button>
     <button id="close">停止</button>
@@ -15,7 +52,9 @@
       window.onload = () => {
         let doc = document.getElementById("app");
         const loading = doc.loading({
-          model: "Bean",
+          model: "Overall",
+          bgColor: "",
+          
           // delay: 80,
         });
         window.addEventListener("resize", loading.resize);
@@ -34,6 +73,10 @@
       padding: 12px;
       height: 200px;
       border: 1px solid sienna;
+    }
+    #app p {
+      position: absolute;
+      bottom: 0px;
     }
     #app2 {
       margin: 12px;

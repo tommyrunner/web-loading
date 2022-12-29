@@ -26,6 +26,7 @@ export enum MODEL_TYPES {
  */
 export function getDefOptions(): Required<OptionsType> {
     return {
+        custom: null,
         type: LOADING_TYPES.DEF,
         model: MODEL_TYPES.RING,
         miniClass: 'mini',

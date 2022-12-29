@@ -49,12 +49,22 @@
     <button id="close">停止</button>
     <script>
       // 测试使用
+
       window.onload = () => {
         let doc = document.getElementById("app");
+        class Custom extends doc.BaseModel {
+          constructor(w, h, canvas, options, store) {
+            super(w, h, canvas, options, store);
+            this.run(this.dra);
+          }
+          dra() {
+            this.ctx.fillRect(0, 0, 10, 10);
+          }
+        }
         const loading = doc.loading({
           model: "Overall",
-          bgColor: "",
-          
+          custom: Custom,
+
           // delay: 80,
         });
         window.addEventListener("resize", loading.resize);

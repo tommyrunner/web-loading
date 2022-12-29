@@ -1,5 +1,8 @@
 import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES } from './utils'
+import BaseModel from './draw/model/BaseModel'
 export interface OptionsType {
+    // 自定义
+    custom?: any
     // loading显示方式(默认DEF)
     type?: LOADING_TYPES
     // mini模式的class
@@ -43,6 +46,7 @@ export interface LoadingType {
 }
 export interface HTMLElementType extends HTMLElement {
     loading?: (options: OptionsType) => LoadingType
+    BaseModel?: any
 }
 export interface ElementStoreType {
     element: HTMLElement

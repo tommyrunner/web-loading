@@ -1,6 +1,9 @@
-import WebLoading from './Webloading/index'
 import type { OptionsType, HTMLElementType } from './types.d'
+import WebLoading from './Webloading/index'
+import BaseModel from './draw/model/BaseModel'
 let htmlElement: HTMLElementType = HTMLElement.prototype
+// 方便web使用
+htmlElement.BaseModel = BaseModel
 htmlElement.loading = function loading(options?: OptionsType) {
   // 默认调用
   let webLoading = new WebLoading(this, options);

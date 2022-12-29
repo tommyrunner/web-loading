@@ -13,9 +13,14 @@ const defaultOptions: Required<ClockOptionsType> = {
     hLine: true,
     mLine: false,
     sLine: true,
-    textTime: true
+    textTime: ''
 }
 // 值的限制
+const limits = [{
+    key: 'lineColors', message: 'lineColors.length <= 3', limit: (key: any) => {
+        return key.length <= 3
+    }
+}]
 export default class Clock extends BaseModel<Required<ClockOptionsType>> {
     // 记录
     nowTime: number
@@ -23,7 +28,7 @@ export default class Clock extends BaseModel<Required<ClockOptionsType>> {
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<ClockOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store)
         // 1.初始化options(防止属性为空)
-        this.initOptions(defaultOptions, [])
+        this.initOptions(defaultOptions, limits)
         // 3.初始化画笔
         this.initPoint()
         this.nowTime = -1
@@ -46,9 +51,9 @@ export default class Clock extends BaseModel<Required<ClockOptionsType>> {
         this.ctx.save()
         this.ctx.beginPath()
         let y = op.clockSize * 2 + op.textGap
-        let text = !op.text ? `${h} : ${m} : ${s}` : op.text
-        if (op.textTime && !op.text) text = this.nowTime + 's'
-        this.ctx.fillText(text, 0, y)
+        if (op.textTime === 'time') op.text = `${h} : ${m} : ${s}`
+        if (op.textTime === 's') op.text = this.nowTime + 's'
+        this.ctx.fillText(op.text, 0, y)
         this.ctx.closePath()
         this.ctx.restore()
     }

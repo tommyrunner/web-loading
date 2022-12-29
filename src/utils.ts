@@ -18,7 +18,6 @@ export enum MODEL_TYPES {
     CLOCK = 'Clock',
     BEAN = 'Bean',
     ROLL = 'Roll',
-    OVERALL = 'Overall',
     IMG = 'Img',
 }
 /**

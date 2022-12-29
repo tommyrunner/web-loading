@@ -76,8 +76,8 @@ export interface PatternOptionsType extends OptionsType {
 
 }
 export interface ClockOptionsType extends OptionsType {
-    // 计时
-    textTime: boolean
+    // 计时方式
+    textTime?: 'time' | 's' | ''
     // 颜色
     lineColors?: Array<string>
     lineCap?: CanvasLineCap

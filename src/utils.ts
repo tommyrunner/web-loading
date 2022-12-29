@@ -19,6 +19,7 @@ export enum MODEL_TYPES {
     BEAN = 'Bean',
     ROLL = 'Roll',
     OVERALL = 'Overall',
+    IMG = 'Img',
 }
 /**
  * 

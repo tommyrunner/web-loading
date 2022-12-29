@@ -115,5 +115,10 @@ export interface RollOptionsType extends OptionsType {
     windmillPointColor?: string
     // 是否固定
     fixad?: boolean
-
+}
+export interface ImageOptionsType extends OptionsType {
+    src?: string
+    width?: number
+    height?: number
+    turn?: boolean
 }

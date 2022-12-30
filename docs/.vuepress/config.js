@@ -1,5 +1,6 @@
 module.exports = {
   title: "WebLoading",
+  base: "/web-loading/",
   themeConfig: {
     nav: [
       { text: "Home", link: "/" },

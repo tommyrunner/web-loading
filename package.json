@@ -15,6 +15,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
+    "@vuepress/client": "^2.0.0-beta.60",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -23,8 +24,9 @@
     "html2canvas": "^1.4.1",
     "ts-loader": "^9.4.2",
     "typescript": "^4.6.4",
-    "vuepress": "^1.9.7",
-    "webpack": "^4.6.0",
+    "vue": "^3.2.45",
+    "vuepress": "^2.0.0-beta.60",
+    "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   }

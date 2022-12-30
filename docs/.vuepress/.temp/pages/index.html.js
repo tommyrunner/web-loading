@@ -1,0 +1,1 @@
+export const data = JSON.parse("{\"key\":\"v-8daa1a0e\",\"path\":\"/\",\"title\":\"页面的标题\",\"lang\":\"zh-CN\",\"frontmatter\":{\"lang\":\"zh-CN\",\"title\":\"页面的标题\",\"description\":\"页面的描述\"},\"headers\":[],\"git\":{\"updatedTime\":1672385415000,\"contributors\":[{\"name\":\"tommyrunner\",\"email\":\"1223758238@qq.com\",\"commits\":3}]},\"filePathRelative\":\"README.md\"}")

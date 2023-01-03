@@ -1,5 +1,5 @@
 ---
 lang: zh-CN
-title: 页面的标题
+title: 首页
 description: 页面的描述
 ---

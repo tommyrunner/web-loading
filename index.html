@@ -62,9 +62,10 @@
           }
         }
         const loading = doc.loading({
-          model: "Clock",
+          model: "Img",
           // custom: Custom,
-
+          src: "http://localhost:8080/web-loading/images/logo.png",
+          turn:true
           // delay: 80,
         });
         window.addEventListener("resize", loading.resize);

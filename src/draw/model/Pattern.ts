@@ -46,7 +46,7 @@ export default class Pattern extends BaseModel<Required<PatternOptionsType>> {
         this.pattern = { color: getDefOptions().themeColor, nowHeight: 10, chart: PATTERN_CHART.RECT, shadow: 0, nowSatate: 1, turn: 0 }
         this.run(this.draw)
     }
-    initPoint(): void {
+    initPoint() {
         // 初始化速度
         this.options.delay = 10
     }

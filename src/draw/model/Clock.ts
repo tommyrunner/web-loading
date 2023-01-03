@@ -35,7 +35,7 @@ export default class Clock extends BaseModel<Required<ClockOptionsType>> {
         this.nowS = 0
         this.run(this.draw)
     }
-    initPoint(): void {
+    initPoint() {
         let op = this.options
         this.ctx.lineCap = op.lineCap;
         this.ctx.lineWidth = op.lineWidth

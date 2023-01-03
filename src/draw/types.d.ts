@@ -122,3 +122,8 @@ export interface ImageOptionsType extends OptionsType {
     height?: number
     turn?: boolean
 }
+export interface SkeletonOptionsType extends OptionsType {
+    skeletonColor: string
+    skeletonAnimationColor: string
+    animation: boolean
+}

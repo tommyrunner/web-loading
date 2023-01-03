@@ -1,5 +1,5 @@
 import type { ElementType, OptionsType } from "../types";
-import { LOADING_TYPES, getDefOptions, $log } from "../utils";
+import { LOADING_TYPES, getDefOptions, $log, clearAnimationFrame } from "../utils";
 import MiniLoading from '../MiniLoading/index'
 import drawController from '../draw/index'
 import style from './style'
@@ -30,16 +30,18 @@ export default class WebLoading {
         this.initStore()
         this.init();
     }
-    resize(): void {
+    resize() {
         this.canvas.width = this.element.offsetWidth;
         this.canvas.height = this.element.offsetHeight;
         this.draw();
     }
-    close(): void {
+    close() {
         this.clearStyle()
         this.loadingId = null;
         // 清空mini影响样式
         if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.clearStyle()
+        // 停止 animationFrame
+        if (this.element.$store?.animationId) clearAnimationFrame(this.element.$store?.animationId)
         // 清空dom
         setTimeout(() => {
             // 如果是min，清空父元素(父元素是webLoading创建)
@@ -47,6 +49,7 @@ export default class WebLoading {
             else this.canvas.remove();
         }, this.options.delayColse);
     }
+
     private init() {
         // 初始化样式
         this.initStyle()
@@ -85,7 +88,7 @@ export default class WebLoading {
         // 注入
         this.element.append(this.canvas);
     }
-    private draw(): void {
+    private draw() {
         let w = this.canvas.offsetWidth,
             h = this.canvas.offsetHeight;
         if (this.element.$store) {
@@ -99,7 +102,8 @@ export default class WebLoading {
         this.element.$store = {
             options: this.options,
             element: this.element,
-            animationId: undefined
+            animationId: undefined,
+            loadingId: this.loadingId
         }
     }
 }

@@ -48,7 +48,7 @@ export default class Zoom extends BaseModel<Required<ZoomOptionsType>> {
         }))
         this.run(this.draw)
     }
-    initPoint(): void {
+    initPoint() {
         let op = this.options
         this.ctx.lineCap = op.lineCap;
         this.ctx.lineWidth = op.lineWidth

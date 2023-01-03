@@ -19,6 +19,7 @@ export enum MODEL_TYPES {
     BEAN = 'Bean',
     ROLL = 'Roll',
     IMG = 'Img',
+    SKELETON = 'Skeleton',
 }
 /**
  * 
@@ -56,7 +57,7 @@ export enum LOG_TYPES {
  */
 export function $log(message: string, config: LogConfigType = {
     type: LOG_TYPES.INFO, color: getDefOptions().themeColor, bgColor: getDefOptions().bgColor
-}): void {
+}) {
     let bgColor = config.bgColor
     // 警告色不能改变
     if (config.type === 2) bgColor = '#fffbe5'
@@ -77,4 +78,15 @@ export function $log(message: string, config: LogConfigType = {
  */
 export function isNull(value: any): value is null | undefined {
     return value === undefined || value === null
+}
+/**
+ * 清空 aniamtions
+ * @param id 
+ */
+export function clearAnimationFrame(id: number) {
+    if (!window.requestAnimationFrame) {
+        window.clearInterval(id)
+    } else {
+        window.cancelAnimationFrame(id)
+    }
 }

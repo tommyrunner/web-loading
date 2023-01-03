@@ -1,5 +1,5 @@
 import type { ElementStoreType, OptionsType, LimitType, LogConfigType } from "../../types";
-import { $log, LOG_TYPES, isNull } from '../../utils'
+import { $log, LOG_TYPES, isNull, clearAnimationFrame } from '../../utils'
 export default class BaseModel<T extends OptionsType> {
     w: number
     h: number
@@ -74,25 +74,45 @@ export default class BaseModel<T extends OptionsType> {
         }
         else this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);
     }
+    /**
+     * 绘制圆角矩形
+     * @param x 
+     * @param y 
+     * @param w 
+     * @param h 
+     * @param r 
+     */
+    drowRadiusRect(x: number, y: number, w: number, h: number, r: number) {
+        this.ctx.beginPath()
+        this.ctx.arc(x + r, y + r, r, 1 * Math.PI, 1.5 * Math.PI)
+        this.ctx.lineTo(x + w - r, y)
+        this.ctx.arc(x + w - r, y + r, r, 1.5 * Math.PI, 0)
+        this.ctx.lineTo(x + w, y + h - r)
+        this.ctx.arc(x + w - r, y + h - r, r, 0, 0.5 * Math.PI)
+        this.ctx.lineTo(x + r, y + h)
+        this.ctx.arc(x + r, y + h - r, r, 0.5 * Math.PI, Math.PI)
+        this.ctx.lineTo(x, y + r)
+        this.ctx.closePath()
+    }
     // 日志输出
-    webLog(message: string, config?: LogConfigType): void {
+    webLog(message: string, config?: LogConfigType) {
         $log(message, config)
     }
     // 开始动画
     run(fun: Function) {
         // 如果已经处于加载状态，无须重新实例
-        if (!this.store.animationId)
-            this.store.animationId = this.animationFrame(fun)
+        if (this.store.animationId) this.clearAnimationFrame(this.store.animationId)
+        this.animationFrame(fun)
     }
     /**
      * 封装 requestAnimationFrame 触发动画针
      * @param fun 触发函数
      * @returns 
      */
-    animationFrame(fun: Function): number | undefined {
+    animationFrame(fun: Function) {
         // 兼容
         if (!window.requestAnimationFrame) {
-            return window.setInterval(fun, this.options.delay)
+            this.store.animationId = window.setInterval(fun, this.options.delay)
         }
         // 利用时间轴控制触发时间
         let endTime = Date.now() + this.options.delay!
@@ -102,19 +122,15 @@ export default class BaseModel<T extends OptionsType> {
                 fun.call(this)
                 endTime = Date.now() + this.options.delay!
             }
-            window.requestAnimationFrame(run)
+            this.store.animationId = window.requestAnimationFrame(run)
         }
-        return window.requestAnimationFrame(run)
+        this.store.animationId = window.requestAnimationFrame(run)
     }
     /**
      * 取消 animationFrame 动画针
      * @param id 动画id
      */
-    clearAnimationFrame(id: number): void {
-        if (!window.requestAnimationFrame) {
-            window.clearInterval(id)
-        } else {
-            window.cancelAnimationFrame(id)
-        }
+    clearAnimationFrame(id: number) {
+        clearAnimationFrame(id)
     }
 }

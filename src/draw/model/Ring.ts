@@ -37,7 +37,7 @@ export default class Ring extends BaseModel<Required<RingOptionsType>> {
         // 3.开始动画针并记录状态
         this.run(this.draw)
     }
-    initPoint(): void {
+    initPoint() {
         let op = this.options
         this.ctx.lineCap = op.lineCap;
         this.ctx.lineWidth = op.lineWidth

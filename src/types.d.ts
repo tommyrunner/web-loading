@@ -49,9 +49,10 @@ export interface HTMLElementType extends HTMLElement {
     BaseModel?: any
 }
 export interface ElementStoreType {
-    element: HTMLElement
+    element: ElementType
     options: OptionsType
     animationId: number | undefined
+    loadingId: string | null
 }
 export interface ElementType extends HTMLElement {
     loadingId?: string | null

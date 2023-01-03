@@ -7,41 +7,10 @@
   </head>
   <body>
     <div id="app">
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
-      <span>测试</span>
+      <span>1</span>
+      <div>
+        <span id="test" wl-w="100" wl-h="23"></span>
+      </div>
       <p>漂浮</p>
     </div>
     <div id="app2"><button>测试12</button></div>
@@ -62,10 +31,9 @@
           }
         }
         const loading = doc.loading({
-          model: "Img",
+          model: "Skeleton",
+          bgColor: "",
           // custom: Custom,
-          src: "http://localhost:8080/web-loading/images/logo.png",
-          turn:true
           // delay: 80,
         });
         window.addEventListener("resize", loading.resize);
@@ -74,6 +42,7 @@
         };
         document.getElementById("close").onclick = function () {
           loading.close();
+          document.getElementById("test").innerHTML = "测测试测试测试测试测试测试测试测试测试测试测试试";
         };
       };
     </script>

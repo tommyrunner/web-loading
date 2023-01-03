@@ -34,7 +34,7 @@ export default class Gear extends BaseModel<Required<GearOptionsType>> {
         this.aps = Array.from({ length: this.options.lineNum }, (_, _index) => _index)
         this.run(this.draw)
     }
-    initPoint(): void {
+    initPoint() {
         let op = this.options
         this.ctx.lineCap = op.lineCap;
         this.ctx.lineWidth = op.lineWidth

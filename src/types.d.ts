@@ -53,6 +53,7 @@ export interface ElementStoreType {
     options: OptionsType
     animationId: number | undefined
     loadingId: string | null
+    colseCall: Function | undefined
 }
 export interface ElementType extends HTMLElement {
     loadingId?: string | null

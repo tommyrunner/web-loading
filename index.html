@@ -7,9 +7,12 @@
   </head>
   <body>
     <div id="app">
-      <span>1</span>
+      <div id="test" wl-w="100" wl-h="23"></div>
       <div>
-        <span id="test" wl-w="100" wl-h="23"></span>
+        <span>你好</span>
+        <div>
+          <span>网不好</span>
+        </div>
       </div>
       <p>漂浮</p>
     </div>
@@ -38,6 +41,7 @@
         });
         window.addEventListener("resize", loading.resize);
         document.getElementById("start").onclick = function () {
+          // document.getElementById("test").innerHTML = "";
           loading.reload();
         };
         document.getElementById("close").onclick = function () {

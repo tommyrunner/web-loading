@@ -125,5 +125,11 @@ export interface ImageOptionsType extends OptionsType {
 export interface SkeletonOptionsType extends OptionsType {
     skeletonColor: string
     skeletonAnimationColor: string
+    radius: number
     animation: boolean
+    skeletonMax: boolean
+    deep: boolean
+    // imgColor: string
+    // imgSize: number
+
 }

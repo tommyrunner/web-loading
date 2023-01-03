@@ -40,10 +40,12 @@ export default class WebLoading {
         this.loadingId = null;
         // 清空mini影响样式
         if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.clearStyle()
-        // 停止 animationFrame
-        if (this.element.$store?.animationId) clearAnimationFrame(this.element.$store?.animationId)
+        // 关闭回调
+        if (this.element.$store?.colseCall) this.element.$store.colseCall()
         // 清空dom
         setTimeout(() => {
+            // 停止 animationFrame
+            if (this.element.$store?.animationId) clearAnimationFrame(this.element.$store?.animationId)
             // 如果是min，清空父元素(父元素是webLoading创建)
             if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.getElement().remove()
             else this.canvas.remove();
@@ -103,7 +105,8 @@ export default class WebLoading {
             options: this.options,
             element: this.element,
             animationId: undefined,
-            loadingId: this.loadingId
+            loadingId: this.loadingId,
+            colseCall: undefined
         }
     }
 }

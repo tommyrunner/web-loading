@@ -1,5 +1,6 @@
 import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES } from './utils'
 import BaseModel from './draw/model/BaseModel'
+import MiniLoading from './ExtendLoading'
 export interface OptionsType {
   // 自定义
   custom?: any
@@ -40,13 +41,17 @@ export interface OptionsType {
   // 事件触发
   pointerEvents?: boolean
 }
+export interface WindowType extends Window {
+  loading?: (options: OptionsType) => LoadingType
+  miniLoading?: (options: OptionsType) => LoadingType
+}
 export interface LoadingType {
   reload: Function
   resize: Function
   close: Function
 }
 export interface HTMLElementType extends HTMLElement {
-  loading?: (options: OptionsType) => LoadingType
+  loading?: (options?: OptionsType, extendLoading?: MiniLoading) => LoadingType
   BaseModel?: any
 }
 export interface HookCallType {
@@ -71,10 +76,14 @@ export interface LimitType {
   limit: (key: any) => boolean
 }
 export type LogConfigType = {
-  // 日志类型
-  type?: LOG_TYPES
   // 文字颜色
   color?: string
   // 提示毕竟
   bgColor?: string
+}
+export interface $LogType {
+  info: (message: string) => void
+  warn: (message: string) => void
+  error: (message: string) => void
+  call: (message: string, type: LOG_TYPES, config: LogConfigType) => void
 }

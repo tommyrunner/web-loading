@@ -1,5 +1,5 @@
 import type { ElementStoreType, OptionsType } from '../types'
-import { $log, LOG_TYPES } from '../utils'
+import { $Log, LOG_TYPES } from '../utils'
 export default function drawController(
   w: number,
   h: number,
@@ -16,6 +16,6 @@ export default function drawController(
     else model = new options.custom(w, h, canvas, options, store.element.$store)
     store.model = model
   } catch (e) {
-    $log('draw error(' + e + ')', { type: LOG_TYPES.ERROR })
+    $Log.error('draw error(' + e + ')')
   }
 }

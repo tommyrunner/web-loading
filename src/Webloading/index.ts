@@ -1,6 +1,6 @@
 import type { ElementType, OptionsType } from '../types'
-import { LOADING_TYPES, getDefOptions, $log, clearAnimationFrame } from '../utils'
-import MiniLoading from '../MiniLoading/index'
+import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log } from '../utils'
+import MiniLoading from '../ExtendLoading/index'
 import drawController from '../draw/index'
 import style from './style'
 export default class WebLoading {
@@ -12,20 +12,15 @@ export default class WebLoading {
   element: ElementType
   // 配置options
   options: Required<OptionsType>
-  // miniLoading
-  miniLoading: MiniLoading | null
-  constructor(element: HTMLElement, options?: OptionsType) {
+  // extendLoading
+  extendLoading: MiniLoading | undefined
+  constructor(element: HTMLElement, options?: OptionsType, extendLoading?: MiniLoading) {
     // 初始化默认配置
     this.options = Object.assign(getDefOptions(), options)
-    this.miniLoading = null
+    this.extendLoading = extendLoading
     this.canvas = document.createElement('canvas')
     this.loadingId = String('wl_' + Date.now())
     this.element = element
-    // 便捷移动端使用miniLoading
-    if (this.options.type === LOADING_TYPES.MINI) {
-      this.miniLoading = new MiniLoading(this.options)
-      this.element = this.miniLoading.getElement()
-    }
     // 初始化储存属性
     this.initStore()
     this.init()
@@ -36,11 +31,12 @@ export default class WebLoading {
     this.draw()
   }
   close() {
+    let op = this.options
     this.clearStyle()
     this.loadingId = null
-    if (!this.options.pointerEvents) this.element.style.pointerEvents = 'auto'
+    if (!op.pointerEvents) this.element.style.pointerEvents = 'auto'
     // 清空mini影响样式
-    if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.clearStyle()
+    if (op.type === LOADING_TYPES.MINI) this.extendLoading?.clearStyle()
     if (this.element.$store) {
       // 清除model
       this.element.$store.model = null
@@ -52,11 +48,11 @@ export default class WebLoading {
       // 停止 animationFrame
       if (this.element.$store?.animationId) clearAnimationFrame(this.element.$store?.animationId)
       // 如果是min，清空父元素(父元素是webLoading创建)
-      if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.getElement().remove()
+      if (op.type === LOADING_TYPES.MINI) this.extendLoading?.getElement().remove()
       else this.canvas.remove()
       // 关闭后回调
       if (this.element.$store?.hookCall) this.element.$store.hookCall.colsed()
-    }, this.options.delayColse)
+    }, op.delayColse)
   }
 
   private init() {
@@ -87,7 +83,6 @@ export default class WebLoading {
     document.styleSheets[0].insertRule(style)
     this.canvas.style.animation = `wl_show ${op.delayColse / 1000}s linear`
     canvasStyle.position = 'absolute'
-    console.log(op.pointerEvents)
     canvasStyle.left = `${op.pointerEvents ? 0 : this.element.scrollLeft}px`
     canvasStyle.top = `${op.pointerEvents ? 0 : this.element.scrollTop}px`
     canvasStyle.zIndex = op.zIndex
@@ -95,7 +90,6 @@ export default class WebLoading {
     canvasStyle.backgroundColor = op.bgColor
     canvasStyle.borderRadius = readElementStyle.borderRadius
     // 设置画布大小
-    console.dir(this.element)
     this.canvas.width = elementW
     this.canvas.height = elementH
     // 注入
@@ -107,7 +101,7 @@ export default class WebLoading {
     if (this.element.$store) {
       drawController(w, h, this.canvas, this.options, this.element.$store)
     } else {
-      $log('WebLoading:canvas or ctx null')
+      $Log.error('WebLoading:canvas or ctx null')
     }
   }
   private initStore() {

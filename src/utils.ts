@@ -4,8 +4,9 @@ import { LogConfigType, OptionsType } from './types'
  * 支持的 loading 方式
  */
 export enum LOADING_TYPES {
-  DEF = 'def',
-  MINI = 'mini'
+  FULL = 'Full',
+  MINI = 'mini',
+  DOM = 'dom'
 }
 /**
  * 支持的 model
@@ -28,7 +29,7 @@ export enum MODEL_TYPES {
 export function getDefOptions(): Required<OptionsType> {
   return {
     custom: null,
-    type: LOADING_TYPES.DEF,
+    type: LOADING_TYPES.DOM,
     model: MODEL_TYPES.RING,
     miniClass: 'mini',
     delayColse: 520,
@@ -58,25 +59,36 @@ export enum LOG_TYPES {
  * @param message 内容
  * @param config 配置
  */
-export function $log(
-  message: string,
-  config: LogConfigType = {
-    type: LOG_TYPES.INFO,
-    color: getDefOptions().themeColor,
-    bgColor: getDefOptions().bgColor
+export class $Log {
+  static info(message: string) {
+    this.call(message, LOG_TYPES.INFO)
   }
-) {
-  let bgColor = config.bgColor
-  // 警告色不能改变
-  if (config.type === 2) bgColor = '#fffbe5'
-  // 错误色不能改变
-  if (config.type === 3) bgColor = '#fff0f0'
-  let style = `
-    background:${bgColor};
-    font-size:14px;
-    color:${config.color};
-    border: 1px solid;`
-  console.log(`%c web-loading:${message} `, style)
+  static warn(message: string) {
+    this.call(message, LOG_TYPES.WARN)
+  }
+  static error(message: string) {
+    this.call(message, LOG_TYPES.ERROR)
+  }
+  static call(
+    message: string,
+    type: LOG_TYPES = LOG_TYPES.INFO,
+    config: LogConfigType = {
+      color: getDefOptions().themeColor,
+      bgColor: getDefOptions().bgColor
+    }
+  ) {
+    let bgColor = config.bgColor
+    // 警告色不能改变
+    if (type === 2) bgColor = '#fffbe5'
+    // 错误色不能改变
+    if (type === 3) bgColor = '#fff0f0'
+    let style = `
+      background:${bgColor};
+      font-size:14px;
+      color:${config.color};
+      border: 1px solid;`
+    console.log(`%c web-loading:${message} `, style)
+  }
 }
 /**
  * 判空

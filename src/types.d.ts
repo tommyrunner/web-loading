@@ -37,6 +37,8 @@ export interface OptionsType {
     shadowOffsetY?: number
     // 阴影范围
     shadowBlur?: number
+    // 事件触发
+    pointerEvents?: boolean
 
 }
 export interface LoadingType {
@@ -48,12 +50,16 @@ export interface HTMLElementType extends HTMLElement {
     loading?: (options: OptionsType) => LoadingType
     BaseModel?: any
 }
+export interface HookCallType {
+    beforeColse: Function
+    colsed: Function
+}
 export interface ElementStoreType {
     element: ElementType
     options: OptionsType
     animationId: number | undefined
     loadingId: string | null
-    colseCall: Function | undefined
+    hookCall: HookCallType
 }
 export interface ElementType extends HTMLElement {
     loadingId?: string | null

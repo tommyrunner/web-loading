@@ -7,12 +7,27 @@
   </head>
   <body>
     <div id="app">
-      <div id="test" wl-w="100" wl-h="23"></div>
+      <div id="test">123</div>
       <div>
-        <span>你好</span>
+        <span>1你好</span>
         <div>
           <span>网不好</span>
         </div>
+        <img id="img" width="100" height="100" />
+      </div>
+      <div>
+        <span>2你好</span>
+        <div>
+          <span>网不好</span>
+        </div>
+        <img id="img" width="100" height="100" />
+      </div>
+      <div wl-show="show" style="line-height: 30px">
+        <span wl-show="show">3你好</span>
+        <div wl-show="show">
+          <span wl-show="show">网不好</span>
+        </div>
+        <img wl-show="show" id="img" width="100" height="100" />
       </div>
       <p>漂浮</p>
     </div>
@@ -23,32 +38,33 @@
       // 测试使用
 
       window.onload = () => {
-        let doc = document.getElementById("app");
+        let doc = document.getElementById('app')
         class Custom extends doc.BaseModel {
           constructor(w, h, canvas, options, store) {
-            super(w, h, canvas, options, store);
-            this.run(this.dra);
+            super(w, h, canvas, options, store)
+            this.run(this.dra)
           }
           dra() {
-            this.ctx.fillRect(0, 0, 10, 10);
+            this.ctx.fillRect(0, 0, 10, 10)
           }
         }
         const loading = doc.loading({
-          model: "Skeleton",
-          bgColor: "",
+          model: 'Skeleton',
+          bgColor: '',
+          pointerEvents: true
           // custom: Custom,
           // delay: 80,
-        });
-        window.addEventListener("resize", loading.resize);
-        document.getElementById("start").onclick = function () {
-          // document.getElementById("test").innerHTML = "";
-          loading.reload();
-        };
-        document.getElementById("close").onclick = function () {
-          loading.close();
-          document.getElementById("test").innerHTML = "测测试测试测试测试测试测试测试测试测试测试测试试";
-        };
-      };
+        })
+        window.addEventListener('resize', loading.resize)
+        document.getElementById('start').onclick = function () {
+          document.getElementById('img').setAttribute('src', 'https://www.baidu.com/img/flexible/logo/pc/result.png')
+          loading.reload()
+        }
+        document.getElementById('close').onclick = function () {
+          loading.close()
+          document.getElementById('test').innerHTML = Math.random()
+        }
+      }
     </script>
   </body>
   <style>
@@ -57,10 +73,15 @@
       padding: 12px;
       height: 200px;
       border: 1px solid sienna;
+      overflow: auto;
     }
+    /* ::-webkit-scrollbar {
+      width: 0px;
+    } */
     #app p {
       position: absolute;
       bottom: 0px;
+      right: 0;
     }
     #app2 {
       margin: 12px;

@@ -40,6 +40,7 @@ export function getDefOptions(): Required<OptionsType> {
         shadowOffsetX: 2,
         shadowOffsetY: 2,
         shadowBlur: 5,
+        pointerEvents: false,
         delay: 65,
         text: '加载中...',
         textGap: 8,

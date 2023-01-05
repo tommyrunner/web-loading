@@ -129,6 +129,7 @@ export interface SkeletonOptionsType extends OptionsType {
     animation: boolean
     skeletonMax: boolean
     deep: boolean
+    appoint: string
     // imgColor: string
     // imgSize: number
 

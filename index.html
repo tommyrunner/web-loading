@@ -48,17 +48,17 @@
             this.ctx.fillRect(0, 0, 10, 10)
           }
         }
-        const mloading = loading({
-          model: 'Gear'
-        })
-        // const loading = doc.loading({
+        // const mloading = loading({
         //   model: 'Gear'
-        //   // bgColor: '',
-        //   // pointerEvents: true
-        //   // custom: Custom,
-        //   // delay: 80,
         // })
-        window.addEventListener('resize', mloading.resize)
+        const loading = doc.loading({
+          model: 'Skeleton',
+          bgColor: '',
+          pointerEvents: true
+          // custom: Custom,
+          // delay: 80,
+        })
+        // window.addEventListener('resize', loading.resize)
         document.getElementById('start').onclick = function () {
           document.getElementById('img').setAttribute('src', 'https://www.baidu.com/img/flexible/logo/pc/result.png')
           // loading.reload()

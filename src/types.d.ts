@@ -38,7 +38,7 @@ export interface OptionsType {
   shadowOffsetY?: number
   // 阴影范围
   shadowBlur?: number
-  // 事件触发
+  // 事件穿透
   pointerEvents?: boolean
 }
 export interface WindowType extends Window {

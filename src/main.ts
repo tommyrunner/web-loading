@@ -20,10 +20,10 @@ htmlElement.loading = function loading(options?: OptionsType, extendLoading?: Ex
     // 防止重复注册
     if (!webLoading.loadingId) {
       // 保留上次传入参数
-      if ($window.miniLoading && op.type === LOADING_TYPES.MINI) {
+      if ($window.miniLoading && op.type !== LOADING_TYPES.DOM) {
         loading = new ExtendLoading(op)
         el = loading.getElement()
-        op = Object.assign(op, { type: LOADING_TYPES.MINI })
+        op = Object.assign(op)
       }
       webLoading = new WebLoading(el, op, loading)
     }

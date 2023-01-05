@@ -16,7 +16,7 @@ export default class ExtendLoading {
       h = '100vh',
       borderRadius = '0px'
     if (op) {
-      this.miniEl.classList.add('wl_' + (op.miniClass || 'mini'))
+      this.miniEl.classList.add('wl_' + (op.miniClass || 'loading'))
       if (op.type === LOADING_TYPES.MINI) {
         w = '180px'
         h = '160px'

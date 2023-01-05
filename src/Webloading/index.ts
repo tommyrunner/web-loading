@@ -34,9 +34,12 @@ export default class WebLoading {
     let op = this.options
     this.clearStyle()
     this.loadingId = null
-    if (!op.pointerEvents) this.element.style.pointerEvents = 'auto'
+    if (!op.pointerEvents) {
+      if (op.type === LOADING_TYPES.DOM) this.element.style.pointerEvents = 'auto'
+      else document.body.style.pointerEvents = 'auto'
+    }
     // 清空mini影响样式
-    if (op.type === LOADING_TYPES.MINI) this.extendLoading?.clearStyle()
+    if (op.type !== LOADING_TYPES.DOM) this.extendLoading?.clearStyle()
     if (this.element.$store) {
       // 清除model
       this.element.$store.model = null
@@ -48,7 +51,7 @@ export default class WebLoading {
       // 停止 animationFrame
       if (this.element.$store?.animationId) clearAnimationFrame(this.element.$store?.animationId)
       // 如果是min，清空父元素(父元素是webLoading创建)
-      if (op.type === LOADING_TYPES.MINI) this.extendLoading?.getElement().remove()
+      if (op.type !== LOADING_TYPES.DOM) this.extendLoading?.getElement().remove()
       else this.canvas.remove()
       // 关闭后回调
       if (this.element.$store?.hookCall) this.element.$store.hookCall.colsed()
@@ -76,7 +79,10 @@ export default class WebLoading {
       canvasStyle = this.canvas.style
     // 初始化元素的样式
     this.element.loadingId = this.loadingId
-    if (!op.pointerEvents) this.element.style.pointerEvents = 'none'
+    if (!op.pointerEvents) {
+      if (op.type === LOADING_TYPES.DOM) this.element.style.pointerEvents = 'none'
+      else document.body.style.pointerEvents = 'none'
+    }
     if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
     // 初始化canvas样式
     this.canvas.id = this.loadingId!

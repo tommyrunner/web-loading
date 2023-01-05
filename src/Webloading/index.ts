@@ -31,8 +31,8 @@ export default class WebLoading {
     this.init()
   }
   resize() {
-    this.canvas.width = this.element.offsetWidth
-    this.canvas.height = this.element.offsetHeight
+    this.canvas.width = this.element.clientWidth
+    this.canvas.height = this.element.clientHeight
     this.draw()
   }
   close() {
@@ -41,8 +41,12 @@ export default class WebLoading {
     if (!this.options.pointerEvents) this.element.style.pointerEvents = 'auto'
     // 清空mini影响样式
     if (this.options.type === LOADING_TYPES.MINI) this.miniLoading?.clearStyle()
-    // 关闭前回调
-    if (this.element.$store?.hookCall) this.element.$store.hookCall.beforeColse()
+    if (this.element.$store) {
+      // 清除model
+      this.element.$store.model = null
+      // 关闭前回调
+      this.element.$store.hookCall.beforeColse()
+    }
     // 清空dom
     setTimeout(() => {
       // 停止 animationFrame
@@ -113,6 +117,7 @@ export default class WebLoading {
       element: this.element,
       animationId: undefined,
       loadingId: this.loadingId,
+      model: null,
       hookCall: {
         beforeColse: () => {},
         colsed: () => {}

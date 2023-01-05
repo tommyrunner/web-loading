@@ -61,12 +61,12 @@
         // window.addEventListener('resize', loading.resize)
         document.getElementById('start').onclick = function () {
           document.getElementById('img').setAttribute('src', 'https://www.baidu.com/img/flexible/logo/pc/result.png')
-          // loading.reload()
-          mloading.reload()
+          loading.reload()
+          // mloading.reload()
         }
         document.getElementById('close').onclick = function () {
-          // loading.close()
-          mloading.close()
+          loading.close()
+          // mloading.close()
           document.getElementById('test').innerHTML = Math.random()
         }
       }

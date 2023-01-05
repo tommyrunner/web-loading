@@ -115,7 +115,15 @@ export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
                     `
         }
       }
-      this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius)
+      // 处理圆角露出问题
+      let gap = op.radius / 2
+      this.drowRadiusRect(
+        el.offsetLeft - gap,
+        el.offsetTop - gap,
+        el.offsetWidth + gap,
+        el.offsetHeight + gap,
+        op.radius
+      )
       this.ctx.fill()
     })
     if (op.animation) {

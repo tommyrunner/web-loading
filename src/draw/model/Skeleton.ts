@@ -21,9 +21,6 @@ export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
   skeleton: Array<SkeletonType>
   colorFlow: number
   state: number
-  WL_KEY: '__wl-key'
-  WL_W: 'wl-w'
-  WL_H: 'wl-h'
   WL_IMG: 'wl-img'
   constructor(
     w: number,
@@ -38,9 +35,6 @@ export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
     this.skeleton = []
     this.colorFlow = 0
     this.state = 1
-    this.WL_KEY = '__wl-key'
-    this.WL_W = 'wl-w'
-    this.WL_H = 'wl-h'
     this.WL_IMG = 'wl-img'
     this.initPoint()
     this.controller(this.store.element.children)
@@ -54,19 +48,6 @@ export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
     this.canvas.width = this.store.element.scrollWidth
     this.canvas.height = this.store.element.scrollHeight
     this.ctx.fillStyle = op.skeletonColor
-    // 动画结束回调(还原样式)
-    this.store.hookCall.beforeColse = () => {
-      this.skeleton.forEach((s) => {
-        let el = s.element
-        el.style.cssText = el.getAttribute(this.WL_KEY) || ''
-      })
-    }
-    this.store.hookCall.colsed = () => {
-      this.skeleton.forEach((s) => {
-        let el = s.element
-        el.removeAttribute(this.WL_KEY)
-      })
-    }
   }
   draw() {
     this.clearRect()
@@ -95,35 +76,8 @@ export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
     if (op.animation) this.ctx.fillStyle = linearGradient
     this.skeleton.forEach((s) => {
       let el = s.element
-      if (this.store.element.$store?.animationId) {
-        let w = el.getAttribute(this.WL_W),
-          h = el.getAttribute(this.WL_H)
-        if (w || h) {
-          if (el.getAttribute(this.WL_KEY) === null) {
-            el.setAttribute(this.WL_KEY, el.style.cssText)
-          }
-          // 选择最大值
-          if (op.skeletonMax) {
-            if (w && el.offsetWidth > parseInt(w)) w = String(el.offsetWidth)
-            if (h && el.offsetHeight > parseInt(h)) h = String(el.offsetHeight)
-          }
-          el.style.cssText = `
-                            ${el.style.cssText}
-                            display:inline-block;
-                            width:${w}px;
-                            height:${h}px;
-                    `
-        }
-      }
       // 处理圆角露出问题
-      let gap = op.radius / 2
-      this.drowRadiusRect(
-        el.offsetLeft - gap,
-        el.offsetTop - gap,
-        el.offsetWidth + gap,
-        el.offsetHeight + gap,
-        op.radius
-      )
+      this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius)
       this.ctx.fill()
     })
     if (op.animation) {

@@ -1,0 +1,22 @@
+"use strict";
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(self["webpackChunkweb_loading1"] = self["webpackChunkweb_loading1"] || []).push([["src_draw_model_Skeleton_ts"],{
+
+/***/ "./src/draw/model/Skeleton.ts":
+/*!************************************!*\
+  !*** ./src/draw/model/Skeleton.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Skeleton)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ \"./src/utils.ts\");\n/* harmony import */ var _BaseModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseModel */ \"./src/draw/model/BaseModel.ts\");\n\r\n\r\nconst defaultOptions = {\r\n    ...(0,_utils__WEBPACK_IMPORTED_MODULE_0__.getDefOptions)(),\r\n    skeletonColor: 'rgb(240, 240, 240)',\r\n    skeletonAnimationColor: 'rgb(226, 226, 226)',\r\n    radius: 5,\r\n    animation: true,\r\n    skeletonMax: true,\r\n    deep: true,\r\n    appoint: 'wl-show'\r\n};\r\nclass Skeleton extends _BaseModel__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\r\n    constructor(w, h, canvas, options, store) {\r\n        super(w, h, canvas, options, store);\r\n        this.initOptions(defaultOptions, []);\r\n        this.skeleton = [];\r\n        this.colorFlow = 0;\r\n        this.state = 1;\r\n        this.WL_IMG = 'wl-img';\r\n        this.initPoint();\r\n        this.controller(this.store.element.children);\r\n        this.run(this.draw);\r\n        console.dir(store.element);\r\n    }\r\n    initPoint() {\r\n        let op = this.options;\r\n        this.ctx.translate(-this.w / 2, -this.h / 2);\r\n        this.canvas.width = this.store.element.scrollWidth;\r\n        this.canvas.height = this.store.element.scrollHeight;\r\n        this.ctx.fillStyle = op.skeletonColor;\r\n    }\r\n    draw() {\r\n        this.clearRect();\r\n        this.drawSkeleton();\r\n    }\r\n    controller(els) {\r\n        let op = this.options;\r\n        for (let e of Array.from(els)) {\r\n            if (this.store.loadingId === e.id)\r\n                continue;\r\n            if (op.appoint.length > 0 && e.getAttribute(op.appoint) === null)\r\n                continue;\r\n            if (op.deep) {\r\n                if (e.children.length <= 0) {\r\n                    this.skeleton.push({ title: e.nodeName, element: e });\r\n                }\r\n                else\r\n                    this.controller(e.children);\r\n            }\r\n            else {\r\n                this.skeleton.push({ title: e.nodeName, element: e });\r\n            }\r\n        }\r\n    }\r\n    drawSkeleton() {\r\n        let op = this.options;\r\n        let linearGradient = this.ctx.createLinearGradient(0, 0, this.w, this.h);\r\n        linearGradient.addColorStop(0, op.skeletonColor);\r\n        linearGradient.addColorStop(this.colorFlow, op.skeletonAnimationColor);\r\n        linearGradient.addColorStop(1, op.skeletonColor);\r\n        if (op.animation)\r\n            this.ctx.fillStyle = linearGradient;\r\n        this.skeleton.forEach((s) => {\r\n            let el = s.element;\r\n            this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius);\r\n            this.ctx.fill();\r\n        });\r\n        if (op.animation) {\r\n            if (this.colorFlow >= 0.9)\r\n                this.state = 2;\r\n            if (this.colorFlow <= 0.1)\r\n                this.state = 1;\r\n            if (this.state === 1)\r\n                this.colorFlow += 0.06;\r\n            if (this.state === 2)\r\n                this.colorFlow -= 0.06;\r\n        }\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/draw/model/Skeleton.ts?");
+
+/***/ })
+
+}]);

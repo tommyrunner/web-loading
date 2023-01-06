@@ -1,3 +1,4 @@
+"use strict";
 /*
  * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
  * This devtool is neither made for production nor for readable output files.
@@ -6,59 +7,7 @@
  * or disable the default devtool with "devtool: false".
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
-
-/***/ "./src/ExtendLoading/index.ts":
-/*!************************************!*\
-  !*** ./src/ExtendLoading/index.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ExtendLoading)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ \"./src/utils.ts\");\n\r\nlet $document = document;\r\nclass ExtendLoading {\r\n    constructor(options) {\r\n        this.options = options;\r\n        this.miniEl = this.initStyle();\r\n    }\r\n    initStyle() {\r\n        this.miniEl = document.createElement('div');\r\n        let op = this.options;\r\n        let w = '100vw', h = '100vh', borderRadius = '0px';\r\n        if (op) {\r\n            this.miniEl.classList.add('wl_' + (op.miniClass || 'loading'));\r\n            if (op.type === _utils__WEBPACK_IMPORTED_MODULE_0__.LOADING_TYPES.MINI) {\r\n                w = '180px';\r\n                h = '160px';\r\n                borderRadius = '10px';\r\n            }\r\n        }\r\n        this.miniEl.style.cssText = `\r\n        position:fixed;\r\n        width:${w};\r\n        height:${h};\r\n        top:50%;\r\n        left:50%;\r\n        transform:translate(-50%, -50%);\r\n        border-radius: ${borderRadius};\r\n        box-shadow:\r\n        2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),\r\n        6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),\r\n        12.5px 12.5px 10px rgba(0, 0, 0, 0.035),\r\n        22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),\r\n        41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),\r\n        100px 100px 80px rgba(0, 0, 0, 0.07)\r\n        ;\r\n    `;\r\n        $document.body.appendChild(this.miniEl);\r\n        return this.miniEl;\r\n    }\r\n    getElement() {\r\n        return this.miniEl;\r\n    }\r\n    clearStyle() {\r\n        this.miniEl.style.boxShadow = 'none';\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/ExtendLoading/index.ts?");
-
-/***/ }),
-
-/***/ "./src/Webloading/index.ts":
-/*!*********************************!*\
-  !*** ./src/Webloading/index.ts ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ WebLoading)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ \"./src/utils.ts\");\n/* harmony import */ var _draw_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../draw/index */ \"./src/draw/index.ts\");\n/* harmony import */ var _style__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style */ \"./src/Webloading/style.ts\");\n\r\n\r\n\r\nclass WebLoading {\r\n    constructor(element, options, extendLoading) {\r\n        this.options = Object.assign((0,_utils__WEBPACK_IMPORTED_MODULE_0__.getDefOptions)(), options);\r\n        this.extendLoading = extendLoading;\r\n        this.canvas = document.createElement('canvas');\r\n        this.loadingId = String('wl_' + Date.now());\r\n        this.element = element;\r\n        this.initStore();\r\n        this.init();\r\n    }\r\n    resize() {\r\n        this.canvas.width = this.element.clientWidth;\r\n        this.canvas.height = this.element.clientHeight;\r\n        this.draw();\r\n    }\r\n    close() {\r\n        let op = this.options;\r\n        this.clearStyle();\r\n        this.loadingId = null;\r\n        if (!op.pointerEvents) {\r\n            if (op.type === _utils__WEBPACK_IMPORTED_MODULE_0__.LOADING_TYPES.DOM)\r\n                this.element.style.pointerEvents = 'auto';\r\n            else\r\n                document.body.style.pointerEvents = 'auto';\r\n        }\r\n        if (op.type !== _utils__WEBPACK_IMPORTED_MODULE_0__.LOADING_TYPES.DOM)\r\n            this.extendLoading?.clearStyle();\r\n        if (this.element.$store) {\r\n            this.element.$store.model = null;\r\n            this.element.$store.hookCall.beforeColse();\r\n        }\r\n        setTimeout(() => {\r\n            if (this.element.$store?.animationId)\r\n                (0,_utils__WEBPACK_IMPORTED_MODULE_0__.clearAnimationFrame)(this.element.$store?.animationId);\r\n            if (op.type !== _utils__WEBPACK_IMPORTED_MODULE_0__.LOADING_TYPES.DOM)\r\n                this.extendLoading?.getElement().remove();\r\n            else\r\n                this.canvas.remove();\r\n            if (this.element.$store?.hookCall)\r\n                this.element.$store.hookCall.colsed();\r\n        }, op.delayColse);\r\n    }\r\n    init() {\r\n        this.initStyle();\r\n        this.draw();\r\n    }\r\n    clearStyle() {\r\n        this.canvas.style.opacity = '0';\r\n        this.canvas.style.zIndex = '-2001';\r\n    }\r\n    initStyle() {\r\n        let op = this.options;\r\n        let elementW = this.element.clientWidth, elementH = this.element.clientHeight, readElementStyle = window.getComputedStyle(this.element), elementStyle = this.element.style, canvasStyle = this.canvas.style;\r\n        this.element.loadingId = this.loadingId;\r\n        if (!op.pointerEvents) {\r\n            if (op.type === _utils__WEBPACK_IMPORTED_MODULE_0__.LOADING_TYPES.DOM)\r\n                this.element.style.pointerEvents = 'none';\r\n            else\r\n                document.body.style.pointerEvents = 'none';\r\n        }\r\n        if (!readElementStyle.position || readElementStyle.position === 'static')\r\n            elementStyle.position = 'relative';\r\n        this.canvas.id = this.loadingId;\r\n        document.styleSheets[0].insertRule(_style__WEBPACK_IMPORTED_MODULE_2__[\"default\"]);\r\n        this.canvas.style.animation = `wl_show ${op.delayColse / 1000}s linear`;\r\n        canvasStyle.position = 'absolute';\r\n        canvasStyle.left = `${op.pointerEvents ? 0 : this.element.scrollLeft}px`;\r\n        canvasStyle.top = `${op.pointerEvents ? 0 : this.element.scrollTop}px`;\r\n        canvasStyle.zIndex = op.zIndex;\r\n        canvasStyle.transition = `${op.delayColse / 1000}s`;\r\n        canvasStyle.backgroundColor = op.bgColor;\r\n        canvasStyle.borderRadius = readElementStyle.borderRadius;\r\n        this.canvas.width = elementW;\r\n        this.canvas.height = elementH;\r\n        this.element.append(this.canvas);\r\n    }\r\n    draw() {\r\n        let w = this.canvas.offsetWidth, h = this.canvas.offsetHeight;\r\n        if (this.element.$store) {\r\n            (0,_draw_index__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(w, h, this.canvas, this.options, this.element.$store);\r\n        }\r\n        else {\r\n            _utils__WEBPACK_IMPORTED_MODULE_0__.$Log.error('WebLoading:canvas or ctx null');\r\n        }\r\n    }\r\n    initStore() {\r\n        this.element.$store = {\r\n            options: this.options,\r\n            element: this.element,\r\n            animationId: undefined,\r\n            loadingId: this.loadingId,\r\n            model: null,\r\n            hookCall: {\r\n                beforeColse: () => { },\r\n                colsed: () => { }\r\n            }\r\n        };\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/Webloading/index.ts?");
-
-/***/ }),
-
-/***/ "./src/Webloading/style.ts":
-/*!*********************************!*\
-  !*** ./src/Webloading/style.ts ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (`\r\n@keyframes wl_show {\r\n  0% {\r\n    opacity: 0;\r\n  }\r\n  100% {\r\n    opacity: 1;\r\n  }\r\n}\r\n`);\r\n\n\n//# sourceURL=webpack://web-loading1/./src/Webloading/style.ts?");
-
-/***/ }),
-
-/***/ "./src/draw/index.ts":
-/*!***************************!*\
-  !*** ./src/draw/index.ts ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ drawController)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ \"./src/utils.ts\");\n/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./model */ \"./src/draw/model/index.ts\");\n\r\n\r\nfunction drawController(w, h, canvas, options, store) {\r\n    try {\r\n        let model = null;\r\n        if (!options.custom)\r\n            model = new _model__WEBPACK_IMPORTED_MODULE_1__[\"default\"][options.model](w, h, canvas, options, store.element.$store);\r\n        else\r\n            model = new options.custom(w, h, canvas, options, store.element.$store);\r\n        store.model = model;\r\n    }\r\n    catch (e) {\r\n        _utils__WEBPACK_IMPORTED_MODULE_0__.$Log.error('draw error(' + e + ')');\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/draw/index.ts?");
-
-/***/ }),
-
-/***/ "./src/draw/model/BaseModel.ts":
-/*!*************************************!*\
-  !*** ./src/draw/model/BaseModel.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ BaseModel)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ \"./src/utils.ts\");\n\r\nclass BaseModel {\r\n    constructor(w, h, canvas, options, store) {\r\n        this.w = w;\r\n        this.h = h;\r\n        this.canvas = canvas;\r\n        this.ctx = canvas.getContext('2d');\r\n        this.options = options;\r\n        this.store = store;\r\n        this.webLog = _utils__WEBPACK_IMPORTED_MODULE_0__.$Log;\r\n        this.stepClear = 1;\r\n        this._$initPoint();\r\n    }\r\n    initOptions(options, limits) {\r\n        this.options = Object.assign(options, this.options);\r\n        this.store.options = this.options;\r\n        if (limits && limits.length) {\r\n            limits.forEach((l) => {\r\n                let mayKey = this.options[l.key];\r\n                if (!(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(mayKey) && !l.limit(mayKey))\r\n                    _utils__WEBPACK_IMPORTED_MODULE_0__.$Log.warn(l.message);\r\n            });\r\n        }\r\n    }\r\n    _$initPoint() {\r\n        this.clearRect();\r\n        let op = this.options;\r\n        this.ctx.fillStyle = op.themeColor;\r\n        this.ctx.strokeStyle = op.themeColor;\r\n        this.ctx.shadowColor = op.shadowColor;\r\n        this.ctx.font = `${op.fontSize}px ${op.fontFamily}`;\r\n        this.ctx.textAlign = 'center';\r\n        this.ctx.textBaseline = 'middle';\r\n        this.ctx.translate(this.w / 2, this.h / 2);\r\n        this.ctx.save();\r\n    }\r\n    clearRect(x, y, w_r, h) {\r\n        if (!(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(x) && !(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(y) && !(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(w_r) && !(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(h)) {\r\n            this.ctx.clearRect(x, y, w_r, h);\r\n        }\r\n        else if (!(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(x) && !(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(y) && !(0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(w_r) && (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNull)(h)) {\r\n            let calcWidth = w_r - this.stepClear;\r\n            let calcHeight = Math.sqrt(w_r * w_r - calcWidth * calcWidth);\r\n            let posX = x - calcWidth;\r\n            let posY = y - calcHeight;\r\n            let widthX = 2 * calcWidth;\r\n            let heightY = 2 * calcHeight;\r\n            if (this.stepClear <= w_r) {\r\n                this.ctx.clearRect(posX, posY, widthX, heightY);\r\n                this.stepClear += 1;\r\n                this.clearRect(x, y, w_r);\r\n            }\r\n            else {\r\n                this.stepClear = 1;\r\n            }\r\n        }\r\n        else\r\n            this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2);\r\n    }\r\n    drowRadiusRect(x, y, w, h, r) {\r\n        this.ctx.beginPath();\r\n        this.ctx.arc(x + r, y + r, r, 1 * Math.PI, 1.5 * Math.PI);\r\n        this.ctx.lineTo(x + w - r, y);\r\n        this.ctx.arc(x + w - r, y + r, r, 1.5 * Math.PI, 0);\r\n        this.ctx.lineTo(x + w, y + h - r);\r\n        this.ctx.arc(x + w - r, y + h - r, r, 0, 0.5 * Math.PI);\r\n        this.ctx.lineTo(x + r, y + h);\r\n        this.ctx.arc(x + r, y + h - r, r, 0.5 * Math.PI, Math.PI);\r\n        this.ctx.lineTo(x, y + r);\r\n        this.ctx.closePath();\r\n    }\r\n    run(fun) {\r\n        if (this.store.animationId)\r\n            this.clearAnimationFrame(this.store.animationId);\r\n        this.animationFrame(fun);\r\n    }\r\n    animationFrame(fun) {\r\n        if (!window.requestAnimationFrame) {\r\n            this.store.animationId = window.setInterval(fun, this.options.delay);\r\n        }\r\n        let endTime = Date.now() + this.options.delay;\r\n        fun.call(this);\r\n        const run = () => {\r\n            if (Date.now() > endTime) {\r\n                fun.call(this);\r\n                endTime = Date.now() + this.options.delay;\r\n            }\r\n            this.store.animationId = window.requestAnimationFrame(run);\r\n        };\r\n        this.store.animationId = window.requestAnimationFrame(run);\r\n    }\r\n    clearAnimationFrame(id) {\r\n        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.clearAnimationFrame)(id);\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/draw/model/BaseModel.ts?");
-
-/***/ }),
+(self["webpackChunkweb_loading1"] = self["webpackChunkweb_loading1"] || []).push([["src_draw_model_index_ts"],{
 
 /***/ "./src/draw/model/Bean.ts":
 /*!********************************!*\
@@ -168,89 +117,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"PATTERN_CHART\": () => (/* binding */ PATTERN_CHART),\n/* harmony export */   \"ROLL_CHART\": () => (/* binding */ ROLL_CHART),\n/* harmony export */   \"ZOOM_ACTION\": () => (/* binding */ ZOOM_ACTION)\n/* harmony export */ });\nvar ZOOM_ACTION;\r\n(function (ZOOM_ACTION) {\r\n    ZOOM_ACTION[\"SCALE\"] = \"scale\";\r\n    ZOOM_ACTION[\"WAVE\"] = \"wave\";\r\n    ZOOM_ACTION[\"HEIGHT\"] = \"height\";\r\n})(ZOOM_ACTION || (ZOOM_ACTION = {}));\r\nvar PATTERN_CHART;\r\n(function (PATTERN_CHART) {\r\n    PATTERN_CHART[\"RECT\"] = \"rect\";\r\n    PATTERN_CHART[\"ARC\"] = \"arc\";\r\n    PATTERN_CHART[\"TRIANGLE\"] = \"triangle\";\r\n    PATTERN_CHART[\"HEART\"] = \"heart\";\r\n    PATTERN_CHART[\"POLYGON\"] = \"polygon\";\r\n})(PATTERN_CHART || (PATTERN_CHART = {}));\r\nvar ROLL_CHART;\r\n(function (ROLL_CHART) {\r\n    ROLL_CHART[\"RECT\"] = \"rect\";\r\n    ROLL_CHART[\"WHEEL\"] = \"Wheel\";\r\n    ROLL_CHART[\"WINDMILL\"] = \"Windmill\";\r\n})(ROLL_CHART || (ROLL_CHART = {}));\r\n\n\n//# sourceURL=webpack://web-loading1/./src/draw/utils.ts?");
 
-/***/ }),
-
-/***/ "./src/main.ts":
-/*!*********************!*\
-  !*** ./src/main.ts ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Webloading_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Webloading/index */ \"./src/Webloading/index.ts\");\n/* harmony import */ var _ExtendLoading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExtendLoading */ \"./src/ExtendLoading/index.ts\");\n/* harmony import */ var _draw_model_BaseModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./draw/model/BaseModel */ \"./src/draw/model/BaseModel.ts\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ \"./src/utils.ts\");\n\r\n\r\n\r\n\r\nlet htmlElement = HTMLElement.prototype;\r\nlet $window = window;\r\nhtmlElement.BaseModel = _draw_model_BaseModel__WEBPACK_IMPORTED_MODULE_2__[\"default\"];\r\nhtmlElement.loading = function loading(options, extendLoading) {\r\n    let webLoading = new _Webloading_index__WEBPACK_IMPORTED_MODULE_0__[\"default\"](this, options, extendLoading);\r\n    const resize = () => {\r\n        webLoading.resize();\r\n    };\r\n    const reload = (options) => {\r\n        let op = Object.assign(webLoading.options, options);\r\n        let el = this;\r\n        let loading = extendLoading;\r\n        if (!webLoading.loadingId) {\r\n            if ($window.miniLoading && op.type !== _utils__WEBPACK_IMPORTED_MODULE_3__.LOADING_TYPES.DOM) {\r\n                loading = new _ExtendLoading__WEBPACK_IMPORTED_MODULE_1__[\"default\"](op);\r\n                el = loading.getElement();\r\n                op = Object.assign(op);\r\n            }\r\n            webLoading = new _Webloading_index__WEBPACK_IMPORTED_MODULE_0__[\"default\"](el, op, loading);\r\n        }\r\n    };\r\n    const close = () => {\r\n        webLoading.close();\r\n    };\r\n    return {\r\n        reload,\r\n        resize,\r\n        close\r\n    };\r\n};\r\n$window.miniLoading = (options) => {\r\n    return extendLoading(_utils__WEBPACK_IMPORTED_MODULE_3__.LOADING_TYPES.MINI, options);\r\n};\r\n$window.loading = (options) => {\r\n    return extendLoading(_utils__WEBPACK_IMPORTED_MODULE_3__.LOADING_TYPES.FULL, options);\r\n};\r\nfunction extendLoading(type, options) {\r\n    let op = Object.assign(options || {}, { type });\r\n    let extendLoading = new _ExtendLoading__WEBPACK_IMPORTED_MODULE_1__[\"default\"](op);\r\n    let el = extendLoading.getElement();\r\n    if (el.loading)\r\n        return el.loading(op, extendLoading);\r\n    else {\r\n        _utils__WEBPACK_IMPORTED_MODULE_3__.$Log.warn('element is not supported');\r\n        return {\r\n            reload: () => { },\r\n            resize: () => { },\r\n            close: () => { }\r\n        };\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/main.ts?");
-
-/***/ }),
-
-/***/ "./src/utils.ts":
-/*!**********************!*\
-  !*** ./src/utils.ts ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"$Log\": () => (/* binding */ $Log),\n/* harmony export */   \"LOADING_TYPES\": () => (/* binding */ LOADING_TYPES),\n/* harmony export */   \"LOG_TYPES\": () => (/* binding */ LOG_TYPES),\n/* harmony export */   \"MODEL_TYPES\": () => (/* binding */ MODEL_TYPES),\n/* harmony export */   \"clearAnimationFrame\": () => (/* binding */ clearAnimationFrame),\n/* harmony export */   \"getDefOptions\": () => (/* binding */ getDefOptions),\n/* harmony export */   \"isNull\": () => (/* binding */ isNull)\n/* harmony export */ });\nvar LOADING_TYPES;\r\n(function (LOADING_TYPES) {\r\n    LOADING_TYPES[\"FULL\"] = \"Full\";\r\n    LOADING_TYPES[\"MINI\"] = \"mini\";\r\n    LOADING_TYPES[\"DOM\"] = \"dom\";\r\n})(LOADING_TYPES || (LOADING_TYPES = {}));\r\nvar MODEL_TYPES;\r\n(function (MODEL_TYPES) {\r\n    MODEL_TYPES[\"GEAR\"] = \"Gear\";\r\n    MODEL_TYPES[\"RING\"] = \"Ring\";\r\n    MODEL_TYPES[\"Zoom\"] = \"Zoom\";\r\n    MODEL_TYPES[\"PATTERN\"] = \"Pattern\";\r\n    MODEL_TYPES[\"CLOCK\"] = \"Clock\";\r\n    MODEL_TYPES[\"BEAN\"] = \"Bean\";\r\n    MODEL_TYPES[\"ROLL\"] = \"Roll\";\r\n    MODEL_TYPES[\"IMG\"] = \"Img\";\r\n    MODEL_TYPES[\"SKELETON\"] = \"Skeleton\";\r\n})(MODEL_TYPES || (MODEL_TYPES = {}));\r\nfunction getDefOptions() {\r\n    return {\r\n        custom: null,\r\n        type: LOADING_TYPES.DOM,\r\n        model: MODEL_TYPES.RING,\r\n        miniClass: 'mini',\r\n        delayColse: 520,\r\n        optimization: false,\r\n        zIndex: '2001',\r\n        themeColor: 'rgba(64,158,255,1)',\r\n        bgColor: 'rgba(0, 0, 0, 0.8)',\r\n        shadowColor: 'rgba(64,158,255,0.6)',\r\n        shadowOffsetX: 2,\r\n        shadowOffsetY: 2,\r\n        shadowBlur: 5,\r\n        pointerEvents: false,\r\n        delay: 65,\r\n        text: '加载中...',\r\n        textGap: 8,\r\n        fontSize: 12,\r\n        fontFamily: 'Microsoft YaHei'\r\n    };\r\n}\r\nvar LOG_TYPES;\r\n(function (LOG_TYPES) {\r\n    LOG_TYPES[LOG_TYPES[\"INFO\"] = 1] = \"INFO\";\r\n    LOG_TYPES[LOG_TYPES[\"WARN\"] = 2] = \"WARN\";\r\n    LOG_TYPES[LOG_TYPES[\"ERROR\"] = 3] = \"ERROR\";\r\n})(LOG_TYPES || (LOG_TYPES = {}));\r\nclass $Log {\r\n    static info(message) {\r\n        this.call(message, LOG_TYPES.INFO);\r\n    }\r\n    static warn(message) {\r\n        this.call(message, LOG_TYPES.WARN);\r\n    }\r\n    static error(message) {\r\n        this.call(message, LOG_TYPES.ERROR);\r\n    }\r\n    static call(message, type = LOG_TYPES.INFO, config = {\r\n        color: getDefOptions().themeColor,\r\n        bgColor: getDefOptions().bgColor\r\n    }) {\r\n        let bgColor = config.bgColor;\r\n        if (type === 2)\r\n            bgColor = '#fffbe5';\r\n        if (type === 3)\r\n            bgColor = '#fff0f0';\r\n        let style = `\r\n      background:${bgColor};\r\n      font-size:14px;\r\n      color:${config.color};\r\n      border: 1px solid;`;\r\n        console.log(`%c web-loading:${message} `, style);\r\n    }\r\n}\r\nfunction isNull(value) {\r\n    return value === undefined || value === null;\r\n}\r\nfunction clearAnimationFrame(id) {\r\n    if (!window.requestAnimationFrame) {\r\n        window.clearInterval(id);\r\n    }\r\n    else {\r\n        window.cancelAnimationFrame(id);\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/utils.ts?");
-
 /***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/main.ts");
-/******/ 	
-/******/ })()
-;
+}]);

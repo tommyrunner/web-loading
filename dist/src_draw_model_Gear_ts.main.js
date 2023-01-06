@@ -1,0 +1,22 @@
+"use strict";
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(self["webpackChunkweb_loading1"] = self["webpackChunkweb_loading1"] || []).push([["src_draw_model_Gear_ts"],{
+
+/***/ "./src/draw/model/Gear.ts":
+/*!********************************!*\
+  !*** ./src/draw/model/Gear.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Gear)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ \"./src/utils.ts\");\n/* harmony import */ var _BaseModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseModel */ \"./src/draw/model/BaseModel.ts\");\n\r\n\r\nconst defaultOptions = {\r\n    ...(0,_utils__WEBPACK_IMPORTED_MODULE_0__.getDefOptions)(),\r\n    lineStartSkew: 0,\r\n    lineStart: 10,\r\n    lineEndSkew: 0,\r\n    lineEnd: 16,\r\n    lineWidth: 4,\r\n    lineCap: 'round',\r\n    lineNum: 10,\r\n    direction: true\r\n};\r\nconst limits = [\r\n    {\r\n        key: 'lineNum',\r\n        message: 'lineNum value 4-18',\r\n        limit: (key) => {\r\n            return key >= 4 && key <= 18;\r\n        }\r\n    }\r\n];\r\nclass Gear extends _BaseModel__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\r\n    constructor(w, h, canvas, options, store) {\r\n        super(w, h, canvas, options, store);\r\n        this.initOptions(defaultOptions, limits);\r\n        this.optimization(this.options.textGap + this.options.lineEnd);\r\n        this.initPoint();\r\n        this.aps = Array.from({ length: this.options.lineNum }, (_, _index) => _index);\r\n        this.run(this.draw);\r\n    }\r\n    initPoint() {\r\n        let op = this.options;\r\n        this.ctx.lineCap = op.lineCap;\r\n        this.ctx.lineWidth = op.lineWidth;\r\n        this.ctx.save();\r\n    }\r\n    draw() {\r\n        this.clearRect();\r\n        this.controller();\r\n        this.drawGear();\r\n        this.drawText();\r\n    }\r\n    controller() {\r\n        let op = this.options;\r\n        if (op.direction)\r\n            this.aps = this.aps.map((a) => (a - 1 <= 0 ? this.aps.length - 1 : a - 1));\r\n        else\r\n            this.aps = this.aps.map((a) => (a + 1 > this.aps.length ? 0 : a + 1));\r\n    }\r\n    drawGear() {\r\n        let op = this.options;\r\n        this.ctx.save();\r\n        this.ctx.shadowOffsetX = op.shadowOffsetX;\r\n        this.ctx.shadowOffsetY = op.shadowOffsetY;\r\n        this.ctx.shadowBlur = op.shadowBlur;\r\n        for (let i = 0; i < this.aps.length; i++) {\r\n            this.ctx.beginPath();\r\n            this.ctx.globalAlpha = this.aps[i] / 10;\r\n            this.ctx.moveTo(op.lineEndSkew, op.lineStart);\r\n            this.ctx.lineTo(op.lineStartSkew, op.lineEnd);\r\n            this.ctx.stroke();\r\n            this.ctx.closePath();\r\n            this.ctx.rotate((2 * Math.PI) / op.lineNum);\r\n        }\r\n        this.ctx.restore();\r\n    }\r\n    drawText() {\r\n        let op = this.options;\r\n        this.ctx.save();\r\n        this.ctx.beginPath();\r\n        let y = op.lineEnd + op.fontSize + op.textGap;\r\n        this.ctx.fillText(op.text, 0, y);\r\n        this.ctx.closePath();\r\n        this.ctx.restore();\r\n    }\r\n    optimization(textY) {\r\n        if (this.options.optimization) {\r\n            if (textY * 4 > this.h) {\r\n                this.options.lineStart = this.h / 6 - 5;\r\n                this.options.lineEnd = this.h / 6;\r\n                this.options.textGap = 2;\r\n            }\r\n        }\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://web-loading1/./src/draw/model/Gear.ts?");
+
+/***/ })
+
+}]);

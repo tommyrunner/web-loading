@@ -1,5 +1,6 @@
 import type { ElementStoreType, OptionsType } from '../types'
-import { $Log, LOG_TYPES } from '../utils'
+import { $Log } from '../utils'
+import models from './model'
 export default function drawController(
   w: number,
   h: number,
@@ -9,10 +10,7 @@ export default function drawController(
 ) {
   try {
     let model = null
-    if (!options.custom)
-      import(`./model/${options.model}.ts`).then((model) => {
-        model = new model.default(w, h, canvas, options, store.element.$store)
-      })
+    if (!options.custom) model = new (models[options.model] as any)(w, h, canvas, options, store.element.$store)
     else model = new options.custom(w, h, canvas, options, store.element.$store)
     store.model = model
   } catch (e) {

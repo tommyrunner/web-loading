@@ -11,7 +11,8 @@ title: 首页
 
 <script setup>
 import { h, ref ,onMounted} from 'vue'
-import 'web-loading1'
+// import 'web-loading-test'
+import loading from 'web-loading-test/src/loading'
 const RedDiv = (_, ctx) => h(
   'div',
   {
@@ -23,7 +24,8 @@ const msg = 'Markdown 中的 Vue'
 const count = ref(0)
 const reDiv = ref()
 onMounted(()=>{
-    console.log(reDiv.value.loading({model:'Clock'}))
+  loading(reDiv.value,{model:'Clock'})
+    // console.log(reDiv.value.loading({model:'Clock'}))
 })
 </script>
 

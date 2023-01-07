@@ -51,7 +51,7 @@ export interface LoadingType {
   close: Function
 }
 export interface HTMLElementType extends HTMLElement {
-  loading?: (options?: OptionsType, extendLoading?: MiniLoading) => LoadingType
+  loading?: (options?: OptionsType) => LoadingType
   BaseModel?: any
 }
 export interface HookCallType {

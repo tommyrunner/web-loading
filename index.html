@@ -52,13 +52,13 @@
         //   model: 'Gear'
         // })
         const loading = doc.loading({
-          model: 'Skeleton',
-          bgColor: '',
+          model: 'Gear',
+          // bgColor: '',
           pointerEvents: true
           // custom: Custom,
           // delay: 80,
         })
-        // window.addEventListener('resize', loading.resize)
+        window.addEventListener('resize', loading.resize)
         document.getElementById('start').onclick = function () {
           document.getElementById('img').setAttribute('src', 'https://www.baidu.com/img/flexible/logo/pc/result.png')
           loading.reload()

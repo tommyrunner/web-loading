@@ -7,8 +7,8 @@
 
 <script setup>
 import { h, ref ,onMounted} from 'vue'
-// import 'web-loading-test'
-import loading from 'web-loading-test/src/loading'
+import 'web-loading-test'
+// import loading from 'web-loading-test/src/loading'
 const RedDiv = (_, ctx) => h(
   'div',
   {

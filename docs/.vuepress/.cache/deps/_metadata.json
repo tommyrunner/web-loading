@@ -1,6 +1,6 @@
 {
   "hash": "bf0a2f64",
-  "browserHash": "120e9a4c",
+  "browserHash": "27e176c0",
   "optimized": {
     "@vuepress/shared": {
       "src": "../../../../node_modules/@vuepress/shared/dist/index.js",
@@ -25,6 +25,12 @@
       "file": "web-loading-test_src_loading.js",
       "fileHash": "75744566",
       "needsInterop": false
+    },
+    "web-loading-test": {
+      "src": "../../../../node_modules/web-loading-test/dist/main.js",
+      "file": "web-loading-test.js",
+      "fileHash": "75e10465",
+      "needsInterop": true
     }
   },
   "chunks": {

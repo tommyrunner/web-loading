@@ -31,6 +31,7 @@ export default class ExtendLoading {
         left:50%;
         transform:translate(-50%, -50%);
         border-radius: ${borderRadius};
+        z-index: ${op?.zIndex};
         box-shadow:
         2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
         6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),

@@ -22,25 +22,25 @@ export default class ExtendLoading {
         h = '160px'
         borderRadius = '10px'
       }
+      this.miniEl.style.cssText = `
+          position:fixed;
+          width:${w};
+          height:${h};
+          top:50%;
+          left:50%;
+          transform:translate(-50%, -50%);
+          border-radius: ${borderRadius};
+          z-index: ${op.zIndex};
+          box-shadow:
+          2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+          6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+          12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+          22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+          41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+          100px 100px 80px rgba(0, 0, 0, 0.07)
+          ;
+      `
     }
-    this.miniEl.style.cssText = `
-        position:fixed;
-        width:${w};
-        height:${h};
-        top:50%;
-        left:50%;
-        transform:translate(-50%, -50%);
-        border-radius: ${borderRadius};
-        z-index: ${op?.zIndex};
-        box-shadow:
-        2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-        6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-        12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-        22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-        41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-        100px 100px 80px rgba(0, 0, 0, 0.07)
-        ;
-    `
     $document.body.appendChild(this.miniEl)
     return this.miniEl
   }

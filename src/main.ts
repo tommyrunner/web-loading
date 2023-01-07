@@ -1,7 +1,7 @@
 import type { OptionsType, HTMLElementType, WindowType } from './types.d'
 import ExtendLoading from './ExtendLoading'
 import BaseModel from './draw/model/BaseModel'
-import { LOADING_TYPES } from './utils'
+import { LOADING_TYPES, getDefOptions } from './utils'
 import loading from './loading'
 let htmlElement: HTMLElementType = HTMLElement.prototype
 let $window: WindowType = window
@@ -21,7 +21,7 @@ $window.loading = (options?: OptionsType) => {
 }
 // 扩展加载方式
 function extendLoading(type: LOADING_TYPES, options?: OptionsType) {
-  let op = Object.assign(options || {}, { type })
+  let op = Object.assign(options || {}, getDefOptions(), { type })
   let extendLoading = new ExtendLoading(op)
   return loading(extendLoading.getElement(), op)
 }

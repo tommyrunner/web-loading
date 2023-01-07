@@ -1,7 +1,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const path = require('path')
+let env = process.env.npm_lifecycle_event
 module.exports = {
-  mode: 'development',
+  mode: env === 'dev' ? 'development' : 'production',
   entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -27,8 +29,8 @@ module.exports = {
       }
     ]
   },
-  // 热启动html   <script defer src="main.js"></script>
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html'
     })

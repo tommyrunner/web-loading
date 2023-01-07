@@ -1,41 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>foundation</title>
-  <script defer src="main.js"></script></head>
-  <body>
-    <div id="app">
-      <div id="test">123</div>
-      <div>
-        <span>1你好</span>
-        <div>
-          <span>网不好</span>
-        </div>
-        <img id="img" width="100" height="100" />
-      </div>
-      <div>
-        <span>2你好</span>
-        <div>
-          <span>网不好</span>
-        </div>
-        <img id="img" width="100" height="100" />
-      </div>
-      <div wl-show="show" style="line-height: 30px">
-        <span wl-show="show" style="min-width: 100px; min-height: 20px; display: inline-block"></span>
-        <div wl-show="show">
-          <span wl-show="show">网不好</span>
-        </div>
-        <div wl-show="show" style="width: 100px; height: 100px"></div>
-      </div>
-      <p>漂浮</p>
-    </div>
-    <div id="app2"><button>测试12</button></div>
-    <button id="start">加载</button>
-    <button id="close">停止</button>
-    <script>
-      // 测试使用
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>foundation</title><script defer="defer" src="main.js"></script></head><body><div id="app"><div id="test">123</div><div><span>1你好</span><div><span>网不好</span></div><img id="img" width="100" height="100"/></div><div><span>2你好</span><div><span>网不好</span></div><img id="img" width="100" height="100"/></div><div wl-show="show" style="line-height: 30px"><span wl-show="show" style="min-width: 100px; min-height: 20px; display: inline-block"></span><div wl-show="show"><span wl-show="show">网不好</span></div><div wl-show="show" style="width: 100px; height: 100px"></div></div><p>漂浮</p></div><div id="app2"><button>测试12</button></div><button id="start">加载</button> <button id="close">停止</button><script>// 测试使用
 
       window.onload = () => {
         let doc = document.getElementById('app')
@@ -69,11 +32,7 @@
           // mloading.close()
           document.getElementById('test').innerHTML = Math.random()
         }
-      }
-    </script>
-  </body>
-  <style>
-    #app {
+      }</script></body><style>#app {
       margin: 12px;
       padding: 12px;
       height: 200px;
@@ -96,6 +55,4 @@
     }
     .wl_mini {
       /* width: 300px !important; */
-    }
-  </style>
-</html>
+    }</style></html>

@@ -1,5 +1,7 @@
 import { defaultTheme } from '@vuepress/theme-default'
 import docsearchPlugin from './configs/docsearchPlugin'
+import navbar from './configs/navbar'
+import sidebar from './configs/sidebar'
 export default {
   // 部署才能找到相应资源
   base: '/web-loading/',
@@ -17,24 +19,8 @@ export default {
   },
   theme: defaultTheme({
     logo: '/images/logo.png',
-    navbar: [
-      {
-        text: '首页',
-        link: '/'
-      },
-      {
-        text: '指南',
-        link: '/guide/'
-      },
-      {
-        text: '示例',
-        link: '/example/'
-      },
-      {
-        text: 'GitHub',
-        link: 'https://github.com/tommyrunner/web-loading'
-      }
-    ],
+    navbar: navbar,
+    sidebar: sidebar,
     locales: {
       '/': {
         selectLanguageName: '简体中文'

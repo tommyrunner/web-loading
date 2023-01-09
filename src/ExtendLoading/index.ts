@@ -3,26 +3,26 @@ import { LOADING_TYPES } from '../utils'
 
 let $document: Document = document
 export default class ExtendLoading {
-  miniEl: HTMLElement
+  extendEl: HTMLElement
   options?: OptionsType
   constructor(options?: OptionsType) {
     this.options = options
-    this.miniEl = this.initStyle()
+    this.extendEl = this.initStyle()
   }
   private initStyle(): HTMLElementType {
-    this.miniEl = document.createElement('div')
+    this.extendEl = document.createElement('div')
     let op = this.options
     let w = '100vw',
       h = '100vh',
       borderRadius = '0px'
     if (op) {
-      this.miniEl.classList.add('wl_' + (op.miniClass || 'loading'))
+      this.extendEl.classList.add('wl_' + (op.miniClass || 'loading'))
       if (op.type === LOADING_TYPES.MINI) {
         w = '180px'
         h = '160px'
         borderRadius = '10px'
       }
-      this.miniEl.style.cssText = `
+      this.extendEl.style.cssText = `
           position:fixed;
           width:${w};
           height:${h};
@@ -41,13 +41,10 @@ export default class ExtendLoading {
           ;
       `
     }
-    $document.body.appendChild(this.miniEl)
-    return this.miniEl
+    $document.body.appendChild(this.extendEl)
+    return this.extendEl
   }
   getElement(): HTMLElementType {
-    return this.miniEl
-  }
-  clearStyle() {
-    this.miniEl.style.boxShadow = 'none'
+    return this.extendEl
   }
 }

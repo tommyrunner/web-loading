@@ -13,14 +13,11 @@ export default class WebLoading {
   element: ElementType
   // 配置options
   options: Required<OptionsType>
-  // extendLoading
-  extendLoading: ExtendLoading | undefined
   // hooks
   hooks: HooksType
-  constructor(element: HTMLElement, options?: OptionsType, extendLoading?: ExtendLoading) {
+  constructor(element: HTMLElement, options?: OptionsType) {
     // 初始化默认配置
     this.options = Object.assign(getDefOptions(), options)
-    this.extendLoading = extendLoading
     this.canvas = document.createElement('canvas')
     this.loadingId = String('wl_' + Date.now())
     this.element = element
@@ -40,12 +37,9 @@ export default class WebLoading {
     // 会触发动画
     this.clearStyle()
     this.loadingId = null
-    if (!op.pointerEvents) {
-      if (op.type === LOADING_TYPES.DOM) this.element.style.pointerEvents = 'auto'
-      else document.body.style.pointerEvents = 'auto'
+    if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
+      this.element.style.pointerEvents = 'auto'
     }
-    // 清空mini影响样式
-    if (op.type !== LOADING_TYPES.DOM) this.extendLoading?.clearStyle()
     if (store) {
       // 清除model
       store.model = null
@@ -57,8 +51,8 @@ export default class WebLoading {
     this.hooks = this.initHooksCall()
     // 清空dom
     setTimeout(() => {
-      // 如果是min，清空父元素(父元素是webLoading创建)
-      if (op.type !== LOADING_TYPES.DOM) this.extendLoading?.getElement().remove()
+      // 如果是扩展dom，清空父元素(父元素是webLoading创建)
+      if (op.type !== LOADING_TYPES.DOM) this.element.remove()
       else this.canvas.remove()
       // 关闭后回调
       this.callEvent(HOOKSCALL_KEY.COLSED)
@@ -75,6 +69,10 @@ export default class WebLoading {
     // 先视觉过渡
     this.canvas.style.opacity = '0'
     this.canvas.style.zIndex = '-2001'
+    // 清除扩展
+    if (this.options.type !== LOADING_TYPES.DOM) {
+      this.element.style.boxShadow = 'none'
+    }
   }
   private initStyle() {
     let op = this.options
@@ -86,9 +84,8 @@ export default class WebLoading {
       canvasStyle = this.canvas.style
     // 初始化元素的样式
     this.element.loadingId = this.loadingId
-    if (!op.pointerEvents) {
-      if (op.type === LOADING_TYPES.DOM) this.element.style.pointerEvents = 'none'
-      else document.body.style.pointerEvents = 'none'
+    if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
+      this.element.style.pointerEvents = 'none'
     }
     if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
     // 初始化canvas样式

@@ -20,7 +20,8 @@ features:
 
 <script setup>
 import { h, ref ,onMounted,onUnmounted} from 'vue'
-import webLoading,{miniLoading} from 'web-loading-test/src/loading'
+import 'web-loading-test'
+// import webLoading,{miniLoading} from 'web-loading-test/src/loading'
 let time = null
 let loading = null
 let occDom = null

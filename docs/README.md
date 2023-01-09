@@ -20,11 +20,24 @@ features:
 
 <script setup>
 import { h, ref ,onMounted,onUnmounted} from 'vue'
-import 'web-loading-test'
-// import webLoading,{miniLoading} from 'web-loading-test/src/loading'
-let time = null
+// import 'web-loading-test'
+import webLoading,{miniLoading,fullLoading} from 'web-loading-test/src/loading'
+// 默认样式
+let allModels = [
+    { model: 'Gear', lineWidth:6, lineStart:20, lineEnd:32},
+    { model: 'Ring',lineWidth:4, radius: 16, ringGap:16},
+    { model: 'Zoom', action:'height',zoomColors:['#f44336','#e91e63','#2196f3','#ff5722','#8bc34a']},
+    { model: 'Pattern', chartSize:18},
+    { model: 'Clock',lineWidth: 3.6, clockSize:32, clockGap:8},
+    { model: 'Bean', pointLength:25},
+    { model: 'Roll',rollSize:20,rollGap:32},
+    { model: 'Skeleton'},
+    { model: 'Img'}
+  ]
 let loading = null
 let occDom = null
+// let index = parseInt(Math.random() * allModels.length)
+let index = 7
 onMounted(()=>{
   let dom = document.getElementsByClassName('hero')[0]
    occDom = document.createElement('div')
@@ -33,12 +46,17 @@ onMounted(()=>{
   margin-top:1.8rem;
   `
   dom.insertBefore(occDom,dom.children[0])
-  // loading =  webLoading(occDom,{model:'Gear',bgColor:'',text:''})
- loading= miniLoading()
- loading.close()
+  loading =  webLoading(occDom,getOption())
 })
 onUnmounted(()=>{
+  if(loading) loading.close()
   if(occDom) occDom.remove()
-  if(time) clearInterval(time)
 })
+function getOption(){
+  let publicOption = {
+    bgColor: '', 
+    text: ''
+  }
+  return Object.assign(publicOption,allModels[index])
+}
 </script>

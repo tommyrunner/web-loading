@@ -1,6 +1,7 @@
-import type { ElementType, OptionsType } from '../types'
-import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log } from '../utils'
-import MiniLoading from '../ExtendLoading/index'
+import type { ElementType, HooksCallType, OptionsType } from '../types'
+import type { HooksType } from './type'
+import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log, HOOKSCALL_KEY } from '../utils'
+import ExtendLoading from '../ExtendLoading/index'
 import drawController from '../draw/index'
 import style from './style'
 export default class WebLoading {
@@ -13,14 +14,17 @@ export default class WebLoading {
   // 配置options
   options: Required<OptionsType>
   // extendLoading
-  extendLoading: MiniLoading | undefined
-  constructor(element: HTMLElement, options?: OptionsType, extendLoading?: MiniLoading) {
+  extendLoading: ExtendLoading | undefined
+  // hooks
+  hooks: HooksType
+  constructor(element: HTMLElement, options?: OptionsType, extendLoading?: ExtendLoading) {
     // 初始化默认配置
     this.options = Object.assign(getDefOptions(), options)
     this.extendLoading = extendLoading
     this.canvas = document.createElement('canvas')
     this.loadingId = String('wl_' + Date.now())
     this.element = element
+    this.hooks = this.initHooksCall()
     // 初始化储存属性
     this.initStore()
     this.init()
@@ -32,6 +36,8 @@ export default class WebLoading {
   }
   close() {
     let op = this.options
+    let store = this.element.$store
+    // 会触发动画
     this.clearStyle()
     this.loadingId = null
     if (!op.pointerEvents) {
@@ -40,21 +46,22 @@ export default class WebLoading {
     }
     // 清空mini影响样式
     if (op.type !== LOADING_TYPES.DOM) this.extendLoading?.clearStyle()
-    if (this.element.$store) {
+    if (store) {
       // 清除model
-      this.element.$store.model = null
+      store.model = null
       // 关闭前回调
-      this.element.$store.hookCall.beforeColse()
+      this.callEvent(HOOKSCALL_KEY.BEFORE_COLSE)
+      // 停止 animationFrame
+      if (store.animationId) clearAnimationFrame(store.animationId)
     }
+    this.hooks = this.initHooksCall()
     // 清空dom
     setTimeout(() => {
-      // 停止 animationFrame
-      if (this.element.$store?.animationId) clearAnimationFrame(this.element.$store?.animationId)
       // 如果是min，清空父元素(父元素是webLoading创建)
       if (op.type !== LOADING_TYPES.DOM) this.extendLoading?.getElement().remove()
       else this.canvas.remove()
       // 关闭后回调
-      if (this.element.$store?.hookCall) this.element.$store.hookCall.colsed()
+      this.callEvent(HOOKSCALL_KEY.COLSED)
     }, op.delayColse)
   }
 
@@ -118,10 +125,30 @@ export default class WebLoading {
       animationId: undefined,
       loadingId: this.loadingId,
       model: null,
-      hookCall: {
-        beforeColse: () => {},
-        colsed: () => {}
+      hookCall: this.initStoreHooksCall()
+    }
+  }
+  private initHooksCall(): HooksType {
+    return {
+      [HOOKSCALL_KEY.BEFORE_COLSE]: [],
+      [HOOKSCALL_KEY.COLSED]: []
+    }
+  }
+  // 初始化hooks
+  private initStoreHooksCall(): HooksCallType {
+    return {
+      [HOOKSCALL_KEY.BEFORE_COLSE]: (fun: Function) => {
+        this.hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun)
+      },
+      [HOOKSCALL_KEY.COLSED]: (fun: (params?: any) => any) => {
+        this.hooks[HOOKSCALL_KEY.COLSED].push(fun)
       }
     }
+  }
+  // 触发hooks
+  private callEvent(hooksKey: HOOKSCALL_KEY) {
+    this.hooks[hooksKey].forEach((event: Function) => {
+      event()
+    })
   }
 }

@@ -52,8 +52,8 @@
         //   model: 'Gear'
         // })
         const loading = doc.loading({
-          model: 'Gear',
-          // bgColor: '',
+          model: 'Skeleton',
+          bgColor: '',
           pointerEvents: true
           // custom: Custom,
           // delay: 80,
@@ -66,6 +66,7 @@
         }
         document.getElementById('close').onclick = function () {
           loading.close()
+          // loading.reload()
           // mloading.close()
           document.getElementById('test').innerHTML = Math.random()
         }

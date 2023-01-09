@@ -1,6 +1,5 @@
-import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES } from './utils'
+import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES, HOOKSCALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
-import MiniLoading from './ExtendLoading'
 export interface OptionsType {
   // 自定义
   custom?: any
@@ -54,16 +53,16 @@ export interface HTMLElementType extends HTMLElement {
   loading?: (options?: OptionsType) => LoadingType
   BaseModel?: any
 }
-export interface HookCallType {
-  beforeColse: Function
-  colsed: Function
+// 映射key为enum
+export type HooksCallType<T extends string = HOOKSCALL_KEY> = {
+  [key in T]: Function
 }
 export interface ElementStoreType {
   element: ElementType
   options: OptionsType
   animationId: number | undefined
   loadingId: string | null
-  hookCall: HookCallType
+  hookCall: HooksCallType
   model: BaseModel<OptionsType> | null
 }
 export interface ElementType extends HTMLElement {

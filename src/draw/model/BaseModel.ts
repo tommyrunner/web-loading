@@ -20,6 +20,7 @@ export default class BaseModel<T extends OptionsType> {
     this.webLog = $Log
     this.stepClear = 1
     this._$initPoint()
+    this._$initEvent()
   }
   /**
    * 初始化options默认值
@@ -42,18 +43,29 @@ export default class BaseModel<T extends OptionsType> {
   private _$initPoint() {
     this.clearRect()
     // 默认主题色
-    let op = this.options
+    let op = this.options,
+      defW = this.canvas.width,
+      defH = this.canvas.height
     this.ctx.fillStyle = op.themeColor!
     this.ctx.strokeStyle = op.themeColor!
     this.ctx.shadowColor = op.shadowColor!
     this.ctx.font = `${op.fontSize}px ${op.fontFamily}`
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'middle'
-    this.ctx.translate(this.w / 2, this.h / 2)
+    this.ctx.translate(defW / 2, defH / 2)
     this.ctx.save()
+  }
+  // 初始化默认事件
+  private _$initEvent() {
+    // 关闭前清空画布
+    this.store.hookCall.beforeColse(() => {
+      this.clearRect()
+    })
   }
   // 清空画布
   clearRect(x?: number, y?: number, w_r?: number, h?: number) {
+    let defW = this.canvas.width,
+      defH = this.canvas.height
     // 因为已经把起点设置到中心，所需要扩张
     if (!isNull(x) && !isNull(y) && !isNull(w_r) && !isNull(h)) {
       this.ctx.clearRect(x, y, w_r, h)
@@ -73,7 +85,7 @@ export default class BaseModel<T extends OptionsType> {
       } else {
         this.stepClear = 1
       }
-    } else this.ctx.clearRect(-this.w, -this.h, this.w * 2, this.h * 2)
+    } else this.ctx.clearRect(-defW, -defH, defW * 2, defH * 2)
   }
   /**
    * 绘制圆角矩形

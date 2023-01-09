@@ -39,7 +39,6 @@ export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
     this.initPoint()
     this.controller(this.store.element.children)
     this.run(this.draw)
-    console.dir(store.element)
   }
   initPoint() {
     let op = this.options

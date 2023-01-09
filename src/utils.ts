@@ -49,6 +49,11 @@ export function getDefOptions(): Required<OptionsType> {
     fontFamily: 'Microsoft YaHei'
   }
 }
+export enum HOOKSCALL_KEY {
+  BEFORE_COLSE = 'beforeColse',
+  COLSED = 'colsed'
+}
+
 export enum LOG_TYPES {
   INFO = 1,
   WARN = 2,

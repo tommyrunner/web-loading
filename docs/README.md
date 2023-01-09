@@ -23,18 +23,19 @@ import { h, ref ,onMounted,onUnmounted} from 'vue'
 import webLoading from 'web-loading-test/src/loading'
 let time = null
 let loading = null
+let occDom = null
 onMounted(()=>{
   let dom = document.getElementsByClassName('hero')[0]
-  let occDom = document.createElement('div')
+   occDom = document.createElement('div')
   occDom.style.cssText = `
   height:300px;
   margin-top:1.8rem;
   `
   dom.insertBefore(occDom,dom.children[0])
-  loading =  webLoading(occDom,{model:'Bean',bgColor:'',text:'', lineStart:20,lineEnd:32})
-  loading.close()
-  setTimeout(()=>{
-    loading.reload({model:'Bean'})
-  },1000)
+  loading =  webLoading(occDom,{model:'Gear',bgColor:'',text:''})
+})
+onUnmounted(()=>{
+  if(occDom) occDom.remove()
+  if(time) clearInterval(time)
 })
 </script>

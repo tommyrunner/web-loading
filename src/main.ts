@@ -1,8 +1,7 @@
 import type { OptionsType, HTMLElementType, WindowType } from './types.d'
-import ExtendLoading from './ExtendLoading'
 import BaseModel from './draw/model/BaseModel'
-import { LOADING_TYPES, getDefOptions } from './utils'
-import loading from './loading'
+import { LOADING_TYPES } from './utils'
+import loading, { _$extendLoading } from './loading'
 let htmlElement: HTMLElementType = HTMLElement.prototype
 let $window: WindowType = window
 htmlElement.BaseModel = BaseModel
@@ -13,15 +12,9 @@ htmlElement.loading = function (options?: OptionsType) {
 }
 // 移动端
 $window.miniLoading = (options?: OptionsType) => {
-  return extendLoading(LOADING_TYPES.MINI, options)
+  return _$extendLoading(LOADING_TYPES.MINI, options)
 }
 // 全屏
-$window.loading = (options?: OptionsType) => {
-  return extendLoading(LOADING_TYPES.FULL, options)
-}
-// 扩展加载方式
-function extendLoading(type: LOADING_TYPES, options?: OptionsType) {
-  let op = Object.assign(options || {}, getDefOptions(), { type })
-  let extendLoading = new ExtendLoading(op)
-  return loading(extendLoading.getElement(), op)
+$window.fullLoading = (options?: OptionsType) => {
+  return _$extendLoading(LOADING_TYPES.FULL, options)
 }

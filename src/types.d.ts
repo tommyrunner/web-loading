@@ -41,7 +41,7 @@ export interface OptionsType {
   pointerEvents?: boolean
 }
 export interface WindowType extends Window {
-  loading?: (options: OptionsType) => LoadingType
+  fullLoading?: (options: OptionsType) => LoadingType
   miniLoading?: (options: OptionsType) => LoadingType
 }
 export interface LoadingType {

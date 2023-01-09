@@ -35,8 +35,8 @@ export function _$extendLoading(type: LOADING_TYPES, options?: OptionsType) {
   return loading(extendLoading.getElement(), op)
 }
 export function fullLoading(options?: OptionsType) {
-  _$extendLoading(LOADING_TYPES.FULL, options)
+  return _$extendLoading(LOADING_TYPES.FULL, options)
 }
 export function miniLoading(options?: OptionsType) {
-  _$extendLoading(LOADING_TYPES.MINI, options)
+  return _$extendLoading(LOADING_TYPES.MINI, options)
 }

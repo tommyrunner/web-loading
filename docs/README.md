@@ -20,7 +20,7 @@ features:
 
 <script setup>
 import { h, ref ,onMounted,onUnmounted} from 'vue'
-import webLoading from 'web-loading-test/src/loading'
+import webLoading,{miniLoading} from 'web-loading-test/src/loading'
 let time = null
 let loading = null
 let occDom = null
@@ -32,7 +32,9 @@ onMounted(()=>{
   margin-top:1.8rem;
   `
   dom.insertBefore(occDom,dom.children[0])
-  loading =  webLoading(occDom,{model:'Gear',bgColor:'',text:''})
+  // loading =  webLoading(occDom,{model:'Gear',bgColor:'',text:''})
+ loading= miniLoading()
+ loading.close()
 })
 onUnmounted(()=>{
   if(occDom) occDom.remove()

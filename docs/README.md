@@ -1,7 +1,8 @@
 ---
 home: true
-lang: zh-CN
 title: 首页
+heroImage: '/images/occ.png'
+lastUpdated: true
 actions:
   - text: 快速上手
     link: /guide/
@@ -18,10 +19,11 @@ features:
     details: WebLoading默认有许多model，主要通过Canvas方式绘制，同时，提供了Custom自定义方式，并提供继承Class。
 ---
 
+<RedDiv class="occ" ref="occRef"></RedDiv>
+
 <script setup>
-import { h, ref ,onMounted,onUnmounted} from 'vue'
-// import 'web-loading-test'
-import webLoading,{miniLoading,fullLoading} from 'web-loading-test/src/loading'
+import { ref, onMounted,onUnmounted} from 'vue'
+import webLoading from 'web-loading-test/src/loading'
 // 默认样式
 let allModels = [
   { model: 'Gear', lineWidth: 6, lineStart: 20, lineEnd: 32 },
@@ -34,17 +36,11 @@ let allModels = [
   { model: 'Img', width: 68, height: 68 }
 ]
 let loading = null
-let occDom = null
+let occRef = ref(null)
+
 let index = parseInt(Math.random() * allModels.length)
 onMounted(()=>{
-  let dom = document.getElementsByClassName('hero')[0]
-   occDom = document.createElement('div')
-  occDom.style.cssText = `
-  height:300px;
-  margin-top:1.8rem;
-  `
-  dom.insertBefore(occDom,dom.children[0])
-  loading =  webLoading(occDom,getOption())
+  loading =  webLoading(occRef.value,getOption())
 })
 onUnmounted(()=>{
   if(loading) loading.close()
@@ -58,3 +54,13 @@ function getOption(){
   return Object.assign(publicOption,allModels[index])
 }
 </script>
+<style>
+  .occ{
+    position: absolute;
+    left: 50%;
+    top: 12%;
+    width: 300px;
+    height: 300px;
+    transform: translate(-50%);
+  }
+</style>

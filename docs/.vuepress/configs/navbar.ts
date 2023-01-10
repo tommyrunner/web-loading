@@ -12,6 +12,20 @@ export default [
     link: '/example/'
   },
   {
+    text: '文档',
+    link: '/document/',
+    children: [
+      {
+        text: '使用',
+        link: '/document/use/'
+      },
+      {
+        text: 'model',
+        link: '/document/model/'
+      }
+    ]
+  },
+  {
     text: 'GitHub',
     link: 'https://github.com/tommyrunner/web-loading'
   }

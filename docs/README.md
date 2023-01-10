@@ -19,7 +19,9 @@ features:
     details: WebLoading默认有许多model，主要通过Canvas方式绘制，同时，提供了Custom自定义方式，并提供继承Class。
 ---
 
-<RedDiv class="occ" ref="occRef"></RedDiv>
+<RedDiv class="occ" ref="occRef">
+  <img src="/images/logo.png" ref="occImgRef">
+</RedDiv>
 
 <script setup>
 import { ref, onMounted,onUnmounted,getCurrentInstance,nextTick} from 'vue'
@@ -36,13 +38,22 @@ let allModels = [
 ]
 let loading = null
 let occRef = ref(null)
+let occImgRef = ref(null)
 const {ctx} = getCurrentInstance()
 let index = parseInt(Math.random() * allModels.length)
+let callTime = null
 onMounted(()=>{
+  // 300毫秒内如果还没加载才消失默认图标
+  occImgRef.value.style.opacity = 0
+  callTime = setTimeout(()=>{
+    occImgRef.value.classList.add('show-img') 
+  },300)
   // 该插件用到了操作dom，只能异步引入
-   import('web-loading-test/src/loading').then((webLoading) => {
-       loading =  webLoading.default(occRef.value,getOption())
-    })
+  import('web-loading-test/src/loading').then((webLoading) => {
+    clearTimeout(callTime)
+    occImgRef.value.classList.add('hide-img') 
+    loading =  webLoading.default(occRef.value,getOption())
+  })
 })
 onUnmounted(()=>{
   if(loading) loading.close()
@@ -63,5 +74,17 @@ function getOption(){
     width: 300px;
     height: 300px;
     transform: translate(-50%);
+  }
+  .occ .show-img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 1 !important;
+    transition: 0.25s !important;
+  }
+  .occ .hide-img{
+    opacity: 0 !important;
+    transform: translate(-50%,-50%) scale(0) !important;
   }
 </style>

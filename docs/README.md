@@ -22,8 +22,7 @@ features:
 <RedDiv class="occ" ref="occRef"></RedDiv>
 
 <script setup>
-import { ref, onMounted,onUnmounted} from 'vue'
-import webLoading from 'web-loading-test/src/loading'
+import { ref, onMounted,onUnmounted,getCurrentInstance,nextTick} from 'vue'
 // 默认样式
 let allModels = [
   { model: 'Gear', lineWidth: 6, lineStart: 20, lineEnd: 32 },
@@ -37,14 +36,16 @@ let allModels = [
 ]
 let loading = null
 let occRef = ref(null)
-
+const {ctx} = getCurrentInstance()
 let index = parseInt(Math.random() * allModels.length)
 onMounted(()=>{
-  loading =  webLoading(occRef.value,getOption())
+  // 该插件用到了操作dom，只能异步引入
+   import('web-loading-test/src/loading').then((webLoading) => {
+       loading =  webLoading.default(occRef.value,getOption())
+    })
 })
 onUnmounted(()=>{
   if(loading) loading.close()
-  if(occDom) occDom.remove()
 })
 function getOption(){
   let publicOption = {
@@ -58,7 +59,7 @@ function getOption(){
   .occ{
     position: absolute;
     left: 50%;
-    top: 12%;
+    top: 10%;
     width: 300px;
     height: 300px;
     transform: translate(-50%);

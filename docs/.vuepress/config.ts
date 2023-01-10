@@ -8,7 +8,7 @@ export default {
   title: 'WebLoading',
   description: 'web 加载动画',
   plugins: [docsearchPlugin],
-  head: [['link', { rel: 'icon', href: '/images/logo.png' }]],
+  head: [['link', { rel: 'icon', href: '/web-loading/images/logo.png' }]],
   locales: {
     '/': {
       lang: 'zh-CN'

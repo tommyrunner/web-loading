@@ -12,15 +12,24 @@ export enum LOADING_TYPES {
  * 支持的 model
  */
 export enum MODEL_TYPES {
+  // 齿轮旋转
   GEAR = 'Gear',
+  // 环形旋转
   RING = 'Ring',
-  Zoom = 'Zoom',
+  // 图形变形
+  ZOOM = 'Zoom',
+  // 多图形
   PATTERN = 'Pattern',
+  // 时钟
   CLOCK = 'Clock',
+  // 吃豆人
   BEAN = 'Bean',
+  // 翻滚
   ROLL = 'Roll',
-  IMG = 'Img',
-  SKELETON = 'Skeleton'
+  // 骨架屏
+  SKELETON = 'Skeleton',
+  // 图片
+  IMG = 'Img'
 }
 /**
  *

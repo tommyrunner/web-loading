@@ -7,7 +7,6 @@ const defaultOptions: SkeletonOptionsType = {
   skeletonAnimationColor: 'rgb(226, 226, 226)',
   radius: 5,
   animation: true,
-  skeletonMax: true,
   deep: true,
   appoint: ''
 }

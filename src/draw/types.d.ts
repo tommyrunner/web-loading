@@ -4,17 +4,17 @@ import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION } from './utils'
 export interface GearOptionsType extends OptionsType {
   // 线端
   lineStart?: number
-  // 线端偏移
-  lineStartSkew?: number
   // 线末
   lineEnd?: number
+  // 线端偏移
+  lineStartSkew?: number
   // 线末偏移
   lineEndSkew?: number
   // 线宽度
   lineWidth?: number
   // 线的样式
   lineCap?: CanvasLineCap
-  // 线个数
+  // 线数量
   lineNum?: number
   // 方向:true:顺,则反
   direction?: boolean
@@ -25,17 +25,17 @@ export interface RingOptionsType extends OptionsType {
   ringGap?: number
   // 弧线之间间隔
   arcGap?: number
-  // 环个数
+  // 线宽度
+  lineWidth?: number
+  // 环数量
   ringNum?: number
   // 半径
   radius?: number
   // 线的样式
   lineCap?: CanvasLineCap
-  // 线宽度
-  lineWidth?: number
-  // 每次旋转角度
+  // 旋转角度
   turn?: number
-  // 每个环不同角度
+  // 多个环初始角度
   ringsTurn?: Array<number>
   // 方向:true:顺,则反
   direction?: boolean
@@ -48,7 +48,7 @@ export interface ZoomOptionsType extends OptionsType {
   zoomGap?: number
   // zomm的高度
   zoomHeight?: number
-  // 环个数
+  // zoom数量
   zoomNum?: number
   // zoom的自定义颜色
   zoomColors?: Array<string>
@@ -72,10 +72,11 @@ export interface PatternOptionsType extends OptionsType {
   maxHeight?: number
 }
 export interface ClockOptionsType extends OptionsType {
-  // 计时方式
+  // 文字显示模式:time:年月日，s：秒
   textTime?: 'time' | 's' | ''
-  // 颜色
+  // 指针颜色
   lineColors?: Array<string>
+  // 线的样式
   lineCap?: CanvasLineCap
   // 线宽度
   lineWidth?: number
@@ -90,7 +91,9 @@ export interface ClockOptionsType extends OptionsType {
 }
 
 export interface BeanOptionsType extends OptionsType {
+  // bean的大小
   beanSize?: number
+  // bean里的point数量
   pointLength?: number
 }
 
@@ -99,17 +102,17 @@ export interface RollOptionsType extends OptionsType {
   rollGap?: number
   // roll大小
   rollSize?: number
-  // 是否现实child
+  // 显示影子child
   showChild?: boolean
-  // child 个数
+  // child影子数量
   childNum?: number
-  // chart
+  // 显示的图形
   chart?: ROLL_CHART
-  // Windmills 颜色并增加
+  // 图形为Windmills时的叶片颜色。
   windmills?: Array<string>
   // windmill 中心颜色
   windmillPointColor?: string
-  // 是否固定
+  // 是否中心固定
   fixad?: boolean
 }
 export interface ImageOptionsType extends OptionsType {
@@ -123,7 +126,6 @@ export interface SkeletonOptionsType extends OptionsType {
   skeletonAnimationColor: string
   radius: number
   animation: boolean
-  skeletonMax: boolean
   deep: boolean
   appoint: string
   // imgColor: string

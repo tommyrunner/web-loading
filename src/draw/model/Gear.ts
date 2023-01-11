@@ -3,10 +3,10 @@ import type { GearOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
 // 默认值
 const defaultOptions: GearOptionsType = {
-  lineStartSkew: 0,
   lineStart: 10,
-  lineEndSkew: 0,
   lineEnd: 16,
+  lineStartSkew: 0,
+  lineEndSkew: 0,
   lineWidth: 4,
   lineCap: 'round',
   lineNum: 10,

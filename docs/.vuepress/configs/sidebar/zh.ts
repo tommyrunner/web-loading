@@ -8,5 +8,10 @@ export default {
     {
       children: ['/document/use.md']
     }
+  ],
+  '/document/model.html': [
+    {
+      children: ['/document/model.md']
+    }
   ]
 }

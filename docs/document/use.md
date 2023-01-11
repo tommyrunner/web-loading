@@ -55,80 +55,31 @@ let loading = webLoading({
 
 ### 公共
 
-+ 类型
-
-```typescript
-interface OptionsType {
-  // 自定义model
-  custom?: any
-  // loading启动方式(默认DEF)[只读]
-  type?: LOADING_TYPES
-  // mini模式的class
-  miniClass?: string | null | undefined
-  // model 模块
-  model?: MODEL_TYPES
-  // 字体内容
-  text?: string
-  // 字体间距
-  textGap?: number
-  // 字体大小
-  fontSize?: number
-  // 字体类型
-  fontFamily?: string
-  // 动画延迟
-  delay?: number
-  // 关闭动画延迟
-  delayColse?: number
-  // 优化处理
-  optimization?: boolean
-  // loading层级
-  zIndex?: string
-  // 主题色
-  themeColor?: string
-  // 背景色
-  bgColor?: string
-  // 阴影色
-  shadowColor?: string
-  // 阴影X
-  shadowOffsetX?: number
-  // 阴影Y
-  shadowOffsetY?: number
-  // 阴影范围
-  shadowBlur?: number
-  // 事件穿透(DOM方式)
-  pointerEvents?: boolean
-}
-```
-
-+ 默认值
-
-```typescript
-{
-    custom: null,
-    type: LOADING_TYPES.DOM,
-    miniClass: 'mini',
-    model: MODEL_TYPES.RING,
-    text: '加载中...',
-    textGap: 8,
-    fontSize: 12,
-    fontFamily: 'Microsoft YaHei',
-    delay: 65,
-    delayColse: 520,
-    optimization: false,
-    zIndex: '2001',
-    themeColor: 'rgba(64,158,255,1)',
-    bgColor: 'rgba(0, 0, 0, 0.8)',
-    shadowColor: 'rgba(64,158,255,0.6)',
-    shadowOffsetX: 2,
-    shadowOffsetY: 2,
-    shadowBlur: 5,
-    pointerEvents: false
-}
-```
+| 属性              | 类型                          | 默认值                 | 备注                            |
+| ----------------- | ----------------------------- | ---------------------- | ------------------------------- |
+| `custom?:`        | `any`                         | `null`                 | 自定义**model**(**优先级最高**) |
+| `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式[**只读**]              |
+| `miniClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class** |
+| `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | model模块                       |
+| `text?:`          | `string`                      | `加载中...`            | 字体内容                        |
+| `textGap?:`       | `number`                      | `8`                    | 字体间距                        |
+| `fontSize?:`      | `number`                      | `12`                   | 字体大小                        |
+| `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | 字体类型                        |
+| `delay?:`         | `number`                      | `65`                   | 动画延迟                        |
+| `delayColse?:`    | `number`                      | `520`                  | 关闭动画延迟                    |
+| `optimization?:`  | `boolean`                     | `false`                | 优化处理（暂不支持）            |
+| `zIndex?:`        | `string`                      | `2001`                 | loading层级                     |
+| `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | 主题色                          |
+| `bgColor?:`       | `string`                      | `rgba(0, 0, 0, 0.8)`   | 背景色                          |
+| `shadowColor?:`   | `string`                      | `rgba(64,158,255,0.6)` | 阴影色                          |
+| `shadowOffsetX?:` | `number`                      | `2`                    | 阴影X                           |
+| `shadowOffsetY?:` | `number`                      | `2`                    | 阴影Y                           |
+| `shadowBlur?:`    | `number`                      | `5`                    | 阴影范围                        |
+| `pointerEvents?:` | `boolean`                     | `false`                | 事件穿透(**DOM**方式)           |
 
 ### model
 
-【链接】
+[model配置详情](./model.md)
 
 ## custom自定义model
 
@@ -299,6 +250,7 @@ const limits = [
         key: 'size',
         message: '16 >= size(default:10) >= 5',
         limit: (key: any) => {
+            // 如果触发也可以强制修改
             return  16 >= key && key >= 5
         }
     },
@@ -392,6 +344,17 @@ this.clearAnimationFrame(this.store.animationId)
 ```
 
 > 传入的id是`requestAnimationFrame`返回的`id`，`WebLoading`在store中已经保存。
+
+### 动态的options
+
+> 无论是初始化还是在`run`函数中，修改`options`都是实时动态的，以此可以控制`requestAnimationFrame`触发的延迟时间不那么规律。
+
+```typescript
+this.run(()=>{
+    // 动态修改delay会影响run函数的触发
+    this.options.delay = 10
+})
+```
 
 ### `BaseModel`自定义例子
 

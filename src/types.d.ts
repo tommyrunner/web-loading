@@ -1,13 +1,13 @@
 import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES, HOOKSCALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
 export interface OptionsType {
-  // 自定义
+  // 自定义model
   custom?: any
-  // loading显示方式(默认DEF)
+  // loading启动方式(默认DEF)[只读]
   type?: LOADING_TYPES
   // mini模式的class
   miniClass?: string | null | undefined
-  // model 模式
+  // model 模块
   model?: MODEL_TYPES
   // 字体内容
   text?: string
@@ -15,15 +15,15 @@ export interface OptionsType {
   textGap?: number
   // 字体大小
   fontSize?: number
-  // 字体
+  // 字体类型
   fontFamily?: string
-  // 初始延迟
+  // 动画延迟
   delay?: number
-  // 过渡关闭动画时间
+  // 关闭动画延迟
   delayColse?: number
   // 优化处理
   optimization?: boolean
-  // 动画层级
+  // loading层级
   zIndex?: string
   // 主题色
   themeColor?: string
@@ -37,7 +37,7 @@ export interface OptionsType {
   shadowOffsetY?: number
   // 阴影范围
   shadowBlur?: number
-  // DOM方式的事件穿透
+  // 事件穿透(DOM方式)
   pointerEvents?: boolean
 }
 export interface WindowType extends Window {

@@ -30,8 +30,13 @@ export function getDefOptions(): Required<OptionsType> {
   return {
     custom: null,
     type: LOADING_TYPES.DOM,
-    model: MODEL_TYPES.RING,
     miniClass: 'mini',
+    model: MODEL_TYPES.RING,
+    text: '加载中...',
+    textGap: 8,
+    fontSize: 12,
+    fontFamily: 'Microsoft YaHei',
+    delay: 65,
     delayColse: 520,
     optimization: false,
     zIndex: '2001',
@@ -41,12 +46,7 @@ export function getDefOptions(): Required<OptionsType> {
     shadowOffsetX: 2,
     shadowOffsetY: 2,
     shadowBlur: 5,
-    pointerEvents: false,
-    delay: 65,
-    text: '加载中...',
-    textGap: 8,
-    fontSize: 12,
-    fontFamily: 'Microsoft YaHei'
+    pointerEvents: false
   }
 }
 export enum HOOKSCALL_KEY {

@@ -58,11 +58,17 @@ export type HooksCallType<T extends string = HOOKSCALL_KEY> = {
   [key in T]: Function
 }
 export interface ElementStoreType {
+  // 绑定的元素
   element: ElementType
+  // 储存最终合并的options参数
   options: OptionsType
+  // 用于记录animation状态
   animationId: number | undefined
+  // 记录loading元素id
   loadingId: string | null
+  // `loading`的钩子函数
   hookCall: HooksCallType
+  // 正在使用的model
   model: BaseModel<OptionsType> | null
 }
 export interface ElementType extends HTMLElement {

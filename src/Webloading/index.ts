@@ -48,7 +48,6 @@ export default class WebLoading {
       // 停止 animationFrame
       if (store.animationId) clearAnimationFrame(store.animationId)
     }
-    this.hooks = this.initHooksCall()
     // 清空dom
     setTimeout(() => {
       // 如果是扩展dom，清空父元素(父元素是webLoading创建)
@@ -56,6 +55,8 @@ export default class WebLoading {
       else this.canvas.remove()
       // 关闭后回调
       this.callEvent(HOOKSCALL_KEY.COLSED)
+      // 清空hooks
+      this.hooks = this.initHooksCall()
     }, op.delayColse)
   }
 

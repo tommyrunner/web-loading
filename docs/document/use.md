@@ -1,8 +1,8 @@
-> 这里的使用都以单独引入为例，全局引入使用类似 [链接]
+> 这里的使用都以单独引入为例，全局引入使用类似 [链接]。
 
 # `WebLoading`
 
-> 无论是`DOM`还是`FULL`、`MINI`最终都会走`WebLoading`
+> 无论是`DOM`还是`FULL`、`MINI`最终都会走`WebLoading`。
 
 ```typescript
 import webLoading from 'web-loading/src/loading'
@@ -12,11 +12,11 @@ let loading = webLoading(dom)
 console.log(loading)
 ```
 
-> `loading`：`reload`、`resize`、`close`函数
+> `loading`：`reload`、`resize`、`close`函数。
 
 ## reload
 
-> 重新加载`loading`
+> 重新加载`loading`。
 
 + 参数
   + `options?:OptionsType`
@@ -25,15 +25,15 @@ console.log(loading)
 
 ## resize
 
-> 重新计算并绘制`loading`大小
+> 重新计算并绘制`loading`大小。
 
 + 参数：无
 
-> `resize`会从绑定的`HtmlElement`中重新获取大小并重新绘制，此函数不会重新实例`WebLoading`与`reload`业务场景不同，例如`window.addEventListener('resize', loading.resize)`可能会使用到
+> `resize`会从绑定的`HtmlElement`中重新获取大小并重新绘制，此函数不会重新实例`WebLoading`与`reload`业务场景不同，例如`window.addEventListener('resize', loading.resize)`可能会使用到。
 
 ## close
 
-> 关闭`loading`
+> 关闭`loading。`
 
 + 参数：无
 
@@ -130,6 +130,8 @@ interface OptionsType {
 
 # custom自定义model
 
+## 例子
+
 + 自定义
 
 ```typescript
@@ -138,12 +140,18 @@ import { OptionsType, ElementStoreType } from "web-loading/src/types.d";
 import BaseModel from "web-loading/src/draw/model/BaseModel";
 // 2?.如果自己的options需要自定义参数，定义options类型
 interface CustomOptionsType extends OptionsType {
-  size: number;
+  size?: number;
 }
 // 3.自定义model(如果无需自定义options参数，使用OptionsType即可)
+// 3.1?. 定义默认值
+let defOptions: CustomOptionsType = {
+  size: 10, // 定义默认值
+};
 class CustomLoading extends BaseModel<CustomOptionsType> {
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
         super(w, h, canvas, options, store);
+        // 3.2?. 初始化默认值
+        this.initOptions(defOptions);
         this.run(this.draw);
     }
     draw() {
@@ -155,19 +163,7 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 ```
 
 > + `BaseModel`是自定义继承类，如果是全局引入情况下，元素中是挂有`BaseModel`属性的。
-> + `WebLoading`调用`custom`的时候会自动注入相关参数。
-
-`BaseModel`参数
-
-| 参数    | 类型                          | 备注                                                         |
-| ------- | ----------------------------- | ------------------------------------------------------------ |
-| w       | `number`                      | 画布宽度                                                     |
-| h       | `number`                      | 画布高度                                                     |
-| canvas  | `HTMLCanvasElement`           | 画布元素，`BaseModel`默认以及获取了`2d`的上下文，但您还可以根据画布元素获取其他上下文 |
-| options | `Required<CustomOptionsType>` | `Required`标注你的参数不为空方便使用，                       |
-| store   | `ElementStoreType`            |                                                              |
-
-
+> + 这里如果自定义的**model**无需`options`参数，可以省略**2、3.1、3.2、4.2**步骤。
 
 + loading
 
@@ -176,12 +172,61 @@ import { LoadingType} from "web-loading/src/types.d";
 import { MODEL_TYPES } from "web-loading/src/utils";
 import webLoading from 'web-loading/src/loading'
 let dom:HtmlElement = document.querySelector('xxx')
-// 4?.配置自定义的options参数
+// 4.配置自定义的options参数
 let options: CustomOptionsType = {
-  // 配置custom后优先级大于model
+  // 4.1.配置custom后优先级大于model
   custom: CustomLoading,
+  // 4.2.配置自定义参数
   size: 10,
 };
 let loading:LoadingType = webLoading(options)
 ```
+
+## `BaseModel`
+
+### `BaseModel`参数
+
+> `WebLoading`调用`custom`的时候会自动注入相关参数。
+
+| 参数    | 类型                          | 备注                                                         |
+| ------- | ----------------------------- | ------------------------------------------------------------ |
+| w       | `number`                      | 画布宽度                                                     |
+| h       | `number`                      | 画布高度                                                     |
+| canvas  | `HTMLCanvasElement`           | 画布元素，`BaseModel`默认以及获取了`2d`的上下文，但您还可以根据画布元素获取其他上下文 |
+| options | `Required<CustomOptionsType>` | `options`是调节**model**参数，分为有**公共**参数与**model**参数最终会合并，`Required`标注你的参数不为空(已经初始值) |
+| store   | `ElementStoreType`            | [链接]                                                       |
+
+### `store:ElementStoreType`
+
+> 绘制**model**时需要用到`WebLoading`的一些**状态**。
+
+| 属性          | 类型                          | 备注                        |
+| ------------- | ----------------------------- | --------------------------- |
+| `element`     | `ElementType`                 | 绑定的元素                  |
+| `options`     | `OptionsType`                 | 储存最终合并的`options`参数 |
+| `animationId` | `number |undefined`           | 记录`animation`状态         |
+| `loadingId`   | `string|null`                 | 记录`loading`元素`id`       |
+| `hookCall`    | `HooksCallType`               | `loading`的钩子函数         |
+| `model`       | `BaseModel<OptionsType>|null` | 正在使用的**model**         |
+
+### `store.elment:ElementType`
+
+> 继承了`HTMLElement`。
+
+| 属性                 | 类型               | 备注   |
+| -------------------- | ------------------ | ------ |
+| `loadingId`          | `string|null`      | [链接] |
+| `$store`             | `ElementStoreType` | [链接] |
+| `HTMLElement属性...` | ...                | ...    |
+
+### `store.hookCall:HooksCallType`
+
+> `WebLoading`关闭时触发的钩子函数。
+>
+> `HOOKSCALL_KEY`枚举。
+
+| 属性           | 枚举值        | 类型       | 备注               |
+| -------------- | ------------- | ---------- | ------------------ |
+| `BEFORE_COLSE` | `beforeColse` | `Function` | 关闭前             |
+| `COLSED`       | `colsed`      | `Function` | 关闭后(消耗元素后) |
 

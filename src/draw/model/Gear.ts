@@ -12,7 +12,7 @@ const defaultOptions: GearOptionsType = {
   lineNum: 10,
   direction: true
 }
-// 值的限制
+
 const limits = [
   {
     key: 'lineNum',

@@ -118,7 +118,7 @@ export default class BaseModel<T extends OptionsType> {
    * @param fun 触发函数
    * @returns
    */
-  animationFrame(fun: Function) {
+  private animationFrame(fun: Function) {
     // 兼容
     if (!window.requestAnimationFrame) {
       this.store.animationId = window.setInterval(fun, this.options.delay)

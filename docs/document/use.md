@@ -163,6 +163,7 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 ```
 
 > + `BaseModel`是自定义继承类，如果是全局引入情况下，元素中是挂有`BaseModel`属性的。
+> + `BaseModel`内部会调用`_$initPoint`初始化画笔`translate`在中间位置。
 > + 这里如果自定义的**model**无需`options`参数，可以省略**2、3.1、3.2、4.2**步骤。
 
 + loading
@@ -228,5 +229,170 @@ let loading:LoadingType = webLoading(options)
 | 属性           | 枚举值        | 类型       | 备注               |
 | -------------- | ------------- | ---------- | ------------------ |
 | `BEFORE_COLSE` | `beforeColse` | `Function` | 关闭前             |
-| `COLSED`       | `colsed`      | `Function` | 关闭后(消耗元素后) |
+| `COLSED`       | `colsed`      | `Function` | 关闭后(删除元素后) |
 
+以自定义`custom`为例
+
+```typescript
+// 其余code省略
+class CustomLoading extends BaseModel<CustomOptionsType> {
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
+        super(w, h, canvas, options, store);
+        this.initOptions(defOptions);
+        this.run(this.draw);
+        this.store.hookCall.beforeColse(() => {
+            console.log("关闭前");
+        });
+        this.store.hookCall.colsed(() => {
+            console.log("关闭后");
+        });
+    }
+    draw() {
+        let op = this.options;
+        this.ctx.fillRect(0, 0, op.size, op.size);
+    }
+}
+```
+
+
+
+### `BaseModel`函数
+
+> `BaseModel`自带的函数主要是用户**扩展model**绘制
+
+| 函数                  | 返回 | 备注   |
+| --------------------- | ---- | ------ |
+| `initOptions`         | void | [链接] |
+| `run`                 | void | [链接] |
+| `clearRect`           | void | [链接] |
+| `drowRadiusRect`      | void | [链接] |
+| `clearAnimationFrame` | void | [链接] |
+
+### `BaseModel:initOptions`
+
+> 主要是初始化默认参数，使得绘制**model**里的`options`不会为空。
+
+| 参数       | 类型                    | 备注           |
+| ---------- | ----------------------- | -------------- |
+| `options`  | `T extends OptionsType` | 初始化默认参数 |
+| `limits?:` | `Array<LimitType>`      | 值的限制       |
+
+### `BaseModel.initOptions:LimitType`
+
+> 用于判断传入的`options`是否超出绘制的**model**预期范围。
+
+| 属性      | 类型                    | 备注                                                        |
+| --------- | ----------------------- | ----------------------------------------------------------- |
+| `key`     | `string`                | 需要判断的options的属性                                     |
+| `message` | `string`                | 如果判断生效，提示文字                                      |
+| `limit`   | `(key: any) => boolean` | 判断条件，key是options传入的值，如果返回为false代表超出预期 |
+
+以自定义`custom`为例
+
+```typescript
+// 其余code省略
+let defOptions: CustomOptionsType = {
+    size: 10, // 定义默认值
+};
+const limits = [
+    {
+        key: 'size',
+        message: '16 >= size(default:10) >= 5',
+        limit: (key: any) => {
+            return  16 >= key && key >= 5
+        }
+    },
+]
+class CustomLoading extends BaseModel<CustomOptionsType> {
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
+        super(w, h, canvas, options, store);
+        this.initOptions(defOptions,limits);
+    }
+}
+```
+
+### `BaseModel:run`
+
+> 根据`options.delay`延迟触发`requestAnimationFrame`。
+
+| 参数  | 类型       | 备注                                       |
+| ----- | ---------- | ------------------------------------------ |
+| `fun` | `Function` | 调用之前如果正处于加载，会清空上次的状态。 |
+
+```typescript
+this.run(()=>{
+    // 根据options.delay触发
+})
+```
+
+### `BaseModel:clearRect`
+
+> 清空画布
+
+| 参数    | 类型     | 备注                                           |
+| ------- | -------- | ---------------------------------------------- |
+| `x?:`   | `number` | 清空起点X                                      |
+| `y?:`   | `number` | 清空的起点Y                                    |
+| `w_r?:` | `number` | 清空终点X(宽度)，圆形清空情况下`w_r`是**半径** |
+| `h?:`   | `number` | 清空终点Y(高度)                                |
+
++ 清空全部
+
+```typescript
+this.clearRect()
+```
+
+> 考虑到绘制区域可能会超出默认宽高，全部清空会清空**两倍**的宽高。
+
++ 自定义清空
+
+```typescript
+this.clearRect(0,0,100,100)
+```
+
+> 清空从`x=0,y=0`的坐标开始，到`x=100,y=100`终止。
+
++ 圆形区域清空
+
+```js
+this.clearRect(0,0,10)
+```
+
+> 清空`x=0,y=0并且半径为10`的区域。
+
+### `BaseModel:drowRadiusRect`
+
+> 绘制含有圆角的矩形。
+
+| 参数 | 类型     | 备注        |
+| ---- | -------- | ----------- |
+| `x`  | `number` | 起点X       |
+| `y`  | `number` | 起点Y       |
+| `w`  | `number` | 终点X(宽度) |
+| `h`  | `number` | 终点Y(高度) |
+
+```typescript
+ this.drowRadiusRect(0, 0, 100, 100, 10)
+// 需要自己绘制
+this.ctx.fill()
+```
+
+> 绘制`x=0,y=0`宽高为`100`并圆角为`10`的矩形。
+
+### `BaseModel:clearAnimationFrame`
+
+> 清空(停止)`requestAnimationFrame`。
+
+| 参数 | 类型     | 备注          |
+| ---- | -------- | ------------- |
+| `id` | `number` | `animationId` |
+
+```typescript
+this.clearAnimationFrame(this.store.animationId)
+```
+
+> 传入的`id`是`requestAnimationFrame`返回的id，`WebLoading`在`store`中已经保存。
+
+### `BaseModel`自定义例子
+
+[链接]

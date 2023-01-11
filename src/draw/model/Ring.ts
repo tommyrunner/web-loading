@@ -13,7 +13,7 @@ const defaultOptions: RingOptionsType = {
   ringsTurn: [Math.PI, Math.PI / 4],
   direction: true
 }
-// 值的限制
+
 const limits = [
   {
     key: 'ringNum',

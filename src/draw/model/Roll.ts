@@ -14,7 +14,7 @@ const defaultOptions: RollOptionsType = {
   windmillPointColor: '#f2c31f',
   fixad: false
 }
-// 值的限制
+
 const limits = [
   {
     key: 'childNum',

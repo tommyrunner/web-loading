@@ -13,7 +13,7 @@ const defaultOptions: ClockOptionsType = {
   sLine: true,
   textTime: ''
 }
-// 值的限制
+
 const limits = [
   {
     key: 'lineColors',

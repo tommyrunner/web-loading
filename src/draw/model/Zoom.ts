@@ -18,7 +18,7 @@ interface ListType {
   value: number
   state: number
 }
-// 值的限制
+
 const limits = [
   {
     key: 'lineWidth',

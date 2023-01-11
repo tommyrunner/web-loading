@@ -10,7 +10,7 @@ const defaultOptions: PatternOptionsType = {
   maxHeight: 60,
   chartSize: 12
 }
-// 值的限制
+
 const limits = [
   {
     key: 'chartSize',

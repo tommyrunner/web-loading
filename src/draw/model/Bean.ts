@@ -6,7 +6,7 @@ const defaultOptions: BeanOptionsType = {
   beanSize: 15,
   pointLength: 15
 }
-// 值的限制
+
 const limits = [
   {
     key: 'pointLength',

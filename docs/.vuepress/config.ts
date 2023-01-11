@@ -1,7 +1,7 @@
 import { defaultTheme } from '@vuepress/theme-default'
 import docsearchPlugin from './configs/docsearchPlugin'
 import navbar from './configs/navbar'
-import sidebar from './configs/sidebar'
+import sidebarZh from './configs/sidebar/zh'
 export default {
   // 部署才能找到相应资源
   base: '/web-loading/',
@@ -20,9 +20,9 @@ export default {
   theme: defaultTheme({
     logo: '/images/logo.png',
     navbar: navbar,
-    sidebar: sidebar,
     locales: {
       '/': {
+        sidebar: sidebarZh,
         selectLanguageName: '简体中文'
       },
       '/us/': {

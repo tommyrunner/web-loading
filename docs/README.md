@@ -19,9 +19,9 @@ features:
     details: WebLoading默认有许多model，主要通过Canvas方式绘制，同时，提供了Custom自定义方式，并提供继承Class。
 ---
 
-<RedDiv class="occ" ref="occRef">
+<div class="occ" ref="occRef">
   <img src="/images/logo.png" ref="occImgRef">
-</RedDiv>
+</div>
 
 <script setup>
 import { ref, onMounted,onUnmounted,getCurrentInstance,nextTick} from 'vue'

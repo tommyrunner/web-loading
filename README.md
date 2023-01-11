@@ -1,5 +1,6 @@
 
 # 介绍
+[官网](https://tommyrunner.github.io/web-loading/)
 
 Web中实现loading的方式有很多种，例如使用`css`动画、`js`操作元素、`gif`图片、`svg`动画、`ui`框架中自带`loading`等等，各有所优，操作元素可能更方便，但会影响性能或其他元素，动态图片性能很好，但自定义不理想。
 

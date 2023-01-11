@@ -1,10 +1,8 @@
 import type { ElementStoreType } from '../../types'
 import type { GearOptionsType } from '../types.d'
-import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
 // 默认值
-const defaultOptions: Required<GearOptionsType> = {
-  ...getDefOptions(),
+const defaultOptions: GearOptionsType = {
   lineStartSkew: 0,
   lineStart: 10,
   lineEndSkew: 0,
@@ -24,7 +22,7 @@ const limits = [
     }
   }
 ]
-export default class Gear extends BaseModel<Required<GearOptionsType>> {
+export default class Gear extends BaseModel<GearOptionsType> {
   aps: Array<number>
   constructor(
     w: number,

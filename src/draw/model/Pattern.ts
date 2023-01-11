@@ -1,11 +1,10 @@
 import type { ElementStoreType } from '../../types'
 import type { PatternOptionsType } from '../types.d'
-import { getDefOptions } from '../../utils'
 import { PATTERN_CHART } from '../utils'
+import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
 // 默认值
-const defaultOptions: Required<PatternOptionsType> = {
-  ...getDefOptions(),
+const defaultOptions: PatternOptionsType = {
   charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
   chartColors: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
   maxHeight: 60,
@@ -42,7 +41,7 @@ interface PatternType {
   // 0:初始化,1:上升,2:下降
   nowSatate: number
 }
-export default class Pattern extends BaseModel<Required<PatternOptionsType>> {
+export default class Pattern extends BaseModel<PatternOptionsType> {
   pattern: PatternType
   constructor(
     w: number,
@@ -57,7 +56,7 @@ export default class Pattern extends BaseModel<Required<PatternOptionsType>> {
     // 3.初始化画笔
     this.initPoint()
     this.pattern = {
-      color: getDefOptions().themeColor,
+      color: this.options.themeColor,
       nowHeight: 10,
       chart: PATTERN_CHART.RECT,
       shadow: 0,

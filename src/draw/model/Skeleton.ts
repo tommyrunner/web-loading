@@ -1,23 +1,21 @@
 import type { ElementStoreType } from '../../types'
 import type { SkeletonOptionsType } from '../types'
-import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
 // 默认值
-const defaultOptions: Required<SkeletonOptionsType> = {
-  ...getDefOptions(),
+const defaultOptions: SkeletonOptionsType = {
   skeletonColor: 'rgb(240, 240, 240)',
   skeletonAnimationColor: 'rgb(226, 226, 226)',
   radius: 5,
   animation: true,
   skeletonMax: true,
   deep: true,
-  appoint: 'wl-show'
+  appoint: ''
 }
 interface SkeletonType {
   element: HTMLElement
   title: string
 }
-export default class Skeleton extends BaseModel<Required<SkeletonOptionsType>> {
+export default class Skeleton extends BaseModel<SkeletonOptionsType> {
   skeleton: Array<SkeletonType>
   colorFlow: number
   state: number

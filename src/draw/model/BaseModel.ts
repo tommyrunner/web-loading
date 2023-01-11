@@ -5,11 +5,11 @@ export default class BaseModel<T extends OptionsType> {
   h: number
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
-  options: T
+  options: Required<T>
   store: ElementStoreType
   webLog: $LogType
   private stepClear: number
-  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: T, store: ElementStoreType) {
+  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, store: ElementStoreType) {
     this.w = w
     this.h = h
     this.canvas = canvas

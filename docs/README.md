@@ -24,7 +24,7 @@ features:
 </div>
 
 <script setup>
-import { ref, onMounted,onUnmounted,getCurrentInstance,nextTick} from 'vue'
+import { ref, onMounted,onUnmounted,getCurrentInstance} from 'vue'
 // 默认样式
 let allModels = [
   { model: 'Gear', lineWidth: 6, lineStart: 20, lineEnd: 32 },
@@ -53,6 +53,11 @@ onMounted(()=>{
     clearTimeout(callTime)
     occImgRef.value.classList.add('hide-img') 
     loading =  webLoading.default(occRef.value,getOption())
+  })
+  // 初始化埋点
+  import('t-point-sdk').then((tPointSdk) => {
+    tPointSdk.close()
+    tPointSdk.init('5cd55c0861e2e7de32ca07956435f45e', 'webLoading', { https: true })
   })
 })
 onUnmounted(()=>{

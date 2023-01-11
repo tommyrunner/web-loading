@@ -30,7 +30,7 @@ npm install web-loading
 + 引入
 
 ```typescript
-import 'web-loading-test'
+import 'web-loading'
 ```
 
 + 获取元素
@@ -71,7 +71,7 @@ let loading = miniLoading()
 + 引入
 
 ```typescript
-import webLoading,{fullLoading,miniLoading} from 'web-loading-test/src/loading'
+import webLoading,{fullLoading,miniLoading} from 'web-loading/src/loading'
 ```
 
 + 获取元素

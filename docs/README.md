@@ -49,7 +49,7 @@ onMounted(()=>{
     occImgRef.value.classList.add('show-img') 
   },300)
   // 该插件用到了操作dom，只能异步引入
-  import('web-loading-test/src/loading').then((webLoading) => {
+  import('web-loading/src/loading').then((webLoading) => {
     clearTimeout(callTime)
     occImgRef.value.classList.add('hide-img') 
     loading =  webLoading.default(occRef.value,getOption())
@@ -67,6 +67,9 @@ function getOption(){
 }
 </script>
 <style>
+  .home .feature p{
+    color:#4e6e8e;
+  }
   .occ{
     position: absolute;
     left: 50%;

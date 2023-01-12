@@ -4,9 +4,9 @@ import { LogConfigType, OptionsType } from './types'
  * 支持的 loading 方式
  */
 export enum LOADING_TYPES {
-  FULL = 'Full',
-  MINI = 'mini',
-  DOM = 'dom'
+  DOM = 'dom',
+  FULL = 'full',
+  MINI = 'mini'
 }
 /**
  * 支持的 model

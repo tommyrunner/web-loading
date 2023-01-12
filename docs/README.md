@@ -55,10 +55,10 @@ onMounted(()=>{
     loading =  webLoading.default(occRef.value,getOption())
   })
   // 初始化埋点
-  import('t-point-sdk').then((tPointSdk) => {
-    tPointSdk.close()
-    tPointSdk.init('5cd55c0861e2e7de32ca07956435f45e', 'webLoading', { https: true })
-  })
+  // import('t-point-sdk').then((tPointSdk) => {
+  //   tPointSdk.close()
+  //   tPointSdk.init('5cd55c0861e2e7de32ca07956435f45e', 'webLoading', { https: true })
+  // })
 })
 onUnmounted(()=>{
   if(loading) loading.close()

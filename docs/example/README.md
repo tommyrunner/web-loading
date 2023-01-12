@@ -1,4 +1,5 @@
 <div class="context">
+    <WebTypeInput></WebTypeInput>
     <div class="left">
     <el-card v-for="item in list" :key="item.id">
         <div class="list">
@@ -42,15 +43,22 @@
     </div>
 </div>
 
+
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, inject, onMounted, nextTick } from 'vue'
 import { LOADING_TYPES } from 'web-loading/src/utils'
 import 'element-plus/dist/index.css'
 import { ElCard, ElButton, ElRadioGroup, ElRadioButton, ElTabs, ElTabPane, ElMessage } from 'element-plus'
 let list = reactive([])
 let type = ref(LOADING_TYPES.DOM)
+let options = reactive([])
 let closeTime = ref('')
 let optionsModel = ref('model')
+let defOptions = inject('defOptions')
+onMounted(() => {
+  options = JSON.parse(JSON.stringify(defOptions))
+  console.log(options)
+})
 // 初始化
 for (let i = 0; i < 10; i++) list.push(randomItem())
 function closeInput() {

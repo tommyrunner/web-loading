@@ -1,66 +1,101 @@
-<div class="context">
-    <WebTypeInput></WebTypeInput>
+  <div class="context">
     <div class="left">
-    <el-card v-for="item in list" :key="item.id">
+      <el-card v-for="item in list" :key="item.id">
         <div class="list">
-        <span>
+          <span>
             id:
             <b>{{ item.id }}</b>
-        </span>
-        <span>
+          </span>
+          <span>
             user:
             <b>{{ item.user }}</b>
-        </span>
-        <span>
+          </span>
+          <span>
             value:
             <b>{{ item.value }}</b>
-        </span>
-        <span>
+          </span>
+          <span>
             date:
             <b>{{ item.date }}</b>
-        </span>
+          </span>
         </div>
-    </el-card>
+      </el-card>
     </div>
     <div class="right">
-    <div class="types">
+      <div class="types">
         <el-radio-group v-model="type">
-        <el-radio-button v-for="t in LOADING_TYPES" :key="t" :label="t" />
+          <el-radio-button v-for="t in LOADING_TYPES" :key="t" :label="t" />
         </el-radio-group>
-    </div>
-    <el-tabs v-model="optionsModel" class="demo-tabs">
+      </div>
+      <el-tabs v-model="optionsModel" class="demo-tabs">
         <el-tab-pane label="公共" name="gg" />
         <el-tab-pane label="model" name="model" />
-    </el-tabs>
-    <div class="options">
-        <p>12</p>
-    </div>
-    <div class="set">
+      </el-tabs>
+      <div class="options">
+        <div class="items" v-for="item in getOptions" :key="item.key">
+          <span>{{ item.title }}:</span>
+          <WebTypeInput v-model="item.value" :options="item" @update="onUpdate($event, item)"></WebTypeInput>
+        </div>
+      </div>
+      <div class="set">
         <el-button type="primary" :icon="Search">加载</el-button>
         <el-button type="danger" v-if="type === LOADING_TYPES.DOM">关闭</el-button>
-        <input type="number" placeholder="[1-30]秒关闭" @input="closeInput" v-model="closeTime" v-else />
+        <input type="number" placeholder="x秒关闭" @input="closeInput" v-model="closeTime" v-else />
+        <el-dropdown>
+          <el-button type="success">复制</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>配置</el-dropdown-item>
+              <el-dropdown-item>全部配置</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </div>
-    </div>
-</div>
-
+  </div>
 
 <script setup>
-import { ref, reactive, inject, onMounted, nextTick } from 'vue'
-import { LOADING_TYPES } from 'web-loading/src/utils'
+import { ref, reactive, inject, computed } from 'vue'
+import { LOADING_TYPES, MODEL_TYPES } from 'web-loading/src/utils'
 import 'element-plus/dist/index.css'
-import { ElCard, ElButton, ElRadioGroup, ElRadioButton, ElTabs, ElTabPane, ElMessage } from 'element-plus'
+import {
+  ElCard,
+  ElButton,
+  ElRadioGroup,
+  ElRadioButton,
+  ElTabs,
+  ElTabPane,
+  ElMessage,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem
+} from 'element-plus'
 let list = reactive([])
 let type = ref(LOADING_TYPES.DOM)
 let options = reactive([])
 let closeTime = ref('')
-let optionsModel = ref('model')
+let optionsModel = ref('gg')
 let defOptions = inject('defOptions')
-onMounted(() => {
-  options = JSON.parse(JSON.stringify(defOptions))
-  console.log(options)
+let nowModel = ref(MODEL_TYPES.GEAR)
+const getOptions = computed(() => {
+  let om = options.filter((o) => o.form === optionsModel.value)
+  if (optionsModel.value === 'model') {
+    om = om.filter((o) => o.model === nowModel.value)
+  }
+  return om
 })
 // 初始化
-for (let i = 0; i < 10; i++) list.push(randomItem())
+initData()
+function onUpdate(v, e) {
+  if (e.key === 'model') {
+    optionsModel.value = 'model'
+    nowModel.value = v
+  }
+}
+function initData() {
+  for (let i = 0; i < 10; i++) list.push(randomItem())
+  options = JSON.parse(JSON.stringify(defOptions))
+}
 function closeInput() {
   let v = parseInt(closeTime.value)
   if (v < 1 || v > 30) {
@@ -70,8 +105,8 @@ function closeInput() {
 }
 function randomItem() {
   return {
-    id: Date.now(),
-    user: parseInt(Date.now() / (Math.random() * 10000000)),
+    id: crypto?crypto.randomUUID():parseInt(Math.random() * 10000000),
+    user: parseInt(Math.random() * 10000000),
     value: parseInt(Math.random() * 100),
     date: new Date().getSeconds()
   }
@@ -87,6 +122,10 @@ function randomItem() {
 @media screen and (max-width: 820px) {
   .context {
     flex-direction: column;
+    height: 100vh;
+  }
+  .context .right{
+    height: 60vh;
   }
 }
 .context .left {
@@ -120,6 +159,20 @@ function randomItem() {
   flex: 1;
   overflow: auto;
 }
+.options .items {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px gainsboro solid;
+  border-radius: 5px;
+  padding: 8px;
+  box-shadow: var(--el-box-shadow-light);
+}
+.options .items span {
+  font-size: 12px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
 .right .set {
   margin-top: 12px;
   display: flex;
@@ -127,7 +180,7 @@ function randomItem() {
   justify-content: center;
 }
 .right .set input {
-  width: 78px;
+  width: 58px;
   height: 32px;
   margin-left: 10px;
   border: 1px gainsboro solid;
@@ -140,6 +193,9 @@ function randomItem() {
   margin-right: 10px;
 }
 .right .set .btn:nth-child(2) {
+  margin-left: 10px;
+}
+.right .set .el-dropdown {
   margin-left: 10px;
 }
 ::-webkit-scrollbar {

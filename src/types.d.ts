@@ -86,9 +86,3 @@ export type LogConfigType = {
   // 提示毕竟
   bgColor?: string
 }
-export interface $LogType {
-  info: (message: string) => void
-  warn: (message: string) => void
-  error: (message: string) => void
-  call: (message: string, type: LOG_TYPES, config: LogConfigType) => void
-}

@@ -1,4 +1,4 @@
-import type { ElementStoreType, OptionsType, LimitType, $LogType } from '../../types'
+import type { ElementStoreType, OptionsType, LimitType } from '../../types'
 import { isNull, clearAnimationFrame, $Log } from '../../utils'
 export default class BaseModel<T extends OptionsType> {
   w: number
@@ -7,7 +7,7 @@ export default class BaseModel<T extends OptionsType> {
   ctx: CanvasRenderingContext2D
   options: Required<T>
   store: ElementStoreType
-  webLog: $LogType
+  webLog: $Log
   private stepClear: number
   constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, store: ElementStoreType) {
     this.w = w

@@ -1,5 +1,5 @@
   <div class="context">
-    <div class="left">
+    <div class="left" ref="leftRef">
       <el-card v-for="item in list" :key="item.id">
         <div class="list">
           <span>
@@ -38,9 +38,9 @@
         </div>
       </div>
       <div class="set">
-        <el-button type="primary" :icon="Search">加载</el-button>
-        <el-button type="danger" v-if="type === LOADING_TYPES.DOM">关闭</el-button>
-        <input type="number" placeholder="x秒关闭" @input="closeInput" v-model="closeTime" v-else />
+        <el-button type="primary" @click="onLoading">加载</el-button>
+        <el-button type="danger" v-if="type === LOADING_TYPES.DOM" @click="onClose">关闭</el-button>
+        <input type="number" placeholder="1秒关闭" @input="closeInput" v-model="closeTime" v-else />
         <el-dropdown>
           <el-button type="success">复制</el-button>
           <template #dropdown>
@@ -53,6 +53,7 @@
       </div>
     </div>
   </div>
+
 
 <script setup>
 import { ref, reactive, inject, computed } from 'vue'
@@ -76,7 +77,10 @@ let options = reactive([])
 let closeTime = ref('')
 let optionsModel = ref('gg')
 let defOptions = inject('defOptions')
+let { webLoading, fullLoading, miniLoading } = inject('webLoading')
 let nowModel = ref(MODEL_TYPES.GEAR)
+let leftRef = ref(null)
+let loading = null
 const getOptions = computed(() => {
   let om = options.filter((o) => o.form === optionsModel.value)
   if (optionsModel.value === 'model') {
@@ -86,6 +90,19 @@ const getOptions = computed(() => {
 })
 // 初始化
 initData()
+async function onLoading() {
+  let typeLoading = webLoading
+  if (type.value === LOADING_TYPES.FULL) typeLoading = fullLoading
+  if (type.value === LOADING_TYPES.MINI) typeLoading = miniLoading
+  loading = typeLoading(leftRef.value)
+  // 自动关闭
+  if (type.value !== LOADING_TYPES.DOM) {
+    setTimeout(loading.close, (closeTime.value || 1) * 1000)
+  }
+}
+function onClose() {
+  loading.close()
+}
 function onUpdate(v, e) {
   if (e.key === 'model') {
     optionsModel.value = 'model'
@@ -104,11 +121,12 @@ function closeInput() {
   }
 }
 function randomItem() {
+  let date = new Date()
   return {
-    id: crypto?crypto.randomUUID():parseInt(Math.random() * 10000000),
+    id: parseInt(Math.random() * 10000000),
     user: parseInt(Math.random() * 10000000),
     value: parseInt(Math.random() * 100),
-    date: new Date().getSeconds()
+    date: `${date.getFullYear()}${date.getMonth() - 1}-${date.getDate()}`
   }
 }
 </script>
@@ -124,7 +142,7 @@ function randomItem() {
     flex-direction: column;
     height: 100vh;
   }
-  .context .right{
+  .context .right {
     height: 60vh;
   }
 }

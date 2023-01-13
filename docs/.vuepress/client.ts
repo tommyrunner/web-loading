@@ -1,17 +1,15 @@
 import { defineClientConfig } from '@vuepress/client'
+import webLoading, { fullLoading, miniLoading } from 'web-loading/src/loading'
 import options from './utils/options'
 import { provide } from 'vue'
 
 export default defineClientConfig({
-  enhance({ app, router, siteData }) {
-    app.mixin({
-      mounted() {
-        // 注入数据
-        this.getDefOptions = options
-      }
-    })
-  },
   setup() {
+    provide('webLoading', {
+      webLoading,
+      fullLoading,
+      miniLoading
+    })
     provide('defOptions', options)
   }
 })

@@ -1,44 +1,40 @@
 import type { ElementType, HooksCallType, OptionsType } from '../types'
 import type { HooksType } from './type'
 import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log, HOOKSCALL_KEY } from '../utils'
-import ExtendLoading from '../ExtendLoading/index'
 import drawController from '../draw/index'
 import style from './style'
 export default class WebLoading {
   // 动画canvas
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement | null
   // 动画元素id
   loadingId: string | null
   // 动画元素
-  element: ElementType
+  element: ElementType | null
   // 配置options
   options: Required<OptionsType>
   // hooks
-  hooks: HooksType
-  constructor(element: HTMLElement, options?: OptionsType) {
+  hooks: HooksType | null
+  constructor(options?: OptionsType) {
     // 初始化默认配置
     this.options = Object.assign(getDefOptions(), options)
-    this.canvas = document.createElement('canvas')
-    this.loadingId = String('wl_' + Date.now())
-    this.element = element
-    this.hooks = this.initHooksCall()
-    // 初始化储存属性
-    this.initStore()
-    this.init()
+    this.canvas = null
+    this.loadingId = null
+    this.element = null
+    this.hooks = null
   }
-  resize() {
-    this.canvas.width = this.element.clientWidth
-    this.canvas.height = this.element.clientHeight
-    this.draw()
+  resize(element: ElementType, canvas: HTMLCanvasElement) {
+    canvas.width = element.clientWidth
+    canvas.height = element.clientHeight
+    if (element.$store) drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element.$store)
   }
-  close() {
+  close(element: ElementType, canvas: HTMLCanvasElement) {
     let op = this.options
-    let store = this.element.$store
+    let store = element.$store
     // 会触发动画
-    this.clearStyle()
+    this.clearStyle(element, canvas)
     this.loadingId = null
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
-      this.element.style.pointerEvents = 'auto'
+      element.style.pointerEvents = 'auto'
     }
     if (store) {
       // 清除model
@@ -51,8 +47,8 @@ export default class WebLoading {
     // 清空dom
     setTimeout(() => {
       // 如果是扩展dom，清空父元素(父元素是webLoading创建)
-      if (op.type !== LOADING_TYPES.DOM) this.element.remove()
-      else this.canvas.remove()
+      if (op.type !== LOADING_TYPES.DOM) element.remove()
+      else canvas.remove()
       // 关闭后回调
       this.callEvent(HOOKSCALL_KEY.COLSED)
       // 清空hooks
@@ -61,69 +57,79 @@ export default class WebLoading {
   }
 
   private init() {
-    // 初始化样式
-    this.initStyle()
-    // 默认启动
-    this.draw()
-  }
-  private clearStyle() {
-    // 先视觉过渡
-    this.canvas.style.opacity = '0'
-    this.canvas.style.zIndex = '-2001'
-    // 清除扩展
-    if (this.options.type !== LOADING_TYPES.DOM) {
-      this.element.style.boxShadow = 'none'
+    this.canvas = document.createElement('canvas')
+    this.hooks = this.initHooksCall()
+    this.loadingId = String('wl_' + Date.now())
+    return {
+      canvas: this.canvas,
+      hooks: this.hooks,
+      loadingId: this.loadingId
     }
   }
-  private initStyle() {
+  private clearStyle(element: ElementType, canvas: HTMLCanvasElement) {
+    // 先视觉过渡
+    canvas.style.opacity = '0'
+    canvas.style.zIndex = '-2001'
+    // 清除扩展
+    if (this.options.type !== LOADING_TYPES.DOM) {
+      element.style.boxShadow = 'none'
+    }
+  }
+  private initCanvasStyle(element: ElementType, loadingId: string, canvas: HTMLCanvasElement) {
     let op = this.options
     // offset 含有scroll值的 显然client:内容+padding更合理
-    let elementW = this.element.clientWidth,
-      elementH = this.element.clientHeight,
-      readElementStyle = window.getComputedStyle(this.element),
-      elementStyle = this.element.style,
-      canvasStyle = this.canvas.style
+    let elementW = element.clientWidth,
+      elementH = element.clientHeight,
+      readElementStyle = window.getComputedStyle(element),
+      elementStyle = element.style,
+      canvasStyle = canvas.style
     // 初始化元素的样式
-    this.element.loadingId = this.loadingId
+    element.loadingId = loadingId
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
-      this.element.style.pointerEvents = 'none'
+      element.style.pointerEvents = 'none'
     }
     if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
     // 初始化canvas样式
-    this.canvas.id = this.loadingId!
+    canvas.id = loadingId
     document.styleSheets[0].insertRule(style)
-    this.canvas.style.animation = `wl_show ${op.delayColse / 1000}s linear`
+    canvas.style.animation = `wl_show ${op.delayColse / 1000}s linear`
     canvasStyle.position = 'absolute'
-    canvasStyle.left = `${op.pointerEvents ? 0 : this.element.scrollLeft}px`
-    canvasStyle.top = `${op.pointerEvents ? 0 : this.element.scrollTop}px`
+    canvasStyle.left = `${op.pointerEvents ? 0 : element.scrollLeft}px`
+    canvasStyle.top = `${op.pointerEvents ? 0 : element.scrollTop}px`
     canvasStyle.zIndex = op.zIndex
     canvasStyle.transition = `${op.delayColse / 1000}s`
     canvasStyle.backgroundColor = op.bgColor
     canvasStyle.borderRadius = readElementStyle.borderRadius
     // 设置画布大小
-    this.canvas.width = elementW
-    this.canvas.height = elementH
+    canvas.width = elementW
+    canvas.height = elementH
     // 注入
-    this.element.append(this.canvas)
+    element.append(canvas)
+    this.element = element
   }
-  private draw() {
-    let w = this.canvas.offsetWidth,
-      h = this.canvas.offsetHeight
-    if (this.element.$store) {
-      drawController(w, h, this.canvas, this.options, this.element.$store)
+  draw(element: ElementType) {
+    // 初始化基础数据
+    let initValue = this.init()
+    // 初始化样式
+    this.initCanvasStyle(element, initValue.loadingId, initValue.canvas)
+    // 初始化store
+    this.initStore(element, initValue.hooks)
+    if (element.$store) {
+      let canvas = initValue.canvas
+      drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element.$store)
     } else {
       $Log.error('WebLoading:canvas or ctx null')
     }
   }
-  private initStore() {
+  private initStore(element: ElementType, hooks: HooksType) {
     // 储存状态
-    this.element.$store = {
+    element.$store = {
       options: this.options,
-      element: this.element,
+      element: element,
       animationId: undefined,
       loadingId: this.loadingId,
       model: null,
-      hookCall: this.initStoreHooksCall()
+      hookCall: this.initStoreHooksCall(hooks)
     }
   }
   private initHooksCall(): HooksType {
@@ -133,20 +139,21 @@ export default class WebLoading {
     }
   }
   // 初始化hooks
-  private initStoreHooksCall(): HooksCallType {
+  private initStoreHooksCall(hooks: HooksType): HooksCallType {
     return {
       [HOOKSCALL_KEY.BEFORE_COLSE]: (fun: Function) => {
-        this.hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun)
+        hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun)
       },
       [HOOKSCALL_KEY.COLSED]: (fun: (params?: any) => any) => {
-        this.hooks[HOOKSCALL_KEY.COLSED].push(fun)
+        hooks[HOOKSCALL_KEY.COLSED].push(fun)
       }
     }
   }
   // 触发hooks
   private callEvent(hooksKey: HOOKSCALL_KEY) {
-    this.hooks[hooksKey].forEach((event: Function) => {
-      event()
-    })
+    if (this.hooks)
+      this.hooks[hooksKey].forEach((event: Function) => {
+        event()
+      })
   }
 }

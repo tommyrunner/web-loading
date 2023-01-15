@@ -1,4 +1,4 @@
-import { HTMLElementType, OptionsType } from '../types'
+import { OptionsType } from '../types'
 import { LOADING_TYPES } from '../utils'
 
 let $document: Document = document
@@ -9,7 +9,7 @@ export default class ExtendLoading {
     this.options = options
     this.extendEl = this.initStyle()
   }
-  private initStyle(): HTMLElementType {
+  private initStyle(): HTMLElement {
     this.extendEl = document.createElement('div')
     let op = this.options
     let w = '100vw',
@@ -44,7 +44,7 @@ export default class ExtendLoading {
     $document.body.appendChild(this.extendEl)
     return this.extendEl
   }
-  getElement(): HTMLElementType {
+  getElement(): HTMLElement {
     return this.extendEl
   }
 }

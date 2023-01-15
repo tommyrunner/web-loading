@@ -41,17 +41,15 @@ export interface OptionsType {
   pointerEvents?: boolean
 }
 export interface WindowType extends Window {
+  BaseModel?: any
+  initLoading?: (options: OptionsType) => LoadingType
   fullLoading?: (options: OptionsType) => LoadingType
   miniLoading?: (options: OptionsType) => LoadingType
 }
 export interface LoadingType {
-  reload: Function
+  loading: Function
   resize: Function
   close: Function
-}
-export interface HTMLElementType extends HTMLElement {
-  loading?: (options?: OptionsType) => LoadingType
-  BaseModel?: any
 }
 // 映射key为enum
 export type HooksCallType<T extends string = HOOKSCALL_KEY> = {

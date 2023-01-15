@@ -1,15 +1,14 @@
-import type { OptionsType, HTMLElementType, WindowType } from './types.d'
+import type { OptionsType, WindowType } from './types.d'
 import BaseModel from './draw/model/BaseModel'
 import { LOADING_TYPES } from './utils'
-import loading, { _$extendLoading } from './loading'
-let htmlElement: HTMLElementType = HTMLElement.prototype
+import initLoading, { _$extendLoading } from './loading'
 let $window: WindowType = window
-htmlElement.BaseModel = BaseModel
-// 扩展
-// dom直接调用
-htmlElement.loading = function (options?: OptionsType) {
-  return loading(this, options)
+$window.BaseModel = BaseModel
+// 初始化
+$window.initLoading = function (options?: OptionsType) {
+  return initLoading(options)
 }
+// 扩展
 // 移动端
 $window.miniLoading = (options?: OptionsType) => {
   return _$extendLoading(LOADING_TYPES.MINI, options)

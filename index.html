@@ -39,7 +39,8 @@
 
       window.onload = () => {
         let doc = document.getElementById('app')
-        class Custom extends doc.BaseModel {
+        let doc2 = document.getElementById('app2')
+        class Custom extends BaseModel {
           constructor(w, h, canvas, options, store) {
             super(w, h, canvas, options, store)
             this.run(this.dra)
@@ -48,21 +49,29 @@
             this.ctx.fillRect(0, 0, 10, 10)
           }
         }
-        // const mloading = miniLoading({
-        //   model: 'Gear',
-        //   firstLoading: false
-        // })
-        const loading = doc.loading({
-          model: 'Zoom',
-          // bgColor: '',
-          // pointerEvents: true
-          // custom: Custom,
-          // delay: 80,
+        const loading = miniLoading({
+          model: 'Gear',
+          firstLoading: false
         })
-        // window.addEventListener('resize', loading.resize)
+        // const loading = initLoading({
+        //   model: 'Skeleton',
+        //   bgColor: '',
+        //   pointerEvents: true,
+        //   // custom: Custom
+        //   // delay: 80,
+        // })
+        // const loading2 = initLoading({
+        //   model: 'Gear'
+        //   // bgColor: '',
+        //   // pointerEvents: true
+        //   // custom: Custom,
+        //   // delay: 80,
+        // })
+        window.addEventListener('resize', loading.resize)
         document.getElementById('start').onclick = function () {
           document.getElementById('img').setAttribute('src', 'https://www.baidu.com/img/flexible/logo/pc/result.png')
-          loading.reload()
+          loading.loading()
+          // loading2.loading(doc2)
           // mloading.reload()
         }
         document.getElementById('close').onclick = function () {

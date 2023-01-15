@@ -23,7 +23,7 @@
     </div>
     <div class="right">
       <div class="types">
-        <el-radio-group v-model="type">
+        <el-radio-group v-model="type" @change="onChangeTypes">
           <el-radio-button v-for="t in LOADING_TYPES" :key="t" :label="t" />
         </el-radio-group>
       </div>
@@ -54,9 +54,8 @@
     </div>
   </div>
 
-
 <script setup>
-import { ref, reactive, inject, computed } from 'vue'
+import { ref, reactive, inject, computed, onMounted } from 'vue'
 import { LOADING_TYPES, MODEL_TYPES } from 'web-loading/src/utils'
 import 'element-plus/dist/index.css'
 import {
@@ -88,13 +87,13 @@ const getOptions = computed(() => {
   }
   return om
 })
-// 初始化
+// 初始化基础数据
 initData()
+onMounted(() => {
+  loading = initLoading()
+})
 async function onLoading() {
-  let typeLoading = webLoading
-  if (type.value === LOADING_TYPES.FULL) typeLoading = fullLoading
-  if (type.value === LOADING_TYPES.MINI) typeLoading = miniLoading
-  loading = typeLoading(leftRef.value)
+  loading.reload()
   // 自动关闭
   if (type.value !== LOADING_TYPES.DOM) {
     setTimeout(loading.close, (closeTime.value || 1) * 1000)
@@ -112,6 +111,16 @@ function onUpdate(v, e) {
 function initData() {
   for (let i = 0; i < 10; i++) list.push(randomItem())
   options = JSON.parse(JSON.stringify(defOptions))
+}
+function initLoading(options) {
+  loading && loading.close()
+  let typeLoading = webLoading
+  if (type.value === LOADING_TYPES.FULL) typeLoading = fullLoading
+  if (type.value === LOADING_TYPES.MINI) typeLoading = miniLoading
+  return typeLoading(leftRef.value, options)
+}
+function onChangeTypes(val) {
+  initLoading()
 }
 function closeInput() {
   let v = parseInt(closeTime.value)

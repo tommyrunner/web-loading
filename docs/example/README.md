@@ -1,4 +1,4 @@
-  <div class="context">
+<div class="context">
     <div class="left" ref="leftRef">
       <el-card v-for="item in list" :key="item.id">
         <div class="list">
@@ -52,7 +52,7 @@
         </el-dropdown>
       </div>
     </div>
-  </div>
+</div>
 
 <script setup>
 import { ref, reactive, inject, computed, onMounted } from 'vue'
@@ -70,16 +70,17 @@ import {
   ElDropdownMenu,
   ElDropdownItem
 } from 'element-plus'
+import { OPTIONS_FORM } from '../../../utils/options'
 let list = reactive([])
 let type = ref(LOADING_TYPES.DOM)
 let options = reactive([])
 let closeTime = ref('')
 let optionsModel = ref('gg')
 let defOptions = inject('defOptions')
-let { webLoading, fullLoading, miniLoading } = inject('webLoading')
+let { initLoading, fullLoading, miniLoading } = inject('webLoading')
 let nowModel = ref(MODEL_TYPES.GEAR)
 let leftRef = ref(null)
-let loading = null
+let webLoading = null
 const getOptions = computed(() => {
   let om = options.filter((o) => o.form === optionsModel.value)
   if (optionsModel.value === 'model') {
@@ -90,37 +91,50 @@ const getOptions = computed(() => {
 // 初始化基础数据
 initData()
 onMounted(() => {
-  loading = initLoading()
+  webLoading = initTypeLoading()
 })
-async function onLoading() {
-  loading.reload()
+function onLoading() {
+  if (webLoading.getLoadingId()) return
+  webLoading.loading(leftRef.value,fromOptions())
   // 自动关闭
   if (type.value !== LOADING_TYPES.DOM) {
-    setTimeout(loading.close, (closeTime.value || 1) * 1000)
+    setTimeout(webLoading.close, (closeTime.value || 1) * 1000)
   }
 }
 function onClose() {
-  loading.close()
+  webLoading.close()
 }
 function onUpdate(v, e) {
   if (e.key === 'model') {
     optionsModel.value = 'model'
     nowModel.value = v
   }
+  webLoading && webLoading.update(fromOptions())
 }
 function initData() {
   for (let i = 0; i < 10; i++) list.push(randomItem())
   options = JSON.parse(JSON.stringify(defOptions))
 }
-function initLoading(options) {
-  loading && loading.close()
-  let typeLoading = webLoading
+function initTypeLoading(options) {
+  let typeLoading = initLoading
   if (type.value === LOADING_TYPES.FULL) typeLoading = fullLoading
   if (type.value === LOADING_TYPES.MINI) typeLoading = miniLoading
-  return typeLoading(leftRef.value, options)
+  return typeLoading(options)
 }
-function onChangeTypes(val) {
-  initLoading()
+function onChangeTypes() {
+  webLoading = initTypeLoading()
+}
+function getSetOptions(isAll) {
+  // if(isAll) webLoading.getOptions()
+}
+function fromOptions() {
+   let ops = options.filter((o) => o.model === nowModel.value || o.form === OPTIONS_FORM.GG)
+  let temOptions = {}
+  ops.forEach((op) => {
+    temOptions[op.key] = op.value
+  })
+  console.log(temOptions)
+  return temOptions
 }
 function closeInput() {
   let v = parseInt(closeTime.value)

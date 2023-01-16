@@ -50,6 +50,9 @@ export interface LoadingType {
   loading: Function
   resize: Function
   close: Function
+  update:Function
+  getOptions: () => OptionsType
+  getLoadingId: () => string | null
 }
 // 映射key为enum
 export type HooksCallType<T extends string = HOOKSCALL_KEY> = {

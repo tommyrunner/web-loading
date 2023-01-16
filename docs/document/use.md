@@ -7,48 +7,81 @@
 > 无论是`DOM`还是`FULL`、`MINI`最终都会走`WebLoading`。
 
 ```typescript
-import webLoading from 'web-loading/src/loading'
-// 获取dom
-let dom:HtmlElement = document.querySelector('xxx')
-let loading = webLoading(dom)
-console.log(loading)
+import initLoading from 'web-loading/src/loading'
+let webLoading = initLoading({})
+console.log(webLoading)
 ```
 
-> `loading`：`reload`、`resize`、`close`函数。
+> `webLoading`：`loading`、`resize`、`close`、`update`、`getOptions`、`getLoadingId`。
 
-### reload
+### loading
 
-> 重新加载`loading`。
+> 启动动画`loading`。
 
-+ 参数
++ 参数：
+  + `dom:HTMLElement`
   + `options?:OptionsType`
 
-> 调用loading后`WebLoading`会保存一份`options`，`reload`默认使用上一次的`options`，但`reload`接受`options`参数可以覆盖之前配置。
++ 返回：void
+
+> 调用`loading`函数，会先检查`loadingId`是否存在(是否还在绘制)，只有无绘制状态才会启动。
+>
+> `loading`参数2，可以覆盖初始化`initLoading`的`options`。
 
 ### resize
 
 > 重新计算并绘制`loading`大小。
 
 + 参数：无
++ 返回：void
 
-> `resize`会从绑定的`HtmlElement`中重新获取大小并重新绘制，此函数不会重新实例`WebLoading`与`reload`业务场景不同，例如`window.addEventListener('resize', loading.resize)`可能会使用到。
+> `resize`会从绑定的`HtmlElement`中重新获取大小并重新绘制，此函数不会重新实例`WebLoading`与`loading`业务场景不同，例如`window.addEventListener('resize', loading.resize)`可能会使用到。
 
 ### close
 
 > 关闭`loading。`
 
 + 参数：无
++ 返回：void
 
 > `close`首先会清空所有`WebLoading`的`store`以及其他记录，并停止`requestAnimationFrame`调用，最后根据`delayColse`清除相关元素，关闭过程中`WebLoading`会使用`hookCall`触发`hook`关闭**钩子函数**(`BEFORE_COLSE`:关闭前，`COLSED`：关闭后，也就是清除元素后)，以便于绘制**model**。
+
+### update
+
+> 动态绘制`model`。
+
++ 参数：
+  + `options?:OptionsType`
++ 返回：void
+
+> `update`函数不会重新实例`WebLoading`，并通过参数`options`重新绘制`model`。业务场景与`loading`类似，但`loading`每次都会初始化`WebLoading`，只有每次关闭才能实现相应业务，所以在动态绘制`model`业务场景下推荐使用`update`。
+
+### getOptions
+
+> 获取当前options配置。
+
++ 参数：无
+
++ 返回：
+  + `options:OptionsType`
+
+### getLoadingId
+
+> 获取 `loadingId`。
+
++ 参数：无
+
++ 返回：
+  + `loadingId:string | null`
+
+> `loadingId`在初始化会赋值，`close`关闭后会赋值为`null`，因此，如果`loadingId`为`null`当前无绘制状态，否则相反。
 
 ## options
 
 ```typescript
 import { MODEL_TYPES } from "web-loading/src/utils";
-import webLoading from 'web-loading/src/loading'
-// 获取dom
-let dom:HtmlElement = document.querySelector('xxx')
-let loading = webLoading({
+import initLoading from 'web-loading/src/loading'
+let webLoading = initLoading({
     model:MODEL_TYPES.GEAR
 })
 ```
@@ -58,7 +91,7 @@ let loading = webLoading({
 | 属性              | 类型                          | 默认值                 | 备注                            |
 | ----------------- | ----------------------------- | ---------------------- | ------------------------------- |
 | `custom?:`        | `any`                         | `null`                 | 自定义**model**(**优先级最高**) |
-| `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式[**只读**]              |
+| `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式                        |
 | `miniClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class** |
 | `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | model模块                       |
 | `text?:`          | `string`                      | `加载中...`            | 字体内容                        |
@@ -77,6 +110,18 @@ let loading = webLoading({
 | `shadowBlur?:`    | `number`                      | `5`                    | 阴影范围                        |
 | `pointerEvents?:` | `boolean`                     | `false`                | 事件穿透(**DOM**方式)           |
 
++ LOADING_TYPES
+
+| 属性 | 枚举值 | 备注   |
+| ---- | ------ | ------ |
+| DOM  | `dom`  | 元素   |
+| FULL | `full` | 全屏   |
+| MINI | `mini` | 移动端 |
+
++ MODEL_TYPES
+
+[支持的model](./model.html#支持的model)
+
 ### model
 
 [model配置详情](./model.md)
@@ -88,10 +133,10 @@ let loading = webLoading({
 + 自定义
 
 ```typescript
+import type { OptionsType, ElementStoreType } from "web-loading/src/types.d";
 // 1.引入基础model
-import { OptionsType, ElementStoreType } from "web-loading/src/types.d";
 import BaseModel from "web-loading/src/draw/model/BaseModel";
-// 2?.如果自己的options需要自定义参数，定义options类型
+// 2?.如果model中options需要自定义参数，定义options类型
 interface CustomOptionsType extends OptionsType {
   size?: number;
 }
@@ -124,7 +169,7 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 ```typescript
 import { LoadingType} from "web-loading/src/types.d";
 import { MODEL_TYPES } from "web-loading/src/utils";
-import webLoading from 'web-loading/src/loading'
+import initLoading from 'web-loading/src/loading'
 let dom:HtmlElement = document.querySelector('xxx')
 // 4.配置自定义的options参数
 let options: CustomOptionsType = {
@@ -133,7 +178,8 @@ let options: CustomOptionsType = {
   // 4.2.配置自定义参数
   size: 10,
 };
-let loading:LoadingType = webLoading(options)
+let webLoading:LoadingType = initLoading(options)
+webLoading.loading(dom)
 ```
 
 ### `BaseModel`参数
@@ -146,7 +192,7 @@ let loading:LoadingType = webLoading(options)
 | `h`       | `number`                      | 画布高度                                                     |
 | `canvas`  | `HTMLCanvasElement`           | 画布元素，`BaseModel`默认以及获取了`2d`的上下文，但您还可以根据画布元素获取其他上下文 |
 | `options` | `Required<CustomOptionsType>` | `options`是调节**model**参数，分为有**公共**参数与**model**参数最终会合并，`Required`标注你的参数不为空(已经初始值) |
-| `store`   | `ElementStoreType`            | [ElementStoreType](#store-elment-elementtype)                                                       |
+| `store`   | `ElementStoreType`            | [`ElementStoreType`](#store-elment-elementtype)              |
 
 ### `store:ElementStoreType`
 

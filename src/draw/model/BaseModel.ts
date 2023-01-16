@@ -42,6 +42,7 @@ export default class BaseModel<T extends OptionsType> {
   // 初始化画笔
   private _$initPoint() {
     this.clearRect()
+    this.ctx.resetTransform()
     // 默认主题色
     let op = this.options,
       defW = this.canvas.width,

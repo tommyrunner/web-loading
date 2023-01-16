@@ -15,11 +15,14 @@
   <el-select v-model="value" v-if="props.options.type === OPTIONS_TYPE.SELECT" placeholder="model">
     <el-option v-for="item in options.items" :key="item" :label="item" :value="item" />
   </el-select>
+  <div>
+    <el-color-picker v-model="value" v-if="props.options.type === OPTIONS_TYPE.COLOR" show-alpha></el-color-picker>
+  </div>
 </template>
 <script setup lang="ts">
 import type { OptionsType } from '../utils/types'
 import { OPTIONS_TYPE } from '../utils/options'
-import { ElInput, ElSlider, ElSwitch, ElSelect, ElOption } from 'element-plus'
+import { ElInput, ElSlider, ElSwitch, ElSelect, ElOption, ElColorPicker } from 'element-plus'
 import { ref, watch } from 'vue'
 interface PropsType {
   options: OptionsType

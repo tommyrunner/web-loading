@@ -32,7 +32,6 @@ export default class WebLoading {
     let store = element.$store
     // 会触发动画
     this.clearStyle(element, canvas)
-    this.loadingId = null
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
       element.style.pointerEvents = 'auto'
     }
@@ -49,6 +48,8 @@ export default class WebLoading {
       // 如果是扩展dom，清空父元素(父元素是webLoading创建)
       if (op.type !== LOADING_TYPES.DOM) element.remove()
       else canvas.remove()
+      // 清除状态
+      this.loadingId = null
       // 关闭后回调
       this.callEvent(HOOKSCALL_KEY.COLSED)
       // 清空hooks

@@ -1,8 +1,9 @@
 import WebLoading from './Webloading/index'
 import ExtendLoading from './ExtendLoading'
-import type { OptionsType } from './types.d'
-import { LOADING_TYPES, getDefOptions } from './utils'
-export default function initLoading(options?: OptionsType) {
+import type { OptionsType, LoadingType, ElementType } from './types.d'
+import { LOADING_TYPES, getDefOptions, $Log } from './utils'
+import drawController from './draw/index'
+export default function initLoading(options?: OptionsType): LoadingType {
   let webLoading = new WebLoading(options)
   const resize = () => {
     if (webLoading.element && webLoading.canvas) webLoading.resize(webLoading.element, webLoading.canvas)
@@ -16,16 +17,30 @@ export default function initLoading(options?: OptionsType) {
       if (op.type !== LOADING_TYPES.DOM) {
         dom = new ExtendLoading(op).getElement()
       }
-      webLoading.draw(dom)
+      if (!dom) $Log.error('loading函数未找到HTMLElement元素!')
+      else webLoading.draw(dom)
     }
+  }
+  const update = (options?: OptionsType) => {
+    let canvas = webLoading.canvas
+    let op = Object.assign(webLoading.options, options)
+    let element = webLoading.element
+    if (canvas && op && element && element.$store)
+      drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element.$store)
   }
   const close = () => {
     if (webLoading.element && webLoading.canvas) webLoading.close(webLoading.element, webLoading.canvas)
   }
+  // 抛出基础信息
+  const getLoadingId = () => webLoading.loadingId
+  const getOptions = () => webLoading.options
   return {
     loading,
     resize,
-    close
+    close,
+    update,
+    getOptions,
+    getLoadingId
   }
 }
 // 扩展加载方式

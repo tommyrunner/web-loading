@@ -49,17 +49,11 @@
             this.ctx.fillRect(0, 0, 10, 10)
           }
         }
-        const loading = miniLoading({
-          model: 'Gear',
-          firstLoading: false
-        })
-        // const loading = initLoading({
-        //   model: 'Skeleton',
-        //   bgColor: '',
-        //   pointerEvents: true,
-        //   // custom: Custom
-        //   // delay: 80,
+        // const loading = miniLoading({
+        //   model: 'Gear',
+        //   firstLoading: false
         // })
+        const loading = initLoading()
         // const loading2 = initLoading({
         //   model: 'Gear'
         //   // bgColor: '',
@@ -70,7 +64,10 @@
         window.addEventListener('resize', loading.resize)
         document.getElementById('start').onclick = function () {
           document.getElementById('img').setAttribute('src', 'https://www.baidu.com/img/flexible/logo/pc/result.png')
-          loading.loading()
+          loading.loading(doc)
+          // setTimeout(() => {
+          //   loading.update({ model: 'Gear' })
+          // }, 3000)
           // loading2.loading(doc2)
           // mloading.reload()
         }

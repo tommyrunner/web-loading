@@ -40,7 +40,7 @@ export function getDefOptions(): Required<OptionsType> {
     custom: null,
     type: LOADING_TYPES.DOM,
     miniClass: 'mini',
-    model: MODEL_TYPES.RING,
+    model: MODEL_TYPES.GEAR,
     text: '加载中...',
     textGap: 8,
     fontSize: 12,
@@ -100,6 +100,7 @@ export class $Log {
       background:${bgColor};
       font-size:14px;
       color:${config.color};
+      padding: 4px;
       border: 1px solid;`
     console.log(`%c web-loading:${message} `, style)
   }

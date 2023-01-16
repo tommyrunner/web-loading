@@ -8,12 +8,13 @@ export enum OPTIONS_TYPE {
   STRING = 'string',
   NUMBER = 'number',
   BOOLEAN = 'boolean',
-  SELECT = 'select'
+  SELECT = 'select',
+  COLOR = 'color',
 }
 export enum CANVAS_LINE_CAP {
-  butt,
-  round,
-  square
+  butt = 'butt',
+  round = 'round',
+  square = 'square'
 }
 export default [
   {
@@ -91,21 +92,21 @@ export default [
   {
     title: '主题色',
     key: 'themeColor',
-    type: OPTIONS_TYPE.STRING,
+    type: OPTIONS_TYPE.COLOR,
     form: OPTIONS_FORM.GG,
     value: 'rgba(64,158,255,1)'
   },
   {
     title: '背景色',
     key: 'bgColor',
-    type: OPTIONS_TYPE.STRING,
+    type: OPTIONS_TYPE.COLOR,
     form: OPTIONS_FORM.GG,
     value: 'rgba(0, 0, 0, 0.8)'
   },
   {
     title: '阴影色',
     key: 'shadowColor',
-    type: OPTIONS_TYPE.STRING,
+    type: OPTIONS_TYPE.COLOR,
     form: OPTIONS_FORM.GG,
     value: 'rgba(64,158,255,0.6)'
   },

@@ -12,9 +12,9 @@ actions:
     type: secondary
 features:
   - title: 兼容性
-    details: 原生js结构搭建，支持原生js、vue、react等等多种框架。
-  - title: 更方便
-    details: 可以通过全局引入dom挂载方式，也可以单独引入，并提供FULL、MINI以及DOM多种启动方式。
+    details: 原生js结构搭建，支持原生html、vue、react等等多种框架。
+  - title: 封装
+    details: WebLoading封装了DOM、FULL、MINI多种启动方式，并提供全局引入以及单独引入方式。
   - title: 自定义
     details: WebLoading默认有许多model，主要通过Canvas方式绘制，同时，提供了Custom自定义方式，并提供继承Class。
 ---
@@ -36,7 +36,7 @@ let allModels = [
   { model: 'Roll', rollSize: 20, rollGap: 32 },
   { model: 'Img', width: 68, height: 68 }
 ]
-let loading = null
+let webLoading = null
 let occRef = ref(null)
 let occImgRef = ref(null)
 const {ctx} = getCurrentInstance()
@@ -49,10 +49,11 @@ onMounted(()=>{
     occImgRef.value.classList.add('show-img') 
   },300)
   // 该插件用到了操作dom，只能异步引入
-  import('web-loading/src/loading').then((webLoading) => {
+  import('web-loading/src/loading').then((initLoading) => {
     clearTimeout(callTime)
     occImgRef.value.classList.add('hide-img') 
-    loading =  webLoading.default(occRef.value,getOption())
+    webLoading =  initLoading.default(getOption())
+    webLoading.loading(occRef.value)
   })
   // 初始化埋点
   // import('t-point-sdk').then((tPointSdk) => {
@@ -61,7 +62,7 @@ onMounted(()=>{
   // })
 })
 onUnmounted(()=>{
-  if(loading) loading.close()
+  if(webLoading) webLoading.close()
 })
 function getOption(){
   let publicOption = {

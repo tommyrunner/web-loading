@@ -1,12 +1,12 @@
 import { defineClientConfig } from '@vuepress/client'
-import webLoading, { fullLoading, miniLoading } from 'web-loading/src/loading'
+import initLoading, { fullLoading, miniLoading } from 'web-loading/src/loading'
 import options from './utils/options'
 import { provide } from 'vue'
 
 export default defineClientConfig({
   setup() {
     provide('webLoading', {
-      webLoading,
+      initLoading,
       fullLoading,
       miniLoading
     })

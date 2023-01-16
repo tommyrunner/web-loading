@@ -1,5 +1,5 @@
 import type { OptionsType } from './types'
-import { MODEL_TYPES } from 'web-loading/src/utils'
+import { MODEL_TYPES, LOADING_TYPES } from 'web-loading/src/utils'
 export enum OPTIONS_FORM {
   GG = 'gg',
   MODEL = 'model'
@@ -9,7 +9,7 @@ export enum OPTIONS_TYPE {
   NUMBER = 'number',
   BOOLEAN = 'boolean',
   SELECT = 'select',
-  COLOR = 'color',
+  COLOR = 'color'
 }
 export enum CANVAS_LINE_CAP {
   butt = 'butt',
@@ -17,6 +17,14 @@ export enum CANVAS_LINE_CAP {
   square = 'square'
 }
 export default [
+  {
+    title: '启动方式',
+    key: 'type',
+    type: OPTIONS_TYPE.SELECT,
+    form: OPTIONS_FORM.GG,
+    value: LOADING_TYPES.DOM,
+    items: LOADING_TYPES
+  },
   {
     title: '模块',
     key: 'model',

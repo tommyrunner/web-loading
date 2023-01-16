@@ -1,4 +1,4 @@
-<div class="context">
+  <div class="context">
     <div class="left" ref="leftRef">
       <el-card v-for="item in list" :key="item.id">
         <div class="list">
@@ -22,11 +22,6 @@
       </el-card>
     </div>
     <div class="right">
-      <div class="types">
-        <el-radio-group v-model="type" @change="onChangeTypes">
-          <el-radio-button v-for="t in LOADING_TYPES" :key="t" :label="t" />
-        </el-radio-group>
-      </div>
       <el-tabs v-model="optionsModel" class="demo-tabs">
         <el-tab-pane label="公共" name="gg" />
         <el-tab-pane label="model" name="model" />
@@ -39,20 +34,20 @@
       </div>
       <div class="set">
         <el-button type="primary" @click="onLoading">加载</el-button>
-        <el-button type="danger" v-if="type === LOADING_TYPES.DOM" @click="onClose">关闭</el-button>
+        <el-button type="danger" v-if="nowType === LOADING_TYPES.DOM" @click="onClose">关闭</el-button>
         <input type="number" placeholder="1秒关闭" @input="closeInput" v-model="closeTime" v-else />
         <el-dropdown>
           <el-button type="success">复制</el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>配置</el-dropdown-item>
-              <el-dropdown-item>全部配置</el-dropdown-item>
+              <el-dropdown-item @click="onReplication()">修改部分</el-dropdown-item>
+              <el-dropdown-item @click="onReplication('all')">全部配置</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </div>
     </div>
-</div>
+  </div>
 
 <script setup>
 import { ref, reactive, inject, computed, onMounted } from 'vue'
@@ -61,8 +56,6 @@ import 'element-plus/dist/index.css'
 import {
   ElCard,
   ElButton,
-  ElRadioGroup,
-  ElRadioButton,
   ElTabs,
   ElTabPane,
   ElMessage,
@@ -72,13 +65,12 @@ import {
 } from 'element-plus'
 import { OPTIONS_FORM } from '../../../utils/options'
 let list = reactive([])
-let type = ref(LOADING_TYPES.DOM)
 let options = reactive([])
 let closeTime = ref('')
 let optionsModel = ref('gg')
 let defOptions = inject('defOptions')
-let { initLoading, fullLoading, miniLoading } = inject('webLoading')
 let nowModel = ref(MODEL_TYPES.GEAR)
+let nowType = ref(LOADING_TYPES.DOM)
 let leftRef = ref(null)
 let webLoading = null
 const getOptions = computed(() => {
@@ -91,13 +83,15 @@ const getOptions = computed(() => {
 // 初始化基础数据
 initData()
 onMounted(() => {
-  webLoading = initTypeLoading()
+  import('web-loading/src/loading').then((res) => {
+    webLoading = res.default()
+  })
 })
 function onLoading() {
   if (webLoading.getLoadingId()) return
-  webLoading.loading(leftRef.value,fromOptions())
+  webLoading.loading(leftRef.value, fromOptions())
   // 自动关闭
-  if (type.value !== LOADING_TYPES.DOM) {
+  if (nowType.value !== LOADING_TYPES.DOM) {
     setTimeout(webLoading.close, (closeTime.value || 1) * 1000)
   }
 }
@@ -109,31 +103,47 @@ function onUpdate(v, e) {
     optionsModel.value = 'model'
     nowModel.value = v
   }
+  if (e.key === 'type') {
+    nowType.value = v
+  }
   webLoading && webLoading.update(fromOptions())
 }
 function initData() {
   for (let i = 0; i < 10; i++) list.push(randomItem())
   options = JSON.parse(JSON.stringify(defOptions))
 }
-function initTypeLoading(options) {
-  let typeLoading = initLoading
-  if (type.value === LOADING_TYPES.FULL) typeLoading = fullLoading
-  if (type.value === LOADING_TYPES.MINI) typeLoading = miniLoading
-  return typeLoading(options)
-}
-function onChangeTypes() {
-  webLoading = initTypeLoading()
-}
-function getSetOptions(isAll) {
-  // if(isAll) webLoading.getOptions()
+function onReplication(isAll) {
+  let options = {}
+  if (isAll) {
+    options = webLoading.getOptions()
+  } else {
+    // 比较复制修改
+    let nowOp = fromOptions()
+    if (defOptions && nowOp) {
+      defOptions.forEach((def) => {
+        if (
+          (!def['model'] && nowOp[def.key] && nowOp[def.key] !== def.value) ||
+          (def['model'] && def['model'] === nowOp['model'] && nowOp[def.key] !== def.value)
+        ) {
+          options[def.key] = nowOp[def.key]
+        }
+      })
+    }
+  }
+  let oInput = document.createElement('input')
+  oInput.value = JSON.stringify(options)
+  document.body.appendChild(oInput)
+  oInput.select() // 选择对象;
+  document.execCommand('Copy') // 执行浏览器复制命令
+  oInput.remove()
+  ElMessage.success('复制成功!')
 }
 function fromOptions() {
-   let ops = options.filter((o) => o.model === nowModel.value || o.form === OPTIONS_FORM.GG)
+  let ops = options.filter((o) => o.model === nowModel.value || o.form === OPTIONS_FORM.GG)
   let temOptions = {}
   ops.forEach((op) => {
     temOptions[op.key] = op.value
   })
-  console.log(temOptions)
   return temOptions
 }
 function closeInput() {
@@ -191,11 +201,6 @@ function randomItem() {
   flex: 1;
   padding: 16px;
 }
-.context .right .types {
-  display: flex;
-  justify-content: center;
-}
-
 .right .options {
   flex: 1;
   overflow: auto;

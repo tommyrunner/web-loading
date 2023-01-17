@@ -44,7 +44,7 @@ export default class WebLoading {
       if (store.animationId) clearAnimationFrame(store.animationId)
     }
     // 清空dom
-    setTimeout(() => {
+    window.setTimeout(() => {
       // 如果是扩展dom，清空父元素(父元素是webLoading创建)
       if (op.type !== LOADING_TYPES.DOM) element.remove()
       else canvas.remove()
@@ -70,7 +70,6 @@ export default class WebLoading {
   private clearStyle(element: ElementType, canvas: HTMLCanvasElement) {
     // 先视觉过渡
     canvas.style.opacity = '0'
-    canvas.style.zIndex = '-2001'
     // 清除扩展
     if (this.options.type !== LOADING_TYPES.DOM) {
       element.style.boxShadow = 'none'

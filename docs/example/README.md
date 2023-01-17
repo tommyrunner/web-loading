@@ -110,7 +110,7 @@ function onLoading() {
 // 多值组件添加
 function onHeadAdd(item) {
   let tem = Object.assign(item.arrayAdd)
-  let index = item.arrayItems.length + 1
+  let index = item.arrayItems.length
   tem.key = index
   tem.title += index
   item.arrayItems.push(tem)

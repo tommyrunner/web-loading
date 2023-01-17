@@ -83,7 +83,7 @@ export default [
     form: OPTIONS_FORM.GG,
     value: 520,
     min: 65,
-    max: 1000
+    max: 10000
   },
   {
     title: '层级',

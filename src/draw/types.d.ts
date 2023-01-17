@@ -66,7 +66,7 @@ export interface PatternOptionsType extends OptionsType {
   charts?: Array<PATTERN_CHART>
   // 图形大小
   chartSize?: number
-  // 颜色
+  // 动态颜色
   chartColors?: Array<string>
   // 高度
   maxHeight?: number

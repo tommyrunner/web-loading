@@ -83,10 +83,10 @@
 
 | 属性          | 类型                   | 默认值                                                       | 限制   | 备注         |
 | ------------- | ---------------------- | ------------------------------------------------------------ | ------ | ------------ |
-| `charts`      | `Array<PATTERN_CHART>` | `[PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON]` |        | zoom变化最大 |
-| `chartColors` | `number`               | `['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd']`    | [5-24] | zomm距离     |
-| `chartSize`   | `Array<string>`        | `60`                                                         |        | zomm的高度   |
-| `maxHeight`   | `number`               | `12`                                                         |        | zoom数量     |
+| `charts`      | `Array<PATTERN_CHART>` | `[PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON]` |        | 支持的图形 |
+| `chartColors` | `number`               | `['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd']`    | [5-24] | 图形大小     |
+| `chartSize`   | `Array<string>`        | `60`                                                         |        | 动态颜色   |
+| `maxHeight`   | `number`               | `12`                                                         |        | 高度     |
 
 ### PATTERN.charts
 

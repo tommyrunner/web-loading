@@ -1,6 +1,6 @@
 import type { OptionsType } from './types'
 import { MODEL_TYPES, LOADING_TYPES } from 'web-loading/src/utils'
-import { ZOOM_ACTION, OPTIONS_TYPE, OPTIONS_FORM, CANVAS_LINE_CAP } from './enum'
+import { ZOOM_ACTION, OPTIONS_TYPE, OPTIONS_FORM, CANVAS_LINE_CAP, PATTERN_CHART } from './enum'
 
 export default [
   {
@@ -430,5 +430,51 @@ export default [
     type: OPTIONS_TYPE.BOOLEAN,
     form: OPTIONS_FORM.MODEL,
     value: true
+  },
+  // PATTERN
+  {
+    model: MODEL_TYPES.PATTERN,
+    title: '支持的图形',
+    key: 'charts',
+    type: OPTIONS_TYPE.ARRAY_STRING,
+    form: OPTIONS_FORM.MODEL,
+    value: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
+    arrayItems: [
+      {
+        title: '图形1',
+        key: 0,
+        value: PATTERN_CHART.ARC,
+        type: OPTIONS_TYPE.STRING,
+        disabled: true
+      },
+      {
+        title: '图形2',
+        key: 1,
+        value: PATTERN_CHART.RECT,
+        type: OPTIONS_TYPE.STRING,
+        disabled: true
+      },
+      {
+        title: '图形3',
+        key: 2,
+        value: PATTERN_CHART.TRIANGLE,
+        type: OPTIONS_TYPE.STRING,
+        disabled: true
+      },
+      {
+        title: '图形4',
+        key: 3,
+        value: PATTERN_CHART.HEART,
+        type: OPTIONS_TYPE.STRING,
+        disabled: true
+      },
+      {
+        title: '图形5',
+        key: 4,
+        value: PATTERN_CHART.POLYGON,
+        type: OPTIONS_TYPE.STRING,
+        disabled: true
+      }
+    ]
   }
 ] as Array<OptionsType>

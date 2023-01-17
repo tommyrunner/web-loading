@@ -29,4 +29,5 @@ export type OptionsType = {
   max?: number
   step?: number
   model?: MODEL_TYPES
+  disabled?: boolean
 }

@@ -135,21 +135,20 @@ function initData() {
 }
 function onReplication(isAll) {
   let options = {}
-  if (isAll) {
-    options = webLoading.getOptions()
-  } else {
-    // 比较复制修改
-    let nowOp = fromOptions()
-    if (defOptions && nowOp) {
-      defOptions.forEach((def) => {
-        if (
-          (!def['model'] && nowOp[def.key] && nowOp[def.key] !== def.value) ||
-          (def['model'] && def['model'] === nowOp['model'] && nowOp[def.key] !== def.value)
-        ) {
-          options[def.key] = nowOp[def.key]
-        }
-      })
-    }
+  // 比较复制修改
+  let nowOp = fromOptions()
+  if (defOptions && nowOp) {
+    defOptions.forEach((def) => {
+      if (
+        (!def['model'] && nowOp[def.key] && nowOp[def.key] !== def.value) ||
+        isAll ||
+        (def['model'] &&
+          def['model'] === nowOp['model'] &&
+          (isArray(def.type) ? nowOp[def.key].join() !== def.value.join() : nowOp[def.key] !== def.value))
+      ) {
+        options[def.key] = nowOp[def.key]
+      }
+    })
   }
   let oInput = document.createElement('input')
   oInput.value = JSON.stringify(options)
@@ -182,6 +181,9 @@ function randomItem() {
     value: parseInt(Math.random() * 100),
     date: `${date.getFullYear()}${date.getMonth() - 1}-${date.getDate()}`
   }
+}
+function isArray(type) {
+  return type && type.includes('array_')
 }
 </script>
 <style scoped>

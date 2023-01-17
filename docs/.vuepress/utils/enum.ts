@@ -3,6 +3,13 @@ export enum ZOOM_ACTION {
   WAVE = 'wave',
   HEIGHT = 'height'
 }
+export enum PATTERN_CHART {
+  RECT = 'rect',
+  ARC = 'arc',
+  TRIANGLE = 'triangle',
+  HEART = 'heart',
+  POLYGON = 'polygon'
+}
 export enum OPTIONS_FORM {
   GG = 'gg',
   MODEL = 'model'

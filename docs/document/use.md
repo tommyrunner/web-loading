@@ -48,7 +48,7 @@ console.log(webLoading)
 
 ### update
 
-> 动态绘制`model`。
+> 动态绘制`model`，不能动态修改[公共配置](#公共)。
 
 + 参数：
   + `options?:OptionsType`

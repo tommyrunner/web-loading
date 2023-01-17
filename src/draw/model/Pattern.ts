@@ -55,10 +55,11 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.initOptions(defaultOptions, limits)
     // 3.初始化画笔
     this.initPoint()
+    let op = this.options
     this.pattern = {
-      color: this.options.themeColor,
+      color: this.randomState('chartColors'),
       nowHeight: 10,
-      chart: PATTERN_CHART.RECT,
+      chart: this.randomState('charts'),
       shadow: 0,
       nowSatate: 1,
       turn: 0
@@ -111,9 +112,9 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
       this.pattern.nowSatate = 1
       op.delay = 10
       // 切换图形
-      this.pattern.chart = op.charts[parseInt(String(Math.random() * op.charts.length))]
+      this.pattern.chart = this.randomState('charts')
       // 切换颜色
-      this.pattern.color = op.chartColors[parseInt(String(Math.random() * op.chartColors.length))]
+      this.pattern.color = this.randomState('chartColors')
     }
   }
   selectChart(x: number, y: number, size: number) {
@@ -134,6 +135,10 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
         this.drawPolygon(x, y, size)
         break
     }
+  }
+  randomState(key: any): PATTERN_CHART {
+    let op: any = this.options
+    return op[key][parseInt(String(Math.random() * op[key].length))]
   }
   drawText(op: Required<PatternOptionsType>) {
     // 位置+文字+间隔

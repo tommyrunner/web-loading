@@ -9,7 +9,9 @@ export enum OPTIONS_TYPE {
   NUMBER = 'number',
   BOOLEAN = 'boolean',
   SELECT = 'select',
-  COLOR = 'color'
+  COLOR = 'color',
+  ARRAY_STRING = 'array_string',
+  ARRAY_NUMBER = 'array_number'
 }
 export enum CANVAS_LINE_CAP {
   butt = 'butt',
@@ -84,18 +86,11 @@ export default [
     max: 1000
   },
   {
-    title: '优化处理',
-    key: 'optimization',
-    type: OPTIONS_TYPE.BOOLEAN,
-    form: OPTIONS_FORM.GG,
-    value: false
-  },
-  {
     title: '层级',
     key: 'zIndex',
     type: OPTIONS_TYPE.STRING,
     form: OPTIONS_FORM.GG,
-    value: '2001'
+    value: '19'
   },
   {
     title: '主题色',
@@ -148,6 +143,13 @@ export default [
   {
     title: '事件穿透',
     key: 'pointerEvents',
+    type: OPTIONS_TYPE.BOOLEAN,
+    form: OPTIONS_FORM.GG,
+    value: false
+  },
+  {
+    title: '优化处理',
+    key: 'optimization',
     type: OPTIONS_TYPE.BOOLEAN,
     form: OPTIONS_FORM.GG,
     value: false
@@ -233,15 +235,18 @@ export default [
   // RING
   {
     model: MODEL_TYPES.RING,
-    title: '环与环空隙',
+    title: '空隙',
     key: 'arcGap',
     type: OPTIONS_TYPE.NUMBER,
     form: OPTIONS_FORM.MODEL,
-    value: Math.PI / 4
+    value: Math.PI / 4,
+    min: 0.1,
+    max: 3.6,
+    step: 0.1
   },
   {
     model: MODEL_TYPES.RING,
-    title: '弧线间隔',
+    title: '弧线空隙',
     key: 'ringGap',
     type: OPTIONS_TYPE.NUMBER,
     form: OPTIONS_FORM.MODEL,
@@ -298,16 +303,46 @@ export default [
     min: 1,
     max: 20
   },
-  // {
-  //   model: MODEL_TYPES.RING,
-  //   title: '多环初始角度',
-  //   key: 'ringsTurn',
-  //   type: OPTIONS_TYPE.NUMBER,
-  //   form: OPTIONS_FORM.MODEL,
-  //   value: 10,
-  //   min: 1,
-  //   max: 20
-  // }
+  {
+    model: MODEL_TYPES.RING,
+    title: '多环初始角度',
+    key: 'ringsTurn',
+    type: OPTIONS_TYPE.ARRAY_NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: [Math.PI, Math.PI / 4],
+    arrayAdd: {
+      title: '环',
+      key: 0,
+      value: Math.PI,
+      type: OPTIONS_TYPE.NUMBER,
+      isArrayItems: true,
+      step: 0.1,
+      min: 0.1,
+      max: 3.6
+    },
+    arrayItems: [
+      {
+        title: '环1',
+        key: 0,
+        value: Math.PI,
+        type: OPTIONS_TYPE.NUMBER,
+        isArrayItems: true,
+        step: 0.1,
+        min: 0.1,
+        max: 3.6
+      },
+      {
+        title: '环2',
+        key: 1,
+        value: Math.PI / 4,
+        type: OPTIONS_TYPE.NUMBER,
+        isArrayItems: true,
+        step: 0.1,
+        min: 0.1,
+        max: 3.6
+      }
+    ]
+  },
   {
     model: MODEL_TYPES.RING,
     title: '旋转方向',

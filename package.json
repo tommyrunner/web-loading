@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@element-plus/icons-vue": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "@vuepress/client": "^2.0.0-beta.60",

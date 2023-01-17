@@ -28,7 +28,17 @@
       </el-tabs>
       <div class="options">
         <div class="items" v-for="item in getOptions" :key="item.key">
-          <span>{{ item.title }}:</span>
+          <div class="head">
+            <span>{{ item.title }}:</span>
+            <el-icon
+              :size="20"
+              color="rgb(64, 158, 255)"
+              @click="onHeadAdd(item)"
+              v-if="item.arrayItems && item.arrayAdd"
+            >
+              <CirclePlusFilled />
+            </el-icon>
+          </div>
           <WebTypeInput v-model="item.value" :options="item" @update="onUpdate($event, item)"></WebTypeInput>
         </div>
       </div>
@@ -61,8 +71,10 @@ import {
   ElMessage,
   ElDropdown,
   ElDropdownMenu,
-  ElDropdownItem
+  ElDropdownItem,
+  ElIcon
 } from 'element-plus'
+import { CirclePlusFilled } from '@element-plus/icons-vue'
 import { OPTIONS_FORM } from '../../../utils/options'
 let list = reactive([])
 let options = reactive([])
@@ -95,16 +107,25 @@ function onLoading() {
     setTimeout(webLoading.close, (closeTime.value || 1) * 1000)
   }
 }
-function onClose() {
-  webLoading.close()
+// 多值组件添加
+function onHeadAdd(item) {
+  let tem = Object.assign(item.arrayAdd)
+  let index = item.arrayItems.length + 1
+  tem.key = index
+  tem.title += index
+  item.arrayItems.push(tem)
+  item.value.push(tem.value)
 }
-function onUpdate(v, e) {
-  if (e.key === 'model') {
+function onClose() {
+  webLoading && webLoading.close()
+}
+function onUpdate(v, op) {
+  if (op.key === 'model') {
     optionsModel.value = 'model'
-    nowModel.value = v
+    nowModel.value = v.value
   }
-  if (e.key === 'type') {
-    nowType.value = v
+  if (op.key === 'type') {
+    nowType.value = v.value
   }
   webLoading && webLoading.update(fromOptions())
 }
@@ -214,10 +235,25 @@ function randomItem() {
   padding: 8px;
   box-shadow: var(--el-box-shadow-light);
 }
-.options .items span {
+.options .items .head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.items .head .el-icon {
+  cursor: pointer;
+  transition: 0.25s;
+}
+.items .head .el-icon:hover {
+  transform: scale(1.1);
+}
+.items .head .el-icon:active {
+  transform: scale(0.9);
+}
+.items .head span {
   font-size: 12px;
   display: inline-block;
-  margin-bottom: 6px;
 }
 .right .set {
   margin-top: 12px;

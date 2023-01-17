@@ -79,7 +79,7 @@ function getOption(){
   .occ{
     position: absolute;
     left: 50%;
-    top: 10%;
+    top: 16%;
     width: 300px;
     height: 300px;
     transform: translate(-50%);

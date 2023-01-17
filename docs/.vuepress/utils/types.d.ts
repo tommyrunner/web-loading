@@ -21,9 +21,13 @@ export type OptionsType = {
   key: string
   type: OPTIONS_TYPE
   form: OPTIONS_FORM
-  value: MODEL_TYPES | string | number | boolean
+  value: MODEL_TYPES | string | number | boolean | Array<string | number | boolean>
   items?: OptionsItemsModelType | OptionsItemsCapType
+  arrayItems?: Array<OptionsType>
+  arrayAdd?: OptionsType
+  isArrayItems?: boolean
   min?: number
   max?: number
+  step?: number
   model?: MODEL_TYPES
 }

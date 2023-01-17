@@ -84,9 +84,9 @@
 | 属性          | 类型                   | 默认值                                                       | 限制   | 备注         |
 | ------------- | ---------------------- | ------------------------------------------------------------ | ------ | ------------ |
 | `charts`      | `Array<PATTERN_CHART>` | `[PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON]` |        | 支持的图形 |
-| `chartColors` | `number`               | `['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd']`    | [5-24] | 图形大小     |
-| `chartSize`   | `Array<string>`        | `60`                                                         |        | 动态颜色   |
-| `maxHeight`   | `number`               | `12`                                                         |        | 高度     |
+| `chartSize` | `number`               | `12`    | [5-24] | 图形大小     |
+| `chartColors`   | `Array<string>`        | `['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd']`                                                         |        | 动态颜色   |
+| `maxHeight`   | `number`               | `60`                                                         |        | 高度     |
 
 ### PATTERN.charts
 

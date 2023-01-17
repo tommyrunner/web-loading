@@ -476,5 +476,71 @@ export default [
         disabled: true
       }
     ]
+  },
+  {
+    model: MODEL_TYPES.PATTERN,
+    title: '动态颜色',
+    key: 'chartColors',
+    type: OPTIONS_TYPE.ARRAY_STRING,
+    form: OPTIONS_FORM.MODEL,
+    value: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
+    arrayAdd: {
+      title: '图形颜色',
+      key: 0,
+      value: '#409EFF',
+      type: OPTIONS_TYPE.COLOR
+    },
+    arrayItems: [
+      {
+        title: '图形颜色1',
+        key: 0,
+        value: '#409EFF',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色2',
+        key: 1,
+        value: '#67C23A',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色3',
+        key: 2,
+        value: '#E6A23C',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色4',
+        key: 3,
+        value: '#F56C6C',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色5',
+        key: 4,
+        value: '#0960bd',
+        type: OPTIONS_TYPE.COLOR
+      }
+    ]
+  },
+  {
+    model: MODEL_TYPES.PATTERN,
+    title: '图形大小',
+    key: 'chartSize',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 12,
+    min: 5,
+    max: 24
+  },
+  {
+    model: MODEL_TYPES.PATTERN,
+    title: '高度',
+    key: 'maxHeight',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 60,
+    min: 50,
+    max: 80
   }
 ] as Array<OptionsType>

@@ -227,6 +227,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
 
   setShadow() {
     let op = this.options
+    this.ctx.shadowColor = this.pattern.color
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur

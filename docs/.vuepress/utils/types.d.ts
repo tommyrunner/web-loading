@@ -1,5 +1,5 @@
 import { MODEL_TYPES } from 'web-loading/src/utils'
-import { OPTIONS_FORM, OPTIONS_TYPE } from './options'
+import { OPTIONS_FORM, OPTIONS_TYPE } from './enum'
 export interface OptionsItemsModelType {
   GEAR: 'Gear'
   RING: 'Ring'
@@ -25,7 +25,6 @@ export type OptionsType = {
   items?: OptionsItemsModelType | OptionsItemsCapType
   arrayItems?: Array<OptionsType>
   arrayAdd?: OptionsType
-  isArrayItems?: boolean
   min?: number
   max?: number
   step?: number

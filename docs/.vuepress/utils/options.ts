@@ -1,23 +1,7 @@
 import type { OptionsType } from './types'
 import { MODEL_TYPES, LOADING_TYPES } from 'web-loading/src/utils'
-export enum OPTIONS_FORM {
-  GG = 'gg',
-  MODEL = 'model'
-}
-export enum OPTIONS_TYPE {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  SELECT = 'select',
-  COLOR = 'color',
-  ARRAY_STRING = 'array_string',
-  ARRAY_NUMBER = 'array_number'
-}
-export enum CANVAS_LINE_CAP {
-  butt = 'butt',
-  round = 'round',
-  square = 'square'
-}
+import { ZOOM_ACTION, OPTIONS_TYPE, OPTIONS_FORM, CANVAS_LINE_CAP } from './enum'
+
 export default [
   {
     title: '启动方式',
@@ -315,7 +299,6 @@ export default [
       key: 0,
       value: Math.PI,
       type: OPTIONS_TYPE.NUMBER,
-      isArrayItems: true,
       step: 0.1,
       min: 0.1,
       max: 3.6
@@ -326,7 +309,6 @@ export default [
         key: 0,
         value: Math.PI,
         type: OPTIONS_TYPE.NUMBER,
-        isArrayItems: true,
         step: 0.1,
         min: 0.1,
         max: 3.6
@@ -336,7 +318,6 @@ export default [
         key: 1,
         value: Math.PI / 4,
         type: OPTIONS_TYPE.NUMBER,
-        isArrayItems: true,
         step: 0.1,
         min: 0.1,
         max: 3.6
@@ -345,6 +326,105 @@ export default [
   },
   {
     model: MODEL_TYPES.RING,
+    title: '旋转方向',
+    key: 'direction',
+    type: OPTIONS_TYPE.BOOLEAN,
+    form: OPTIONS_FORM.MODEL,
+    value: true
+  },
+  // ZOOM
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '变化最大',
+    key: 'maxSize',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 16,
+    min: 10,
+    max: 36
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '距离',
+    key: 'zoomGap',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 10,
+    min: 5,
+    max: 40
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '高度',
+    key: 'zoomHeight',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 2,
+    min: 1,
+    max: 10
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: 'zoom数量',
+    key: 'zoomNum',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 5,
+    min: 3,
+    max: 10
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '自定义颜色',
+    key: 'zoomColors',
+    type: OPTIONS_TYPE.ARRAY_STRING,
+    form: OPTIONS_FORM.MODEL,
+    value: ['rgba(64,158,255,1)'],
+    arrayAdd: {
+      title: 'zoom',
+      key: 0,
+      value: 'rgba(64,158,255,1)',
+      type: OPTIONS_TYPE.COLOR
+    },
+    arrayItems: [
+      {
+        title: 'zoom1',
+        key: 0,
+        value: 'rgba(64,158,255,1)',
+        type: OPTIONS_TYPE.COLOR
+      }
+    ]
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '线的样式',
+    key: 'lineCap',
+    type: OPTIONS_TYPE.SELECT,
+    form: OPTIONS_FORM.MODEL,
+    value: CANVAS_LINE_CAP.round,
+    items: CANVAS_LINE_CAP
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '宽度(大小)',
+    key: 'lineWidth',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 10,
+    min: 1,
+    max: 20
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
+    title: '动作',
+    key: 'action',
+    type: OPTIONS_TYPE.SELECT,
+    form: OPTIONS_FORM.MODEL,
+    value: ZOOM_ACTION.SCALE,
+    items: ZOOM_ACTION
+  },
+  {
+    model: MODEL_TYPES.ZOOM,
     title: '旋转方向',
     key: 'direction',
     type: OPTIONS_TYPE.BOOLEAN,

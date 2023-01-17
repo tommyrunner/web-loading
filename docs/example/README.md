@@ -75,12 +75,12 @@ import {
   ElIcon
 } from 'element-plus'
 import { CirclePlusFilled } from '@element-plus/icons-vue'
-import { OPTIONS_FORM } from '../../../utils/options'
+import { OPTIONS_FORM } from '../../../utils/enum'
+import defOptions from '../../../utils/options'
 let list = reactive([])
 let options = reactive([])
 let closeTime = ref('')
 let optionsModel = ref('gg')
-let defOptions = inject('defOptions')
 let nowModel = ref(MODEL_TYPES.GEAR)
 let nowType = ref(LOADING_TYPES.DOM)
 let leftRef = ref(null)

@@ -20,10 +20,10 @@
     <el-color-picker v-model="value" v-if="props.options.type === OPTIONS_TYPE.COLOR" show-alpha></el-color-picker>
   </div>
   <!-- array 多值 -->
-  <el-popover v-if="props.options.type === OPTIONS_TYPE.ARRAY_NUMBER" :width="200" trigger="click">
+  <el-popover v-if="isArray()" :width="200" trigger="click">
     <div class="array-items">
       <div class="item" v-for="item in props.options.arrayItems" :key="item.key">
-        <span style="float: left">{{ item.title }}</span>
+        <span>{{ item.title }}:</span>
         <WebTypeInput v-model="item.value" :options="item" @update="onItemValue"></WebTypeInput>
       </div>
     </div>
@@ -36,7 +36,7 @@
 </template>
 <script setup lang="ts">
 import type { OptionsType } from '../utils/types'
-import { OPTIONS_TYPE } from '../utils/options'
+import { OPTIONS_TYPE } from '../utils/enum'
 import { ElInput, ElSlider, ElSwitch, ElSelect, ElOption, ElColorPicker, ElPopover, ElTag } from 'element-plus'
 import { ref, watch } from 'vue'
 interface PropsType {
@@ -54,6 +54,10 @@ function onItemValue(op: OptionsType) {
   let temValue = Object.assign(value.value)
   temValue[op.key] = op.value
   value.value = temValue
+}
+function isArray() {
+  let type = props.options.type
+  return type && type.includes('array_')
 }
 </script>
 <style scoped>
@@ -80,6 +84,7 @@ function onItemValue(op: OptionsType) {
   border: 1px solid var(--el-color-info);
   cursor: pointer;
   transition: 0.25s;
+  min-height: 30px;
 }
 .array-valus:hover {
   border: 1px solid var(--c-brand);

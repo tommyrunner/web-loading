@@ -60,12 +60,6 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
       })
     )
     this.run(this.draw)
-    this.store.hookCall.beforeColse(() => {
-      console.log("关闭前");
-    });
-    this.store.hookCall.colsed(() => {
-      console.log("关闭后");
-    });
   }
   initPoint() {
     let op = this.options

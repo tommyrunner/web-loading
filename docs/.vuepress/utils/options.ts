@@ -74,7 +74,7 @@ export default [
     key: 'zIndex',
     type: OPTIONS_TYPE.STRING,
     form: OPTIONS_FORM.GG,
-    value: '19'
+    value: '2001'
   },
   {
     title: '主题色',

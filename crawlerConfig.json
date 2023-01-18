@@ -1,6 +1,6 @@
 {
   "index_name": "web-loading",
-  "start_urls": ["https://tommyrunner.github.io/web-loading/", "https://tommyrunner.github.io/web-loading/guide/"],
+  "start_urls": ["https://tommyrunner.github.io/web-loading/"],
   "rateLimit": 8,
   "maxDepth": 10,
   "selectors": {

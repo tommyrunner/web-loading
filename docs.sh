@@ -6,7 +6,7 @@ cd docs/.vuepress/dist
 
 git init
 git add -A
-git commit -m '测试'
+git commit -m '更新文档'
 
 # 推到你仓库的的 gh-page 分支
 # 将 <USERNAME>/<REPO> 替换为你的信息

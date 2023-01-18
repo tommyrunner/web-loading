@@ -155,7 +155,7 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
     draw() {
          let op = this.options;
         // 根据延迟时间绘制(这里获取配置的自定义options参数)
-        this.ctx.fillRect(0, 0, op.size, op.size);
+        this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
     }
 }
 ```
@@ -404,4 +404,7 @@ this.run(()=>{
 
 ### `BaseModel`自定义例子
 
-[链接]
+> 这里方便使用原生html，所采用全局引入方式。
+@[code](./custom.html)
+> 这里自定义了一个，`CustomLoading model`， 获取倒`size`参数后，在`run`函数中每一帧绘制了一个Rect矩形，`defOptions` 是自定义model的默认`options`值，当前`init`时也可以修改
+

@@ -10,6 +10,16 @@ export enum PATTERN_CHART {
   HEART = 'heart',
   POLYGON = 'polygon'
 }
+export enum CLOCK_TEXT {
+  TIME = 'time',
+  S = 's',
+  NULL = ''
+}
+export enum ROLL_CHART {
+  RECT = 'rect',
+  WHEEL = 'wheel',
+  WINDMILL = 'windmill'
+}
 export enum OPTIONS_FORM {
   GG = 'gg',
   MODEL = 'model'

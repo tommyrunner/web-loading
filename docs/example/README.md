@@ -1,66 +1,66 @@
-  <div class="context">
-    <div class="left" ref="leftRef">
-      <el-card v-for="item in list" :key="item.id">
-        <div class="list">
-          <span>
-            id:
-            <b>{{ item.id }}</b>
-          </span>
-          <span>
-            user:
-            <b>{{ item.user }}</b>
-          </span>
-          <span>
-            value:
-            <b>{{ item.value }}</b>
-          </span>
-          <span>
-            date:
-            <b>{{ item.date }}</b>
-          </span>
+<div class="context">
+  <div class="left" ref="leftRef">
+    <el-card v-for="item in list" :key="item.id">
+      <div class="list">
+        <span>
+          id:
+          <b>{{ item.id }}</b>
+        </span>
+        <span>
+          user:
+          <b>{{ item.user }}</b>
+        </span>
+        <span>
+          value:
+          <b>{{ item.value }}</b>
+        </span>
+        <span>
+          date:
+          <b>{{ item.date }}</b>
+        </span>
+      </div>
+    </el-card>
+  </div>
+  <div class="right">
+    <el-tabs v-model="optionsModel" class="demo-tabs">
+      <el-tab-pane label="公共" name="gg" />
+      <el-tab-pane label="model" name="model" />
+    </el-tabs>
+    <div class="options">
+      <div class="items" v-for="item in getOptions" :key="item.key">
+        <div class="head">
+          <span>{{ item.title }}:</span>
+          <el-icon
+            :size="20"
+            color="rgb(64, 158, 255)"
+            @click="onHeadAdd(item)"
+            v-if="item.arrayItems && item.arrayAdd"
+          >
+            <CirclePlusFilled />
+          </el-icon>
         </div>
-      </el-card>
+        <WebTypeInput v-model="item.value" :options="item" @update="onUpdate($event, item)"></WebTypeInput>
+      </div>
     </div>
-    <div class="right">
-      <el-tabs v-model="optionsModel" class="demo-tabs">
-        <el-tab-pane label="公共" name="gg" />
-        <el-tab-pane label="model" name="model" />
-      </el-tabs>
-      <div class="options">
-        <div class="items" v-for="item in getOptions" :key="item.key">
-          <div class="head">
-            <span>{{ item.title }}:</span>
-            <el-icon
-              :size="20"
-              color="rgb(64, 158, 255)"
-              @click="onHeadAdd(item)"
-              v-if="item.arrayItems && item.arrayAdd"
-            >
-              <CirclePlusFilled />
-            </el-icon>
-          </div>
-          <WebTypeInput v-model="item.value" :options="item" @update="onUpdate($event, item)"></WebTypeInput>
-        </div>
-      </div>
-      <div class="set">
-        <el-button type="primary" @click="onLoading">加载</el-button>
-        <el-button type="danger" v-if="nowType === LOADING_TYPES.DOM" @click="onClose">关闭</el-button>
-        <input type="number" placeholder="1秒关闭" @input="closeInput" v-model="closeTime" v-else />
-        <el-dropdown>
-          <el-button type="success">复制</el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="onReplication()">修改部分</el-dropdown-item>
-              <el-dropdown-item @click="onReplication('all')">全部配置</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
+    <div class="set">
+      <el-button type="primary" @click="onLoading">加载</el-button>
+      <el-button type="danger" v-if="nowType === LOADING_TYPES.DOM" @click="onClose">关闭</el-button>
+      <input type="number" placeholder="1秒关闭" @input="closeInput" v-model="closeTime" v-else />
+      <el-dropdown>
+        <el-button type="success">复制</el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="onReplication()">修改部分</el-dropdown-item>
+            <el-dropdown-item @click="onReplication('all')">全部配置</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
+</div>
 
 <script setup>
-import { ref, reactive, inject, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { LOADING_TYPES, MODEL_TYPES } from 'web-loading/src/utils'
 import 'element-plus/dist/index.css'
 import {
@@ -72,7 +72,8 @@ import {
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
-  ElIcon
+  ElIcon,
+  ElNotification
 } from 'element-plus'
 import { CirclePlusFilled } from '@element-plus/icons-vue'
 import { OPTIONS_FORM } from '../../../utils/enum'
@@ -85,6 +86,7 @@ let nowModel = ref(MODEL_TYPES.GEAR)
 let nowType = ref(LOADING_TYPES.DOM)
 let leftRef = ref(null)
 let webLoading = null
+let isNotification = false
 const getOptions = computed(() => {
   let om = options.filter((o) => o.form === optionsModel.value)
   if (optionsModel.value === 'model') {
@@ -126,6 +128,14 @@ function onUpdate(v, op) {
   }
   if (op.key === 'type') {
     nowType.value = v.value
+  }
+  if (!isNotification && ['bgColor', 'pointerEvents'].includes(op.key)) {
+    ElNotification({
+      title: '提示',
+      type: 'warning',
+      message: '部分公共options是用于初始化canvas,例如:"背景色"与"事件穿透",需要 重新加载 显示效果!'
+    })
+    isNotification = true
   }
   webLoading && webLoading.update(fromOptions())
 }

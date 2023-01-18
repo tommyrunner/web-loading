@@ -26,10 +26,10 @@ export enum MODEL_TYPES {
   BEAN = 'Bean',
   // 翻滚
   ROLL = 'Roll',
-  // 骨架屏
-  SKELETON = 'Skeleton',
   // 图片
-  IMG = 'Img'
+  IMG = 'Img',
+  // 骨架屏
+  SKELETON = 'Skeleton'
 }
 /**
  *

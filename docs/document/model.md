@@ -108,7 +108,7 @@
 | ------------ | ------------------- | ----------------------------------- | --------- | ------------------------------- |
 | `textTime`   | `'time'或's'  或''` | `''`                                |           | 文字显示模式:time:年月日，s：秒 |
 | `lineColors` | `Array<string>`     | `['#d4d4d4', '#06ab2d', '#8a0303']` | length<=3 | 指针颜色                        |
-| `lineCap`    | `Array<string>`     | `round`                             |           | 线的样式                        |
+| `lineCap`    | `CanvasLineCap`     | `round`                             |           | 线的样式                        |
 | `lineWidth`  | `number`            | `12`                                |           | 线宽度                          |
 | `clockSize`  | `number`            | 15                                  |           | clock大小                       |
 | `clockGap`   | `number`            | 4                                   |           | clock 空隙                      |
@@ -131,13 +131,13 @@
 
 | 属性                 | 类型            | 默认值                                         | 限制      | 备注                            |
 | -------------------- | --------------- | ---------------------------------------------- | --------- | ------------------------------- |
-| `rollGap`            | `number`        | `12`                                           |           | Roll直接空隙                    |
 | `rollSize`           | `number`        | `16`                                           | length<=3 | roll大小                        |
 | `showChild`          | `boolean`       | `true`                                         |           | 显示影子child                   |
 | `childNum`           | `number`        | `4`                                            | [4-10]    | child影子数量                   |
+| `rollGap` | `number` | `12` |  | 影子空隙 |
 | `chart`              | `ROLL_CHART`    | `ROLL_CHART.WHEEL`                             |           | 显示的图形                      |
-| `windmills`          | `Array<string>` | `['#1ab3ea', '#de6834', '#30925d', '#f48ea5']` |           | 图形为Windmills时的叶片颜色。   |
-| `windmillPointColor` | `string`        | `#f2c31f`                                      |           | 图形为Windmills时的中间点颜色。 |
+| `windmills`          | `Array<string>` | `['#1ab3ea', '#de6834', '#30925d', '#f48ea5']` |           | 图形为Windmills的叶片颜色。   |
+| `windmillPointColor` | `string`        | `#f2c31f`                                      |           | 图形为Windmills时中间点颜色。 |
 | `fixad`              | `boolean`       | `false`                                        |           | 是否中心固定                    |
 
 ### ROLL.chart
@@ -166,6 +166,8 @@
 ## SKELETON
 
 > 类型`SkeletonOptionsType`。
+> 
+> `Skeleton` 不会给内嵌文本生成骨架。
 
 | 属性                     | 类型      | 默认值               | 备注             |
 | ------------------------ | --------- | -------------------- | ---------------- |
@@ -176,9 +178,11 @@
 | `deep`                   | `boolean` | `true`               | 深度skeleton     |
 | `appoint`                | `string`  | `''`                 | 指定元素skeleton |
 
-### SKELETON例子
+### SKELETON上拉加载例子
 
-[暂无]
+> 业务场景：功能是**指定某些元素**，显示骨架，比如上拉加载，只需要动态显示最后一个或多个模块元素显示骨架，此时推荐指定元素。
+@[code](./SKELETON.html)
+> 这里使用原生html方式引入，并显示，其余web框架同理。这里用的是**元素分隔**的方式，当然也可以使用`appoint`指定元素实现。
 
 ## 涉及到的HTEMLElment类型
 

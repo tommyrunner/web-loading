@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>web-loading</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="list">
+        <div class="item">
+          <div>
+            id:
+            <span class="value">001</span>
+          </div>
+          <div>
+            user:
+            <span class="value">use1</span>
+          </div>
+        </div>
+        <div class="item">
+          <div>
+            id:
+            <span class="value">002</span>
+          </div>
+          <div>
+            user:
+            <span class="value">use2</span>
+          </div>
+        </div>
+        <div class="item">
+          <div>
+            id:
+            <span class="value">003</span>
+          </div>
+          <div>
+            user:
+            <span class="value">use3</span>
+          </div>
+        </div>
+      </div>
+      <div class="skeleton">
+        <div>
+          <span>id:</span>
+          <span class="value"></span>
+        </div>
+        <div>
+          <span>user:</span>
+          <span class="value"></span>
+        </div>
+      </div>
+    </div>
+    <!-- web-loading -->
+    <script src="./dist/main.js"></script>
+    <script>
+      let time = null
+      let itemIndex = 3
+      window.onload = () => {
+        let docApp = document.querySelector('#app')
+        let docList = document.querySelector('#app .list')
+        let itemDoc = document.querySelector('#app .skeleton')
+        const webLoading = initLoading({
+          model: 'Skeleton',
+          bgColor: '',
+          deep: true,
+          pointerEvents: true
+        })
+        window.addEventListener('resize', webLoading.resize)
+        docApp.addEventListener('scroll', () => {
+          if (docApp.scrollTop + docApp.clientHeight >= docApp.scrollHeight - 60) {
+            webLoading.loading(itemDoc)
+            clearTimeout(time)
+            // simulate loading data
+            time = setTimeout(() => {
+              ++itemIndex
+              docList.innerHTML += `<div class="item">
+                <span>
+                  id:
+                  <b class="value">00${itemIndex}</b>
+                </span>
+                <span>
+                  user:
+                  <b class="value">user${itemIndex}</b>
+                </span>
+              </div>`
+              webLoading.close()
+            }, 1500)
+          }
+        })
+      }
+    </script>
+  </body>
+  <style>
+    #app {
+      margin: 12px;
+      padding: 12px;
+      height: 200px;
+      border: 1px solid gray;
+      overflow: auto;
+      border-radius: 5px;
+    }
+    #app .item,
+    #app .skeleton {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 10px;
+      line-height: 30px;
+      margin-bottom: 6px;
+      height: 60px;
+    }
+    #app .item .value,
+    #app .skeleton .value {
+      display: inline-block;
+      min-width: 31px;
+      min-height: 16px;
+      font-weight: bold;
+      color: rgb(64, 158, 255);
+    }
+  </style>
+</html>

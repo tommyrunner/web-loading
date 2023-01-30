@@ -71,7 +71,6 @@ import initLoading from 'web-loading/src/loading'
 
 ```typescript
 import type { LoadingType } from 'web-loading/src/type.d'
-// 全局引入initLoading挂载在window上
 let webLoading:LoadingType = initLoading({
     // 自定义options
 })

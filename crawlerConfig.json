@@ -1,20 +1,36 @@
 {
   "index_name": "web-loading",
-  "start_urls": ["https://tommyrunner.github.io/web-loading/"],
-  "rateLimit": 8,
-  "maxDepth": 10,
+  "start_urls": [
+    {
+      "url": "https://tommyrunner.github.io/web-loading/",
+      "selectors_key": "v2",
+      "tags": ["v2"]
+    }
+  ],
+  "stop_urls": [],
   "selectors": {
-    "lvl0": {
-      "selector": "",
-      "defaultValue": "Documentation"
-    },
-    "lvl1": ".content h1",
-    "lvl2": ".content h2",
-    "lvl3": ".content h3",
-    "lvl4": ".content h4",
-    "lvl5": ".content h5",
-    "content": ".content p, .content li"
+    "v2": {
+      "lvl0": {
+        "selector": ".sidebar-heading.active",
+        "global": true,
+        "default_value": "Documentation"
+      },
+      "lvl1": ".theme-default-content h1",
+      "lvl2": ".theme-default-content h2",
+      "lvl3": ".theme-default-content h3",
+      "lvl4": ".theme-default-content h4",
+      "lvl5": ".theme-default-content h5",
+      "text": ".theme-default-content p, .theme-default-content li",
+      "lang": {
+        "selector": "/html/@lang",
+        "type": "xpath",
+        "global": true
+      }
+    }
   },
-  "selectors_exclude": ["aside", ".page-footer", ".next-and-prev-link", ".table-of-contents"],
-  "js_render": true
+  "scrape_start_urls": false,
+  "strip_chars": " .,;:#",
+  "custom_settings": {
+    "attributesForFaceting": ["lang", "tags"]
+  }
 }

@@ -2,19 +2,19 @@ export default {
   '/us/guide/': [
     {
       text: '',
-      children: ['/guide/README.md']
+      children: ['/us/guide/README.md']
     }
   ],
   '/us/document/use.html': [
     {
       text: '',
-      children: ['/document/use.md']
+      children: ['/us/document/use.md']
     }
   ],
   '/us/document/model.html': [
     {
       text: '',
-      children: ['/document/model.md']
+      children: ['/us/document/model.md']
     }
   ]
 }

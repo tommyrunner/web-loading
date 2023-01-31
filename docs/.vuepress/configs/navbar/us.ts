@@ -17,11 +17,11 @@ export default [
     children: [
       {
         text: 'use',
-        link: '/us/document/use/'
+        link: '/us/document/use.html'
       },
       {
         text: 'model',
-        link: '/us/document/model/'
+        link: '/us/document/model.html'
       }
     ]
   },

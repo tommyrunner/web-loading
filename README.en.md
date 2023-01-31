@@ -1,107 +1,120 @@
-# 介绍
-[官网](https://tommyrunner.github.io/web-loading/)
+# guide
 
-Web中实现loading的方式有很多种，例如使用`css`动画、`js`操作元素、`gif`图片、`svg`动画、`ui`框架中自带`loading`等等，各有所优，操作元素可能更方便，但会影响性能或其他元素，动态图片性能很好，但自定义不理想。
+## introduce
 
-`WebLoading` 是一个基于`js`封装的`loading`动画插件，主要通过`Canvas`绘制，不用担心会影响界面中的元素。默认提供多种**model**使用，每个**model**都有特殊的`option`参数进行调节自定义，如果想更贴近业务可以使用`custom`进行自定义，`WebLoading`提供了`BaseModel` 继承`class`让你更方便自定义自己的`loading`。
+There are many ways to implement loading on the Web, such as using `css` animation,`js` operation element, `gif` image, `svg` animation, and `loading` in the `ui` framework. Each has its own advantages. The operation element may be more convenient, but it will affect performance or other elements. The dynamic image performance is good, but the customization is not ideal.
 
-## 实现
+`WebLoading `is a` loading `animation plug-in based on` js` encapsulation, which is mainly drawn through `Canvas`, without worrying about affecting the elements in the interface. Various **model** modules are provided by default. Each **model** has a special `option` parameter to adjust and customize. If you want to be closer to the business, you can use `custom` to customize. `WebLoading` provides` BaseModel `inheritance` class` to make it easier for you to customize your own `loading`.
 
-`WebLoading`每一个**model**都是使用`Canvas`绘制，启动方式分别有`DOM`(元素挂载)、`FULL`(全屏)、`MINI`(移动端)。
+## realization
 
-原理大同小异，这里以`DOM`来说，启动`WebLoading`需要一个`HtmlElement`，该元素必须拥有`children`，而不是一个单标签元素。启动`WebLoading`时会获取到这个挂载的元素，并在`children`添加一个`Canvas`，同时会计算该元素位置以及大小以最优显示同步到`Canvas`上。`WebLoading`会根据`option`参数来绘制具体的**model**，**model**中主要以`requestAnimationFrame`来进行多次渲染。
+`Each **model** in WebLoading `is drawn using` Canvas`. The startup methods include `DOM` (element mount), `FULL` (full screen), and `MINI` (mobile terminal).
 
-## 启动方式
+The principle is very similar. For `DOM`, first we need `initLoading` to initialize the **model** that you need to render and provide custom parameters. Of course, this operation is not necessary, because `WebLoading` has initialized all the default data. At this time, the operation `WebLoading` related function is thrown.
 
-`DOM`、`FULL`、`MINI`三种启动方式都需要基于`HtmlElement`，这里`FULL`、`MINI`是扩展的启动方式，参数中无须提供`HtemlElment`，是因为`WebLoading`已经处理的元素的创建到消失的流程。
+Starting the `WebLoading` and calling the `loading` function requires a `HtmlElement` element, which must have `children` instead of a single label element. When you start `WebLoading`, you will get the mounted element and add a `Canvas` in` children `. At the same time, the location and size of the element will be calculated and synchronized to` Canvas` for optimal display` WebLoading `will draw the specific **model** according to the` options` parameter, and the **model** mainly uses the `requestAnimationFrame` to callback and render multiple times to achieve each frame of animation.
 
-# 安装
+`WebLoading ` package is mainly divided into three layers
++ Interaction layer: operations between developers and `WebLoading`, such as initialization, startup, shutdown, obtaining relevant information, etc.
++ Logical layer: get the elements to be initialized and mounted after `WebLoading` receives` options` and `canvas`.
++ Model layer: Inherit `BaseModel` to get the initialized `canvas` for drawing module.
 
-> 根据自己的包管理工具下载。
+## install
+
+> Download according to your own package management tool.
 
 ```sh
 npm install web-loading
 ```
 
-# 引用
+## use
 
-## 全局引入
+### Get Element
 
-+ 引入
+```typescript
+// No frame
+let dom = document.querySelector('xxx')
+// vue 
+let dom = ref()
+// ...(The purpose is to get the dom element)
+```
+
+### Global introduction
+
++ introduce
 
 ```typescript
 import 'web-loading'
 ```
 
-+ 获取元素
++ initialization
 
 ```typescript
-// 无框架情况
-let dom:HtmlElement = document.querySelector('xxx')
-// vue 
-let dom = ref()
-// ...(目的是获取dom元素)
+// Introduce initLoading globally and mount it on window
+let webLoading = initLoading({
+    // Custom options
+})
 ```
 
-+ DOM
-
-```typescript
-let loading = dom.loading()
-```
-
-> + 参数
->   + `options?:OptionsType`
-> + 全局引入后`WebLoading`会自动在所有元素中挂载`loading`函数。
-
-+ FULL与MINI
-
-```typescript
-// FULL全屏
-let loading = fullLoading()
-// mini移动端
-let loading = miniLoading()
-```
-
-> + 参数
->   + `options?:OptionsType`
-> + 全局引入后`WebLoading`会自动在`window`中挂载`fullLoading`与`miniLoading`函数。
-
-## 单独引入
-
-+ 引入
-
-```typescript
-import webLoading,{fullLoading,miniLoading} from 'web-loading/src/loading'
-```
-
-+ 获取元素
-
-```typescript
-// 无框架情况
-let dom:HtmlElement = document.querySelector('xxx')
-// vue 
-let dom = ref()
-// ...(目的是获取dom元素)
-```
-
-+ DOM
-
-```typescript
-let loading = webLoading(dom)
-```
-
-> + 参数
->   + `dom:HtmlElement`
+> + parameter
 >   + `options?:OptionsType`
 
-+ FULL与MINI
+### Individually introduced
+
++ introduce
 
 ```typescript
-// FULL全屏
-let loading = fullLoading()
-// mini移动端
-let loading = miniLoading()
+import initLoading from 'web-loading/src/loading'
 ```
 
-> + 参数
++ initialization
+
+```typescript
+import type { LoadingType } from 'web-loading/src/type.d'
+let webLoading:LoadingType = initLoading({
+    // Custom options
+})
+```
+
+> + parameter
 >   + `options?:OptionsType`
+
+### start-up
+
+```typescript
+ webLoading.loading(dom)
+```
+
+> parameter
+>
+> + `dom`:Mounted`HtmlElement`element
+>
+> + `options?:OptionsType`, each startup supports coverage`options`.
+
+## Start mode
+
+`DOM `,` FULL `,` MINI `All three startup methods need to be based on` HtmlElement `, where` FULL `and` MINI `are the extended startup methods, and` HtmlElement `is not required in the parameters, because` WebLoading `has processed the process from creation to disappearance of elements.
+
++ Modify the `type` switch start mode
+
+```typescript
+import type { LoadingType } from 'web-loading/src/type.d'
+let webLoading:LoadingType = initLoading({
+   type:'mini' // or full
+})
+// start
+webLoading.loading()
+```
+
++ Function modification
+
+```typescript
+import {fullLoading,miniLoading} from 'web-loading/src/loading'
+let webLoading:LoadingType = fullLoading() // miniLoading
+// start
+webLoading.loading()
+```
+
+> + Global introduction. Similarly, functions have been mounted on `window`.
+> + Function modification `WebLoading` is also implemented internally by modifying `type`.
+> + The extension start mode does not need to provide elements.

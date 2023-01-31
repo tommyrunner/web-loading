@@ -54,7 +54,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.run(this.draw)
   }
   draw() {
-    let op = this.options
+    const op = this.options
     this.clearRect()
     this.ctx.save()
     this.ctx.beginPath()
@@ -74,7 +74,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.controller()
   }
   controller() {
-    let op = this.options
+    const op = this.options
     if (this.bean.nowX >= (op.pointLength * op.beanSize) / 2 + op.beanSize * 2) {
       this.bean.nowX = -(op.pointLength * op.beanSize) / 2 - op.beanSize * 3
       this.bean.beanAnimaIndex = 0
@@ -90,7 +90,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     if (this.bean.beanState === 2) this.bean.nowX += op.beanSize / 3
   }
   drawPoint() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.setShadow()
     this.ctx.translate(-(op.pointLength * op.beanSize) / 2, 0)
@@ -105,7 +105,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
   }
   // 滤布
   drawFillter() {
-    let op = this.options
+    const op = this.options
     // 眼镜
     this.clearRect(-op.beanSize / 3 + this.bean.nowX, -op.beanSize / 2, op.beanSize / 4)
     // 跟随
@@ -121,16 +121,16 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.clearRect((op.pointLength * op.beanSize) / 2, -this.h, 180, this.h * 2)
   }
   setShadow() {
-    let op = this.options
+    const op = this.options
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur
   }
   drawText() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
-    let y = op.fontSize + op.textGap + op.beanSize
+    const y = op.fontSize + op.textGap + op.beanSize
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()

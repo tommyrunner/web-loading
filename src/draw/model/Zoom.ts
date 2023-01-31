@@ -62,7 +62,7 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     this.run(this.draw)
   }
   initPoint() {
-    let op = this.options
+    const op = this.options
     this.ctx.lineCap = op.lineCap
     this.ctx.lineWidth = op.lineWidth
     // 居中((zoom宽度*个数+1)+(zoom空隙*个数+1))/2,因第一个zoom就移位了所需要个数+1,高度/2
@@ -79,12 +79,12 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     this.controller()
   }
   controller() {
-    let op = this.options
+    const op = this.options
     if (op.direction && this.zoomIndex >= op.zoomNum) this.zoomIndex = 0
     else if (op.direction && this.zoomIndex < 0) this.zoomIndex = op.zoomNum - 1
   }
   drawZoom() {
-    let op = this.options
+    const op = this.options
     for (let i = 0; i < op.zoomNum; i++) {
       // 流程变化
       if (this.list[i].state === 1) this.list[i].value += 2
@@ -121,10 +121,10 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     }
   }
   drawText() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
-    let y = op.fontSize + op.maxSize
+    const y = op.fontSize + op.maxSize
     this.ctx.fillText(op.text, (op.lineWidth * (op.zoomNum + 1) + op.zoomGap * (op.zoomNum + 1)) / 2, y)
     this.ctx.closePath()
     this.ctx.restore()

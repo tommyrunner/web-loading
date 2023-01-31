@@ -35,7 +35,7 @@ export default class Img extends BaseModel<ImageOptionsType> {
     this.drawText()
   }
   drawImg() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     if (op.turn) this.ctx.rotate((this.turn * Math.PI) / 180)
     this.ctx.drawImage(this.img, -op.width / 2, -op.height / 2, op.width, op.height)
@@ -44,10 +44,10 @@ export default class Img extends BaseModel<ImageOptionsType> {
     this.turn += 10
   }
   drawText() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
-    let y = op.fontSize + op.textGap + op.height / 2
+    const y = op.fontSize + op.textGap + op.height / 2
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()

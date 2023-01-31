@@ -55,7 +55,6 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.initOptions(defaultOptions, limits)
     // 3.初始化画笔
     this.initPoint()
-    let op = this.options
     this.pattern = {
       color: this.randomState('chartColors'),
       nowHeight: 10,
@@ -71,7 +70,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.options.delay = 10
   }
   draw() {
-    let op = this.options
+    const op = this.options
     this.clearRect()
     this.ctx.save()
     this.ctx.beginPath()
@@ -137,7 +136,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     }
   }
   randomState(key: any): PATTERN_CHART {
-    let op: any = this.options
+    const op: any = this.options
     return op[key][parseInt(String(Math.random() * op[key].length))]
   }
   drawText(op: Required<PatternOptionsType>) {
@@ -145,7 +144,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.save()
     this.ctx.beginPath()
     this.ctx.fillStyle = this.pattern.color
-    let y = op.fontSize + op.textGap
+    const y = op.fontSize + op.textGap
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()
@@ -226,7 +225,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
   }
 
   setShadow() {
-    let op = this.options
+    const op = this.options
     this.ctx.shadowColor = this.pattern.color
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY

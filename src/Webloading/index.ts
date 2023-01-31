@@ -28,8 +28,8 @@ export default class WebLoading {
     if (element.$store) drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element.$store)
   }
   close(element: ElementType, canvas: HTMLCanvasElement) {
-    let op = this.options
-    let store = element.$store
+    const op = this.options
+    const store = element.$store
     // 会触发动画
     this.clearStyle(element, canvas)
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
@@ -76,9 +76,9 @@ export default class WebLoading {
     }
   }
   private initCanvasStyle(element: ElementType, loadingId: string, canvas: HTMLCanvasElement) {
-    let op = this.options
+    const op = this.options
     // offset 含有scroll值的 显然client:内容+padding更合理
-    let elementW = element.clientWidth,
+    const elementW = element.clientWidth,
       elementH = element.clientHeight,
       readElementStyle = window.getComputedStyle(element),
       elementStyle = element.style,
@@ -109,13 +109,13 @@ export default class WebLoading {
   }
   draw(element: ElementType) {
     // 初始化基础数据
-    let initValue = this.init()
+    const initValue = this.init()
     // 初始化样式
     this.initCanvasStyle(element, initValue.loadingId, initValue.canvas)
     // 初始化store
     this.initStore(element, initValue.hooks)
     if (element.$store) {
-      let canvas = initValue.canvas
+      const canvas = initValue.canvas
       drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element.$store)
     } else {
       $Log.error('WebLoading:canvas or ctx null')

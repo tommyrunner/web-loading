@@ -2,7 +2,7 @@ import type { OptionsType, WindowType } from './types.d'
 import BaseModel from './draw/model/BaseModel'
 import { LOADING_TYPES } from './utils'
 import initLoading, { _$extendLoading } from './loading'
-let $window: WindowType = window
+const $window: WindowType = window
 $window.BaseModel = BaseModel
 // 初始化
 $window.initLoading = function (options?: OptionsType) {

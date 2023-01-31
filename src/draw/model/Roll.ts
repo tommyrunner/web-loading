@@ -83,7 +83,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.drawText()
   }
   selectChart() {
-    let op = this.options
+    const op = this.options
     switch (op.chart) {
       case ROLL_CHART.RECT:
         this.drawRect()
@@ -97,7 +97,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     }
   }
   controller() {
-    let op = this.options
+    const op = this.options
     if (this.Roll.state === 1) {
       this.Roll.turn -= 10
       if (op.delay < 20 && !op.fixad) op.delay += 2
@@ -112,7 +112,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     if (this.Roll.state === 1) this.Roll.nowX++
     if (this.Roll.state === 2) this.Roll.nowX--
 
-    let child = this.Roll.child
+    const child = this.Roll.child
     if (this.Roll.nowX % (op.rollSize + op.rollGap) == 0 && this.Roll.state === 2) {
       child.push({ turn: this.Roll.turn, x: this.Roll.nowX })
     }
@@ -122,7 +122,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
   }
   // 正方形
   drawRect() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.setShadow()
     this.ctx.translate(-op.rollSize / 2, -op.rollSize / 2)
@@ -131,7 +131,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
   }
   // 轮子
   drawWheel() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.lineWidth = 4
     // 内圆1
@@ -162,7 +162,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
   }
   // 风车
   drawWindmill() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     for (let i = 0; i < op.windmills.length; i++) {
       this.ctx.beginPath()
@@ -180,7 +180,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.ctx.restore()
   }
   drawChild() {
-    let op = this.options
+    const op = this.options
     if (!op.showChild) return
     this.Roll.child.forEach((c, index) => {
       this.ctx.save()
@@ -192,7 +192,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     })
   }
   drawGround() {
-    let op = this.options
+    const op = this.options
     if (op.chart !== ROLL_CHART.WHEEL) return
     this.ctx.save()
     this.ctx.beginPath()
@@ -205,16 +205,16 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.ctx.restore()
   }
   drawText() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
-    let y = op.fontSize + op.textGap + op.rollSize
+    const y = op.fontSize + op.textGap + op.rollSize
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()
   }
   setShadow() {
-    let op = this.options
+    const op = this.options
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur

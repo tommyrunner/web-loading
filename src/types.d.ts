@@ -1,4 +1,4 @@
-import { MODEL_TYPES, LOADING_TYPES, LOG_TYPES, HOOKSCALL_KEY } from './utils'
+import { MODEL_TYPES, LOADING_TYPES, HOOKSCALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
 export interface OptionsType {
   // 自定义model
@@ -50,7 +50,7 @@ export interface LoadingType {
   loading: Function
   resize: Function
   close: Function
-  update:Function
+  update: Function
   getOptions: () => OptionsType
   getLoadingId: () => string | null
 }

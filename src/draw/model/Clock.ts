@@ -44,7 +44,7 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     this.run(this.draw)
   }
   initPoint() {
-    let op = this.options
+    const op = this.options
     this.ctx.lineCap = op.lineCap
     this.ctx.lineWidth = op.lineWidth
     this.ctx.save()
@@ -55,10 +55,10 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     this.drawClock()
   }
   drawText(h: number, m: number, s: number) {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
-    let y = op.clockSize * 2 + op.textGap
+    const y = op.clockSize * 2 + op.textGap
     if (op.textTime === 'time') op.text = `${h} : ${m} : ${s}`
     if (op.textTime === 's') op.text = this.nowTime + 's'
     this.ctx.fillText(op.text, 0, y)
@@ -66,10 +66,10 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     this.ctx.restore()
   }
   drawClock() {
-    let op = this.options
-    let s = new Date().getSeconds()
-    let m = new Date().getMinutes()
-    let h = new Date().getHours()
+    const op = this.options
+    const s = new Date().getSeconds()
+    const m = new Date().getMinutes()
+    const h = new Date().getHours()
     // 顶
     this.ctx.save()
     this.ctx.beginPath()
@@ -146,7 +146,7 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     this.drawText(h, m, s)
   }
   setShadow() {
-    let op = this.options
+    const op = this.options
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur

@@ -1,7 +1,7 @@
 import { OptionsType } from '../types'
 import { LOADING_TYPES } from '../utils'
 
-let $document: Document = document
+const $document: Document = document
 export default class ExtendLoading {
   extendEl: HTMLElement
   options?: OptionsType
@@ -11,7 +11,7 @@ export default class ExtendLoading {
   }
   private initStyle(): HTMLElement {
     this.extendEl = document.createElement('div')
-    let op = this.options
+    const op = this.options
     let w = '100vw',
       h = '100vh',
       borderRadius = '0px'

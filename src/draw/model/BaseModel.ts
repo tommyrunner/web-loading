@@ -34,7 +34,7 @@ export default class BaseModel<T extends OptionsType> {
     // 判断需要限制属性值(只做提示)
     if (limits && limits.length) {
       limits.forEach((l: LimitType) => {
-        let mayKey = this.options[l.key as keyof typeof this.options]
+        const mayKey = this.options[l.key as keyof typeof this.options]
         if (!isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
       })
     }
@@ -44,7 +44,7 @@ export default class BaseModel<T extends OptionsType> {
     this.clearRect()
     this.ctx.resetTransform()
     // 默认主题色
-    let op = this.options,
+    const op = this.options,
       defW = this.canvas.width,
       defH = this.canvas.height
     this.ctx.fillStyle = op.themeColor!
@@ -65,7 +65,7 @@ export default class BaseModel<T extends OptionsType> {
   }
   // 清空画布
   clearRect(x?: number, y?: number, w_r?: number, h?: number) {
-    let defW = this.canvas.width,
+    const defW = this.canvas.width,
       defH = this.canvas.height
     // 因为已经把起点设置到中心，所需要扩张
     if (!isNull(x) && !isNull(y) && !isNull(w_r) && !isNull(h)) {
@@ -73,12 +73,12 @@ export default class BaseModel<T extends OptionsType> {
     }
     // 圆形区域清空
     else if (!isNull(x) && !isNull(y) && !isNull(w_r) && isNull(h)) {
-      let calcWidth = w_r - this.stepClear
-      let calcHeight = Math.sqrt(w_r * w_r - calcWidth * calcWidth)
-      let posX = x - calcWidth
-      let posY = y - calcHeight
-      let widthX = 2 * calcWidth
-      let heightY = 2 * calcHeight
+      const calcWidth = w_r - this.stepClear
+      const calcHeight = Math.sqrt(w_r * w_r - calcWidth * calcWidth)
+      const posX = x - calcWidth
+      const posY = y - calcHeight
+      const widthX = 2 * calcWidth
+      const heightY = 2 * calcHeight
       if (this.stepClear <= w_r) {
         this.ctx.clearRect(posX, posY, widthX, heightY)
         this.stepClear += 1

@@ -41,7 +41,13 @@ let dom = ref()
 
 ### Global introduction
 
-+ introduce
++ `Cdn ` introduction
+
+```html
+<script src="https://tommy-file.oss-cn-hangzhou.aliyuncs.com/warehouse/web-loading.js"></script>
+```
+
++ Project `import` import
 
 ```typescript
 import 'web-loading'

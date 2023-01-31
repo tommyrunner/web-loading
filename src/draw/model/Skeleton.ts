@@ -38,7 +38,7 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     this.run(this.draw)
   }
   initPoint() {
-    let op = this.options
+    const op = this.options
     // 重新初始化画布
     this.ctx.translate(-this.w / 2, -this.h / 2)
     this.canvas.width = this.store.element.scrollWidth
@@ -50,8 +50,8 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     this.drawSkeleton()
   }
   controller(els: HTMLCollection) {
-    let op = this.options
-    for (let e of Array.from(els)) {
+    const op = this.options
+    for (const e of Array.from(els)) {
       if (this.store.loadingId === e.id) continue
       if (op.appoint.length > 0 && e.getAttribute(op.appoint) === null) continue
       if (op.deep) {
@@ -64,14 +64,14 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     }
   }
   drawSkeleton() {
-    let op = this.options
-    let linearGradient = this.ctx.createLinearGradient(0, 0, this.w, this.h)
+    const op = this.options
+    const linearGradient = this.ctx.createLinearGradient(0, 0, this.w, this.h)
     linearGradient.addColorStop(0, op.skeletonColor)
     linearGradient.addColorStop(this.colorFlow, op.skeletonAnimationColor)
     linearGradient.addColorStop(1, op.skeletonColor)
     if (op.animation) this.ctx.fillStyle = linearGradient
     this.skeleton.forEach((s) => {
-      let el = s.element
+      const el = s.element
       // 处理圆角露出问题
       this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius)
       this.ctx.fill()

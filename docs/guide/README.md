@@ -41,7 +41,13 @@ let dom = ref()
 
 ### 全局引入
 
-+ 引入
++ `cdn`引入
+
+```html
+<script src="https://tommy-file.oss-cn-hangzhou.aliyuncs.com/warehouse/web-loading.js"></script>
+```
+
+  + 工程项目 `import` 引入
 
 ```typescript
 import 'web-loading'

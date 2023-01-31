@@ -96,7 +96,7 @@ export class $Log {
     if (type === 2) bgColor = '#fffbe5'
     // 错误色不能改变
     if (type === 3) bgColor = '#fff0f0'
-    let style = `
+    const style = `
       background:${bgColor};
       font-size:14px;
       color:${config.color};

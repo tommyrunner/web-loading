@@ -1,16 +1,16 @@
 import WebLoading from './Webloading/index'
 import ExtendLoading from './ExtendLoading'
-import type { OptionsType, LoadingType, ElementType } from './types.d'
+import type { OptionsType, LoadingType } from './types.d'
 import { LOADING_TYPES, getDefOptions, $Log } from './utils'
 import drawController from './draw/index'
 export default function initLoading(options?: OptionsType): LoadingType {
-  let webLoading = new WebLoading(options)
+  const webLoading = new WebLoading(options)
   const resize = () => {
     if (webLoading.element && webLoading.canvas) webLoading.resize(webLoading.element, webLoading.canvas)
   }
   const loading = (dom: HTMLElement, options?: OptionsType) => {
     // 保留上次传入参数
-    let op = Object.assign(webLoading.options, options)
+    const op = Object.assign(webLoading.options, options)
     // 防止重复注册
     if (!webLoading.loadingId) {
       // 创建扩展dom
@@ -22,9 +22,9 @@ export default function initLoading(options?: OptionsType): LoadingType {
     }
   }
   const update = (options?: OptionsType) => {
-    let canvas = webLoading.canvas
-    let op = Object.assign(webLoading.options, options)
-    let element = webLoading.element
+    const canvas = webLoading.canvas
+    const op = Object.assign(webLoading.options, options)
+    const element = webLoading.element
     if (canvas && op && element && element.$store)
       drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element.$store)
   }

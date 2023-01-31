@@ -43,7 +43,7 @@ export default class Gear extends BaseModel<GearOptionsType> {
     this.run(this.draw)
   }
   initPoint() {
-    let op = this.options
+    const op = this.options
     this.ctx.lineCap = op.lineCap
     this.ctx.lineWidth = op.lineWidth
     this.ctx.save()
@@ -58,12 +58,12 @@ export default class Gear extends BaseModel<GearOptionsType> {
     this.drawText()
   }
   controller() {
-    let op = this.options
+    const op = this.options
     if (op.direction) this.aps = this.aps.map((a) => (a - 1 <= 0 ? this.aps.length - 1 : a - 1))
     else this.aps = this.aps.map((a) => (a + 1 > this.aps.length ? 0 : a + 1))
   }
   drawGear() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     // 设置阴影
     this.ctx.shadowOffsetX = op.shadowOffsetX
@@ -82,11 +82,11 @@ export default class Gear extends BaseModel<GearOptionsType> {
     this.ctx.restore()
   }
   drawText() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
     // 位置+文字+间隔
-    let y = op.lineEnd + op.fontSize + op.textGap
+    const y = op.lineEnd + op.fontSize + op.textGap
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()

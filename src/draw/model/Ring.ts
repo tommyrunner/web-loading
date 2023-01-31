@@ -49,7 +49,7 @@ export default class Ring extends BaseModel<RingOptionsType> {
     this.run(this.draw)
   }
   initPoint() {
-    let op = this.options
+    const op = this.options
     this.ctx.lineCap = op.lineCap
     this.ctx.lineWidth = op.lineWidth
     this.ctx.save()
@@ -63,8 +63,8 @@ export default class Ring extends BaseModel<RingOptionsType> {
   }
   controller() {
     this.ctx.save()
-    let op = this.options
-    let rotate = ((this.rotate * Math.PI) / 180) * (op.direction ? 1 : -1)
+    const op = this.options
+    const rotate = ((this.rotate * Math.PI) / 180) * (op.direction ? 1 : -1)
     this.ctx.rotate(rotate)
     // 画环
     this.ctx.shadowOffsetX = op.shadowOffsetX
@@ -81,16 +81,16 @@ export default class Ring extends BaseModel<RingOptionsType> {
     this.ctx.restore()
   }
   drawText() {
-    let op = this.options
+    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
     // 数量*(半径+环空隙)+文字空隙
-    let y = op.ringNum * (op.radius + op.ringGap) + op.textGap
+    const y = op.ringNum * (op.radius + op.ringGap) + op.textGap
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()
   }
-  drawRing(r: number, arcGap: number = 1, angle: number = 0) {
+  drawRing(r: number, arcGap = 1, angle = 0) {
     // 第一个弧形
     this.ctx.beginPath()
     this.ctx.arc(0, 0, r, arcGap + angle, Math.PI + angle)

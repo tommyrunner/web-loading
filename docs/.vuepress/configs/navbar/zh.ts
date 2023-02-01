@@ -20,8 +20,22 @@ export default [
         link: '/document/use.html'
       },
       {
-        text: 'model',
+        text: '模块',
         link: '/document/model.html'
+      }
+    ]
+  },
+  {
+    text: '生态',
+    link: '/document/',
+    children: [
+      {
+        text: 'vue-share-element',
+        link: 'https://www.npmjs.com/package/vue-share-element'
+      },
+      {
+        text: 'animation-list',
+        link: 'https://www.npmjs.com/package/animation-list'
       }
     ]
   },

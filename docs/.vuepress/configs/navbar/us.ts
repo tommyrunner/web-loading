@@ -26,6 +26,20 @@ export default [
     ]
   },
   {
+    text: 'ecology',
+    link: '/document/',
+    children: [
+      {
+        text: 'vue-share-element',
+        link: 'https://www.npmjs.com/package/vue-share-element'
+      },
+      {
+        text: 'animation-list',
+        link: 'https://www.npmjs.com/package/animation-list'
+      }
+    ]
+  },
+  {
     text: 'GitHub',
     link: 'https://github.com/tommyrunner/web-loading'
   }

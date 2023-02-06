@@ -4,7 +4,7 @@
 
 There are many ways to implement loading on the Web, such as using `css` animation,`js` operation element, `gif` image, `svg` animation, and `loading` in the `ui` framework. Each has its own advantages. The operation element may be more convenient, but it will affect performance or other elements. The dynamic image performance is good, but the customization is not ideal.
 
-`WebLoading `is a` loading `animation plug-in based on` js` encapsulation, which is mainly drawn through `Canvas`, without worrying about affecting the elements in the interface. Various **model** modules are provided by default. Each **model** has a special `option` parameter to adjust and customize. If you want to be closer to the business, you can use `custom` to customize. `WebLoading` provides` BaseModel `inheritance` class` to make it easier for you to customize your own `loading`.
+`WebLoading `is a` loading `animation plug-in based on primary encapsulation, which is mainly drawn through `Canvas`, without worrying about affecting the elements in the interface. Various **model** modules are provided by default. Each **model** has a special `option` parameter to adjust and customize. If you want to be closer to the business, you can use `custom` to customize. `WebLoading` provides` BaseModel `inheritance` class` to make it easier for you to customize your own `loading`.
 
 ## realization
 

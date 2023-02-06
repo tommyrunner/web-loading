@@ -12,7 +12,7 @@ actions:
     type: secondary
 features:
   - title: compatibility
-    details: Native js structure construction, supporting native html, vue, react and other frameworks.
+    details: Native structure construction, supporting native html, vue, react and other frameworks.
   - title: encapsulation
     details: WWebLoading encapsulates multiple startup modes of DOM, FULL and MINI, and provides global import and individual import modes.
   - title: custom
@@ -85,6 +85,8 @@ function getOption(){
     width: 300px;
     height: 300px;
     transform: translate(-50%);
+    text-align: center;
+    line-height: 300px;
   }
   .occ .show-img{
     position: absolute;

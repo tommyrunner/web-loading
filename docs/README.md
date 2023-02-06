@@ -12,7 +12,7 @@ actions:
     type: secondary
 features:
   - title: 兼容性
-    details: 原生js结构搭建，支持原生html、vue、react等等多种框架。
+    details: 原生结构搭建，支持原生html、vue、react等等多种框架。
   - title: 封装
     details: WebLoading封装了DOM、FULL、MINI多种启动方式，并提供全局引入以及单独引入方式。
   - title: 自定义
@@ -85,6 +85,8 @@ function getOption(){
     width: 300px;
     height: 300px;
     transform: translate(-50%);
+    text-align: center;
+    line-height: 300px;
   }
   .occ .show-img{
     position: absolute;

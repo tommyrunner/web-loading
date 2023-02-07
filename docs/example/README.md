@@ -203,15 +203,6 @@ function isArray(type) {
   padding: 10px;
   margin-top: 18px;
 }
-@media screen and (max-width: 820px) {
-  .context {
-    flex-direction: column;
-    height: 100vh;
-  }
-  .context .right {
-    height: 60vh;
-  }
-}
 .context .left {
   flex: 2;
   border-radius: 10px;
@@ -237,6 +228,18 @@ function isArray(type) {
 .right .options {
   flex: 1;
   overflow: auto;
+}
+@media screen and (max-width: 820px) {
+  .context {
+    flex-direction: column;
+    height: 100vh;
+  }
+  .context .left {
+    height:40%;
+  }
+  .context .right {
+    height:60%;
+  }
 }
 .options .items {
   margin-bottom: 12px;

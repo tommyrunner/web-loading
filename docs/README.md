@@ -88,16 +88,15 @@ function getOption(){
     text-align: center;
     line-height: 300px;
   }
+  .occ img{
+    transition: 0.25s !important;
+  }
   .occ .show-img{
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     opacity: 1 !important;
-    transition: 0.25s !important;
   }
   .occ .hide-img{
     opacity: 0 !important;
-    transform: translate(-50%,-50%) scale(0) !important;
+    transform:  scale(0) !important;
   }
 </style>

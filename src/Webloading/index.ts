@@ -101,11 +101,21 @@ export default class WebLoading {
     canvasStyle.backgroundColor = op.bgColor
     canvasStyle.borderRadius = readElementStyle.borderRadius
     // 设置画布大小
-    canvas.width = elementW
-    canvas.height = elementH
+    // canvas.width = elementW
+    // canvas.height = elementH
+    this.setupCanvas(canvas, elementW, elementH)
     // 注入
     element.append(canvas)
     this.element = element
+  }
+  private setupCanvas(canvas: HTMLCanvasElement, w: number, h: number) {
+    // 处理放大失真
+    const dpr = window.devicePixelRatio || 1
+    canvas.width = w * dpr
+    canvas.height = h * dpr
+    canvas.style.width = `${w}px`
+    canvas.style.height = `${h}px`
+    return canvas
   }
   draw(element: ElementType) {
     // 初始化基础数据

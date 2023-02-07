@@ -50,10 +50,13 @@ export default class BaseModel<T extends OptionsType> {
     this.ctx.fillStyle = op.themeColor!
     this.ctx.strokeStyle = op.themeColor!
     this.ctx.shadowColor = op.shadowColor!
-    this.ctx.font = `${op.fontSize}px ${op.fontFamily}`
+    this.ctx.font = `${op.fontSize}px ${op.fontFamily} small-caps`
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'middle'
     this.ctx.translate(defW / 2, defH / 2)
+    // 同步大小处理失真
+    const dpr = window.devicePixelRatio || 1
+    this.ctx.scale(dpr, dpr)
     this.ctx.save()
   }
   // 初始化默认事件

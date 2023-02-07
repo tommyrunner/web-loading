@@ -12,20 +12,22 @@
           draw() {
             this.clearRect()
             let op = this.options
-            this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
+            this.ctx.fillText('fds', 0, 0)
+            // this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
           }
         }
         // loading
         let docApp = document.querySelector('#app')
         const webLoading = initLoading({
-          custom: CustomLoading,
-          size: 20
+          // custom: CustomLoading,
+          // size: 20
+          model: 'Gear'
         })
         window.addEventListener('resize', webLoading.resize)
         webLoading.loading(docApp)
-        setTimeout(() => {
-          webLoading.close()
-        }, 1500)
+        // setTimeout(() => {
+        //   webLoading.close()
+        // }, 1500)
       }</script></body><style>#app {
       margin: 12px;
       padding: 12px;

@@ -6,7 +6,10 @@ import drawController from './draw/index'
 export default function initLoading(options?: OptionsType): LoadingType {
   const webLoading = new WebLoading(options)
   const resize = () => {
+    // canvas
     if (webLoading.element && webLoading.canvas) webLoading.resize(webLoading.element, webLoading.canvas)
+    // html
+    if (webLoading.element && webLoading.htmlElement) webLoading.resize(webLoading.element, webLoading.htmlElement)
   }
   const loading = (dom: HTMLElement, options?: OptionsType) => {
     // 保留上次传入参数
@@ -29,7 +32,10 @@ export default function initLoading(options?: OptionsType): LoadingType {
       drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element.$store)
   }
   const close = () => {
+    // canvas
     if (webLoading.element && webLoading.canvas) webLoading.close(webLoading.element, webLoading.canvas)
+    // html
+    if (webLoading.element && webLoading.htmlElement) webLoading.close(webLoading.element, webLoading.htmlElement)
   }
   // 抛出基础信息
   const getLoadingId = () => webLoading.loadingId

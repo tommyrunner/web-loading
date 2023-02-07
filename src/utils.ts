@@ -38,6 +38,7 @@ export enum MODEL_TYPES {
 export function getDefOptions(): Required<OptionsType> {
   return {
     custom: null,
+    html: '',
     type: LOADING_TYPES.DOM,
     miniClass: 'mini',
     model: MODEL_TYPES.GEAR,
@@ -122,5 +123,15 @@ export function clearAnimationFrame(id: number) {
     window.clearInterval(id)
   } else {
     window.cancelAnimationFrame(id)
+  }
+}
+export function toType(key: any): String | 'not-type' {
+  try {
+    let type = Object.prototype.toString.call(key)
+    let t1 = type.split(' ')[1]
+    let t2 = t1.split(']')[0]
+    return t2.toLowerCase()
+  } catch (e) {
+    return 'not-type'
   }
 }

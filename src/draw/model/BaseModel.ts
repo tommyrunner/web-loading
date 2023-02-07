@@ -22,23 +22,6 @@ export default class BaseModel<T extends OptionsType> {
     this._$initPoint()
     this._$initEvent()
   }
-  /**
-   * 初始化options默认值
-   * @param options 传入默认值
-   * @param limits 值的限制
-   */
-  initOptions(options: T, limits?: Array<LimitType>) {
-    // 记录options
-    this.options = Object.assign(options, this.options)
-    this.store.options = this.options
-    // 判断需要限制属性值(只做提示)
-    if (limits && limits.length) {
-      limits.forEach((l: LimitType) => {
-        const mayKey = this.options[l.key as keyof typeof this.options]
-        if (!isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
-      })
-    }
-  }
   // 初始化画笔
   private _$initPoint() {
     this.clearRect()
@@ -65,6 +48,59 @@ export default class BaseModel<T extends OptionsType> {
     this.store.hookCall.beforeColse(() => {
       this.clearRect()
     })
+  }
+  /**
+   * 封装 requestAnimationFrame 触发动画针
+   * @param fun 触发函数
+   * @returns
+   */
+  private animationFrame(fun: Function) {
+    // 兼容
+    if (!window.requestAnimationFrame) {
+      this.store.animationId = window.setInterval(fun, this.options.delay)
+    }
+    // 利用时间轴控制触发时间
+    let endTime = Date.now() + this.options.delay!
+    fun.call(this)
+    const run = () => {
+      if (Date.now() > endTime) {
+        fun.call(this)
+        endTime = Date.now() + this.options.delay!
+      }
+      this.store.animationId = window.requestAnimationFrame(run)
+    }
+    this.store.animationId = window.requestAnimationFrame(run)
+  }
+
+  // 开始动画
+  run(fun: Function) {
+    // 如果已经处于加载状态，无须重新实例
+    if (this.store.animationId) this.clearAnimationFrame(this.store.animationId)
+    this.animationFrame(fun)
+  }
+  /**
+   * 取消 animationFrame 动画针
+   * @param id 动画id
+   */
+  clearAnimationFrame(id: number) {
+    clearAnimationFrame(id)
+  }
+  /**
+   * 初始化options默认值
+   * @param options 传入默认值
+   * @param limits 值的限制
+   */
+  initOptions(options: T, limits?: Array<LimitType>) {
+    // 记录options
+    this.options = Object.assign(options, this.options)
+    this.store.options = this.options
+    // 判断需要限制属性值(只做提示)
+    if (limits && limits.length) {
+      limits.forEach((l: LimitType) => {
+        const mayKey = this.options[l.key as keyof typeof this.options]
+        if (!isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
+      })
+    }
   }
   // 清空画布
   clearRect(x?: number, y?: number, w_r?: number, h?: number) {
@@ -110,40 +146,5 @@ export default class BaseModel<T extends OptionsType> {
     this.ctx.arc(x + r, y + h - r, r, 0.5 * Math.PI, Math.PI)
     this.ctx.lineTo(x, y + r)
     this.ctx.closePath()
-  }
-  // 开始动画
-  run(fun: Function) {
-    // 如果已经处于加载状态，无须重新实例
-    if (this.store.animationId) this.clearAnimationFrame(this.store.animationId)
-    this.animationFrame(fun)
-  }
-  /**
-   * 封装 requestAnimationFrame 触发动画针
-   * @param fun 触发函数
-   * @returns
-   */
-  private animationFrame(fun: Function) {
-    // 兼容
-    if (!window.requestAnimationFrame) {
-      this.store.animationId = window.setInterval(fun, this.options.delay)
-    }
-    // 利用时间轴控制触发时间
-    let endTime = Date.now() + this.options.delay!
-    fun.call(this)
-    const run = () => {
-      if (Date.now() > endTime) {
-        fun.call(this)
-        endTime = Date.now() + this.options.delay!
-      }
-      this.store.animationId = window.requestAnimationFrame(run)
-    }
-    this.store.animationId = window.requestAnimationFrame(run)
-  }
-  /**
-   * 取消 animationFrame 动画针
-   * @param id 动画id
-   */
-  clearAnimationFrame(id: number) {
-    clearAnimationFrame(id)
   }
 }

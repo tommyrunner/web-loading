@@ -122,20 +122,22 @@ export interface ImageOptionsType extends OptionsType {
   turn?: boolean
 }
 export interface SkeletonOptionsType extends OptionsType {
-  skeletonColor: string
-  skeletonAnimationColor: string
-  radius: number
-  animation: boolean
-  deep: boolean
-  appoint: string
+  skeletonColor?: string
+  skeletonAnimationColor?: string
+  radius?: number
+  animation?: boolean
+  deep?: boolean
+  appoint?: string
   // imgColor: string
   // imgSize: number
 }
 export interface CircularOptionsType extends OptionsType {
   // arc大小
-  arcSize: number
+  arcSize?: number
   // arc空隙
-  arcGap: number
+  arcGap?: number
+  // 颜色
+  arcColors?: Array<string>
   // 动作
-  action: CIRCULAR_ACTION
+  action?: CIRCULAR_ACTION
 }

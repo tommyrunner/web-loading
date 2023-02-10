@@ -6,6 +6,7 @@ import BaseModel from './BaseModel'
 const defaultOptions: CircularOptionsType = {
   arcSize: 8,
   arcGap: 2,
+  arcColors: ['#ec7546', '#8364a4', '#ff6c6e', '#5bc6ab'],
   action: CIRCULAR_ACTION.COLLISION
 }
 
@@ -14,8 +15,6 @@ interface CollsionType {
   state: boolean
   y: number
   x: number
-  color: string
-  delay: number
 }
 export default class Bean extends BaseModel<CircularOptionsType> {
   collsionPoint: Array<CollsionType>
@@ -37,33 +36,25 @@ export default class Bean extends BaseModel<CircularOptionsType> {
         key: 0,
         state: false,
         y: -gap,
-        x: 0,
-        color: '#ec7546',
-        delay: 1
+        x: 0
       },
       {
         key: 1,
         state: false,
         y: gap,
-        x: 0,
-        color: '#8364a4',
-        delay: 1
+        x: 0
       },
       {
         key: 2,
         state: false,
         y: 0,
-        x: gap,
-        color: '#ff6c6e',
-        delay: 1
+        x: gap
       },
       {
         key: 3,
         state: false,
         y: 0,
-        x: -gap,
-        color: '#5bc6ab',
-        delay: 1
+        x: -gap
       }
     ]
     this.run(this.draw)
@@ -71,11 +62,14 @@ export default class Bean extends BaseModel<CircularOptionsType> {
   draw() {
     this.clearRect()
     let op = this.options
-    this.collsionPoint.forEach((cp) => {
+    this.collsionPoint.forEach((cp, index) => {
       this.ctx.save()
       this.ctx.beginPath()
-      this.setShadow(cp.color)
-      this.ctx.fillStyle = cp.color
+      if (op.arcColors[index]) {
+        let color = op.arcColors[index]
+        this.setShadow(color)
+        this.ctx.fillStyle = color
+      }
       this.ctx.arc(cp.x, cp.y, op.arcSize, 0, Math.PI * 2)
       this.ctx.fill()
       this.ctx.closePath()

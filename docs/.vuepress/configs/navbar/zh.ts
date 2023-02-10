@@ -30,6 +30,10 @@ export default [
     link: '/document/',
     children: [
       {
+        text: 'web-loading(v1.3.x)',
+        link: 'https://tommyrunner.github.io/web-loading/'
+      },
+      {
         text: 'vue-share-element',
         link: 'https://www.npmjs.com/package/vue-share-element'
       },

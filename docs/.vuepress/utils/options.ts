@@ -1,6 +1,15 @@
 import type { OptionsType } from './types'
 import { MODEL_TYPES, LOADING_TYPES } from 'web-loading/src/utils'
-import { ZOOM_ACTION, OPTIONS_TYPE, OPTIONS_FORM, CANVAS_LINE_CAP, PATTERN_CHART, CLOCK_TEXT, ROLL_CHART } from './enum'
+import {
+  ZOOM_ACTION,
+  OPTIONS_TYPE,
+  OPTIONS_FORM,
+  CANVAS_LINE_CAP,
+  PATTERN_CHART,
+  CLOCK_TEXT,
+  ROLL_CHART,
+  CIRCULAR_ACTION
+} from './enum'
 
 export default [
   {
@@ -57,8 +66,8 @@ export default [
     type: OPTIONS_TYPE.NUMBER,
     form: OPTIONS_FORM.GG,
     value: 65,
-    min: 65,
-    max: 1000
+    min: 1,
+    max: 500
   },
   {
     title: '关闭动画延迟',
@@ -774,6 +783,76 @@ export default [
     type: OPTIONS_TYPE.BOOLEAN,
     form: OPTIONS_FORM.MODEL,
     value: false
+  },
+  // Circular
+  {
+    model: MODEL_TYPES.Circular,
+    title: 'arc大小',
+    key: 'arcSize',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 8,
+    min: 5,
+    max: 26
+  },
+  {
+    model: MODEL_TYPES.Circular,
+    title: 'arc空隙',
+    key: 'arcGap',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.MODEL,
+    value: 2,
+    min: 0,
+    max: 20
+  },
+  {
+    model: MODEL_TYPES.Circular,
+    title: '颜色',
+    key: 'arcColors',
+    type: OPTIONS_TYPE.ARRAY_STRING,
+    form: OPTIONS_FORM.MODEL,
+    value: ['#ec7546', '#8364a4', '#ff6c6e', '#5bc6ab'],
+    arrayAdd: {
+      title: '图形颜色',
+      key: 0,
+      value: '#409EFF',
+      type: OPTIONS_TYPE.COLOR
+    },
+    arrayItems: [
+      {
+        title: '图形颜色1',
+        key: 0,
+        value: '#ec7546',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色2',
+        key: 1,
+        value: '#8364a4',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色3',
+        key: 2,
+        value: '#ff6c6e',
+        type: OPTIONS_TYPE.COLOR
+      },
+      {
+        title: '图形颜色4',
+        key: 3,
+        value: '#5bc6ab',
+        type: OPTIONS_TYPE.COLOR
+      }
+    ]
+  },
+  {
+    model: MODEL_TYPES.Circular,
+    title: '动作',
+    key: 'action',
+    type: OPTIONS_TYPE.SELECT,
+    form: OPTIONS_FORM.MODEL,
+    value: CIRCULAR_ACTION.COLLISION,
+    items: CIRCULAR_ACTION
   },
   // IMG
   {

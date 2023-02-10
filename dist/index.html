@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>web-loading</title><script defer="defer" src="main.js"></script><script defer="defer" src="main.js"></script></head><body><div id="app"><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div></div><script src="https://tommy-file.oss-cn-hangzhou.aliyuncs.com/warehouse/web-loading.js"></script><script>window.onload = () => {
+        // encapsulation
+        let defOptions = {
+          size: 10
+        }
+        class CustomLoading extends BaseModel {
+          constructor(w, h, canvas, options, store) {
+            super(w, h, canvas, options, store)
+            this.initOptions(defOptions)
+            this.run(this.draw)
+          }
+          draw() {
+            this.clearRect()
+            let op = this.options
+            this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
+          }
+        }
+        // loading
+        let docApp = document.querySelector('#app')
+        const webLoading = initLoading({
+          // custom: CustomLoading,
+          // size: 20
+          model:'Circular',
+        })
+        window.addEventListener('resize', webLoading.resize)
+        webLoading.loading(docApp)
+        setTimeout(() => {
+          // webLoading.close()
+        }, 1500)
+      }</script></body><style>#app {
+      margin: 12px;
+      padding: 12px;
+      height: 200px;
+      border: 1px solid gray;
+      overflow: auto;
+      border-radius: 5px;
+    }
+    #app .item {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 10px;
+      line-height: 30px;
+      margin-bottom: 6px;
+      height: 60px;
+    }
+    #app .item .value {
+      display: inline-block;
+      min-width: 31px;
+      min-height: 16px;
+      font-weight: bold;
+      color: rgb(64, 158, 255);
+    }</style></html>

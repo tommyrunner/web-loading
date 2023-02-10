@@ -34,6 +34,7 @@ let allModels = [
   { model: 'Clock', lineWidth: 3.6, clockSize: 32, clockGap: 8 },
   { model: 'Bean', pointLength: 25 },
   { model: 'Roll', rollSize: 20, rollGap: 32 },
+   { model: 'Circular', delay: 12, },
   { model: 'Img', width: 68, height: 68 }
 ]
 let webLoading = null

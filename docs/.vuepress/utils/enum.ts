@@ -1,3 +1,8 @@
+export enum CIRCULAR_ACTION {
+  COLLISION = 'Collision',
+  ROTATE = 'rotate'
+}
+
 export enum ZOOM_ACTION {
   SCALE = 'scale',
   WAVE = 'wave',

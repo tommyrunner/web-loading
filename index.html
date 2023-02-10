@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>web-loading</title>
+    <script defer="defer" src="main.js"></script>
   </head>
   <body>
     <div id="app">
@@ -34,34 +35,19 @@
           draw() {
             this.clearRect()
             let op = this.options
-            this.ctx.fillText('fds', 0, 0)
-            // this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
+            this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
           }
         }
         // loading
         let docApp = document.querySelector('#app')
         const webLoading = initLoading({
-          // custom: CustomLoading,
-          // size: 20
-          model: 'Bean',
-          delay:48,
-          html: `  <div id="js-preloader" class="js-preloader">
-      <div class="preloader-inner">
-          <span class="dot"></span>
-          <div class="dots">
-              <span></span>
-              <span></span>
-              <span></span>
-          </div>
-      </div>
-  </div>`
+          custom: CustomLoading,
+          size: 20
         })
         window.addEventListener('resize', webLoading.resize)
         webLoading.loading(docApp)
-        webLoading.loading(docApp)
         setTimeout(() => {
           webLoading.close()
-          setTimeout(()=>{webLoading.loading(docApp)},1000)
         }, 1500)
       }
     </script>
@@ -91,87 +77,6 @@
       min-height: 16px;
       font-weight: bold;
       color: rgb(64, 158, 255);
-    }
-  </style>
-  <style>
-    .js-preloader {
-      /* You must change postion:relative; for position:fixed;  */
-      position: relative;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: -webkit-box;
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      justify-content: center;
-      opacity: 1;
-      visibility: visible;
-      z-index: 9999;
-      -webkit-transition: opacity 0.25s ease;
-      transition: opacity 0.25s ease;
-    }
-
-    .js-preloader.loaded {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    @keyframes dot8567 {
-      50% {
-        -webkit-transform: translateX(96px);
-        transform: translateX(96px);
-      }
-    }
-
-    @keyframes dots723423 {
-      50% {
-        -webkit-transform: translateX(-31px);
-        transform: translateX(-31px);
-      }
-    }
-
-    .preloader-inner {
-      position: relative;
-      width: 142px;
-      height: 40px;
-      background: transparent;
-    }
-
-    .preloader-inner .dot {
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      top: 12px;
-      left: 15px;
-      background: #e75e8d;
-      border-radius: 50%;
-      -webkit-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-animation: dot8567 2.8s infinite;
-      animation: dot8567 2.8s infinite;
-    }
-
-    .preloader-inner .dots {
-      -webkit-transform: translateX(0);
-      transform: translateX(0);
-      margin-top: 12px;
-      margin-left: 31px;
-      -webkit-animation: dots723423 2.8s infinite;
-      animation: dots723423 2.8s infinite;
-    }
-
-    .preloader-inner .dots span {
-      display: block;
-      float: left;
-      width: 16px;
-      height: 16px;
-      margin-left: 16px;
-      background: #e75e8d;
-      border-radius: 50%;
     }
   </style>
 </html>

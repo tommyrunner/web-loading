@@ -51,6 +51,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
       beans: Array.from({ length: this.options.pointLength }, () => 1),
       beanAnimaIndex: 0
     }
+    this.options.delay = 10
     this.run(this.draw)
   }
   draw() {
@@ -84,10 +85,10 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     }
     if (this.bean.turn <= 0) this.bean.state = 2
     if (this.bean.turn >= 30) this.bean.state = 1
-    if (this.bean.state === 1) this.bean.turn -= 8
-    if (this.bean.state === 2) this.bean.turn += 8
-    if (this.bean.beanState === 1) this.bean.nowX -= op.beanSize / 3
-    if (this.bean.beanState === 2) this.bean.nowX += op.beanSize / 3
+    if (this.bean.state === 1) this.bean.turn -= 1
+    if (this.bean.state === 2) this.bean.turn += 1
+    if (this.bean.beanState === 1) this.bean.nowX -= 1
+    if (this.bean.beanState === 2) this.bean.nowX += 1
   }
   drawPoint() {
     const op = this.options
@@ -100,17 +101,17 @@ export default class Bean extends BaseModel<BeanOptionsType> {
       this.ctx.fill()
       this.ctx.closePath()
     }
-    this.bean.beanAnimaIndex++
+    this.bean.beanAnimaIndex += 0.2
     this.ctx.restore()
   }
   // 滤布
   drawFillter() {
     const op = this.options
-    // 眼镜
+    // 眼睛
     this.clearRect(-op.beanSize / 3 + this.bean.nowX, -op.beanSize / 2, op.beanSize / 4)
     // 跟随
     this.clearRect(
-      -(op.pointLength * op.beanSize) / 2 - op.beanSize / 2,
+      -(op.pointLength * op.beanSize) / 2 - op.beanSize / 2 + 0.2,
       -this.h,
       this.bean.nowX + (op.pointLength * op.beanSize) / 2 - op.beanSize / 2,
       this.h * 2

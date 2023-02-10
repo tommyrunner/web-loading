@@ -1,5 +1,5 @@
 import { OptionsType } from '../types'
-import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION } from './utils'
+import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, CIRCULAR_ACTION } from './utils'
 
 export interface GearOptionsType extends OptionsType {
   // 线端
@@ -130,4 +130,12 @@ export interface SkeletonOptionsType extends OptionsType {
   appoint: string
   // imgColor: string
   // imgSize: number
+}
+export interface CircularOptionsType extends OptionsType {
+  // arc大小
+  arcSize: number
+  // arc空隙
+  arcGap: number
+  // 动作
+  action: CIRCULAR_ACTION
 }

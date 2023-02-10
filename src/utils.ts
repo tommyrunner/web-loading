@@ -26,6 +26,8 @@ export enum MODEL_TYPES {
   BEAN = 'Bean',
   // 翻滚
   ROLL = 'Roll',
+  // 撞击球
+  Circular = 'Circular',
   // 图片
   IMG = 'Img',
   // 骨架屏

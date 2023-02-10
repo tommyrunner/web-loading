@@ -9,6 +9,7 @@ export interface OptionsType {
   miniClass?: string | null | undefined
   // model 模块
   model?: MODEL_TYPES
+  // html加载内容
   html?: string
   // 字体内容
   text?: string

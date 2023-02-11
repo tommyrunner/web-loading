@@ -12,11 +12,11 @@ actions:
     type: secondary
 features:
   - title: 兼容性
-    details: 原生结构搭建，支持原生html、vue、react等等多种框架。
+    details: 原生结构搭建，支持html、vue、react等等多种框架，加载方式通过Canvas绘制并兼容html加载。
   - title: 封装
     details: WebLoading封装了DOM、FULL、MINI多种启动方式，并提供全局引入以及单独引入方式。
   - title: 自定义
-    details: WebLoading默认有许多model，主要通过Canvas方式绘制，同时，提供了Custom自定义方式，并提供继承Class。
+    details: WebLoading默认有许多model加载模块，同时，在配置中提供了Custom自定义方式。
 ---
 
 <div class="occ" ref="occRef">

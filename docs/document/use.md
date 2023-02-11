@@ -88,27 +88,28 @@ let webLoading = initLoading({
 
 ### 公共
 
-| 属性              | 类型                          | 默认值                 | 备注                            |
-| ----------------- | ----------------------------- | ---------------------- | ------------------------------- |
-| `custom?:`        | `any`                         | `null`                 | 自定义**model**(**优先级最高**) |
-| `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式                        |
-| `miniClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class** |
-| `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | model模块                       |
-| `text?:`          | `string`                      | `加载中...`            | 字体内容                        |
-| `textGap?:`       | `number`                      | `8`                    | 字体间距                        |
-| `fontSize?:`      | `number`                      | `12`                   | 字体大小                        |
-| `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | 字体类型                        |
-| `delay?:`         | `number`                      | `65`                   | 动画延迟                        |
-| `delayColse?:`    | `number`                      | `520`                  | 关闭动画延迟                    |
-| `optimization?:`  | `boolean`                     | `false`                | 优化处理（暂不支持）            |
-| `zIndex?:`        | `string`                      | `2001`                 | loading层级                     |
-| `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | 主题色                          |
-| `bgColor?:`       | `string`                      | `rgba(0, 0, 0, 0.8)`   | 背景色                          |
-| `shadowColor?:`   | `string`                      | `rgba(64,158,255,0.6)` | 阴影色                          |
-| `shadowOffsetX?:` | `number`                      | `2`                    | 阴影X                           |
-| `shadowOffsetY?:` | `number`                      | `2`                    | 阴影Y                           |
-| `shadowBlur?:`    | `number`                      | `5`                    | 阴影范围                        |
-| `pointerEvents?:` | `boolean`                     | `false`                | 事件穿透(**DOM**方式)           |
+| 属性              | 类型                          | 默认值                 | 备注                                   |
+| ----------------- | ----------------------------- | ---------------------- | -------------------------------------- |
+| `html?:`          | `string`                      | `''`                   | **html**加载方式(**优先级大于custom**) |
+| `custom?:`        | `any`                         | `null`                 | 自定义**model**(**优先级大于model**)   |
+| `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式                               |
+| `miniClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class**        |
+| `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | model模块                              |
+| `text?:`          | `string`                      | `加载中...`            | 字体内容                               |
+| `textGap?:`       | `number`                      | `8`                    | 字体间距                               |
+| `fontSize?:`      | `number`                      | `12`                   | 字体大小                               |
+| `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | 字体类型                               |
+| `delay?:`         | `number`                      | `65`                   | 动画延迟                               |
+| `delayColse?:`    | `number`                      | `520`                  | 关闭动画延迟                           |
+| `optimization?:`  | `boolean`                     | `false`                | 优化处理（暂不支持）                   |
+| `zIndex?:`        | `string`                      | `2001`                 | loading层级                            |
+| `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | 主题色                                 |
+| `bgColor?:`       | `string`                      | `rgba(0, 0, 0, 0.8)`   | 背景色                                 |
+| `shadowColor?:`   | `string`                      | `rgba(64,158,255,0.6)` | 阴影色                                 |
+| `shadowOffsetX?:` | `number`                      | `2`                    | 阴影X                                  |
+| `shadowOffsetY?:` | `number`                      | `2`                    | 阴影Y                                  |
+| `shadowBlur?:`    | `number`                      | `5`                    | 阴影范围                               |
+| `pointerEvents?:` | `boolean`                     | `false`                | 事件穿透(**DOM**方式)                  |
 
 + LOADING_TYPES
 
@@ -407,4 +408,105 @@ this.run(()=>{
 > 这里方便使用原生html，所采用全局引入方式。
 @[code](./custom.html)
 > 这里自定义了一个，`CustomLoading model`， 获取倒`size`参数后，在`run`函数中每一帧绘制了一个Rect矩形，`defOptions` 是自定义model的默认`options`值，当前`init`时也可以修改
+
+## html配置方式
+
+> 只是注入方式不同，操作方式一致。
+
+### 初始化
+
+```ts
+import initLoading from 'web-loading/src/loading'
+let webLoading = initLoading({
+    html:`<div class="spinner">
+    <svg viewBox="25 25 50 50" class="circular">
+        <circle stroke-miterlimit="10" stroke-width="3" fill="none" r="20" cy="50" cx="50" class="path"></circle>
+    </svg>
+</div>`
+})
+```
+
+> **html**优先级大于**custom**。
+
+### css动画
+
+```css
+.spinner {
+  --red: #d62d20;
+  --blue: #0057e7;
+  --green: #008744;
+  --yellow: #ffa700;
+  position: relative;
+  width: 60px;
+}
+
+.spinner:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.circular {
+  animation: rotate73451 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash0175 1.5s ease-in-out infinite, color7123 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@keyframes rotate73451 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash0175 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes color7123 {
+  100%, 0% {
+    stroke: var(--red);
+  }
+
+  40% {
+    stroke: var(--blue);
+  }
+
+  66% {
+    stroke: var(--green);
+  }
+
+  80%, 90% {
+    stroke: var(--yellow);
+  }
+}
+```
+
+> class命名尽量隔绝外部元素。
 

@@ -1,4 +1,4 @@
-# 使用
+# use
 
 > The use here takes the introduction separately as an example,[Global introduction](../guide/#global-introduction)Use similar.
 
@@ -90,6 +90,7 @@ let webLoading = initLoading({
 
 | attribute              | type                          | default                 | remarks                            |
 | ----------------- | ----------------------------- | ---------------------- | ------------------------------- |
+| `html?:` | `string` | `''` | **Html ** loading method (**priority is higher than custom**) |
 | `custom?:`        | `any`                         | `null`                 | Custom **model** (**has the highest priority**) |
 | `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | Start mode                        |
 | `miniClass?:`     | `string or null or undefined` | `mini`                 | Start by**MINI**is**class** |
@@ -408,3 +409,103 @@ this.run(()=>{
 @[code](./custom.html)
 > Here, a custom `CustomLoading model` is defined. After obtaining the inverted `size` parameter, a Rect rectangle is drawn for each frame in the `run` function. `defOptions` is the default` options` value of the custom model, which can also be modified at the current `init` time
 
+## Html configuration method
+
+> The injection mode is different and the operation mode is the same.
+
+### initialization
+
+```ts
+import initLoading from 'web-loading/src/loading'
+let webLoading = initLoading({
+    html:`<div class="spinner">
+    <svg viewBox="25 25 50 50" class="circular">
+        <circle stroke-miterlimit="10" stroke-width="3" fill="none" r="20" cy="50" cx="50" class="path"></circle>
+    </svg>
+</div>`
+})
+```
+
+> **Html** priority is higher than **custom**.
+
+### Css animation
+
+```css
+.spinner {
+  --red: #d62d20;
+  --blue: #0057e7;
+  --green: #008744;
+  --yellow: #ffa700;
+  position: relative;
+  width: 60px;
+}
+
+.spinner:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.circular {
+  animation: rotate73451 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash0175 1.5s ease-in-out infinite, color7123 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@keyframes rotate73451 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash0175 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes color7123 {
+  100%, 0% {
+    stroke: var(--red);
+  }
+
+  40% {
+    stroke: var(--blue);
+  }
+
+  66% {
+    stroke: var(--green);
+  }
+
+  80%, 90% {
+    stroke: var(--yellow);
+  }
+}
+```
+
+> The class naming should try to isolate external elements.

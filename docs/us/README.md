@@ -12,11 +12,11 @@ actions:
     type: secondary
 features:
   - title: compatibility
-    details: Native structure construction, supporting native html, vue, react and other frameworks.
+    details: Native structure building, supporting various frameworks such as html, vue, react, etc. The loading method is drawn through Canvas and compatible with html loading.
   - title: encapsulation
     details: WWebLoading encapsulates multiple startup modes of DOM, FULL and MINI, and provides global import and individual import modes.
   - title: custom
-    details: WebLoading has many models by default, which are mainly drawn by Canvas. At the same time, it provides Custom customization and inheritance class.
+    details: WebLoading has many model loading modules by default. At the same time, it provides Custom customization in the configuration.
 ---
 
 <div class="occ" ref="occRef">

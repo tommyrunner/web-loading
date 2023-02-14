@@ -102,9 +102,9 @@ export default class WebLoading {
     contentElement: HTMLCanvasElement | HTMLDivElement
   ) {
     const op = this.options
-    // offset 含有scroll值的 显然client:内容+padding更合理
-    const elementW = element.clientWidth,
-      elementH = element.clientHeight,
+    // client取真实宽高，如果开启穿透取滚动宽高
+    const elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth,
+      elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight,
       readElementStyle = window.getComputedStyle(element),
       elementStyle = element.style,
       contentStyle = contentElement.style

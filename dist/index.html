@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>web-loading</title><script defer="defer" src="main.js"></script><script defer="defer" src="main.js"></script></head><body><div id="app"><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div></div><script src="https://tommy-file.oss-cn-hangzhou.aliyuncs.com/warehouse/web-loading.js"></script><script>window.onload = () => {
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>web-loading</title><script defer="defer" src="main.js"></script><script defer="defer" src="main.js"></script></head><body><div id="app"><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div></div><script src="https://tommy-file.oss-cn-hangzhou.aliyuncs.com/warehouse/web-loading.js"></script><script>window.onload = () => {
         // encapsulation
         let defOptions = {
           size: 10
@@ -18,14 +18,13 @@
         // loading
         let docApp = document.querySelector('#app')
         const webLoading = initLoading({
-          // custom: CustomLoading,
-          // size: 20
-          model:'Circular',
+          custom: CustomLoading,
+          size: 20
         })
         window.addEventListener('resize', webLoading.resize)
         webLoading.loading(docApp)
         setTimeout(() => {
-          // webLoading.close()
+          webLoading.close()
         }, 1500)
       }</script></body><style>#app {
       margin: 12px;

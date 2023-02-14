@@ -8,6 +8,7 @@ export interface OptionsItemsModelType {
   CLOCK: 'Clock'
   BEAN: 'Bean'
   ROLL: 'Roll'
+  CIRCULAR: 'Circular'
   SKELETON: 'Skeleton'
   IMG: 'Img'
 }
@@ -21,7 +22,7 @@ export type OptionsType = {
   key: string
   type: OPTIONS_TYPE
   form: OPTIONS_FORM
-  value: MODEL_TYPES | string | number | boolean | Array<string | number | boolean>
+  value: MODEL_TYPES | string | number | boolean | Array<OptionsType>
   items?: OptionsItemsModelType | OptionsItemsCapType
   arrayItems?: Array<OptionsType>
   arrayAdd?: OptionsType

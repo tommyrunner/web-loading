@@ -388,7 +388,7 @@ export default [
     key: 'zoomColors',
     type: OPTIONS_TYPE.ARRAY_STRING,
     form: OPTIONS_FORM.MODEL,
-    value: ['rgba(64,158,255,1)'],
+    value: [],
     arrayAdd: {
       title: 'zoom',
       key: 0,

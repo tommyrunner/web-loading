@@ -1,59 +1,89 @@
 <template>
-  <el-input
-    v-model="value"
-    v-if="props.options.type === OPTIONS_TYPE.STRING"
-    :placeholder="props.options.title"
-    :disabled="props.options.disabled"
-  ></el-input>
-  <el-slider
-    v-model="value"
-    :step="props.options.step || 1"
-    v-if="props.options.type === OPTIONS_TYPE.NUMBER"
-    size="small"
-    :min="props.options.min"
-    :max="props.options.max"
-    :disabled="props.options.disabled"
-  />
-  <el-switch v-model="value" v-if="props.options.type === OPTIONS_TYPE.BOOLEAN" :disabled="props.options.disabled" />
-  <el-select
-    v-model="value"
-    v-if="props.options.type === OPTIONS_TYPE.SELECT"
-    :placeholder="props.options.title"
-    :disabled="props.options.disabled"
-  >
-    <el-option v-for="item in options.items" :key="item" :label="item" :value="item" />
-  </el-select>
-  <div class="el-color-picker">
-    <el-color-picker
-      v-model="value"
-      v-if="props.options.type === OPTIONS_TYPE.COLOR"
-      show-alpha
-      :disabled="props.options.disabled"
-    ></el-color-picker>
-  </div>
-  <!-- array 多值 -->
-  <el-popover v-if="isArray()" :width="200" :visible="isShowPopover" :key="updatePopover">
-    <div class="array-items">
-      <el-icon :fontSize="16" @click="isShowPopover = false"><Close /></el-icon>
-      <div class="item" v-for="item in props.options.arrayItems" :key="item.key">
-        <span>{{ item.title }}:</span>
-        <WebTypeInput v-model="item.value" :options="item" @update="onItemValue"></WebTypeInput>
-      </div>
+  <div class="type-input">
+    <div class="head">
+      <span>{{ props.options.title }}:</span>
+      <el-icon
+        :size="20"
+        color="rgb(64, 158, 255)"
+        @click="onHeadAdd(props.options)"
+        v-if="props.options.arrayItems && props.options.arrayAdd"
+      >
+        <CirclePlusFilled />
+      </el-icon>
     </div>
-    <template #reference>
-      <div class="array-valus" @click="isShowPopover = true">
-        <el-tag closable @close="onCloseTag(v)" v-for="v in props.options.value">{{ v }}</el-tag>
+    <el-input
+      v-model="value"
+      v-if="props.options.type === OPTIONS_TYPE.STRING"
+      :placeholder="props.options.title"
+      :disabled="props.options.disabled"
+    ></el-input>
+    <el-slider
+      v-model="value"
+      :step="props.options.step || 1"
+      v-if="props.options.type === OPTIONS_TYPE.NUMBER"
+      size="small"
+      :min="props.options.min"
+      :max="props.options.max"
+      :disabled="props.options.disabled"
+    />
+    <el-switch v-model="value" v-if="props.options.type === OPTIONS_TYPE.BOOLEAN" :disabled="props.options.disabled" />
+    <el-select
+      v-model="value"
+      v-if="props.options.type === OPTIONS_TYPE.SELECT"
+      :placeholder="props.options.title"
+      :disabled="props.options.disabled"
+    >
+      <el-option v-for="item in options.items" :key="item" :label="item" :value="item" />
+    </el-select>
+    <div class="el-color-picker">
+      <el-color-picker
+        v-model="value"
+        v-if="props.options.type === OPTIONS_TYPE.COLOR"
+        show-alpha
+        :disabled="props.options.disabled"
+      ></el-color-picker>
+    </div>
+    <!-- array 多值 -->
+    <el-popover v-if="isArrayShow()" :width="200" :visible="isShowPopover" :key="updatePopover">
+      <div class="array-items">
+        <el-button type="success" :icon="Check" circle @click="isShowPopover = false" />
+        <WebTypeInput
+          class="type-input-array"
+          v-for="item in props.options.arrayItems"
+          :key="item.key"
+          v-model="item.value"
+          :options="item"
+          @update="onItemValue"
+        ></WebTypeInput>
       </div>
-    </template>
-  </el-popover>
+      <template #reference>
+        <div class="array-valus" @click="isShowPopover = true">
+          <el-tag closable @close="onCloseTag(v)" v-for="v in props.options.arrayItems">
+            {{ v.value }}
+          </el-tag>
+        </div>
+      </template>
+    </el-popover>
+  </div>
 </template>
 <script setup lang="ts">
-import { Close } from '@element-plus/icons-vue'
 import type { OptionsType } from '../utils/types'
+import { CirclePlusFilled } from '@element-plus/icons-vue'
+import { Check } from '@element-plus/icons-vue'
 import { OPTIONS_TYPE } from '../utils/enum'
-import { ElInput, ElSlider, ElSwitch, ElSelect, ElOption, ElColorPicker, ElPopover, ElTag, ElIcon } from 'element-plus'
+import {
+  ElInput,
+  ElSlider,
+  ElSwitch,
+  ElSelect,
+  ElOption,
+  ElColorPicker,
+  ElPopover,
+  ElTag,
+  ElIcon,
+  ElButton
+} from 'element-plus'
 import { ref, watch } from 'vue'
-import { computed } from '@vue/reactivity'
 interface PropsType {
   options: OptionsType
   modelValue: any
@@ -68,36 +98,82 @@ watch(value, () => {
   emit('update', props.options)
 })
 function onItemValue(op: OptionsType) {
-  let temValue = Object.assign(value.value)
-  temValue[op.key] = op.value
-  asyncData(temValue)
-}
-function onCloseTag(v: any) {
-  let temValue = Object.assign(value.value)
   let arrayItems = props.options.arrayItems
   if (arrayItems) {
-    let filterItems = arrayItems.filter((a: any) => a.value !== v)
-    let filterValues = temValue.filter((f: any) => f !== v)
-    props.options.arrayItems = filterItems
-    asyncData(filterValues)
+    let findValue = arrayItems.find((a) => a.key === op.key)
+    if (findValue) {
+      findValue.value = op.value
+    }
   }
   onUpdatePopover()
 }
-function isArray() {
+function onCloseTag(v: OptionsType) {
+  let arrayItems = props.options.arrayItems
+  if (arrayItems) {
+    props.options.arrayItems = arrayItems.filter((a) => a.key !== v.key)
+  }
+  onUpdatePopover()
+}
+// 多值组件添加
+function onHeadAdd(item: OptionsType) {
+  let tem = JSON.parse(JSON.stringify(item.arrayAdd))
+  if (item.arrayItems) {
+    let index = item.arrayItems.length
+    tem.key = index
+    tem.title += index + 1
+    item.arrayItems.push(tem)
+    ;(item.value as any).push(tem.value)
+    onUpdatePopover()
+  }
+}
+function isArrayShow() {
   let type = props.options.type
   return type && type.includes('array_')
 }
-function asyncData(asyncData: Array<any>) {
-  // 同步双向数据
-  value.value = asyncData
-  // 同步显示数据
-  props.options.value = asyncData
-}
 function onUpdatePopover() {
+  // 更新视图
   updatePopover.value++
+  // 更新数据
+  emit('update', props.options)
 }
 </script>
 <style scoped>
+.type-input {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px gainsboro solid;
+  border-radius: 5px;
+  padding: 8px;
+  box-shadow: var(--el-box-shadow-light);
+}
+.type-input-array {
+  box-shadow: none;
+  border: none;
+  padding: 2px;
+  border-radius: 0px;
+}
+.type-input .head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.type-input .head .el-icon {
+  cursor: pointer;
+  transition: 0.25s;
+}
+.type-input .head .el-icon:hover {
+  transform: scale(1.1);
+}
+.type-input .head .el-icon:active {
+  transform: scale(0.9);
+}
+.type-input .head span {
+  font-size: 12px;
+  display: inline-block;
+}
+
 .el-input,
 .el-slider,
 .el-switch,
@@ -113,26 +189,19 @@ function onUpdatePopover() {
   flex-direction: column;
   position: relative;
 }
-.array-items .item {
-  display: flex;
-  flex-direction: column;
-}
-.array-items .item span {
-  margin-top: 3px;
-  margin-bottom: 3px;
-}
-.array-items > .el-icon {
+.array-items > .el-button {
   cursor: pointer;
   transition: 0.25s;
   position: absolute;
+  width: 12px;
+  height: 12px;
   right: 0px;
-  top: 0px;
+  bottom: 0px;
 }
-.array-items > .el-icon:hover {
-  color: var(--c-brand);
+.array-items > .el-button:hover {
   transform: scale(1.1);
 }
-.array-items > .el-icon:active {
+.array-items > .el-button:active {
   transform: scale(0.9);
 }
 .array-valus {

@@ -1,301 +1,67 @@
-<div class="context">
-  <div class="left" ref="leftRef">
-    <el-card v-for="item in list" :key="item.id">
-      <div class="list">
-        <span>
-          id:
-          <b>{{ item.id }}</b>
-        </span>
-        <span>
-          user:
-          <b>{{ item.user }}</b>
-        </span>
-        <span>
-          value:
-          <b>{{ item.value }}</b>
-        </span>
-        <span>
-          date:
-          <b>{{ item.date }}</b>
-        </span>
-      </div>
-    </el-card>
-  </div>
-  <div class="right">
-    <el-tabs v-model="optionsModel" class="demo-tabs">
-      <el-tab-pane label="公共" name="gg" />
-      <el-tab-pane label="model" name="model" />
-    </el-tabs>
-    <div class="options">
-      <div class="items" v-for="item in getOptions" :key="item.key">
-        <div class="head">
-          <span>{{ item.title }}:</span>
-          <el-icon
-            :size="20"
-            color="rgb(64, 158, 255)"
-            @click="onHeadAdd(item)"
-            v-if="item.arrayItems && item.arrayAdd"
-          >
-            <CirclePlusFilled />
-          </el-icon>
-        </div>
-        <WebTypeInput v-model="item.value" :options="item" @update="onUpdate($event, item)"></WebTypeInput>
+  <div class="context">
+    <div class="line">Canvas</div>
+    <div class="canvas-list">
+      <div
+        :style="{ backgroundImage: `url(${withBase(`/images/list/list-${item.model}.gif`)})` }"
+        class="item"
+        v-for="item in canvasList"
+        :key="item.model"
+        @click="toCanvas(item)"
+      >
+        <span class="title">{{ item.model }}</span>
       </div>
     </div>
-    <div class="set">
-      <el-button type="primary" @click="onLoading">加载</el-button>
-      <el-button type="danger" v-if="nowType === LOADING_TYPES.DOM" @click="onClose">关闭</el-button>
-      <input type="number" placeholder="1秒关闭" @input="closeInput" v-model="closeTime" v-else />
-      <el-dropdown>
-        <el-button type="success">复制</el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item @click="onReplication()">修改部分</el-dropdown-item>
-            <el-dropdown-item @click="onReplication('all')">全部配置</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
+    <div class="line">Html</div>
   </div>
-</div>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
-import { LOADING_TYPES, MODEL_TYPES } from 'web-loading/src/utils'
-import 'element-plus/dist/index.css'
-import {
-  ElCard,
-  ElButton,
-  ElTabs,
-  ElTabPane,
-  ElMessage,
-  ElDropdown,
-  ElDropdownMenu,
-  ElDropdownItem,
-  ElIcon,
-  ElNotification
-} from 'element-plus'
-import { CirclePlusFilled } from '@element-plus/icons-vue'
-import { OPTIONS_FORM } from '../../../utils/enum'
-import defOptions from '../../../utils/options'
-let list = reactive([])
-let options = reactive([])
-let closeTime = ref('')
-let optionsModel = ref('gg')
-let nowModel = ref(MODEL_TYPES.GEAR)
-let nowType = ref(LOADING_TYPES.DOM)
-let leftRef = ref(null)
-let webLoading = null
-let isNotification = false
-const getOptions = computed(() => {
-  let om = options.filter((o) => o.form === optionsModel.value)
-  if (optionsModel.value === 'model') {
-    om = om.filter((o) => o.model === nowModel.value)
-  }
-  return om
-})
-// 初始化基础数据
-initData()
-onMounted(() => {
-  import('web-loading/src/loading').then((res) => {
-    webLoading = res.default()
-  })
-})
-function onLoading() {
-  if (webLoading.getLoadingId()) return
-  webLoading.loading(leftRef.value, fromOptions())
-  // 自动关闭
-  if (nowType.value !== LOADING_TYPES.DOM) {
-    setTimeout(webLoading.close, (closeTime.value || 1) * 1000)
-  }
-}
-// 多值组件添加
-function onHeadAdd(item) {
-  let tem = Object.assign(item.arrayAdd)
-  let index = item.arrayItems.length
-  tem.key = index
-  tem.title += index
-  item.arrayItems.push(tem)
-  item.value.push(tem.value)
-}
-function onClose() {
-  webLoading && webLoading.close()
-}
-function onUpdate(v, op) {
-  if (op.key === 'model') {
-    optionsModel.value = 'model'
-    nowModel.value = v.value
-  }
-  if (op.key === 'type') {
-    nowType.value = v.value
-  }
-  if (!isNotification && ['bgColor', 'pointerEvents'].includes(op.key)) {
-    ElNotification({
-      title: '提示',
-      type: 'warning',
-      message: '部分公共options是用于初始化canvas,例如:"背景色"与"事件穿透",需要 重新加载 显示效果!'
-    })
-    isNotification = true
-  }
-  webLoading && webLoading.update(fromOptions())
-}
-function initData() {
-  for (let i = 0; i < 10; i++) list.push(randomItem())
-  options = JSON.parse(JSON.stringify(defOptions))
-}
-function onReplication(isAll) {
-  let options = {}
-  // 比较复制修改
-  let nowOp = fromOptions()
-  if (defOptions && nowOp) {
-    defOptions.forEach((def) => {
-      if (
-        (!def['model'] && nowOp[def.key] && nowOp[def.key] !== def.value) ||
-        isAll ||
-        (def['model'] &&
-          def['model'] === nowOp['model'] &&
-          (isArray(def.type) ? nowOp[def.key].join() !== def.value.join() : nowOp[def.key] !== def.value))
-      ) {
-        options[def.key] = nowOp[def.key]
-      }
-    })
-  }
-  let oInput = document.createElement('input')
-  oInput.value = JSON.stringify(options)
-  document.body.appendChild(oInput)
-  oInput.select() // 选择对象;
-  document.execCommand('Copy') // 执行浏览器复制命令
-  oInput.remove()
-  ElMessage.success('复制成功!')
-}
-function fromOptions() {
-  let ops = options.filter((o) => o.model === nowModel.value || o.form === OPTIONS_FORM.GG)
-  let temOptions = {}
-  ops.forEach((op) => {
-    temOptions[op.key] = op.value
-  })
-  return temOptions
-}
-function closeInput() {
-  let v = parseInt(closeTime.value)
-  if (v < 1 || v > 30) {
-    ElMessage.warning('范围1-30秒')
-    closeTime.value = ''
-  }
-}
-function randomItem() {
-  let date = new Date()
-  return {
-    id: parseInt(Math.random() * 10000000),
-    user: parseInt(Math.random() * 10000000),
-    value: parseInt(Math.random() * 100),
-    date: `${date.getFullYear()}${date.getMonth() - 1}-${date.getDate()}`
-  }
-}
-function isArray(type) {
-  return type && type.includes('array_')
+import { withBase } from '@vuepress/client'
+import { canvasList } from '../../../utils/listData.ts'
+function toCanvas(canvas) {
+  location.href = `/web-loading/example/canvas?model=${canvas.model}&options=${JSON.stringify(canvas.options)}`
 }
 </script>
 <style scoped>
 .context {
-  display: flex;
-  height: 70vh;
-  padding: 10px;
-  margin-top: 18px;
+  margin-top: 20px;
 }
-.context .left {
-  flex: 2;
-  border-radius: 10px;
-  border: 4px gainsboro solid;
-  padding: 16px;
-  transition: 0.25s;
-  overflow: auto;
+.context .line {
+  border-bottom: 1px solid rgba(192, 192, 192, 0.597);
+  padding-bottom: 12px;
+  font-size: 24px;
 }
-.context .left .list {
-  display: flex;
-  flex-direction: column;
-  line-height: 30px;
-}
-.left .el-card {
-  margin-bottom: 12px;
-}
-.context .right {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 16px;
-}
-.right .options {
-  flex: 1;
-  overflow: auto;
-}
-@media screen and (max-width: 820px) {
-  .context {
-    flex-direction: column;
-    height: 100vh;
-  }
-  .context .left {
-    height:40%;
-  }
-  .context .right {
-    height:60%;
-  }
-}
-.options .items {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
-  border: 1px gainsboro solid;
-  border-radius: 5px;
-  padding: 8px;
-  box-shadow: var(--el-box-shadow-light);
-}
-.options .items .head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-.items .head .el-icon {
-  cursor: pointer;
-  transition: 0.25s;
-}
-.items .head .el-icon:hover {
-  transform: scale(1.1);
-}
-.items .head .el-icon:active {
-  transform: scale(0.9);
-}
-.items .head span {
-  font-size: 12px;
-  display: inline-block;
-}
-.right .set {
+.canvas-list {
   margin-top: 12px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
 }
-.right .set input {
-  width: 58px;
-  height: 32px;
-  margin-left: 10px;
-  border: 1px gainsboro solid;
-  border-radius: 5px;
-  padding-left: 6px;
-  background-color: white;
-  color: black;
+@media (max-width: 750px) {
+  .canvas-list {
+    justify-content: center;
+  }
 }
-.right .set .btn:nth-child(1) {
-  margin-right: 10px;
+.canvas-list .item {
+  width: 200px;
+  height: 200px;
+  box-shadow: 0 0 20px rgb(0 0 0 / 5%);
+  cursor: pointer;
+  border-radius: 12px;
+  margin: 22px;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition: 0.22s;
 }
-.right .set .btn:nth-child(2) {
-  margin-left: 10px;
+.canvas-list .item:active {
+  transform: scale(0.9);
 }
-.right .set .el-dropdown {
-  margin-left: 10px;
-}
-::-webkit-scrollbar {
-  width: 0px;
+.canvas-list .item .title {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
 }
 </style>

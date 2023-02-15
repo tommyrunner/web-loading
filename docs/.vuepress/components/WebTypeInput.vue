@@ -1,7 +1,7 @@
 <template>
   <div class="type-input">
     <div class="head">
-      <span>{{ props.options.title }}:</span>
+      <span>{{ props.options[label] }}:</span>
       <el-icon
         :size="20"
         color="rgb(64, 158, 255)"
@@ -87,8 +87,11 @@ import { ref, watch } from 'vue'
 interface PropsType {
   options: OptionsType
   modelValue: any
+  label: string
 }
-const props = withDefaults(defineProps<PropsType>(), {})
+const props = withDefaults(defineProps<PropsType>(), {
+  label: 'title'
+})
 const value = ref(props.modelValue)
 const isShowPopover = ref(false)
 const updatePopover = ref(0)

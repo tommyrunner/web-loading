@@ -2,7 +2,7 @@
   <div class="list-content" v-for="l in list" :key="l.title">
     <div class="line">
       <span>{{ l.title }}</span>
-      <a :href="l.link">使用方法></a>
+      <a :href="l.link">使用方法 ></a>
     </div>
     <div class="canvas-list">
       <div

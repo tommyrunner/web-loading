@@ -55,6 +55,7 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { LOADING_TYPES, MODEL_TYPES } from 'web-loading/src/utils'
 import 'element-plus/dist/index.css'
 import {
@@ -72,6 +73,7 @@ import {
 } from 'element-plus'
 import { OPTIONS_FORM } from '../../../../utils/enum'
 import defOptions from '../../../../utils/options'
+import { canvasList } from '../../../../utils/listData.ts'
 let list = reactive([])
 let options = reactive([])
 let closeTime = ref('')
@@ -130,21 +132,21 @@ function onUpdate(v, op) {
 function initData() {
   for (let i = 0; i < 10; i++) list.push(randomItem())
   options = JSON.parse(JSON.stringify(defOptions))
-  let urlParams = new URLSearchParams(location.search)
-  let model = urlParams.get('model')
-  let ops = urlParams.get('options')
+  let route = useRoute()
+  let model = route.query.model
   if (model) {
+    let ops = canvasList.find(c=>c.model === model)
     // 修改model
     let key_model = options.find((o) => o.key === 'model')
     key_model.value = model
     nowModel.value = model
     // 修改options
     if (ops) {
-      let json_ops = JSON.parse(ops)
+      let json_ops = JSON.parse(JSON.stringify(ops))
       let key_models = options.filter((o) => o.form === 'gg' || o.model === model)
       // options逆转操作属性
       key_models.forEach((km) => {
-        for (let [key, value] of Object.entries(json_ops)) {
+        for (let [key, value] of Object.entries(json_ops.options)) {
           if (isArray(km.type) && km.key === key && km.arrayAdd && km.arrayItems && value.length) {
             km.arrayItems = []
             value.forEach((v) => {

@@ -25,6 +25,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.7.0",
+    "highlight.js": "^11.7.0",
     "html-webpack-plugin": "^5.5.0",
     "html2canvas": "^1.4.1",
     "t-point-sdk": "^2.2.0",

@@ -411,7 +411,7 @@ this.run(()=>{
 
 ## Html configuration method
 
-> The injection mode is different and the operation mode is the same.
+> Add **html** configuration to `options`, which has priority over **model** and `custom`.
 
 ### initialization
 

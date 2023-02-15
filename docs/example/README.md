@@ -1,24 +1,34 @@
-  <div class="context">
-    <div class="line">Canvas</div>
+<div class="context">
+  <div class="list-content" v-for="l in list" :key="l.title">
+    <div class="line">
+      <span>{{ l.title }}</span>
+      <a :href="l.link">使用方法></a>
+    </div>
     <div class="canvas-list">
       <div
         :style="{ backgroundImage: `url(${withBase(`/images/list/list-${item.model}.gif`)})` }"
         class="item"
-        v-for="item in canvasList"
+        v-for="item in l.list"
         :key="item.model"
-        @click="toCanvas(item)"
+        @click="toPage(item)"
       >
         <span class="title">{{ item.model }}</span>
       </div>
     </div>
-    <div class="line">Html</div>
   </div>
+</div>
 
 <script setup>
 import { withBase } from '@vuepress/client'
-import { canvasList } from '../../../utils/listData.ts'
-function toCanvas(canvas) {
-  location.href = `/web-loading/example/canvas?model=${canvas.model}&options=${JSON.stringify(canvas.options)}`
+import { canvasList, htmlList } from '../../../utils/listData.ts'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+let list = [
+  { title: 'Canvas', list: canvasList, link: '/web-loading/document/use.html' },
+  { title: 'Html', list: htmlList, link: '/web-loading/document/use.html#html配置方式' }
+]
+function toPage(canvas) {
+  router.push(`/example/${canvas.model.includes('html-') ? 'html' : 'canvas'}?model=${canvas.model}`)
 }
 </script>
 <style scoped>
@@ -28,7 +38,16 @@ function toCanvas(canvas) {
 .context .line {
   border-bottom: 1px solid rgba(192, 192, 192, 0.597);
   padding-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.context .line span {
   font-size: 24px;
+}
+.context .line a {
+  font-size: 16px;
+  cursor: pointer;
 }
 .canvas-list {
   margin-top: 12px;

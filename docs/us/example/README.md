@@ -2,17 +2,15 @@
   <div class="list-content" v-for="l in list" :key="l.title">
     <div class="line">
       <span>{{ l.title }}</span>
-      <a :href="l.link">usage method ></a>
+      <a :href="l.link">Usage ></a>
     </div>
     <div class="canvas-list">
-      <div
-        :style="{ backgroundImage: `url(${withBase(`/images/list/list-${item.model}.gif`)})` }"
-        class="item"
-        v-for="item in l.list"
-        :key="item.model"
-        @click="toPage(item)"
-      >
-        <span class="title">{{ item.model }}</span>
+      <div class="item" v-for="item in l.list" :key="item.model" @click="toPage(item)">
+        <el-image lazy :src="withBase(`/images/list/list-${item.model}.gif`)" @load="onImageLoad(item)"></el-image>
+        <span :class="['text', item.gif ? 'title' : 'loading']">
+          {{ item.gif ? item.model : '加载中' }}
+        </span>
+        <div class="mask"></div>
       </div>
     </div>
   </div>
@@ -22,11 +20,16 @@
 import { withBase } from '@vuepress/client'
 import { canvasList, htmlList } from '../../../../utils/listData.ts'
 import { useRouter } from 'vue-router'
+import { ElImage } from 'element-plus'
+import { reactive } from 'vue'
 const router = useRouter()
-let list = [
+let list = reactive([
   { title: 'Canvas', list: canvasList, link: '/web-loading/us/document/use.html' },
   { title: 'Html', list: htmlList, link: '/web-loading/us/document/use.html#html-configuration-method' }
-]
+])
+function onImageLoad(item) {
+  item.gif = true
+}
 function toPage(canvas) {
   router.push(`/us/example/${canvas.model.includes('html-') ? 'html' : 'canvas'}?model=${canvas.model}`)
 }
@@ -75,12 +78,33 @@ function toPage(canvas) {
 .canvas-list .item:active {
   transform: scale(0.9);
 }
-.canvas-list .item .title {
+.canvas-list .item .mask {
+  width: 100%;
+  height: 100%;
   position: absolute;
+  z-index: 2;
+  top: 0px;
+  left: 0px;
+  opacity: 0;
+}
+.canvas-list .item .text {
+  position: absolute;
+  height: 20px;
+  transition: 0.22s;
+}
+.canvas-list .item .title {
   bottom: 5px;
   left: 10px;
   color: white;
   font-weight: bold;
   font-size: 12px;
+}
+.canvas-list .item .loading {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(166, 162, 162, 0.61);
+  font-weight: 400;
+  font-size: 16px;
 }
 </style>

@@ -1,7 +1,7 @@
 import type { ElementStoreType } from '../../types'
 import type { GearOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
-// 默认值
+// Default
 const defaultOptions: GearOptionsType = {
   lineStart: 10,
   lineEnd: 16,
@@ -12,7 +12,7 @@ const defaultOptions: GearOptionsType = {
   lineNum: 10,
   direction: true
 }
-
+// Warning value
 const limits = [
   {
     key: 'lineNum',
@@ -32,13 +32,13 @@ export default class Gear extends BaseModel<GearOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
+    // 1.Initialize options (prevent attribute from being empty)
     this.initOptions(defaultOptions, limits)
-    // 2.根据高宽优化默认值
+    // 2.Optimize default values based on height and width
     this.optimization(this.options.textGap + this.options.lineEnd)
-    // 3.初始化画笔
+    // 3.Initialize brush
     this.initPoint()
-    // 4.开始动画针并记录状态
+    // 4.Start the animation needle and record the status
     this.aps = Array.from({ length: this.options.lineNum }, (_, _index) => _index)
     this.run(this.draw)
   }
@@ -50,11 +50,11 @@ export default class Gear extends BaseModel<GearOptionsType> {
   }
   draw() {
     this.clearRect()
-    // 流程
+    // technological process
     this.controller()
-    // 绘制齿轮
+    // Draw gear
     this.drawGear()
-    // 绘制文字
+    // Draw text
     this.drawText()
   }
   controller() {
@@ -65,11 +65,11 @@ export default class Gear extends BaseModel<GearOptionsType> {
   drawGear() {
     const op = this.options
     this.ctx.save()
-    // 设置阴影
+    // Set Shadow
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur
-    // 绘制加载齿轮
+    // Draw loading gear
     for (let i = 0; i < this.aps.length; i++) {
       this.ctx.beginPath()
       this.ctx.globalAlpha = this.aps[i] / 10
@@ -85,20 +85,20 @@ export default class Gear extends BaseModel<GearOptionsType> {
     const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
-    // 位置+文字+间隔
+    // Position+text+spacing
     const y = op.lineEnd + op.fontSize + op.textGap
     this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()
   }
   /**
-   * 优化处理(主要优化默认文字位置)
+   * Optimize processing (mainly optimize the default text position)
    * @param textY
    */
   optimization(textY: number) {
-    // 如果开启优化(优化字体位置)
+    // If optimization is turned on (optimize font position)
     if (this.options.optimization) {
-      // 根据宽高调整
+      // Adjust according to width and height
       if (textY * 4 > this.h) {
         this.options.lineStart = this.h / 6 - 5
         this.options.lineEnd = this.h / 6

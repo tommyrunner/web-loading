@@ -1,45 +1,45 @@
 import { MODEL_TYPES, LOADING_TYPES, HOOKSCALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
 export interface OptionsType {
-  // 自定义model
+  // custom model
   custom?: any
-  // loading启动方式(默认DEF)[只读]
+  // loading Startup mode (default DEF) [read-only]
   type?: LOADING_TYPES
-  // mini模式的class
+  // Class of mini mode
   miniClass?: string | null | undefined
-  // model 模块
+  // models
   model?: MODEL_TYPES
-  // html加载内容
+  // Html load content
   html?: string
-  // 字体内容
+  // text
   text?: string
-  // 字体间距
+  // textGap
   textGap?: number
-  // 字体大小
+  // fontSize
   fontSize?: number
-  // 字体类型
+  // fontFamily
   fontFamily?: string
-  // 动画延迟
+  // delay
   delay?: number
-  // 关闭动画延迟
+  // delayColse
   delayColse?: number
-  // 优化处理
+  // optimization
   optimization?: boolean
-  // loading层级
+  // loading Hierarchy
   zIndex?: string
-  // 主题色
+  // Theme color
   themeColor?: string
-  // 背景色
+  // Background color
   bgColor?: string
-  // 阴影色
+  // shadowColor
   shadowColor?: string
-  // 阴影X
+  // shadowOffsetX
   shadowOffsetX?: number
-  // 阴影Y
+  // shadowOffsetY
   shadowOffsetY?: number
-  // 阴影范围
+  // shadowBlur
   shadowBlur?: number
-  // 事件穿透(DOM方式)
+  // Event penetration (DOM mode)
   pointerEvents?: boolean
 }
 export interface WindowType extends Window {
@@ -56,22 +56,22 @@ export interface LoadingType {
   getOptions: () => OptionsType
   getLoadingId: () => string | null
 }
-// 映射key为enum
+// The mapping key is enum
 export type HooksCallType<T extends string = HOOKSCALL_KEY> = {
   [key in T]: Function
 }
 export interface ElementStoreType {
-  // 绑定的元素
+  // Bound Elements
   element: ElementType
-  // 储存最终合并的options参数
+  // Save the options parameter of the final merge
   options: OptionsType
-  // 用于记录animation状态
+  // Used to record the animation status
   animationId: number | undefined
-  // 记录loading元素id
+  // Record the loading element id
   loadingId: string | null
-  // `loading`的钩子函数
+  // `Hook function of loading `
   hookCall: HooksCallType
-  // 正在使用的model
+  // Model in use
   model: BaseModel<OptionsType> | null
 }
 export interface ElementType extends HTMLElement {
@@ -84,8 +84,8 @@ export interface LimitType {
   limit: (key: any) => boolean
 }
 export type LogConfigType = {
-  // 文字颜色
+  // Text color
   color?: string
-  // 提示毕竟
+  // Hint After all
   bgColor?: string
 }

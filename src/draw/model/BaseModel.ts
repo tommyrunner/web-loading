@@ -13,7 +13,7 @@ export default class BaseModel<T extends OptionsType> {
     this.w = w
     this.h = h
     this.canvas = canvas
-    // 默认获取一个2d画笔
+    // Get a 2d brush by default
     this.ctx = canvas.getContext('2d')!
     this.options = options
     this.store = store
@@ -22,11 +22,11 @@ export default class BaseModel<T extends OptionsType> {
     this._$initPoint()
     this._$initEvent()
   }
-  // 初始化画笔
+  // Initialize brush
   private _$initPoint() {
     this.clearRect()
     this.ctx.resetTransform()
-    // 默认主题色
+    // Default theme color
     const op = this.options,
       defW = this.canvas.width,
       defH = this.canvas.height
@@ -37,29 +37,29 @@ export default class BaseModel<T extends OptionsType> {
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'middle'
     this.ctx.translate(defW / 2, defH / 2)
-    // 同步大小处理失真
+    // Synchronous size processing distortion
     const dpr = window.devicePixelRatio || 1
     this.ctx.scale(dpr, dpr)
     this.ctx.save()
   }
-  // 初始化默认事件
+  // Initialize default events
   private _$initEvent() {
-    // 关闭前清空画布
+    // Empty canvas before closing
     this.store.hookCall.beforeColse(() => {
       this.clearRect()
     })
   }
   /**
-   * 封装 requestAnimationFrame 触发动画针
-   * @param fun 触发函数
+   * Encapsulate requestAnimationFrame to trigger the animation pin
+   * @param fun Trigger function
    * @returns
    */
   private animationFrame(fun: Function) {
-    // 兼容
+    // compatible
     if (!window.requestAnimationFrame) {
       this.store.animationId = window.setInterval(fun, this.options.delay)
     }
-    // 利用时间轴控制触发时间
+    // Use the time axis to control the trigger time
     let endTime = Date.now() + this.options.delay!
     fun.call(this)
     const run = () => {
@@ -72,29 +72,29 @@ export default class BaseModel<T extends OptionsType> {
     this.store.animationId = window.requestAnimationFrame(run)
   }
 
-  // 开始动画
+  // Start Animation
   run(fun: Function) {
-    // 如果已经处于加载状态，无须重新实例
+    // If it is already in the loading state, there is no need to re-instance
     if (this.store.animationId) this.clearAnimationFrame(this.store.animationId)
     this.animationFrame(fun)
   }
   /**
-   * 取消 animationFrame 动画针
-   * @param id 动画id
+   * Cancel animationFrame animation pin
+   * @param id Animation id
    */
   clearAnimationFrame(id: number) {
     clearAnimationFrame(id)
   }
   /**
-   * 初始化options默认值
-   * @param options 传入默认值
-   * @param limits 值的限制
+   * Initialize options defaults
+   * @param options Incoming default
+   * @param limits Limit of value
    */
   initOptions(options: T, limits?: Array<LimitType>) {
-    // 记录options
+    // Record options
     this.options = Object.assign(options, this.options)
     this.store.options = this.options
-    // 判断需要限制属性值(只做提示)
+    // Judge whether the attribute value needs to be limited (only for prompt)
     if (limits && limits.length) {
       limits.forEach((l: LimitType) => {
         const mayKey = this.options[l.key as keyof typeof this.options]
@@ -102,15 +102,15 @@ export default class BaseModel<T extends OptionsType> {
       })
     }
   }
-  // 清空画布
+  // Empty the canvas
   clearRect(x?: number, y?: number, w_r?: number, h?: number) {
     const defW = this.canvas.width,
       defH = this.canvas.height
-    // 因为已经把起点设置到中心，所需要扩张
+    // Because the starting point has been set to the center, expansion is needed
     if (!isNull(x) && !isNull(y) && !isNull(w_r) && !isNull(h)) {
       this.ctx.clearRect(x, y, w_r, h)
     }
-    // 圆形区域清空
+    // Empty circular area
     else if (!isNull(x) && !isNull(y) && !isNull(w_r) && isNull(h)) {
       const calcWidth = w_r - this.stepClear
       const calcHeight = Math.sqrt(w_r * w_r - calcWidth * calcWidth)
@@ -128,7 +128,7 @@ export default class BaseModel<T extends OptionsType> {
     } else this.ctx.clearRect(-defW, -defH, defW * 2, defH * 2)
   }
   /**
-   * 绘制圆角矩形
+   * Draw a rounded rectangle
    * @param x
    * @param y
    * @param w

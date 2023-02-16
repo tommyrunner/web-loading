@@ -2,7 +2,6 @@ import type { ElementStoreType } from '../../types'
 import type { ZoomOptionsType } from '../types'
 import { ZOOM_ACTION } from '../utils'
 import BaseModel from './BaseModel'
-// 默认值
 const defaultOptions: ZoomOptionsType = {
   zoomGap: 10,
   maxSize: 16,
@@ -36,7 +35,7 @@ const limits = [
   }
 ]
 export default class Zoom extends BaseModel<ZoomOptionsType> {
-  list: Array<ListType> // 每次旋转角度(默认每次旋转10)
+  list: Array<ListType> 
   zoomIndex: number
   constructor(
     w: number,
@@ -46,16 +45,13 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
     this.initOptions(defaultOptions, limits)
-    // 2.初始化画笔
     this.initPoint()
-    // 3.开始动画针并记录状态
     this.zoomIndex = this.options.direction ? 0 : this.options.zoomNum - 1
     this.list = Array.from({ length: this.options.zoomNum }, (_, _index) =>
       Object.assign({
         value: this.options.lineWidth,
-        // 0:初始,1:变大,2:变小
+        // 0: initial, 1: bigger, 2: smaller
         state: 0
       })
     )
@@ -65,17 +61,16 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     const op = this.options
     this.ctx.lineCap = op.lineCap
     this.ctx.lineWidth = op.lineWidth
-    // 居中((zoom宽度*个数+1)+(zoom空隙*个数+1))/2,因第一个zoom就移位了所需要个数+1,高度/2
+    // Center ((zoom width * number+1)+(zoom gap * number+1))/2, because the first zoom shifts the required number+1, height/2
     this.ctx.translate(-(op.lineWidth * (op.zoomNum + 1) + op.zoomGap * (op.zoomNum + 1)) / 2, -op.zoomHeight / 2)
     this.ctx.save()
   }
   draw() {
     this.clearRect()
-    // 绘制zoom
+    // Draw zoom
     this.drawZoom()
-    // 绘制字体
     this.drawText()
-    // 流程
+    // technological process
     this.controller()
   }
   controller() {
@@ -86,11 +81,11 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
   drawZoom() {
     const op = this.options
     for (let i = 0; i < op.zoomNum; i++) {
-      // 流程变化
+      // Process change
       if (this.list[i].state === 1) this.list[i].value += 2
       else if (this.list[i].state === 2 && this.list[i].value >= op.lineWidth) this.list[i].value--
       if (op.action === ZOOM_ACTION.SCALE) this.ctx.lineWidth = this.list[i].value
-      // 状态变化
+      // State change
       if (i === this.zoomIndex) {
         if (this.list[i].value > op.maxSize) {
           this.list[i].state = 2
@@ -102,7 +97,7 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
         }
         if (this.list[i].value <= op.lineWidth) this.list[i].state = 1
       }
-      // 根据num绘制
+      // Draw according to num
       this.ctx.beginPath()
       if (op.zoomColors.length > 0 && op.zoomColors[i]) this.ctx.strokeStyle = op.zoomColors[i]
       else this.ctx.strokeStyle = op.themeColor

@@ -1,7 +1,6 @@
 import type { ElementStoreType } from '../../types'
 import type { ClockOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
-// 默认值
 const defaultOptions: ClockOptionsType = {
   lineCap: 'round',
   lineWidth: 2,
@@ -24,7 +23,6 @@ const limits = [
   }
 ]
 export default class Clock extends BaseModel<ClockOptionsType> {
-  // 记录
   nowTime: number
   nowS: number
   constructor(
@@ -35,9 +33,7 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
     this.initOptions(defaultOptions, limits)
-    // 3.初始化画笔
     this.initPoint()
     this.nowTime = -1
     this.nowS = 0
@@ -51,7 +47,7 @@ export default class Clock extends BaseModel<ClockOptionsType> {
   }
   draw() {
     this.clearRect()
-    // 绘制clock
+    // Draw clock
     this.drawClock()
   }
   drawText(h: number, m: number, s: number) {
@@ -70,7 +66,7 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     const s = new Date().getSeconds()
     const m = new Date().getMinutes()
     const h = new Date().getHours()
-    // 顶
+    // top
     this.ctx.save()
     this.ctx.beginPath()
     this.setShadow()
@@ -78,14 +74,14 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     this.ctx.lineTo(5, -(op.clockSize + op.clockGap))
     this.ctx.stroke()
     this.ctx.closePath()
-    // 外圆
+    // Outer circle
     this.ctx.beginPath()
     this.setShadow()
     this.ctx.arc(0, 0, op.clockSize, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
     this.ctx.restore()
-    // 刻度
+    // scale
     this.ctx.save()
     for (let i = 0; i < 12; i++) {
       this.ctx.beginPath()
@@ -96,13 +92,13 @@ export default class Clock extends BaseModel<ClockOptionsType> {
       this.ctx.closePath()
     }
     this.ctx.restore()
-    // 时针
+    // Clockwise
     if (op.hLine) {
       this.ctx.save()
       this.ctx.beginPath()
       this.ctx.lineWidth = op.lineWidth * 1.6
       if (op.lineColors[0]) this.ctx.strokeStyle = op.lineColors[0]
-      // 初始化点
+      // Initialization point
       this.ctx.rotate((-90 * Math.PI) / 180)
       this.ctx.rotate((((h * 360) / 60) * Math.PI) / 180)
       this.ctx.moveTo(-1, 0)
@@ -111,13 +107,13 @@ export default class Clock extends BaseModel<ClockOptionsType> {
       this.ctx.closePath()
       this.ctx.restore()
     }
-    // 分针
+    // minute hand
     if (op.mLine) {
       this.ctx.save()
       this.ctx.beginPath()
       if (op.lineColors[1]) this.ctx.strokeStyle = op.lineColors[1]
       this.ctx.lineWidth = op.lineWidth * 1.2
-      // 初始化点
+      // Initialization point
       this.ctx.rotate((-90 * Math.PI) / 180)
       this.ctx.rotate((((m * 360) / 60) * Math.PI) / 180)
       this.ctx.moveTo(-1, 0)
@@ -126,12 +122,11 @@ export default class Clock extends BaseModel<ClockOptionsType> {
       this.ctx.closePath()
       this.ctx.restore()
     }
-    // 秒针
+    // second hand
     if (op.sLine) {
       this.ctx.save()
       this.ctx.beginPath()
       if (op.lineColors[2]) this.ctx.strokeStyle = op.lineColors[2]
-      // 初始化点
       this.ctx.rotate((-90 * Math.PI) / 180)
       this.ctx.rotate((((s * 360) / 60) * Math.PI) / 180)
       this.ctx.moveTo(-1, 0)
@@ -142,7 +137,6 @@ export default class Clock extends BaseModel<ClockOptionsType> {
       if (this.nowS !== s) this.nowTime++
       this.nowS = s
     }
-    // 绘制文字
     this.drawText(h, m, s)
   }
   setShadow() {

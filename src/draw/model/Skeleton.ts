@@ -1,7 +1,6 @@
 import type { ElementStoreType } from '../../types'
 import type { SkeletonOptionsType } from '../types'
 import BaseModel from './BaseModel'
-// 默认值
 const defaultOptions: SkeletonOptionsType = {
   skeletonColor: 'rgb(240, 240, 240)',
   skeletonAnimationColor: 'rgb(226, 226, 226)',
@@ -27,7 +26,6 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
     this.initOptions(defaultOptions, [])
     this.skeleton = []
     this.colorFlow = 0
@@ -39,7 +37,7 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
   }
   initPoint() {
     const op = this.options
-    // 重新初始化画布
+    // Reinitialize the canvas
     this.ctx.translate(-this.w / 2, -this.h / 2)
     this.canvas.width = this.store.element.scrollWidth
     this.canvas.height = this.store.element.scrollHeight
@@ -72,7 +70,7 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     if (op.animation) this.ctx.fillStyle = linearGradient
     this.skeleton.forEach((s) => {
       const el = s.element
-      // 处理圆角露出问题
+      // Handle the problem of fillet exposure
       this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius)
       this.ctx.fill()
     })
@@ -83,7 +81,7 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
       if (this.state === 2) this.colorFlow -= 0.06
     }
   }
-  // 绘制图片skeleton
+  // Draw a picture Skeleton
   // drawSkeletonImg(x: number, y: number, size: number) {
   //     let op = this.options
   //     this.ctx.save()

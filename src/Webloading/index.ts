@@ -4,20 +4,20 @@ import { LOADING_TYPES, toType, getDefOptions, clearAnimationFrame, $Log, HOOKSC
 import drawController from '../draw/index'
 import style from './style'
 export default class WebLoading {
-  // 动画canvas
+  // canvas
   canvas: HTMLCanvasElement | null
-  // 兼容html动画元素
+  // Compatible with html animation elements
   htmlElement: HTMLDivElement | null
-  // 动画元素id
+  // Animation element id
   loadingId: string | null
-  // 动画元素
+  // Animation Elements
   element: ElementType | null
-  // 配置options
+  // Configure options
   options: Required<OptionsType>
   // hooks
   hooks: HooksType | null
   constructor(options?: OptionsType) {
-    // 初始化默认配置
+    // Initialize default configuration
     this.options = Object.assign(getDefOptions(), options)
     this.canvas = null
     this.htmlElement = null
@@ -39,29 +39,29 @@ export default class WebLoading {
   close(element: ElementType, contentElement: HTMLCanvasElement | HTMLDivElement) {
     const op = this.options
     const store = element.$store
-    // 会触发动画
+    // Will trigger animation
     this.clearStyle(element, contentElement)
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
       element.style.pointerEvents = 'auto'
     }
     if (store) {
-      // 清除model
+      // Clear model
       store.model = null
-      // 关闭前回调
+      // Callback before closing
       this.callEvent(HOOKSCALL_KEY.BEFORE_COLSE)
-      // 停止 animationFrame
+      // stop it animationFrame
       if (store.animationId) clearAnimationFrame(store.animationId)
     }
-    // 清空dom
+    // empty dom
     window.setTimeout(() => {
-      // 如果是扩展dom，清空父元素(父元素是webLoading创建)
+      // If the dom is extended, clear the parent element (the parent element is created by webLoading)
       if (op.type !== LOADING_TYPES.DOM) element.remove()
       else contentElement.remove()
-      // 清除状态
+      // erase status
       this.loadingId = null
-      // 关闭后回调
+      // Callback after closing
       this.callEvent(HOOKSCALL_KEY.COLSED)
-      // 清空hooks
+      // Callback after closing
       this.hooks = this.initHooksCall()
     }, op.delayColse)
   }
@@ -78,9 +78,9 @@ export default class WebLoading {
   }
   private initHtml() {
     let op = this.options
-    // 创建容器
+    // Create container
     this.htmlElement = document.createElement('div')
-    // 添加内容
+    // Add content
     this.htmlElement.innerHTML = op.html
     this.loadingId = String('wl_' + Date.now())
     return {
@@ -89,9 +89,9 @@ export default class WebLoading {
     }
   }
   private clearStyle(element: ElementType, canvas: HTMLCanvasElement | HTMLDivElement) {
-    // 先视觉过渡
+    // First visual transition
     canvas.style.opacity = '0'
-    // 清除扩展
+    // Clear Extension
     if (this.options.type !== LOADING_TYPES.DOM) {
       element.style.boxShadow = 'none'
     }
@@ -102,7 +102,7 @@ export default class WebLoading {
     contentElement: HTMLCanvasElement | HTMLDivElement
   ) {
     const op = this.options
-    // client取真实宽高，如果开启穿透取滚动宽高
+    // The client takes the true width and height. If penetration is enabled, the rolling width and height are taken
     const elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth,
       elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight,
       readElementStyle = window.getComputedStyle(element),
@@ -114,7 +114,7 @@ export default class WebLoading {
       element.style.pointerEvents = 'none'
     }
     if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
-    // 初始化canvas样式
+    // Initialize canvas style
     contentElement.id = loadingId
     document.styleSheets[0].insertRule(style)
     contentElement.style.animation = `wl_show ${op.delayColse / 1000}s linear`
@@ -125,24 +125,24 @@ export default class WebLoading {
     contentStyle.transition = `${op.delayColse / 1000}s`
     contentStyle.backgroundColor = op.bgColor
     contentStyle.borderRadius = readElementStyle.borderRadius
-    // 设置画布大小
+    // Set canvas size
     if (toType(contentElement) === 'htmlcanvaselement') {
       this.setupCanvas(contentElement as HTMLCanvasElement, elementW, elementH)
     } else if (toType(contentElement) === 'htmldivelement') {
-      // 初始化兼容html 样式
+      // Initialize compatible html styles
       contentStyle.width = elementW + 'px'
       contentStyle.height = elementH + 'px'
-      // 居中
+      // Center
       contentStyle.display = 'flex'
       contentStyle.alignItems = 'center'
       contentStyle.justifyContent = 'center'
     }
-    // 注入
+    // injection
     element.append(contentElement)
     this.element = element
   }
   private setupCanvas(canvas: HTMLCanvasElement, w: number, h: number) {
-    // 处理放大失真
+    // Processing amplification distortion
     const dpr = window.devicePixelRatio || 1
     canvas.width = w * dpr
     canvas.height = h * dpr
@@ -152,18 +152,18 @@ export default class WebLoading {
   }
   draw(element: ElementType) {
     let op = this.options
-    // 兼容html
+    // Compatible with html
     if (op.html) {
-      // 初始化基础数据
+      // Initialize basic data
       const initValue = this.initHtml()
-      // 初始化样式
+      // Initialize style
       this.initContentStyle(element, initValue.loadingId, initValue.content)
     } else {
-      // 初始化基础数据
+      // Initialize basic data
       const initValue = this.initCanvas()
-      // 初始化样式
+      // Initialize style
       this.initContentStyle(element, initValue.loadingId, initValue.canvas)
-      // 初始化store
+      // Initialize store
       this.initStore(element, initValue.hooks)
       if (element.$store) {
         const canvas = initValue.canvas
@@ -174,7 +174,7 @@ export default class WebLoading {
     }
   }
   private initStore(element: ElementType, hooks: HooksType) {
-    // 储存状态
+    // Storage status
     element.$store = {
       options: this.options,
       element: element,
@@ -190,7 +190,7 @@ export default class WebLoading {
       [HOOKSCALL_KEY.COLSED]: []
     }
   }
-  // 初始化hooks
+  // Initialize hooks
   private initStoreHooksCall(hooks: HooksType): HooksCallType {
     return {
       [HOOKSCALL_KEY.BEFORE_COLSE]: (fun: Function) => {
@@ -201,7 +201,7 @@ export default class WebLoading {
       }
     }
   }
-  // 触发hooks
+  // Trigger hooks
   private callEvent(hooksKey: HOOKSCALL_KEY) {
     if (this.hooks)
       this.hooks[hooksKey].forEach((event: Function) => {

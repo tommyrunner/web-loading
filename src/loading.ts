@@ -12,11 +12,11 @@ export default function initLoading(options?: OptionsType): LoadingType {
     if (webLoading.element && webLoading.htmlElement) webLoading.resize(webLoading.element, webLoading.htmlElement)
   }
   const loading = (dom: HTMLElement, options?: OptionsType) => {
-    // 保留上次传入参数
+    // Keep the last passed in parameter
     const op = Object.assign(webLoading.options, options)
-    // 防止重复注册
+    // Prevent duplicate registration
     if (!webLoading.loadingId) {
-      // 创建扩展dom
+      // Create extended dom
       if (op.type !== LOADING_TYPES.DOM) {
         dom = new ExtendLoading(op).getElement()
       }
@@ -37,7 +37,7 @@ export default function initLoading(options?: OptionsType): LoadingType {
     // html
     if (webLoading.element && webLoading.htmlElement) webLoading.close(webLoading.element, webLoading.htmlElement)
   }
-  // 抛出基础信息
+  // Throw basic information
   const getLoadingId = () => webLoading.loadingId
   const getOptions = () => webLoading.options
   return {
@@ -49,7 +49,7 @@ export default function initLoading(options?: OptionsType): LoadingType {
     getLoadingId
   }
 }
-// 扩展加载方式
+// Extended Load Method
 export function _$extendLoading(type: LOADING_TYPES, options?: OptionsType) {
   return initLoading(Object.assign(getDefOptions(), options || {}, { type }))
 }

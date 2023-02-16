@@ -1,7 +1,6 @@
 import type { ElementStoreType } from '../../types'
 import type { BeanOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
-// 默认值
 const defaultOptions: BeanOptionsType = {
   beanSize: 15,
   pointLength: 15
@@ -41,7 +40,6 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
     this.initOptions(defaultOptions, limits)
     this.bean = {
       turn: 30,
@@ -65,13 +63,13 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.ctx.fill()
     this.ctx.closePath()
     this.ctx.restore()
-    // 绘制点
+    // Draw points
     this.drawPoint()
-    // 过滤画布
+    // Filter Canvas
     this.drawFillter()
-    // 绘制文字
+    // Draw text
     this.drawText()
-    // 流程
+    // technological process
     this.controller()
   }
   controller() {
@@ -104,21 +102,20 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.bean.beanAnimaIndex += 0.2
     this.ctx.restore()
   }
-  // 滤布
   drawFillter() {
     const op = this.options
-    // 眼睛
+    // eye
     this.clearRect(-op.beanSize / 3 + this.bean.nowX, -op.beanSize / 2, op.beanSize / 4)
-    // 跟随
+    // follow
     this.clearRect(
       -(op.pointLength * op.beanSize) / 2 - op.beanSize / 2 + 0.2,
       -this.h,
       this.bean.nowX + (op.pointLength * op.beanSize) / 2 - op.beanSize / 2,
       this.h * 2
     )
-    // 进入
+    // get into
     this.clearRect(-(op.pointLength * op.beanSize) / 2, -this.h, -180, this.h * 2)
-    // 离开
+    // leave
     this.clearRect((op.pointLength * op.beanSize) / 2, -this.h, 180, this.h * 2)
   }
   setShadow() {

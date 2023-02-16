@@ -3,7 +3,6 @@ import type { RollOptionsType } from '../types'
 import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
 import { ROLL_CHART } from '../utils'
-// 默认值
 const defaultOptions: RollOptionsType = {
   rollGap: 12,
   childNum: 4,
@@ -51,9 +50,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
     this.initOptions(defaultOptions, limits)
-    // 2.初始化画笔
     this.Roll = {
       turn: 1,
       nowX: this.options.fixad
@@ -66,20 +63,20 @@ export default class Roll extends BaseModel<RollOptionsType> {
   }
   draw() {
     this.clearRect()
-    // 地面
+    // ground
     this.drawGround()
-    // 绘制child
+    // Draw child
     this.drawChild()
     this.ctx.save()
     this.ctx.beginPath()
     this.ctx.translate(-this.Roll.nowX, 0)
     this.ctx.rotate((this.Roll.turn * Math.PI) / 180)
-    // 绘制图形
+    // Draw Graph
     this.selectChart()
-    // 流程
+    // technological process
     this.controller()
     this.ctx.restore()
-    // 绘制文字
+    // Draw text
     this.drawText()
   }
   selectChart() {
@@ -120,7 +117,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
       this.Roll.child.pop()
     }
   }
-  // 正方形
+  // square
   drawRect() {
     const op = this.options
     this.ctx.save()
@@ -129,27 +126,27 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.ctx.fillRect(0, 0, op.rollSize, op.rollSize)
     this.ctx.restore()
   }
-  // 轮子
+  // wheel
   drawWheel() {
     const op = this.options
     this.ctx.save()
     this.ctx.lineWidth = 4
-    // 内圆1
+    // Inner circle 1
     this.ctx.beginPath()
     this.ctx.arc(0, 0, op.rollSize / 6, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
-    // 内圆2
+    // Inner circle 2
     this.ctx.beginPath()
     this.ctx.arc(0, 0, op.rollSize / 2, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
-    // 外圆
+    // Outer circle
     this.ctx.beginPath()
     this.ctx.arc(0, 0, op.rollSize, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
-    // 轮毂
+    // hub
     for (let i = 0; i < 6; i++) {
       this.ctx.beginPath()
       this.ctx.moveTo(0, op.rollSize / 2)
@@ -160,7 +157,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     }
     this.ctx.restore()
   }
-  // 风车
+  // windmill
   drawWindmill() {
     const op = this.options
     this.ctx.save()
@@ -172,7 +169,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
       this.ctx.closePath()
       this.ctx.rotate(((360 / 4) * Math.PI) / 180)
     }
-    // 上层合并
+    // Upper level consolidation
     this.ctx.beginPath()
     this.ctx.fillStyle = op.windmillPointColor
     this.ctx.arc(0, 0, op.rollSize / 2, 0, Math.PI * 2)

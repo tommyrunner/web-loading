@@ -41,7 +41,7 @@ export const canvasList = [
   },
   {
     model: 'Circular',
-    options: { delay: 21, action: 'rotate' }
+    options: { delay: 21, action: 'rotate', text: '' }
   },
   {
     model: 'Img',

@@ -1,7 +1,7 @@
 import { LogConfigType, OptionsType } from './types'
 
 /**
- * 支持的 loading 方式
+ * Supported loading methods
  */
 export enum LOADING_TYPES {
   DOM = 'dom',
@@ -9,33 +9,33 @@ export enum LOADING_TYPES {
   MINI = 'mini'
 }
 /**
- * 支持的 model
+ * Supported models
  */
 export enum MODEL_TYPES {
-  // 齿轮旋转
+  // Gear
   GEAR = 'Gear',
-  // 环形旋转
+  // RING
   RING = 'Ring',
-  // 图形变形
+  // ZOOM
   ZOOM = 'Zoom',
-  // 多图形
+  // PATTERN
   PATTERN = 'Pattern',
-  // 时钟
+  // CLOCK
   CLOCK = 'Clock',
-  // 吃豆人
+  // BEAN
   BEAN = 'Bean',
-  // 翻滚
+  // ROLL
   ROLL = 'Roll',
-  // 撞击球
+  // Circular
   Circular = 'Circular',
-  // 图片
+  // IMG
   IMG = 'Img',
-  // 骨架屏
+  // SKELETON
   SKELETON = 'Skeleton'
 }
 /**
  *
- * @returns 返回默认配置
+ * @returns Return to default configuration
  */
 export function getDefOptions(): Required<OptionsType> {
   return {
@@ -72,9 +72,9 @@ export enum LOG_TYPES {
   ERROR = 3
 }
 /**
- * 日志输出
- * @param message 内容
- * @param config 配置
+ * Log output
+ * @param message content
+ * @param config to configure
  */
 export class $Log {
   static info(message: string) {
@@ -95,9 +95,9 @@ export class $Log {
     }
   ) {
     let bgColor = config.bgColor
-    // 警告色不能改变
+    // Warning color cannot be changed
     if (type === 2) bgColor = '#fffbe5'
-    // 错误色不能改变
+    // The wrong color cannot be changed
     if (type === 3) bgColor = '#fff0f0'
     const style = `
       background:${bgColor};
@@ -109,15 +109,15 @@ export class $Log {
   }
 }
 /**
- * 判空
- * @param value 判断值
+ * Judge null
+ * @param value Judgment value
  * @returns boolean
  */
 export function isNull(value: any): value is null | undefined {
   return value === undefined || value === null
 }
 /**
- * 清空 aniamtions
+ * empty aniamtions
  * @param id
  */
 export function clearAnimationFrame(id: number) {

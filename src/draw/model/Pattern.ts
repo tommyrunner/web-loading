@@ -3,7 +3,6 @@ import type { PatternOptionsType } from '../types.d'
 import { PATTERN_CHART } from '../utils'
 import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
-// 默认值
 const defaultOptions: PatternOptionsType = {
   charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
   chartColors: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
@@ -28,17 +27,17 @@ const limits = [
   }
 ]
 interface PatternType {
-  // 当前高度
+  // Current height
   nowHeight: number
-  // 当前chart
+  // Current chart
   chart: PATTERN_CHART
-  // 当前颜色
+  // Current color
   color: string
-  // 当前旋转角度
+  // Current rotation angle
   turn: number
-  // 影子
+  // shadow
   shadow: number
-  // 0:初始化,1:上升,2:下降
+  // 0: initialization, 1: rise, 2: fall
   nowSatate: number
 }
 export default class Pattern extends BaseModel<PatternOptionsType> {
@@ -51,9 +50,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     store: ElementStoreType
   ) {
     super(w, h, canvas, options, store)
-    // 1.初始化options(防止属性为空)
     this.initOptions(defaultOptions, limits)
-    // 3.初始化画笔
     this.initPoint()
     this.pattern = {
       color: this.randomState('chartColors'),
@@ -66,7 +63,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.run(this.draw)
   }
   initPoint() {
-    // 初始化速度
+    // Initialization speed
     this.options.delay = 10
   }
   draw() {
@@ -81,16 +78,15 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
     this.drawShadow()
-    // 清空隐藏部分
+    // Empty hidden part
     this.clearRect(-this.w, 0, this.w * 2, this.h)
-    // 控制数值变化
+    // Control value change
     this.controller(op)
-    // 绘制文字
     this.drawText(op)
   }
   controller(op: Required<PatternOptionsType>) {
-    this.pattern.turn += 10 // 角度
-    // 高度与影子
+    this.pattern.turn += 10 // angle
+    // Height and shadow
     if (this.pattern.nowSatate === 1) {
       this.pattern.nowHeight--
       this.pattern.shadow += 0.2
@@ -99,20 +95,20 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
       this.pattern.shadow -= 0.2
     }
     this.pattern.shadow = Math.floor(this.pattern.shadow * 100) / 100
-    // 速度
+    // speed
     if (this.pattern.nowHeight <= -op.chartSize && this.pattern.nowHeight % 8 == 0) {
       op.delay += 0.5
       op.delay = Math.floor(op.delay * 100) / 100
     }
-    // 范围
+    // Range
     if (this.pattern.nowHeight <= -op.maxHeight) {
       this.pattern.nowSatate = 2
     } else if (this.pattern.nowHeight >= op.chartSize) {
       this.pattern.nowSatate = 1
       op.delay = 10
-      // 切换图形
+      // Toggle Graphics
       this.pattern.chart = this.randomState('charts')
-      // 切换颜色
+      // Toggle Color
       this.pattern.color = this.randomState('chartColors')
     }
   }
@@ -140,7 +136,6 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     return op[key][parseInt(String(Math.random() * op[key].length))]
   }
   drawText(op: Required<PatternOptionsType>) {
-    // 位置+文字+间隔
     this.ctx.save()
     this.ctx.beginPath()
     this.ctx.fillStyle = this.pattern.color
@@ -150,7 +145,6 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.restore()
   }
   drawShadow() {
-    // 绘制影子
     this.ctx.save()
     this.ctx.beginPath()
     this.setShadow()

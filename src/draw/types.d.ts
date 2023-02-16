@@ -2,117 +2,117 @@ import { OptionsType } from '../types'
 import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, CIRCULAR_ACTION } from './utils'
 
 export interface GearOptionsType extends OptionsType {
-  // 线端
+  // lineStart
   lineStart?: number
-  // 线末
+  // lineEnd
   lineEnd?: number
-  // 线端偏移
+  // lineStartSkew
   lineStartSkew?: number
-  // 线末偏移
+  // lineEndSkew
   lineEndSkew?: number
-  // 线宽度
+  // lineWidth
   lineWidth?: number
   // 线的样式
   lineCap?: CanvasLineCap
-  // 线数量
+  // lineNum
   lineNum?: number
-  // 方向:true:顺,则反
+  // Direction: true: positive, then negative
   direction?: boolean
 }
 
 export interface RingOptionsType extends OptionsType {
-  // 环与环空隙
+  // Annular space
   ringGap?: number
-  // 弧线之间间隔
+  // Interval between arcs
   arcGap?: number
-  // 线宽度
+  // lineWidth
   lineWidth?: number
-  // 环数量
+  // ringNum
   ringNum?: number
-  // 半径
+  // radius
   radius?: number
-  // 线的样式
+  // lineCap
   lineCap?: CanvasLineCap
-  // 旋转角度
+  // Rotation angle
   turn?: number
-  // 多个环初始角度
+  // Initial angle of multiple rings
   ringsTurn?: Array<number>
-  // 方向:true:顺,则反
+  // Direction: true: positive, then negative
   direction?: boolean
 }
 
 export interface ZoomOptionsType extends OptionsType {
-  // zoom变化最大
+  // Zoom changes the most
   maxSize?: number
-  // zomm距离
+  // Zomm distance
   zoomGap?: number
-  // zomm的高度
+  // Height of zomm
   zoomHeight?: number
-  // zoom数量
+  // zoomNum
   zoomNum?: number
-  // zoom的自定义颜色
+  // Custom colors for zoom
   zoomColors?: Array<string>
-  // 线的样式
+  // lineCap
   lineCap?: CanvasLineCap
-  // 线宽度
+  // lineWidth
   lineWidth?: number
-  // 动作
+  // action
   action: ZOOM_ACTION
-  // 方向:true:顺,则反
+  // Direction: true: positive, then negative
   direction?: boolean
 }
 export interface PatternOptionsType extends OptionsType {
-  // 支持的图形
+  // Supported graphics
   charts?: Array<PATTERN_CHART>
-  // 图形大小
+  // largeness of the shape of the figure
   chartSize?: number
-  // 动态颜色
+  // Dynamic color
   chartColors?: Array<string>
-  // 高度
+  // maxHeight
   maxHeight?: number
 }
 export interface ClockOptionsType extends OptionsType {
-  // 文字显示模式:time:年月日，s：秒
+  // Text display mode: time: mm/dd/yy, s: sec
   textTime?: 'time' | 's' | ''
-  // 指针颜色
+  // lineColors
   lineColors?: Array<string>
-  // 线的样式
+  // lineCap
   lineCap?: CanvasLineCap
-  // 线宽度
+  // lineWidth
   lineWidth?: number
-  // clock大小
+  // clockSize
   clockSize?: number
-  // clock 空隙
+  // clockGap
   clockGap?: number
-  // 时分秒指针
+  // Hour minute second pointer
   hLine?: boolean
   mLine?: boolean
   sLine?: boolean
 }
 
 export interface BeanOptionsType extends OptionsType {
-  // bean的大小
+  // beanSize
   beanSize?: number
-  // bean里的point数量
+  // The number of points in the bean
   pointLength?: number
 }
 
 export interface RollOptionsType extends OptionsType {
-  // Roll直接空隙
+  // rollGap
   rollGap?: number
-  // roll大小
+  // rollSize
   rollSize?: number
-  // 显示影子child
+  // showChild
   showChild?: boolean
-  // child影子数量
+  // childNum
   childNum?: number
-  // 显示的图形
+  // Displayed graphics
   chart?: ROLL_CHART
-  // 图形为Windmills时的叶片颜色。
+  // The blade color when the graph is Windmills.
   windmills?: Array<string>
-  // windmill 中心颜色
+  // Windmill center color
   windmillPointColor?: string
-  // 是否中心固定
+  // Center fixed or not
   fixad?: boolean
 }
 export interface ImageOptionsType extends OptionsType {
@@ -132,12 +132,12 @@ export interface SkeletonOptionsType extends OptionsType {
   // imgSize: number
 }
 export interface CircularOptionsType extends OptionsType {
-  // arc大小
+  // arcSize
   arcSize?: number
-  // arc空隙
+  // arcGap
   arcGap?: number
-  // 颜色
+  // arcColors
   arcColors?: Array<string>
-  // 动作
+  // action
   action?: CIRCULAR_ACTION
 }

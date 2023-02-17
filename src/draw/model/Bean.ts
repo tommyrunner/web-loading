@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { BeanOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
 const defaultOptions: BeanOptionsType = {
@@ -37,9 +37,9 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<BeanOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.initOptions(defaultOptions, limits)
     this.bean = {
       turn: 30,

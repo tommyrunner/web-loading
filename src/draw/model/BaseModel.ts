@@ -1,4 +1,4 @@
-import type { ElementStoreType, OptionsType, LimitType } from '../../types'
+import type { OptionsType, LimitType, ElementType } from '../../types'
 import { isNull, clearAnimationFrame, $Log } from '../../utils'
 export default class BaseModel<T extends OptionsType> {
   w: number
@@ -6,17 +6,17 @@ export default class BaseModel<T extends OptionsType> {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   options: Required<T>
-  store: ElementStoreType
+  element: ElementType
   webLog: $Log
   private stepClear: number
-  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, store: ElementStoreType) {
+  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, element: ElementType) {
     this.w = w
     this.h = h
     this.canvas = canvas
     // Get a 2d brush by default
     this.ctx = canvas.getContext('2d')!
     this.options = options
-    this.store = store
+    this.element = element
     this.webLog = $Log
     this.stepClear = 1
     this._$initPoint()
@@ -45,7 +45,7 @@ export default class BaseModel<T extends OptionsType> {
   // Initialize default events
   private _$initEvent() {
     // Empty canvas before closing
-    this.store.hookCall.beforeColse(() => {
+    this.element.$store.hookCall.beforeColse(() => {
       this.clearRect()
     })
   }
@@ -57,7 +57,7 @@ export default class BaseModel<T extends OptionsType> {
   private animationFrame(fun: Function) {
     // compatible
     if (!window.requestAnimationFrame) {
-      this.store.animationId = window.setInterval(fun, this.options.delay)
+      this.element.$store.animationId = window.setInterval(fun, this.options.delay)
     }
     // Use the time axis to control the trigger time
     let endTime = Date.now() + this.options.delay!
@@ -67,15 +67,15 @@ export default class BaseModel<T extends OptionsType> {
         fun.call(this)
         endTime = Date.now() + this.options.delay!
       }
-      this.store.animationId = window.requestAnimationFrame(run)
+      this.element.$store.animationId = window.requestAnimationFrame(run)
     }
-    this.store.animationId = window.requestAnimationFrame(run)
+    this.element.$store.animationId = window.requestAnimationFrame(run)
   }
 
   // Start Animation
   run(fun: Function) {
     // If it is already in the loading state, there is no need to re-instance
-    if (this.store.animationId) this.clearAnimationFrame(this.store.animationId)
+    if (this.element.$store.animationId) this.clearAnimationFrame(this.element.$store.animationId)
     this.animationFrame(fun)
   }
   /**
@@ -93,7 +93,7 @@ export default class BaseModel<T extends OptionsType> {
   initOptions(options: T, limits?: Array<LimitType>) {
     // Record options
     this.options = Object.assign(options, this.options)
-    this.store.options = this.options
+    this.element.$store.options = this.options
     // Judge whether the attribute value needs to be limited (only for prompt)
     if (limits && limits.length) {
       limits.forEach((l: LimitType) => {

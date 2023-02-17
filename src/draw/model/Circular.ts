@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { CircularOptionsType } from '../types'
 import { CIRCULAR_ACTION } from '../utils'
 import BaseModel from './BaseModel'
@@ -23,9 +23,9 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<CircularOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     // 1.Initialize options (prevent attribute from being empty)
     this.initOptions(defaultOptions)
     // Initialize data

@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { RollOptionsType } from '../types'
 import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
@@ -47,9 +47,9 @@ export default class Roll extends BaseModel<RollOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<RollOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.initOptions(defaultOptions, limits)
     this.Roll = {
       turn: 1,

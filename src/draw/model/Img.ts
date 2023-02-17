@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { ImageOptionsType } from '../types'
 import BaseModel from './BaseModel'
 const defaultOptions: ImageOptionsType = {
@@ -15,9 +15,9 @@ export default class Img extends BaseModel<ImageOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<ImageOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.initOptions(defaultOptions, [])
     this.img = new Image()
     this.img.src = this.options.src

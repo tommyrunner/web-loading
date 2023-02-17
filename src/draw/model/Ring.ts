@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { RingOptionsType } from '../types'
 import BaseModel from './BaseModel'
 const defaultOptions: RingOptionsType = {
@@ -36,9 +36,9 @@ export default class Ring extends BaseModel<RingOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<RingOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.rotate = 10
     this.initOptions(defaultOptions, limits)
     this.initPoint()

@@ -91,7 +91,7 @@ let webLoading = initLoading({
 | attribute              | type                          | default                 | remarks                            |
 | ----------------- | ----------------------------- | ---------------------- | ------------------------------- |
 | `html?:` | `string` | `''` | **Html ** loading method (**priority is higher than custom**) |
-| `custom?:`        | `any`                         | `null`                 | Custom **model** (**has the highest priority**) |
+| `custom?:`        | `typeof BaseModel or null`                         | `null`                 | Custom **model** (**has the highest priority**) |
 | `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | Start mode                        |
 | `miniClass?:`     | `string or null or undefined` | `mini`                 | Start by**MINI**is**class** |
 | `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | Model module                       |
@@ -147,8 +147,8 @@ let defOptions: CustomOptionsType = {
   size: 10, // Define default values
 };
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
-        super(w, h, canvas, options, store);
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+        super(w, h, canvas, options, element);
         // 3.2?. Initialize default
         this.initOptions(defOptions);
         this.run(this.draw);
@@ -193,7 +193,18 @@ webLoading.loading(dom)
 | `h`       | `number`                      | Canvas height                                                     |
 | `canvas`  | `HTMLCanvasElement`           | Canvas element, `BaseModel` default and get the context of `2d`, but you can also get other contexts according to the canvas element |
 | `options` | `Required<CustomOptionsType>` | `Options` is to adjust **model** parameters, which are divided into **public** parameters and **model** parameters, which will be merged eventually, and `Required` indicates you The parameter of is not empty (has initial value) |
-| `store`   | `ElementStoreType`            | [`ElementStoreType`](#store-elment-elementtype)              |
+| `element`   | `ElementType`            | [`ElementType`](#store-elementtype)              |
+
+### `store:ElementType`
+
+> Inherited`HTMLElement`。
+
+| attribute                 | type               | remarks    |
+| -------------------- | ------------------ | ------- |
+| `loadingId`          | `string or null`      | Record `loading` element `id`  |
+| `$store`             | `ElementStoreType` | [ElementStoreType](#store-elementstoretype) |
+| `HTMLElement attribute...` | ...                | ...     |
+
 
 ### `store:ElementStoreType`
 
@@ -201,23 +212,11 @@ webLoading.loading(dom)
 
 | attribute        | type                        | remarks                      |
 | ------------- | ----------------------------- | --------------------------- |
-| `element`     | `ElementType`                 | Bound Elements                |
 | `options`     | `OptionsType`                 | Save the final merged `options` parameter |
 | `animationId` | `number or undefined`           | Record `animation` status       |
 | `loadingId`   | `string or null`                 | Record `loading` element `id`   |
 | `hookCall`    | `HooksCallType`               | Hook function of `loading `       |
 | `model`       | `BaseModel or null` | **model** in use       |
-
-### `store.elment:ElementType`
-
-> Inherited`HTMLElement`。
-
-| attribute                 | type               | remarks    |
-| -------------------- | ------------------ | ------- |
-| `loadingId`          | `string or null`      | Record `loading` element `id`  |
-| `$store`             | `ElementStoreType` | [$store](#store-elementstoretype) |
-| `HTMLElement attribute...` | ...                | ...     |
-
 ### `store.hookCall:HooksCallType`
 
 > `WebLoading`The hook function triggered when closing.
@@ -234,8 +233,8 @@ Take `custom` as an example
 ```typescript
 // Other codes are omitted
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
-        super(w, h, canvas, options, store);
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+        super(w, h, canvas, options, element);
         this.initOptions(defOptions);
         this.run(this.draw);
         this.store.hookCall.beforeColse(() => {
@@ -303,8 +302,8 @@ const limits = [
     },
 ]
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
-        super(w, h, canvas, options, store);
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+        super(w, h, canvas, options, element);
         this.initOptions(defOptions,limits);
     }
 }
@@ -387,7 +386,7 @@ this.ctx.fill()
 | `id` | `number` | `animationId` |
 
 ```typescript
-this.clearAnimationFrame(this.store.animationId)
+this.clearAnimationFrame(element.$store.animationId)
 ```
 
 > The ID passed in is `id` returned by `requestAnimationFrame` , and  `WebLoading` has been saved in the store.

@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { SkeletonOptionsType } from '../types'
 import BaseModel from './BaseModel'
 const defaultOptions: SkeletonOptionsType = {
@@ -23,24 +23,24 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<SkeletonOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.initOptions(defaultOptions, [])
     this.skeleton = []
     this.colorFlow = 0
     this.state = 1
     this.WL_IMG = 'wl-img'
     this.initPoint()
-    this.controller(this.store.element.children)
+    this.controller(this.element.children)
     this.run(this.draw)
   }
   initPoint() {
     const op = this.options
     // Reinitialize the canvas
     this.ctx.translate(-this.w / 2, -this.h / 2)
-    this.canvas.width = this.store.element.scrollWidth
-    this.canvas.height = this.store.element.scrollHeight
+    this.canvas.width = this.element.scrollWidth
+    this.canvas.height = this.element.scrollHeight
     this.ctx.fillStyle = op.skeletonColor
   }
   draw() {
@@ -50,7 +50,7 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
   controller(els: HTMLCollection) {
     const op = this.options
     for (const e of Array.from(els)) {
-      if (this.store.loadingId === e.id) continue
+      if (this.element.loadingId === e.id) continue
       if (op.appoint.length > 0 && e.getAttribute(op.appoint) === null) continue
       if (op.deep) {
         if (e.children.length <= 0) {

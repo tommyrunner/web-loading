@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { ZoomOptionsType } from '../types'
 import { ZOOM_ACTION } from '../utils'
 import BaseModel from './BaseModel'
@@ -35,16 +35,16 @@ const limits = [
   }
 ]
 export default class Zoom extends BaseModel<ZoomOptionsType> {
-  list: Array<ListType> 
+  list: Array<ListType>
   zoomIndex: number
   constructor(
     w: number,
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<ZoomOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.initOptions(defaultOptions, limits)
     this.initPoint()
     this.zoomIndex = this.options.direction ? 0 : this.options.zoomNum - 1

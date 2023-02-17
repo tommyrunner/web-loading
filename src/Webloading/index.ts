@@ -30,7 +30,7 @@ export default class WebLoading {
       let canvas = contentElement as HTMLCanvasElement
       canvas.width = element.clientWidth
       canvas.height = element.clientHeight
-      if (element.$store) drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element.$store)
+      if (element.$store) drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element)
     } else if (this.htmlElement) {
       this.htmlElement.style.width = element.clientWidth + 'px'
       this.htmlElement.style.height = element.clientHeight + 'px'
@@ -167,7 +167,7 @@ export default class WebLoading {
       this.initStore(element, initValue.hooks)
       if (element.$store) {
         const canvas = initValue.canvas
-        drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element.$store)
+        drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element)
       } else {
         $Log.error('WebLoading:canvas or ctx null')
       }
@@ -177,7 +177,6 @@ export default class WebLoading {
     // Storage status
     element.$store = {
       options: this.options,
-      element: element,
       animationId: undefined,
       loadingId: this.loadingId,
       model: null,

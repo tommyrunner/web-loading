@@ -1,6 +1,6 @@
 import WebLoading from './Webloading/index'
 import ExtendLoading from './ExtendLoading'
-import type { OptionsType, LoadingType } from './types.d'
+import type { OptionsType, LoadingType, ElementType } from './types.d'
 import { LOADING_TYPES, getDefOptions, $Log } from './utils'
 import drawController from './draw/index'
 export default function initLoading(options?: OptionsType): LoadingType {
@@ -11,16 +11,16 @@ export default function initLoading(options?: OptionsType): LoadingType {
     // html
     if (webLoading.element && webLoading.htmlElement) webLoading.resize(webLoading.element, webLoading.htmlElement)
   }
-  const loading = (dom: HTMLElement, options?: OptionsType) => {
+  const loading = (dom: ElementType, options?: OptionsType) => {
     // Keep the last passed in parameter
     const op = Object.assign(webLoading.options, options)
     // Prevent duplicate registration
     if (!webLoading.loadingId) {
       // Create extended dom
       if (op.type !== LOADING_TYPES.DOM) {
-        dom = new ExtendLoading(op).getElement()
+        dom = new ExtendLoading(op).getElement() as ElementType
       }
-      if (!dom) $Log.error('loading函数未找到HTMLElement元素!')
+      if (!dom) $Log.error('The loading function cannot find an HTMLElement element!')
       else webLoading.draw(dom)
     }
   }
@@ -29,7 +29,7 @@ export default function initLoading(options?: OptionsType): LoadingType {
     const op = Object.assign(webLoading.options, options)
     const element = webLoading.element
     if (canvas && op && element && element.$store)
-      drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element.$store)
+      drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element)
   }
   const close = () => {
     // canvas

@@ -91,7 +91,7 @@ let webLoading = initLoading({
 | 属性              | 类型                          | 默认值                 | 备注                                   |
 | ----------------- | ----------------------------- | ---------------------- | -------------------------------------- |
 | `html?:`          | `string`                      | `''`                   | **html**加载方式(**优先级大于custom**) |
-| `custom?:`        | `any`                         | `null`                 | 自定义**model**(**优先级大于model**)   |
+| `custom?:`        | `typeof BaseModel 或 null`                         | `null`                 | 自定义**model**(**优先级大于model**)   |
 | `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式                               |
 | `miniClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class**        |
 | `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | model模块                              |
@@ -147,8 +147,8 @@ let defOptions: CustomOptionsType = {
   size: 10, // 定义默认值
 };
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
-        super(w, h, canvas, options, store);
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+        super(w, h, canvas, options, element);
         // 3.2?. 初始化默认值
         this.initOptions(defOptions);
         this.run(this.draw);
@@ -193,7 +193,17 @@ webLoading.loading(dom)
 | `h`       | `number`                      | 画布高度                                                     |
 | `canvas`  | `HTMLCanvasElement`           | 画布元素，`BaseModel`默认以及获取了`2d`的上下文，但您还可以根据画布元素获取其他上下文 |
 | `options` | `Required<CustomOptionsType>` | `options`是调节**model**参数，分为有**公共**参数与**model**参数最终会合并，`Required`标注你的参数不为空(已经初始值) |
-| `store`   | `ElementStoreType`            | [`ElementStoreType`](#store-elment-elementtype)              |
+| `element`   | `ElementType`            | [`ElementType`](#store-elementtype)              |
+
+### `store:ElementType`
+
+> 继承了`HTMLElement`。
+
+| 属性                 | 类型               | 备注    |
+| -------------------- | ------------------ | ------- |
+| `loadingId`          | `string或null`      | 记录`loading`元素`id`  |
+| `$store`             | `ElementStoreType` | [ElementStoreType](#store-elementstoretype) |
+| `HTMLElement属性...` | ...                | ...     |
 
 ### `store:ElementStoreType`
 
@@ -201,22 +211,12 @@ webLoading.loading(dom)
 
 | 属性        | 类型                        | 备注                      |
 | ------------- | ----------------------------- | --------------------------- |
-| `element`     | `ElementType`                 | 绑定的元素                |
 | `options`     | `OptionsType`                 | 储存最终合并的`options`参数 |
 | `animationId` | `number或undefined`           | 记录`animation`状态       |
 | `loadingId`   | `string或null`                 | 记录`loading`元素`id`   |
 | `hookCall`    | `HooksCallType`               | `loading`的钩子函数       |
 | `model`       | `BaseModel或null` | 正在使用的**model**       |
 
-### `store.elment:ElementType`
-
-> 继承了`HTMLElement`。
-
-| 属性                 | 类型               | 备注    |
-| -------------------- | ------------------ | ------- |
-| `loadingId`          | `string或null`      | 记录`loading`元素`id`  |
-| `$store`             | `ElementStoreType` | [$store](#store-elementstoretype) |
-| `HTMLElement属性...` | ...                | ...     |
 
 ### `store.hookCall:HooksCallType`
 
@@ -234,8 +234,8 @@ webLoading.loading(dom)
 ```typescript
 // 其余code省略
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
-        super(w, h, canvas, options, store);
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+        super(w, h, canvas, options, element);
         this.initOptions(defOptions);
         this.run(this.draw);
         this.store.hookCall.beforeColse(() => {
@@ -303,8 +303,8 @@ const limits = [
     },
 ]
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, store: ElementStoreType) {
-        super(w, h, canvas, options, store);
+    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+        super(w, h, canvas, options, element);
         this.initOptions(defOptions,limits);
     }
 }
@@ -387,7 +387,7 @@ this.ctx.fill()
 | `id` | `number` | `animationId` |
 
 ```typescript
-this.clearAnimationFrame(this.store.animationId)
+this.clearAnimationFrame(element.$store.animationId)
 ```
 
 > 传入的id是`requestAnimationFrame`返回的`id`，`WebLoading`在store中已经保存。

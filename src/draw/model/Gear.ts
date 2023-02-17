@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { GearOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
 // Default
@@ -29,9 +29,9 @@ export default class Gear extends BaseModel<GearOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<GearOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     // 1.Initialize options (prevent attribute from being empty)
     this.initOptions(defaultOptions, limits)
     // 2.Optimize default values based on height and width

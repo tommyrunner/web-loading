@@ -1,4 +1,4 @@
-import type { ElementStoreType } from '../../types'
+import type { ElementType } from '../../types'
 import type { PatternOptionsType } from '../types.d'
 import { PATTERN_CHART } from '../utils'
 import { getDefOptions } from '../../utils'
@@ -47,9 +47,9 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     h: number,
     canvas: HTMLCanvasElement,
     options: Required<PatternOptionsType>,
-    store: ElementStoreType
+    element: ElementType
   ) {
-    super(w, h, canvas, options, store)
+    super(w, h, canvas, options, element)
     this.initOptions(defaultOptions, limits)
     this.initPoint()
     this.pattern = {

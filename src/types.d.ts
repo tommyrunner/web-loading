@@ -2,7 +2,7 @@ import { MODEL_TYPES, LOADING_TYPES, HOOKSCALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
 export interface OptionsType {
   // custom model
-  custom?: any
+  custom?: typeof BaseModel | null
   // loading Startup mode (default DEF) [read-only]
   type?: LOADING_TYPES
   // Class of mini mode
@@ -43,7 +43,7 @@ export interface OptionsType {
   pointerEvents?: boolean
 }
 export interface WindowType extends Window {
-  BaseModel?: any
+  BaseModel?: typeof BaseModel
   initLoading?: (options: OptionsType) => LoadingType
   fullLoading?: (options: OptionsType) => LoadingType
   miniLoading?: (options: OptionsType) => LoadingType
@@ -61,8 +61,6 @@ export type HooksCallType<T extends string = HOOKSCALL_KEY> = {
   [key in T]: Function
 }
 export interface ElementStoreType {
-  // Bound Elements
-  element: ElementType
   // Save the options parameter of the final merge
   options: OptionsType
   // Used to record the animation status
@@ -76,7 +74,7 @@ export interface ElementStoreType {
 }
 export interface ElementType extends HTMLElement {
   loadingId?: string | null
-  $store?: ElementStoreType
+  $store: ElementStoreType
 }
 export interface LimitType {
   key: string

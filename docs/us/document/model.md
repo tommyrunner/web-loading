@@ -150,6 +150,26 @@
 | WHEEL    | `wheel`    | wheel |
 | WINDMILL | `windmill` | windmill |
 
+## Circular
+
+> type`CircularOptionsType`。
+
+| 属性        | 类型              | 默认值                                         | 备注                     |
+| ----------- | ----------------- | ---------------------------------------------- | ------------------------ |
+| `arcSize`   | `number`          | `8`                                            | Circle size              |
+| `arcGap`    | `number`          | `2`                                            | Circular gap             |
+| `arcColors` | `Array<string>`   | `['#ec7546', '#8364a4', '#ff6c6e', '#5bc6ab']` | Custom color for circles |
+| `action`    | `CIRCULAR_ACTION` | `CIRCULAR_ACTION.COLLISION`                    | action                   |
+
+### Circular.action
+
+> enumeration `CIRCULAR_ACTION`。
+
+| 属性      | 枚举值      | 备注   |
+| --------- | ----------- | ------ |
+| COLLISION | `Collision` | move   |
+| ROTATE    | `rotate`    | rotate |
+
 ## IMG
 
 > type`ImageOptionsType`。

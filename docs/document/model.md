@@ -150,6 +150,26 @@
 | WHEEL    | `wheel`    | 轮子 |
 | WINDMILL | `windmill` | 风车 |
 
+## Circular
+
+> 类型`CircularOptionsType`。
+
+| 属性        | 类型              | 默认值                                         | 备注           |
+| ----------- | ----------------- | ---------------------------------------------- | -------------- |
+| `arcSize`   | `number`          | `8`                                            | 圆大小         |
+| `arcGap`    | `number`          | `2`                                            | 圆空隙         |
+| `arcColors` | `Array<string>`   | `['#ec7546', '#8364a4', '#ff6c6e', '#5bc6ab']` | 圆的自定义颜色 |
+| `action`    | `CIRCULAR_ACTION` | `CIRCULAR_ACTION.COLLISION`                    | 动作           |
+
+### Circular.action
+
+> 枚举`CIRCULAR_ACTION`。
+
+| 属性      | 枚举值      | 备注 |
+| --------- | ----------- | ---- |
+| COLLISION | `Collision` | 移动 |
+| ROTATE    | `rotate`    | 旋转 |
+
 ## IMG
 
 > 类型`ImageOptionsType`。

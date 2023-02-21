@@ -15,6 +15,7 @@
 | CLOCK    | `Clock`    | Clock     |
 | BEAN     | `Bean`     | Pac-Man   |
 | ROLL     | `Roll`     | roll     |
+| CIRCULAR | `Circular` | Circular       |
 | IMG      | `Img`      | image     |
 | SKELETON | `Skeleton` | Skeleton   |
 

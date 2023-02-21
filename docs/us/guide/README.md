@@ -54,31 +54,30 @@ let dom = ref()
 
 ```typescript
 import 'web-loading'
-```
-
-- initialization
-
-```typescript
 // Introduce initLoading globally and mount it on window
 let webLoading = initLoading({
   // Custom options
 })
 ```
 
+- Or so
+
+```typescript
+import WL from 'web-loading'
+let webLoading = WL.initLoading({
+  // Custom options
+})
+```
+
 > - parameter
 >   - `options?:OptionsType`
+> - return
+>   - `webLoading:LoadingType`
 
-### Individually introduced
-
-- introduce
+### TypeScript project import
 
 ```typescript
 import initLoading from 'web-loading/src/loading'
-```
-
-- initialization
-
-```typescript
 import type { LoadingType } from 'web-loading/src/type.d'
 let webLoading: LoadingType = initLoading({
   // Custom options
@@ -87,11 +86,16 @@ let webLoading: LoadingType = initLoading({
 
 > - parameter
 >   - `options?:OptionsType`
+> - return
+>   - `webLoading:LoadingType`
 
 ### start-up
 
 ```typescript
-webLoading.loading(dom)
+// Note: After the web page is loaded, call loading
+window.onload = function () {
+  webLoading.loading(dom)
+}
 ```
 
 > parameter

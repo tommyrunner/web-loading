@@ -7,12 +7,13 @@
 > Whether it is `DOM`, `FULL `or `MINI `, it will eventually go to `WebLoading`.
 
 ```typescript
+import { LoadingType } from "web-loading/src/types.d";
 import initLoading from 'web-loading/src/loading'
-let webLoading = initLoading({})
+let webLoading:LoadingType = initLoading({})
 console.log(webLoading)
 ```
 
-> `webLoading`：`loading`、`resize`、`close`、`update`、`getOptions`、`getLoadingId`。
+> `LoadingType`：`loading`、`resize`、`close`、`update`、`getOptions`、`getLoadingId`。
 
 ### loading
 

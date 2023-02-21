@@ -7,7 +7,12 @@ module.exports = {
   entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'main.js',
+    library: {
+      name: 'webLoading',
+      type: 'umd',
+      export: 'default'
+    }
   },
   resolve: {
     extensions: ['.ts', '.js']

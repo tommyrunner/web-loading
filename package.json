@@ -1,6 +1,6 @@
 {
   "name": "web-loading",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "main": "./dist/main.js",
   "scripts": {
     "build": "webpack",

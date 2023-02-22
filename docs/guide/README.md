@@ -78,7 +78,7 @@ let webLoading = WL.initLoading({
 
 ```typescript
 import initLoading from 'web-loading/src/loading'
-import type { LoadingType } from 'web-loading/src/type.d'
+import type { LoadingType } from 'web-loading/src/types.d'
 let webLoading: LoadingType = initLoading({
   // 自定义options
 })

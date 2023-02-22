@@ -1,7 +1,6 @@
 import { OptionsType } from '../types'
 import { LOADING_TYPES } from '../utils'
-
-const $document: Document = document
+const $window = window
 export default class ExtendLoading {
   extendEl: HTMLElement
   options?: OptionsType
@@ -9,8 +8,12 @@ export default class ExtendLoading {
     this.options = options
     this.extendEl = this.initStyle()
   }
+  /**
+   * Initialize extension container element style
+   * @returns extension container element
+   */
   private initStyle(): HTMLElement {
-    this.extendEl = document.createElement('div')
+    this.extendEl = $window.document.createElement('div')
     const op = this.options
     let w = '100vw',
       h = '100vh',
@@ -41,7 +44,7 @@ export default class ExtendLoading {
           ;
       `
     }
-    $document.body.appendChild(this.extendEl)
+    $window.document.body.appendChild(this.extendEl)
     return this.extendEl
   }
   getElement(): HTMLElement {

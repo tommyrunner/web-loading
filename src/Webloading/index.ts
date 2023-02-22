@@ -1,46 +1,72 @@
 import type { ElementType, HooksCallType, OptionsType } from '../types'
 import type { HooksType } from './type'
-import { LOADING_TYPES, toType, getDefOptions, clearAnimationFrame, $Log, HOOKSCALL_KEY } from '../utils'
+import {
+  LOADING_TYPES,
+  toType,
+  getDefOptions,
+  clearAnimationFrame,
+  $Log,
+  HOOKSCALL_KEY,
+  createLoadingId
+} from '../utils'
 import drawController from '../draw/index'
 import style from './style'
+const $window = window
 export default class WebLoading {
-  // canvas
-  canvas: HTMLCanvasElement | null
-  // Compatible with html animation elements
-  htmlElement: HTMLDivElement | null
+  // canvas animation elements
+  canvas: HTMLCanvasElement | null = null
+  // Html animation elements
+  htmlElement: HTMLDivElement | null = null
   // Animation element id
-  loadingId: string | null
-  // Animation Elements
-  element: ElementType | null
+  loadingId: string | null = null
+  // Container element
+  element: ElementType | null = null
   // Configure options
   options: Required<OptionsType>
   // hooks
-  hooks: HooksType | null
+  hooks: HooksType | null = null
+  // Resize control
+  resizeTimeId: number | null = null
   constructor(options?: OptionsType) {
     // Initialize default configuration
     this.options = Object.assign(getDefOptions(), options)
-    this.canvas = null
-    this.htmlElement = null
-    this.loadingId = null
-    this.element = null
-    this.hooks = null
   }
-  resize(element: ElementType, contentElement: HTMLCanvasElement | HTMLDivElement) {
-    if (this.canvas) {
-      let canvas = contentElement as HTMLCanvasElement
-      canvas.width = element.clientWidth
-      canvas.height = element.clientHeight
-      if (element.$store) drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element)
-    } else if (this.htmlElement) {
-      this.htmlElement.style.width = element.clientWidth + 'px'
-      this.htmlElement.style.height = element.clientHeight + 'px'
-    }
+  /**
+   * Reset Animation Container Size
+   * @param element Container element
+   * @param animaEl animation elements
+   */
+  resize(element: ElementType, animaEl: HTMLCanvasElement | HTMLDivElement) {
+    if (!this.resizeTimeId)
+      this.resizeTimeId = $window.setTimeout(() => {
+        let canvas = animaEl as HTMLCanvasElement,
+          w = element.clientWidth,
+          h = element.clientHeight
+        if (canvas.width > element.clientWidth) {
+          // The scroll bar needs to be calculated when shrinking
+          w = element.offsetWidth
+          h = element.offsetHeight
+        }
+        if (this.canvas) {
+          this.setupCanvas(canvas, w, h)
+          if (element.$store) drawController(w, h, canvas, this.options, element)
+        } else if (this.htmlElement) {
+          this.htmlElement.style.width = `${w}px`
+          this.htmlElement.style.height = `${h}px`
+        }
+        this.resizeTimeId = null
+      }, this.options.delayColse)
   }
-  close(element: ElementType, contentElement: HTMLCanvasElement | HTMLDivElement) {
+  /**
+   * Turn off animation
+   * @param element Container element
+   * @param animaEl animation elements
+   */
+  close(element: ElementType, animaEl: HTMLCanvasElement | HTMLDivElement) {
     const op = this.options
     const store = element.$store
     // Will trigger animation
-    this.clearStyle(element, contentElement)
+    this.clearStyle(element, animaEl)
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
       element.style.pointerEvents = 'auto'
     }
@@ -53,10 +79,10 @@ export default class WebLoading {
       if (store.animationId) clearAnimationFrame(store.animationId)
     }
     // empty dom
-    window.setTimeout(() => {
+    $window.setTimeout(() => {
       // If the dom is extended, clear the parent element (the parent element is created by webLoading)
       if (op.type !== LOADING_TYPES.DOM) element.remove()
-      else contentElement.remove()
+      else animaEl.remove()
       // erase status
       this.loadingId = null
       // Callback after closing
@@ -67,9 +93,9 @@ export default class WebLoading {
   }
 
   private initCanvas() {
-    this.canvas = document.createElement('canvas')
+    this.canvas = $window.document.createElement('canvas')
     this.hooks = this.initHooksCall()
-    this.loadingId = String('wl_' + Date.now())
+    this.loadingId = createLoadingId()
     return {
       canvas: this.canvas,
       hooks: this.hooks,
@@ -79,10 +105,10 @@ export default class WebLoading {
   private initHtml() {
     let op = this.options
     // Create container
-    this.htmlElement = document.createElement('div')
+    this.htmlElement = $window.document.createElement('div')
     // Add content
     this.htmlElement.innerHTML = op.html
-    this.loadingId = String('wl_' + Date.now())
+    this.loadingId = createLoadingId()
     return {
       content: this.htmlElement,
       loadingId: this.loadingId
@@ -96,18 +122,14 @@ export default class WebLoading {
       element.style.boxShadow = 'none'
     }
   }
-  private initContentStyle(
-    element: ElementType,
-    loadingId: string,
-    contentElement: HTMLCanvasElement | HTMLDivElement
-  ) {
+  private initContentStyle(element: ElementType, loadingId: string, animaEl: HTMLCanvasElement | HTMLDivElement) {
     const op = this.options
     // The client takes the true width and height. If penetration is enabled, the rolling width and height are taken
     const elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth,
       elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight,
-      readElementStyle = window.getComputedStyle(element),
+      readElementStyle = $window.getComputedStyle(element),
       elementStyle = element.style,
-      contentStyle = contentElement.style
+      contentStyle = animaEl.style
     // 初始化元素的样式
     element.loadingId = loadingId
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
@@ -115,9 +137,10 @@ export default class WebLoading {
     }
     if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
     // Initialize canvas style
-    contentElement.id = loadingId
-    document.styleSheets[0].insertRule(style)
-    contentElement.style.animation = `wl_show ${op.delayColse / 1000}s linear`
+    animaEl.id = loadingId
+    if ($window.document.styleSheets[0]) $window.document.styleSheets[0].insertRule(style)
+    else $Log.warn('The $window.document has not been loaded yet,You can try to use onload')
+    animaEl.style.animation = `wl_show ${op.delayColse / 1000}s linear`
     contentStyle.position = 'absolute'
     contentStyle.left = `${op.pointerEvents ? 0 : element.scrollLeft}px`
     contentStyle.top = `${op.pointerEvents ? 0 : element.scrollTop}px`
@@ -126,9 +149,9 @@ export default class WebLoading {
     contentStyle.backgroundColor = op.bgColor
     contentStyle.borderRadius = readElementStyle.borderRadius
     // Set canvas size
-    if (toType(contentElement) === 'htmlcanvaselement') {
-      this.setupCanvas(contentElement as HTMLCanvasElement, elementW, elementH)
-    } else if (toType(contentElement) === 'htmldivelement') {
+    if (toType(animaEl) === 'htmlcanvaselement') {
+      this.setupCanvas(animaEl as HTMLCanvasElement, elementW, elementH)
+    } else if (toType(animaEl) === 'htmldivelement') {
       // Initialize compatible html styles
       contentStyle.width = elementW + 'px'
       contentStyle.height = elementH + 'px'
@@ -138,18 +161,27 @@ export default class WebLoading {
       contentStyle.justifyContent = 'center'
     }
     // injection
-    element.append(contentElement)
+    element.append(animaEl)
     this.element = element
   }
+  /**
+   * Handle the amplification distortion. At the same time,
+   * changing the height and width will also reset all contents of the canvas.
+   * @param canvas
+   * @param w
+   * @param h
+   */
   private setupCanvas(canvas: HTMLCanvasElement, w: number, h: number) {
-    // Processing amplification distortion
-    const dpr = window.devicePixelRatio || 1
+    const dpr = $window.devicePixelRatio || 1
     canvas.width = w * dpr
     canvas.height = h * dpr
     canvas.style.width = `${w}px`
     canvas.style.height = `${h}px`
-    return canvas
   }
+  /**
+   * Draw animation
+   * @param element Container element
+   */
   draw(element: ElementType) {
     let op = this.options
     // Compatible with html
@@ -173,6 +205,11 @@ export default class WebLoading {
       }
     }
   }
+  /**
+   * Initialize $store
+   * @param element Container element
+   * @param hooks Hook function
+   */
   private initStore(element: ElementType, hooks: HooksType) {
     // Storage status
     element.$store = {

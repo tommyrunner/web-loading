@@ -1,5 +1,4 @@
 import { LogConfigType, OptionsType } from './types'
-
 /**
  * Supported loading methods
  */
@@ -113,8 +112,15 @@ export class $Log {
  * @param value Judgment value
  * @returns boolean
  */
-export function isNull(value: any): value is null | undefined {
-  return value === undefined || value === null
+export function isNull(value: any): value is null | undefined | false {
+  switch (toType(value)) {
+    case 'object':
+      return Object.keys(value).length === 0
+    case 'array':
+      return value.length === 0
+    default:
+      return value === undefined || value === null
+  }
 }
 /**
  * empty aniamtions
@@ -127,7 +133,12 @@ export function clearAnimationFrame(id: number) {
     window.cancelAnimationFrame(id)
   }
 }
-export function toType(key: any): String | 'not-type' {
+/**
+ * Type acquisition
+ * @param key
+ * @returns
+ */
+export function toType(key: any): string | 'not-type' {
   try {
     let type = Object.prototype.toString.call(key)
     let t1 = type.split(' ')[1]
@@ -136,4 +147,12 @@ export function toType(key: any): String | 'not-type' {
   } catch (e) {
     return 'not-type'
   }
+}
+/**
+ * Create a unique loadingid
+ * @returns
+ */
+export function createLoadingId() {
+  let id = window.crypto.randomUUID()
+  return 'wl_' + id.replace(/-/g, '')
 }

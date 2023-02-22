@@ -6,10 +6,7 @@ import drawController from './draw/index'
 export default function initLoading(options?: OptionsType): LoadingType {
   const webLoading = new WebLoading(options)
   const resize = () => {
-    // canvas
-    if (webLoading.element && webLoading.canvas) webLoading.resize(webLoading.element, webLoading.canvas)
-    // html
-    if (webLoading.element && webLoading.htmlElement) webLoading.resize(webLoading.element, webLoading.htmlElement)
+    utlWL('resize')
   }
   const loading = (dom: ElementType, options?: OptionsType) => {
     // Keep the last passed in parameter
@@ -32,14 +29,23 @@ export default function initLoading(options?: OptionsType): LoadingType {
       drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element)
   }
   const close = () => {
-    // canvas
-    if (webLoading.element && webLoading.canvas) webLoading.close(webLoading.element, webLoading.canvas)
-    // html
-    if (webLoading.element && webLoading.htmlElement) webLoading.close(webLoading.element, webLoading.htmlElement)
+    utlWL('close')
   }
   // Throw basic information
   const getLoadingId = () => webLoading.loadingId
   const getOptions = () => webLoading.options
+  // WebLoading operation
+  function utlWL(key: 'resize' | 'close') {
+    if (webLoading.element) {
+      // canvas
+      let temEl: HTMLCanvasElement | HTMLDivElement | null = webLoading.canvas
+      // html
+      if (webLoading.htmlElement) temEl = webLoading.htmlElement
+      // set up
+      if (temEl) webLoading[key](webLoading.element, temEl)
+      else $Log.warn("Animation element not found!")
+    }
+  }
   return {
     loading,
     resize,

@@ -47,7 +47,7 @@ let dom = ref()
 - `Cdn ` introduction
 
 ```html
-<script src="https://tommy-file.oss-cn-hangzhou.aliyuncs.com/warehouse/web-loading.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
 ```
 
 - Project `import` import

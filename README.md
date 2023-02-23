@@ -112,7 +112,7 @@ window.onload = function () {
 - 修改`type`切换启动方式
 
 ```typescript
-import type { LoadingType } from 'web-loading/src/type.d'
+import type { LoadingType } from 'web-loading/src/types.d'
 let webLoading: LoadingType = initLoading({
   type: 'mini' // 或 full
 })

@@ -111,7 +111,7 @@ window.onload = function () {
 - Modify the `type` switch start mode
 
 ```typescript
-import type { LoadingType } from 'web-loading/src/type.d'
+import type { LoadingType } from 'web-loading/src/types.d'
 let webLoading: LoadingType = initLoading({
   type: 'mini' // or full
 })

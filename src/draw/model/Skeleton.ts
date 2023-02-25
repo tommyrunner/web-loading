@@ -1,7 +1,7 @@
 import type { ElementType } from '../../types'
 import type { SkeletonOptionsType } from '../types'
 import BaseModel from './BaseModel'
-const defaultOptions: SkeletonOptionsType = {
+const modelDefOptions: SkeletonOptionsType = {
   skeletonColor: 'rgb(240, 240, 240)',
   skeletonAnimationColor: 'rgb(226, 226, 226)',
   radius: 5,
@@ -25,23 +25,20 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     options: Required<SkeletonOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    this.initOptions(defaultOptions, [])
+    super(w, h, canvas, options, element, modelDefOptions, [], (model) => {
+      const op = model.options
+      // Reinitialize the canvas
+      model.ctx.translate(-model.w / 2, -model.h / 2)
+      model.canvas.width = model.element.scrollWidth
+      model.canvas.height = model.element.scrollHeight
+      model.ctx.fillStyle = op.skeletonColor
+    })
     this.skeleton = []
     this.colorFlow = 0
     this.state = 1
     this.WL_IMG = 'wl-img'
-    this.initPoint()
     this.controller(this.element.children)
     this.run(this.draw)
-  }
-  initPoint() {
-    const op = this.options
-    // Reinitialize the canvas
-    this.ctx.translate(-this.w / 2, -this.h / 2)
-    this.canvas.width = this.element.scrollWidth
-    this.canvas.height = this.element.scrollHeight
-    this.ctx.fillStyle = op.skeletonColor
   }
   draw() {
     this.clearRect()

@@ -112,14 +112,18 @@ export class $Log {
  * @param value Judgment value
  * @returns boolean
  */
-export function isNull(value: any): value is null | undefined | false {
+export function isNull(value: any): value is boolean | Function {
   switch (toType(value)) {
     case 'object':
-      return Object.keys(value).length === 0
+      return Object.keys(value).length > 0
     case 'array':
-      return value.length === 0
+      return value.length > 0
+    case 'undefined':
+      return value !== undefined
+    case 'null':
+      return value !== null
     default:
-      return value === undefined || value === null
+      return value !== undefined
   }
 }
 /**

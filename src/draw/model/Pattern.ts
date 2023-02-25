@@ -1,16 +1,15 @@
-import type { ElementType } from '../../types'
+import type { ElementType, LimitType } from '../../types'
 import type { PatternOptionsType } from '../types.d'
 import { PATTERN_CHART } from '../utils'
 import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
-const defaultOptions: PatternOptionsType = {
+const modelDefOptions: PatternOptionsType = {
   charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
   chartColors: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
   maxHeight: 60,
   chartSize: 12
 }
-
-const limits = [
+const limits: Array<LimitType> = [
   {
     key: 'chartSize',
     message: 'chartSize value 5-24',
@@ -49,9 +48,9 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     options: Required<PatternOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    this.initOptions(defaultOptions, limits)
-    this.initPoint()
+    super(w, h, canvas, options, element, modelDefOptions, limits, (model) => {
+      model.options.delay = 10
+    })
     this.pattern = {
       color: this.randomState('chartColors'),
       nowHeight: 10,
@@ -61,10 +60,6 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
       turn: 0
     }
     this.run(this.draw)
-  }
-  initPoint() {
-    // Initialization speed
-    this.options.delay = 10
   }
   draw() {
     const op = this.options

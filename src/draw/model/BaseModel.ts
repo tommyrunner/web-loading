@@ -7,9 +7,35 @@ export default class BaseModel<T extends OptionsType> {
   ctx: CanvasRenderingContext2D
   options: Required<T>
   element: ElementType
-  webLog: $Log
-  private stepClear: number
-  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, element: ElementType) {
+  // Default Options of Model
+  modelDefOptions: T | undefined = undefined
+  // Limits of Model
+  limits: Array<LimitType> | undefined = undefined
+  // Provides Callback function for model initialization
+  modelDefCall: ((model: BaseModel<T>) => void) | undefined = undefined
+  webLog: $Log = $Log
+  private stepClear: number = 1
+  /**
+   * Custom BaseModel
+   * @param w Canvas width
+   * @param h Canvas height
+   * @param canvas Canvas
+   * @param options Options
+   * @param element Container element
+   * @param modelDefOptions  Default options of model (Optional)
+   * @param limits  Default limits of model (Optional)
+   * @param modelDefCall Provides Callback function for model initialization，Generally initialize "canvas" or "brush" in model (Optional)
+   */
+  constructor(
+    w: number,
+    h: number,
+    canvas: HTMLCanvasElement,
+    options: Required<T>,
+    element: ElementType,
+    modelDefOptions?: T,
+    limits?: Array<LimitType>,
+    modelDefCall?: (model: BaseModel<T>) => void
+  ) {
     this.w = w
     this.h = h
     this.canvas = canvas
@@ -17,13 +43,11 @@ export default class BaseModel<T extends OptionsType> {
     this.ctx = canvas.getContext('2d')!
     this.options = options
     this.element = element
-    this.webLog = $Log
-    this.stepClear = 1
-    this._$initPoint()
-    this._$initEvent()
+    // Initialize model
+    this.initContextCall(modelDefOptions, limits, modelDefCall)
   }
   // Initialize brush
-  private _$initPoint() {
+  private _$initBaseContext() {
     this.clearRect()
     this.ctx.resetTransform()
     // Default theme color
@@ -54,7 +78,7 @@ export default class BaseModel<T extends OptionsType> {
    * @param fun Trigger function
    * @returns
    */
-  private animationFrame(fun: Function) {
+  private _$animationFrame(fun: Function) {
     // compatible
     if (!window.requestAnimationFrame) {
       this.element.$store.animationId = window.setInterval(fun, this.options.delay)
@@ -71,12 +95,42 @@ export default class BaseModel<T extends OptionsType> {
     }
     this.element.$store.animationId = window.requestAnimationFrame(run)
   }
-
+  /**
+   * Initialize brush properties
+   * @param modelDefOptions Provides Options for model initialization
+   * @param limits Provides Limits for model initialization
+   * @param modelDefCall Provides Callback function for model initialization
+   */
+  initContextCall(modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void) {
+    // Initialize the point context of base
+    this._$initBaseContext()
+    // Initialize the hook event of base
+    this._$initEvent()
+    // Initialize model options
+    if (isNull(modelDefOptions)) {
+      // Record options
+      this.modelDefOptions = modelDefOptions
+      this.options = Object.assign(modelDefOptions, this.options)
+      this.element.$store.options = this.options
+      // Judge whether the attribute value needs to be limited (only for prompt)
+      if (limits && limits.length) {
+        limits.forEach((l: LimitType) => {
+          const mayKey = this.options[l.key as keyof typeof this.options]
+          if (!isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
+        })
+      }
+    }
+    if (isNull(limits)) this.limits = limits
+    if (isNull(modelDefCall)) {
+      // this.modelDefCall = modelDefCall
+      modelDefCall.call(this, this)
+    }
+  }
   // Start Animation
   run(fun: Function) {
     // If it is already in the loading state, there is no need to re-instance
     if (this.element.$store.animationId) this.clearAnimationFrame(this.element.$store.animationId)
-    this.animationFrame(fun)
+    this._$animationFrame(fun)
   }
   /**
    * Cancel animationFrame animation pin
@@ -85,33 +139,16 @@ export default class BaseModel<T extends OptionsType> {
   clearAnimationFrame(id: number) {
     clearAnimationFrame(id)
   }
-  /**
-   * Initialize options defaults
-   * @param options Incoming default
-   * @param limits Limit of value
-   */
-  initOptions(options: T, limits?: Array<LimitType>) {
-    // Record options
-    this.options = Object.assign(options, this.options)
-    this.element.$store.options = this.options
-    // Judge whether the attribute value needs to be limited (only for prompt)
-    if (limits && limits.length) {
-      limits.forEach((l: LimitType) => {
-        const mayKey = this.options[l.key as keyof typeof this.options]
-        if (!isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
-      })
-    }
-  }
   // Empty the canvas
   clearRect(x?: number, y?: number, w_r?: number, h?: number) {
     const defW = this.canvas.width,
       defH = this.canvas.height
     // Because the starting point has been set to the center, expansion is needed
-    if (!isNull(x) && !isNull(y) && !isNull(w_r) && !isNull(h)) {
+    if (isNull(x) && isNull(y) && isNull(w_r) && isNull(h)) {
       this.ctx.clearRect(x, y, w_r, h)
     }
     // Empty circular area
-    else if (!isNull(x) && !isNull(y) && !isNull(w_r) && isNull(h)) {
+    else if (isNull(x) && isNull(y) && isNull(w_r) && !isNull(h)) {
       const calcWidth = w_r - this.stepClear
       const calcHeight = Math.sqrt(w_r * w_r - calcWidth * calcWidth)
       const posX = x - calcWidth

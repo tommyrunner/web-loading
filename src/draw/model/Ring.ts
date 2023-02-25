@@ -1,7 +1,7 @@
-import type { ElementType } from '../../types'
+import type { ElementType, LimitType } from '../../types'
 import type { RingOptionsType } from '../types'
 import BaseModel from './BaseModel'
-const defaultOptions: RingOptionsType = {
+const modelDefOptions: RingOptionsType = {
   arcGap: Math.PI / 4,
   ringGap: 10,
   lineWidth: 2,
@@ -12,8 +12,7 @@ const defaultOptions: RingOptionsType = {
   ringsTurn: [Math.PI, Math.PI / 4],
   direction: true
 }
-
-const limits = [
+const limits: Array<LimitType> = [
   {
     key: 'ringNum',
     message: 'ringNum value 1-10',
@@ -23,9 +22,9 @@ const limits = [
   },
   {
     key: 'ringsTurn',
-    message: `ringsTurn size ${defaultOptions.ringNum}`,
+    message: `ringsTurn size ${modelDefOptions.ringNum}`,
     limit: (key: any) => {
-      return key.length <= defaultOptions.ringNum!
+      return key.length <= modelDefOptions.ringNum!
     }
   }
 ]
@@ -38,17 +37,14 @@ export default class Ring extends BaseModel<RingOptionsType> {
     options: Required<RingOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
+    super(w, h, canvas, options, element, modelDefOptions, limits, (model) => {
+      const op = model.options
+      model.ctx.lineCap = op.lineCap
+      model.ctx.lineWidth = op.lineWidth
+      model.ctx.save()
+    })
     this.rotate = 10
-    this.initOptions(defaultOptions, limits)
-    this.initPoint()
     this.run(this.draw)
-  }
-  initPoint() {
-    const op = this.options
-    this.ctx.lineCap = op.lineCap
-    this.ctx.lineWidth = op.lineWidth
-    this.ctx.save()
   }
   draw() {
     this.clearRect()

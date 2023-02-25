@@ -130,61 +130,78 @@ let webLoading = initLoading({
 
 ## custom model
 
-### example
+### TypeScript Item Example
 
 + custom
 
 ```typescript
-import type { OptionsType, ElementStoreType } from "web-loading/src/types.d";
-// 1.Introduction of basic model
+import type { OptionsType, LimitType, ElementType } from "web-loading/src/types.d";
 import BaseModel from "web-loading/src/draw/model/BaseModel";
-// 2?.If options in the model need custom parameters, define options type
+// 1?.If options in the model need custom parameters, define options type
 interface CustomOptionsType extends OptionsType {
   size?: number;
 }
-// 3.Customize the model (if you don't need to customize the options parameter, you can use OptionsType)
-// 3.1?. Define default values
-let defOptions: CustomOptionsType = {
-  size: 10, // Define default values
+// 2?.Customize the default parameters of the model (if you do not need to customize the options parameter, you can use OptionsType)
+// 2.1?. Define default values
+let modelDefOptions: CustomOptionsType = {
+  size: 10,
 };
+// 2.2?.Size of limit value
+let limits: Array<LimitType> = [
+  {
+    key: "size",
+    message: "key < 100",
+    limit: (key) => {
+      return key < 100;
+    },
+  },
+];
+// 3.Custom model class
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
-        super(w, h, canvas, options, element);
-        // 3.2?. Initialize default
-        this.initOptions(defOptions);
-        this.run(this.draw);
-    }
-    draw() {
-         let op = this.options;
-        // Draw according to the delay time (get the configured custom options parameter here)
-        this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
-    }
+  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+   super(w, h, canvas, options, element, modelDefOptions, limits, function modelDefCall(model) {
+      //BaseModel initialization success callback (you can do some special initialization operations yourself)
+      //The model is CustomLoading itself. Here, the initialization default brush fill is red
+      model.ctx.fillStyle = "red";
+    });
+    // 根据周期调用
+    this.run(this.draw);
+  }
+  draw() {
+    // Empty the canvas
+    this.clearRect();
+    let op = this.options;
+    // Draw (get the configured custom options parameter here)
+    this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size);
+  }
 }
 ```
 
->+ `BaseModel` is a user-defined inheritance class. If it is introduced globally, the element has the `BaseModel` attribute.
->+ `BaseModel` will be called internally`_$ InitPoint ` initialization brush ` translate `is in the middle position.
->+ If the customized **model** does not need the `options` parameter, you can omit **2, 3.1, 3.2, 4.2** steps.
+> Here is a simple custom drawing of a rectangle 
+> + `BaseModel` is a user-defined inheritance class. If it is introduced globally, the `BaseModel` attribute is mounted in the `window`. 
+> + Note: `modelDefOptions`,` limits`, `modelDefCall` are not required parameters 
+> + Here, if the customized **model** does not need the `options` parameter, you can omit the **1、2** steps.
 
 + loading
 
 ```typescript
-import { LoadingType} from "web-loading/src/types.d";
-import { MODEL_TYPES } from "web-loading/src/utils";
-import initLoading from 'web-loading/src/loading'
-let dom:HtmlElement = document.querySelector('xxx')
-// 4.Configure customized options parameters
+import { LoadingType } from "web-loading/src/types.d";
+import initLoading from "web-loading/src/loading";
+let dom = document.querySelector("xxx");
+// configuration parameter
 let options: CustomOptionsType = {
-  // 4.1.After configuring custom, the priority is greater than model
-  custom: CustomLoading,
-  // 4.2.Configure Custom Parameters
-  size: 10,
+  custom: CustomLoading as typeof BaseModel,
+  size: 20,
 };
-let webLoading:LoadingType = initLoading(options)
-webLoading.loading(dom)
+let webLoading: LoadingType = initLoading(options);
+webLoading.loading(dom);
 ```
 
-### `BaseModel`parameter
+### Native html project example
+
+@[code](./custom.html)
+
+### 1、`BaseModel`parameter
 
 > `WebLoading `will automatically inject relevant parameters when calling` custom `.
 
@@ -194,20 +211,23 @@ webLoading.loading(dom)
 | `h`       | `number`                      | Canvas height                                                     |
 | `canvas`  | `HTMLCanvasElement`           | Canvas element, `BaseModel` default and get the context of `2d`, but you can also get other contexts according to the canvas element |
 | `options` | `Required<CustomOptionsType>` | `Options` is to adjust **model** parameters, which are divided into **public** parameters and **model** parameters, which will be merged eventually, and `Required` indicates you The parameter of is not empty (has initial value) |
-| `element`   | `ElementType`            | [`ElementType`](#store-elementtype)              |
+| `element`   | [`ElementType`](#elementtype)             | Container element              |
+| `modelDefOptions?:`   | `T`            | Custom default parameters for **model**(optional)           |
+| `limits?:`   | [`Array<LimitType>`](#limittype)             | Custom **model**'s' options 'value restriction function (optional)           |
+| `modelDefCall?:`   | `(model: BaseModel<T>) => void`            | `BaseModel` initialization completion callback (optional)             |
 
-### `store:ElementType`
+### `ElementType`
 
 > Inherited`HTMLElement`。
 
 | attribute                 | type               | remarks    |
 | -------------------- | ------------------ | ------- |
 | `loadingId`          | `string or null`      | Record `loading` element `id`  |
-| `$store`             | `ElementStoreType` | [ElementStoreType](#store-elementstoretype) |
+| `$store`             | [`ElementStoreType`](#elementtype-store-elementstoretype) | `loding` cache content |
 | `HTMLElement attribute...` | ...                | ...     |
 
 
-### `store:ElementStoreType`
+### `ElementType.$store:ElementStoreType`
 
 > When drawing **model**, you need to use some **states** of `WebLoading`.
 
@@ -218,7 +238,7 @@ webLoading.loading(dom)
 | `loadingId`   | `string or null`                 | Record `loading` element `id`   |
 | `hookCall`    | `HooksCallType`               | Hook function of `loading `       |
 | `model`       | `BaseModel or null` | **model** in use       |
-### `store.hookCall:HooksCallType`
+### `ElementType.$store.hookCall:HooksCallType`
 
 > `WebLoading`The hook function triggered when closing.
 >
@@ -252,63 +272,37 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 }
 ```
 
+### `LimitType`
 
+> Limit the range of `options` parameter values.
 
-### `BaseModel function`
+| attribute        | type                        | remarks                      |
+| ------------- | ----------------------------- | --------------------------- |
+| `key`     | `string`                 | The `options` attribute that needs to be restricted |
+| `message` | `string`           | Prompt for exceeding the limit       |
+| `limit` | `(key: any) => boolean`           | Restricted operation       |
+
+### 2、`BaseModel` function
 
 > `BaseModel`The built-in function is mainly for user **extension model** rendering
 
 | function                  | return   | remarks   |
 | --------------------- | ------ | ------ |
-| `initOptions`         | `void` | [initOptions](#basemodel-initoptions) |
+| `initContextCall`                 | `void` | [initContextCall](#basemodel-initcontextcall)  |
 | `run`                 | `void` | [run](#basemodel-run)  |
 | `clearRect`           | `void` | [clearRect](#basemodel-clearrect)  |
 | `drowRadiusRect`      | `void` | [drowRadiusRect](#basemodel-drowradiusrect)  |
 | `clearAnimationFrame` | `void` | [clearAnimationFrame](#basemodel-clearanimationframe)  |
 
-### `BaseModel:initOptions`
+### `BaseModel:initContextCall`
 
-> It is mainly used to initialize the default parameters so that the `options` in the drawing **model** will not be empty.
+> `BaseModel ` Initialize the custom canvas property (triggered during inheritance).
 
-| parameter       | type                    | remarks           |
-| ---------- | ----------------------- | -------------- |
-| `options`  | `T extends OptionsType` | Initialize default parameters |
-| `limits?:` | `Array<LimitType>`      | Limit of value       |
-
-### `BaseModel.initOptions:LimitType`
-
-> It is used to determine whether the `options` passed in exceeds the expected range of the **model** drawn.
-
-| attribute      | type                    | remarks                                                         |
-| --------- | ----------------------- | ------------------------------------------------------------ |
-| `key`     | `string`                | Attribute of `options` to be judged                                    |
-| `message` | `string`                | Prompt text if the judgment is effective                                       |
-| `limit`   | `(key: any) => boolean` | Judge the condition. The key is the value passed in by `options`. If it is returned as` false`, it means that it exceeds the expectation |
-
-Take `custom` as an example
-
-```typescript
-// Other codes are omitted
-let defOptions: CustomOptionsType = {
-    size: 10, // Define default values
-};
-const limits = [
-    {
-        key: 'size',
-        message: '16 >= size(default:10) >= 5',
-        limit: (key: any) => {
-            // You can also force modification if triggered
-            return  16 >= key && key >= 5
-        }
-    },
-]
-class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
-        super(w, h, canvas, options, element);
-        this.initOptions(defOptions,limits);
-    }
-}
-```
+| 参数  | 类型       | 备注                                       |
+| ----- | ---------- | ------------------------------------------ |
+| `modelDefOptions?:` | `T` | Customize the default `options` value of **model**. |
+| `limits?:` | `Array<LimitType>` | Customize the limit range of the `options` value of **model**. |
+| `modelDefCall?:` | `BaseModel<T>` | `BaseModel ` initialization completion callback. |
 
 ### `BaseModel:run`
 
@@ -392,6 +386,8 @@ this.clearAnimationFrame(element.$store.animationId)
 
 > The ID passed in is `id` returned by `requestAnimationFrame` , and  `WebLoading` has been saved in the store.
 
+
+### 3、`BaseModel` technique
 ### Dynamic options
 
 > Whether it is initialization or in the `run` function, modifying `options` is real-time and dynamic, which can control the delay time triggered by` requestAnimationFrame `to be irregular.
@@ -402,12 +398,6 @@ this.run(()=>{
     this.options.delay = 10
 })
 ```
-
-### `BaseModel` Custom example
-
-> It is convenient to use native html here. The global import method is adopted.
-@[code](./custom.html)
-> Here, a custom `CustomLoading model` is defined. After obtaining the inverted `size` parameter, a Rect rectangle is drawn for each frame in the `run` function. `defOptions` is the default` options` value of the custom model, which can also be modified at the current `init` time
 
 ## Html configuration method
 

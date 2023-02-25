@@ -1,8 +1,8 @@
-import type { ElementType } from '../../types'
+import type { ElementType, LimitType } from '../../types'
 import type { GearOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
-// Default
-const defaultOptions: GearOptionsType = {
+// Default Options of model
+const modelDefOptions: GearOptionsType = {
   lineStart: 10,
   lineEnd: 16,
   lineStartSkew: 0,
@@ -13,7 +13,7 @@ const defaultOptions: GearOptionsType = {
   direction: true
 }
 // Warning value
-const limits = [
+const limits: Array<LimitType> = [
   {
     key: 'lineNum',
     message: 'lineNum value 4-18',
@@ -31,23 +31,20 @@ export default class Gear extends BaseModel<GearOptionsType> {
     options: Required<GearOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    // 1.Initialize options (prevent attribute from being empty)
-    this.initOptions(defaultOptions, limits)
-    // 2.Optimize default values based on height and width
+    // 1.Initialize
+    super(w, h, canvas, options, element, modelDefOptions, limits, (model) => {
+      // Model extra initial callback function
+      const op = model.options
+      model.ctx.lineCap = op.lineCap
+      model.ctx.lineWidth = op.lineWidth
+      model.ctx.save()
+    })
     this.optimization(this.options.textGap + this.options.lineEnd)
-    // 3.Initialize brush
-    this.initPoint()
-    // 4.Start the animation needle and record the status
+    // 2.Start the animation needle and record the status
     this.aps = Array.from({ length: this.options.lineNum }, (_, _index) => _index)
     this.run(this.draw)
   }
-  initPoint() {
-    const op = this.options
-    this.ctx.lineCap = op.lineCap
-    this.ctx.lineWidth = op.lineWidth
-    this.ctx.save()
-  }
+
   draw() {
     this.clearRect()
     // technological process

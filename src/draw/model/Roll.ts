@@ -1,9 +1,9 @@
-import type { ElementType } from '../../types'
+import type { ElementType, LimitType } from '../../types'
 import type { RollOptionsType } from '../types'
 import { getDefOptions } from '../../utils'
 import BaseModel from './BaseModel'
 import { ROLL_CHART } from '../utils'
-const defaultOptions: RollOptionsType = {
+const modelDefOptions: RollOptionsType = {
   rollGap: 12,
   childNum: 4,
   rollSize: 16,
@@ -14,7 +14,7 @@ const defaultOptions: RollOptionsType = {
   fixad: false
 }
 
-const limits = [
+const limits: Array<LimitType> = [
   {
     key: 'childNum',
     message: 'chartSize value 4-10',
@@ -49,8 +49,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     options: Required<RollOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    this.initOptions(defaultOptions, limits)
+    super(w, h, canvas, options, element, modelDefOptions, limits)
     this.Roll = {
       turn: 1,
       nowX: this.options.fixad

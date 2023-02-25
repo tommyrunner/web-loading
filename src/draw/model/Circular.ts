@@ -2,7 +2,7 @@ import type { ElementType } from '../../types'
 import type { CircularOptionsType } from '../types'
 import { CIRCULAR_ACTION } from '../utils'
 import BaseModel from './BaseModel'
-const defaultOptions: CircularOptionsType = {
+const modelDefOptions: CircularOptionsType = {
   arcSize: 8,
   arcGap: 2,
   arcColors: ['#ec7546', '#8364a4', '#ff6c6e', '#5bc6ab'],
@@ -25,9 +25,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     options: Required<CircularOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    // 1.Initialize options (prevent attribute from being empty)
-    this.initOptions(defaultOptions)
+    super(w, h, canvas, options, element, modelDefOptions)
     // Initialize data
     let op = this.options
     let gap = op.arcSize * 2 + op.arcGap

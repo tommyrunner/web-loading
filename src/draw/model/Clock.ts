@@ -1,7 +1,7 @@
-import type { ElementType } from '../../types'
+import type { ElementType, LimitType } from '../../types'
 import type { ClockOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
-const defaultOptions: ClockOptionsType = {
+const modelDefOptions: ClockOptionsType = {
   lineCap: 'round',
   lineWidth: 2,
   lineColors: ['#d4d4d4', '#06ab2d', '#8a0303'],
@@ -13,7 +13,7 @@ const defaultOptions: ClockOptionsType = {
   textTime: ''
 }
 
-const limits = [
+const limits: Array<LimitType> = [
   {
     key: 'lineColors',
     message: 'lineColors.length <= 3',
@@ -32,18 +32,15 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     options: Required<ClockOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    this.initOptions(defaultOptions, limits)
-    this.initPoint()
+    super(w, h, canvas, options, element, modelDefOptions, limits, (model) => {
+      const op = model.options
+      model.ctx.lineCap = op.lineCap
+      model.ctx.lineWidth = op.lineWidth
+      model.ctx.save()
+    })
     this.nowTime = -1
     this.nowS = 0
     this.run(this.draw)
-  }
-  initPoint() {
-    const op = this.options
-    this.ctx.lineCap = op.lineCap
-    this.ctx.lineWidth = op.lineWidth
-    this.ctx.save()
   }
   draw() {
     this.clearRect()

@@ -130,61 +130,78 @@ let webLoading = initLoading({
 
 ## custom自定义model
 
-### 例子
+### TypeScript项目例子
 
 + 自定义
 
 ```typescript
-import type { OptionsType, ElementStoreType } from "web-loading/src/types.d";
-// 1.引入基础model
+import type { OptionsType, LimitType, ElementType } from "web-loading/src/types.d";
 import BaseModel from "web-loading/src/draw/model/BaseModel";
-// 2?.如果model中options需要自定义参数，定义options类型
+// 1?.如果model中options需要自定义参数，定义options类型
 interface CustomOptionsType extends OptionsType {
   size?: number;
 }
-// 3.自定义model(如果无需自定义options参数，使用OptionsType即可)
-// 3.1?. 定义默认值
-let defOptions: CustomOptionsType = {
-  size: 10, // 定义默认值
+// 2?.自定义model默认参数(如果无需自定义options参数，使用OptionsType即可)
+// 2.1?. 定义默认值
+let modelDefOptions: CustomOptionsType = {
+  size: 10,
 };
+// 2.2?.限制值的大小
+let limits: Array<LimitType> = [
+  {
+    key: "size",
+    message: "key < 100",
+    limit: (key) => {
+      return key < 100;
+    },
+  },
+];
+// 3.自定义model类
 class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
-        super(w, h, canvas, options, element);
-        // 3.2?. 初始化默认值
-        this.initOptions(defOptions);
-        this.run(this.draw);
-    }
-    draw() {
-         let op = this.options;
-        // 根据延迟时间绘制(这里获取配置的自定义options参数)
-        this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size)
-    }
+  constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
+   super(w, h, canvas, options, element, modelDefOptions, limits, function modelDefCall(model) {
+      // BaseModel初始化成功回调(可以自己做一些格外的初始化操作)
+      // model 是CustomLoading本身，这里初始化默认画笔fill为红色
+      model.ctx.fillStyle = "red";
+    });
+    // 根据周期调用
+    this.run(this.draw);
+  }
+  draw() {
+    // 清空画布
+    this.clearRect();
+    let op = this.options;
+    // 绘制(这里获取配置的自定义options参数)
+    this.ctx.fillRect(-op.size / 2, -op.size / 2, op.size, op.size);
+  }
 }
 ```
 
-> + `BaseModel`是自定义继承类，如果是全局引入情况下，元素中是挂有`BaseModel`属性的。
-> + `BaseModel`内部会调用`_$initPoint`初始化画笔`translate`在中间位置。
-> + 这里如果自定义的**model**无需`options`参数，可以省略**2、3.1、3.2、4.2**步骤。
+> 这里简单自定义绘制了一个矩形
+> + `BaseModel`是自定义继承类，如果是全局引入情况下，`window`中挂载`BaseModel`属性的。
+> + 注意:`modelDefOptions`、`limits`、`modelDefCall`不是必填参数
+> + 这里如果自定义的**model**无需`options`参数，可以省略**1、2**步骤。
 
 + loading
 
 ```typescript
-import { LoadingType} from "web-loading/src/types.d";
-import { MODEL_TYPES } from "web-loading/src/utils";
-import initLoading from 'web-loading/src/loading'
-let dom:HtmlElement = document.querySelector('xxx')
-// 4.配置自定义的options参数
+import { LoadingType } from "web-loading/src/types.d";
+import initLoading from "web-loading/src/loading";
+let dom = document.querySelector("xxx");
+// 配置参数
 let options: CustomOptionsType = {
-  // 4.1.配置custom后优先级大于model
-  custom: CustomLoading,
-  // 4.2.配置自定义参数
-  size: 10,
+  custom: CustomLoading as typeof BaseModel,
+  size: 20,
 };
-let webLoading:LoadingType = initLoading(options)
-webLoading.loading(dom)
+let webLoading: LoadingType = initLoading(options);
+webLoading.loading(dom);
 ```
 
-### `BaseModel`参数
+### 原生html项目例子
+
+@[code](./custom.html)
+
+### 1、`BaseModel`参数
 
 > `WebLoading`调用`custom`的时候会自动注入相关参数。
 
@@ -194,19 +211,22 @@ webLoading.loading(dom)
 | `h`       | `number`                      | 画布高度                                                     |
 | `canvas`  | `HTMLCanvasElement`           | 画布元素，`BaseModel`默认以及获取了`2d`的上下文，但您还可以根据画布元素获取其他上下文 |
 | `options` | `Required<CustomOptionsType>` | `options`是调节**model**参数，分为有**公共**参数与**model**参数最终会合并，`Required`标注你的参数不为空(已经初始值) |
-| `element`   | `ElementType`            | [`ElementType`](#store-elementtype)              |
+| `element`   | [`ElementType`](#elementtype)            | 容器元素              |
+| `modelDefOptions?:`   | `T`            | 自定义**model**的默认参数(可选)           |
+| `limits?:`   | [`Array<LimitType>`](#limittype)            | 自定义**model**的`options`值限制函数(可选)           |
+| `modelDefCall?:`   | `(model: BaseModel<T>) => void`            | `BaseModel`初始化完成回调(可选)              |
 
-### `store:ElementType`
+### `ElementType`
 
 > 继承了`HTMLElement`。
 
 | 属性                 | 类型               | 备注    |
 | -------------------- | ------------------ | ------- |
 | `loadingId`          | `string或null`      | 记录`loading`元素`id`  |
-| `$store`             | `ElementStoreType` | [ElementStoreType](#store-elementstoretype) |
+| `$store`             | [`ElementStoreType`](#elementtype-store-elementstoretype) | `loding`缓存内容 |
 | `HTMLElement属性...` | ...                | ...     |
 
-### `store:ElementStoreType`
+### `ElementType.$store:ElementStoreType`
 
 > 绘制**model**时需要用到`WebLoading`的一些**状态**。
 
@@ -215,11 +235,11 @@ webLoading.loading(dom)
 | `options`     | `OptionsType`                 | 储存最终合并的`options`参数 |
 | `animationId` | `number或undefined`           | 记录`animation`状态       |
 | `loadingId`   | `string或null`                 | 记录`loading`元素`id`   |
-| `hookCall`    | `HooksCallType`               | `loading`的钩子函数       |
+| `hookCall`    | `HooksCallType`               | [`loading`的钩子函数](#elementtype-store-hookcall-hookscalltype)       |
 | `model`       | `BaseModel或null` | 正在使用的**model**       |
 
 
-### `store.hookCall:HooksCallType`
+### `ElementType.$store.hookCall:HooksCallType`
 
 > `WebLoading`关闭时触发的钩子函数。
 >
@@ -253,63 +273,37 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 }
 ```
 
+### `LimitType`
 
+> 限制`options`参数值的范围。
 
-### `BaseModel函数`
+| 属性        | 类型                        | 备注                      |
+| ------------- | ----------------------------- | --------------------------- |
+| `key`     | `string`                 | 需要限制的`options`属性 |
+| `message` | `string`           | 超出限制的提示       |
+| `limit` | `(key: any) => boolean`           | 限制操作       |
+
+### 2、`BaseModel函数`
 
 > `BaseModel`自带的函数主要是用户**扩展model**绘制
 
 | 函数                  | 返回   | 备注   |
 | --------------------- | ------ | ------ |
-| `initOptions`         | `void` | [initOptions](#basemodel-initoptions) |
+| `initContextCall`                 | `void` | [initContextCall](#basemodel-initcontextcall)  |
 | `run`                 | `void` | [run](#basemodel-run)  |
 | `clearRect`           | `void` | [clearRect](#basemodel-clearrect)  |
 | `drowRadiusRect`      | `void` | [drowRadiusRect](#basemodel-drowradiusrect)  |
 | `clearAnimationFrame` | `void` | [clearAnimationFrame](#basemodel-clearanimationframe)  |
 
-### `BaseModel:initOptions`
+### `BaseModel:initContextCall`
 
-> 主要是初始化默认参数，使得绘制**model**里的`options`不会为空。
+> `BaseModel`初始化自定义画布属性(继承时已经触发)。
 
-| 参数       | 类型                    | 备注           |
-| ---------- | ----------------------- | -------------- |
-| `options`  | `T extends OptionsType` | 初始化默认参数 |
-| `limits?:` | `Array<LimitType>`      | 值的限制       |
-
-### `BaseModel.initOptions:LimitType`
-
-> 用于判断传入的`options`是否超出绘制的**model**预期范围。
-
-| 属性      | 类型                    | 备注                                                         |
-| --------- | ----------------------- | ------------------------------------------------------------ |
-| `key`     | `string`                | 需要判断的`options`的属性                                    |
-| `message` | `string`                | 如果判断生效，提示文字                                       |
-| `limit`   | `(key: any) => boolean` | 判断条件，key是`options`传入的值，如果返回为`false`代表超出预期 |
-
-以自定义`custom`为例
-
-```typescript
-// 其余code省略
-let defOptions: CustomOptionsType = {
-    size: 10, // 定义默认值
-};
-const limits = [
-    {
-        key: 'size',
-        message: '16 >= size(default:10) >= 5',
-        limit: (key: any) => {
-            // 如果触发也可以强制修改
-            return  16 >= key && key >= 5
-        }
-    },
-]
-class CustomLoading extends BaseModel<CustomOptionsType> {
-    constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<CustomOptionsType>, element: ElementType) {
-        super(w, h, canvas, options, element);
-        this.initOptions(defOptions,limits);
-    }
-}
-```
+| 参数  | 类型       | 备注                                       |
+| ----- | ---------- | ------------------------------------------ |
+| `modelDefOptions?:` | `T` | 自定义**model**的默认`options`值。 |
+| `limits?:` | `Array<LimitType>` | 自定义**model**的`options`值的限制范围。 |
+| `modelDefCall?:` | `BaseModel<T>` | `BaseModel`初始化完成回调。 |
 
 ### `BaseModel:run`
 
@@ -393,6 +387,8 @@ this.clearAnimationFrame(element.$store.animationId)
 
 > 传入的id是`requestAnimationFrame`返回的`id`，`WebLoading`在store中已经保存。
 
+
+### 3、`BaseModel` 技巧
 ### 动态的options
 
 > 无论是初始化还是在`run`函数中，修改`options`都是实时动态的，以此可以控制`requestAnimationFrame`触发的延迟时间不那么规律。
@@ -403,12 +399,6 @@ this.run(()=>{
     this.options.delay = 10
 })
 ```
-
-### `BaseModel`自定义例子
-
-> 这里方便使用原生html，所采用全局引入方式。
-@[code](./custom.html)
-> 这里自定义了一个，`CustomLoading model`， 获取倒`size`参数后，在`run`函数中每一帧绘制了一个Rect矩形，`defOptions` 是自定义model的默认`options`值，当前`init`时也可以修改
 
 ## html配置方式
 

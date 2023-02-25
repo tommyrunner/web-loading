@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>web-loading</title>
   </head>
+  <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
   <body>
     <div id="app">
       <div class="item">
@@ -21,13 +22,23 @@
     <script>
       window.onload = () => {
         // encapsulation
-        let defOptions = {
+        let modelDefOptions = {
           size: 10
         }
+        let limits = [
+          {
+            key: 'size',
+            message: 'key < 100',
+            limit: (key) => {
+              return key < 100
+            }
+          }
+        ]
         class CustomLoading extends BaseModel {
           constructor(w, h, canvas, options, store) {
-            super(w, h, canvas, options, store)
-            this.initOptions(defOptions)
+            super(w, h, canvas, options, store, modelDefOptions, function modelDefCall(model) {
+              model.ctx.fillStyle = 'red'
+            })
             this.run(this.draw)
           }
           draw() {

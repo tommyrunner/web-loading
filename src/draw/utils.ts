@@ -16,6 +16,6 @@ export enum ROLL_CHART {
   WINDMILL = 'windmill'
 }
 export enum CIRCULAR_ACTION {
-  COLLISION = 'Collision',
+  COLLISION = 'collision',
   ROTATE = 'rotate'
 }

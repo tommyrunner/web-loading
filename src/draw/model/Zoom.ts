@@ -2,7 +2,7 @@ import type { ElementType } from '../../types'
 import type { ZoomOptionsType } from '../types'
 import { ZOOM_ACTION } from '../utils'
 import BaseModel from './BaseModel'
-const defaultOptions: ZoomOptionsType = {
+const modelDefOptions: ZoomOptionsType = {
   zoomGap: 10,
   maxSize: 16,
   zoomNum: 5,
@@ -17,20 +17,19 @@ interface ListType {
   value: number
   state: number
 }
-
 const limits = [
   {
     key: 'lineWidth',
     message: 'lineWidth(default:10) <=  maxSize(default:16)',
     limit: (key: any) => {
-      return key <= defaultOptions.maxSize!
+      return key <= modelDefOptions.maxSize!
     }
   },
   {
     key: 'maxSize',
     message: 'lineWidth(default:10) <=  maxSize(default:16)',
     limit: (key: any) => {
-      return defaultOptions.lineWidth! <= key
+      return modelDefOptions.lineWidth! <= key
     }
   }
 ]
@@ -44,9 +43,14 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     options: Required<ZoomOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    this.initOptions(defaultOptions, limits)
-    this.initPoint()
+    super(w, h, canvas, options, element, modelDefOptions, limits, (model) => {
+      const op = model.options
+      model.ctx.lineCap = op.lineCap
+      model.ctx.lineWidth = op.lineWidth
+      // Center ((zoom width * number+1)+(zoom gap * number+1))/2, because the first zoom shifts the required number+1, height/2
+      model.ctx.translate(-(op.lineWidth * (op.zoomNum + 1) + op.zoomGap * (op.zoomNum + 1)) / 2, -op.zoomHeight / 2)
+      model.ctx.save()
+    })
     this.zoomIndex = this.options.direction ? 0 : this.options.zoomNum - 1
     this.list = Array.from({ length: this.options.zoomNum }, (_, _index) =>
       Object.assign({
@@ -56,14 +60,6 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
       })
     )
     this.run(this.draw)
-  }
-  initPoint() {
-    const op = this.options
-    this.ctx.lineCap = op.lineCap
-    this.ctx.lineWidth = op.lineWidth
-    // Center ((zoom width * number+1)+(zoom gap * number+1))/2, because the first zoom shifts the required number+1, height/2
-    this.ctx.translate(-(op.lineWidth * (op.zoomNum + 1) + op.zoomGap * (op.zoomNum + 1)) / 2, -op.zoomHeight / 2)
-    this.ctx.save()
   }
   draw() {
     this.clearRect()

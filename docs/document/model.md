@@ -168,7 +168,7 @@
 
 | 属性      | 枚举值      | 备注 |
 | --------- | ----------- | ---- |
-| COLLISION | `Collision` | 移动 |
+| COLLISION | `collision` | 移动 |
 | ROTATE    | `rotate`    | 旋转 |
 
 ## IMG

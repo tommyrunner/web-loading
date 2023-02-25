@@ -1,12 +1,12 @@
-import type { ElementType } from '../../types'
+import type { ElementType, LimitType } from '../../types'
 import type { BeanOptionsType } from '../types.d'
 import BaseModel from './BaseModel'
-const defaultOptions: BeanOptionsType = {
+const modelDefOptions: BeanOptionsType = {
   beanSize: 15,
   pointLength: 15
 }
 
-const limits = [
+const limits: Array<LimitType> = [
   {
     key: 'pointLength',
     message: 'pointLength value >= 5',
@@ -39,8 +39,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     options: Required<BeanOptionsType>,
     element: ElementType
   ) {
-    super(w, h, canvas, options, element)
-    this.initOptions(defaultOptions, limits)
+    super(w, h, canvas, options, element, modelDefOptions, limits)
     this.bean = {
       turn: 30,
       state: 1,

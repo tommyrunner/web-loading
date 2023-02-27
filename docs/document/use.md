@@ -293,6 +293,7 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 | `run`                 | `void` | [run](#basemodel-run)  |
 | `clearRect`           | `void` | [clearRect](#basemodel-clearrect)  |
 | `drowRadiusRect`      | `void` | [drowRadiusRect](#basemodel-drowradiusrect)  |
+| `drawText`      | `void` | [drawText](#basemodel-drawtext)  |
 | `clearAnimationFrame` | `void` | [clearAnimationFrame](#basemodel-clearanimationframe)  |
 
 ### `BaseModel:initContextCall`
@@ -366,9 +367,30 @@ this.clearRect(0,0,10)
 | `h`  | `number` | 终点Y(高度) |
 
 ```typescript
- this.drowRadiusRect(0, 0, 100, 100, 10)
+this.drowRadiusRect(0, 0, 100, 100, 10)
 // 需要自己绘制
 this.ctx.fill()
+```
+
+> 绘制`x=0,y=0`宽高为`100`并圆角为`10`的矩形。
+### `BaseModel:drawText`
+
+> 绘制默认文本。
+
+| 参数 | 类型     | 备注        |
+| ---- | -------- | ----------- |
+| `params?:`  | [`DrawTextParamsType`](#basemodel-drawtext-drawtextparamstype) | 绘制文本参数       |
+### `BaseModel:drawText.DrawTextParamsType`
+
+| 参数 | 类型     | 默认值        | 备注        |
+| ---- | -------- | -------- | ----------- |
+| `esGap`  | `number` | `0`  | 格外的文本空隙(本身textGap+fontSize)       |
+| `x`  | `number`  | `0` | x轴       |
+| `text`  | `string`  | `加载中...` | 文本 |
+| `textColor`  | `string`  | `rgba(64,158,255,1)` | 文本颜色 |
+
+```typescript
+this.drawText()
 ```
 
 > 绘制`x=0,y=0`宽高为`100`并圆角为`10`的矩形。

@@ -77,7 +77,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.clearRect(-this.w, 0, this.w * 2, this.h)
     // Control value change
     this.controller(op)
-    this.drawText(op)
+    this.drawText({ textColor: this.pattern.color })
   }
   controller(op: Required<PatternOptionsType>) {
     this.pattern.turn += 10 // angle
@@ -129,15 +129,6 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
   randomState(key: any): PATTERN_CHART {
     const op: any = this.options
     return op[key][parseInt(String(Math.random() * op[key].length))]
-  }
-  drawText(op: Required<PatternOptionsType>) {
-    this.ctx.save()
-    this.ctx.beginPath()
-    this.ctx.fillStyle = this.pattern.color
-    const y = op.fontSize + op.textGap
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
-    this.ctx.restore()
   }
   drawShadow() {
     this.ctx.save()

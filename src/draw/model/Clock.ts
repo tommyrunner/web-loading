@@ -47,17 +47,15 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     // Draw clock
     this.drawClock()
   }
-  drawText(h: number, m: number, s: number) {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.clockSize * 2 + op.textGap
-    if (op.textTime === 'time') op.text = `${h} : ${m} : ${s}`
-    if (op.textTime === 's') op.text = this.nowTime + 's'
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
-    this.ctx.restore()
-  }
+  // drawText(h: number, m: number, s: number) {
+  //   const op = this.options
+  //   this.ctx.save()
+  //   this.ctx.beginPath()
+
+  //   this.ctx.fillText(op.text, 0, y)
+  //   this.ctx.closePath()
+  //   this.ctx.restore()
+  // }
   drawClock() {
     const op = this.options
     const s = new Date().getSeconds()
@@ -134,7 +132,9 @@ export default class Clock extends BaseModel<ClockOptionsType> {
       if (this.nowS !== s) this.nowTime++
       this.nowS = s
     }
-    this.drawText(h, m, s)
+    if (op.textTime === 'time') op.text = `${h} : ${m} : ${s}`
+    if (op.textTime === 's') op.text = this.nowTime + 's'
+    this.drawText({ esGap: op.clockSize * 2 })
   }
   setShadow() {
     const op = this.options

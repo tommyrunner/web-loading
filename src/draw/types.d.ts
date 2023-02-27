@@ -1,6 +1,13 @@
 import { OptionsType } from '../types'
 import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, CIRCULAR_ACTION } from './utils'
 
+interface DrawTextParamsType {
+  esGap?: number
+  x?: number
+  text?: string
+  textColor?: string
+}
+
 export interface GearOptionsType extends OptionsType {
   // lineStart
   lineStart?: number

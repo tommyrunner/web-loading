@@ -71,7 +71,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     }
     this.drawCircular()
     this.ctx.restore()
-    this.drawText()
+    this.drawText({ esGap: op.arcSize * 4 + op.arcGap * 2 })
   }
   controller() {
     let op = this.options
@@ -120,14 +120,5 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.arcSize * 4 + op.arcGap * 2 + op.textGap
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
-    this.ctx.restore()
   }
 }

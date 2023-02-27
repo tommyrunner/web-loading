@@ -65,7 +65,8 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
     this.clearRect()
     // Draw zoom
     this.drawZoom()
-    this.drawText()
+    const op = this.options
+    this.drawText({ esGap: op.maxSize, x: (op.lineWidth * (op.zoomNum + 1) + op.zoomGap * (op.zoomNum + 1)) / 2 })
     // technological process
     this.controller()
   }
@@ -110,14 +111,5 @@ export default class Zoom extends BaseModel<ZoomOptionsType> {
       this.ctx.stroke()
       this.ctx.closePath()
     }
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.fontSize + op.maxSize
-    this.ctx.fillText(op.text, (op.lineWidth * (op.zoomNum + 1) + op.zoomGap * (op.zoomNum + 1)) / 2, y)
-    this.ctx.closePath()
-    this.ctx.restore()
   }
 }

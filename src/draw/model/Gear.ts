@@ -52,7 +52,8 @@ export default class Gear extends BaseModel<GearOptionsType> {
     // Draw gear
     this.drawGear()
     // Draw text
-    this.drawText()
+    const op = this.options
+    this.drawText({ esGap: op.lineEnd })
   }
   controller() {
     const op = this.options
@@ -76,16 +77,6 @@ export default class Gear extends BaseModel<GearOptionsType> {
       this.ctx.closePath()
       this.ctx.rotate((2 * Math.PI) / op.lineNum)
     }
-    this.ctx.restore()
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    // Position+text+spacing
-    const y = op.lineEnd + op.fontSize + op.textGap
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
     this.ctx.restore()
   }
   /**

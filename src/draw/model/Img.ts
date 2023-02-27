@@ -28,7 +28,8 @@ export default class Img extends BaseModel<ImageOptionsType> {
   draw() {
     this.clearRect()
     this.drawImg()
-    this.drawText()
+    const op = this.options
+    this.drawText({ esGap: op.height / 2 })
   }
   drawImg() {
     const op = this.options
@@ -38,14 +39,5 @@ export default class Img extends BaseModel<ImageOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
     this.turn += 10
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.fontSize + op.textGap + op.height / 2
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
-    this.ctx.restore()
   }
 }

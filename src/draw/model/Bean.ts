@@ -67,7 +67,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     // Filter Canvas
     this.drawFillter()
     // Draw text
-    this.drawText()
+    this.drawText({ esGap: op.beanSize })
     // technological process
     this.controller()
   }
@@ -122,14 +122,5 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.ctx.shadowOffsetX = op.shadowOffsetX
     this.ctx.shadowOffsetY = op.shadowOffsetY
     this.ctx.shadowBlur = op.shadowBlur
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.fontSize + op.textGap + op.beanSize
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
-    this.ctx.restore()
   }
 }

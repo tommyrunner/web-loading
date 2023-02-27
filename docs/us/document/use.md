@@ -292,6 +292,7 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 | `run`                 | `void` | [run](#basemodel-run)  |
 | `clearRect`           | `void` | [clearRect](#basemodel-clearrect)  |
 | `drowRadiusRect`      | `void` | [drowRadiusRect](#basemodel-drowradiusrect)  |
+| `drawText`      | `void` | [drawText](#basemodel-drawtext)  |
 | `clearAnimationFrame` | `void` | [clearAnimationFrame](#basemodel-clearanimationframe)  |
 
 ### `BaseModel:initContextCall`
@@ -365,12 +366,32 @@ this.clearRect(0,0,10)
 | `h`  | `number` | End Y (height) |
 
 ```typescript
- this.drowRadiusRect(0, 0, 100, 100, 10)
+this.drowRadiusRect(0, 0, 100, 100, 10)
 // Need to draw by yourself
 this.ctx.fill()
 ```
 
 > Draw a rectangle with `x=0, y=0` width and height of `100` and rounded corners of `10`.
+
+### `BaseModel:drawText`
+
+> Draw default text.
+
+| parameter | type     | remarks        |
+| ---- | -------- | ----------- |
+| `params?:`  | [`DrawTextParamsType`](#basemodel-drawtext-drawtextparamstype) | Draw text parameters       |
+### `BaseModel:drawText.DrawTextParamsType`
+
+| parameter | type     | default        | remarks        |
+| ---- | -------- | -------- | ----------- |
+| `esGap`  | `number` | `0`  | Extra text gap (textGap+fontSize)      |
+| `x`  | `number`  | `0` | X-axis       |
+| `text`  | `string`  | `加载中...` | text |
+| `textColor`  | `string`  | `rgba(64,158,255,1)` | text color |
+
+```typescript
+this.drawText()
+```
 
 ### `BaseModel:clearAnimationFrame`
 

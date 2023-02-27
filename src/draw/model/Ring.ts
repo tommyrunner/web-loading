@@ -49,7 +49,8 @@ export default class Ring extends BaseModel<RingOptionsType> {
   draw() {
     this.clearRect()
     this.controller()
-    this.drawText()
+    const op = this.options
+    this.drawText({ esGap: op.ringNum * (op.radius + op.ringGap / 2) })
   }
   controller() {
     this.ctx.save()
@@ -67,15 +68,6 @@ export default class Ring extends BaseModel<RingOptionsType> {
       )
     }
     this.rotate += op.turn
-    this.ctx.restore()
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.ringNum * (op.radius + op.ringGap) + op.textGap
-    this.ctx.fillText(op.text, 0, y)
-    this.ctx.closePath()
     this.ctx.restore()
   }
   drawRing(r: number, arcGap = 1, angle = 0) {

@@ -76,7 +76,8 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.controller()
     this.ctx.restore()
     // Draw text
-    this.drawText()
+    const op = this.options
+    this.drawText({ esGap: op.rollSize })
   }
   selectChart() {
     const op = this.options
@@ -197,15 +198,6 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.ctx.moveTo(-(op.childNum / 2) * (op.rollSize + op.rollGap / 1.6), op.rollSize + 3)
     this.ctx.lineTo((op.childNum / 2) * (op.rollSize + op.rollGap) + op.rollGap / 2, op.rollSize + 3)
     this.ctx.stroke()
-    this.ctx.closePath()
-    this.ctx.restore()
-  }
-  drawText() {
-    const op = this.options
-    this.ctx.save()
-    this.ctx.beginPath()
-    const y = op.fontSize + op.textGap + op.rollSize
-    this.ctx.fillText(op.text, 0, y)
     this.ctx.closePath()
     this.ctx.restore()
   }

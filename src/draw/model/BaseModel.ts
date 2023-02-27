@@ -1,5 +1,6 @@
 import type { OptionsType, LimitType, ElementType } from '../../types'
 import { isNull, clearAnimationFrame, $Log } from '../../utils'
+import { DrawTextParamsType } from '../types'
 export default class BaseModel<T extends OptionsType> {
   w: number
   h: number
@@ -183,5 +184,27 @@ export default class BaseModel<T extends OptionsType> {
     this.ctx.arc(x + r, y + h - r, r, 0.5 * Math.PI, Math.PI)
     this.ctx.lineTo(x, y + r)
     this.ctx.closePath()
+  }
+  /**
+   * 
+   * @param params 
+   * DrawTextParamsType:
+   *    esGap?: Extra void
+        x?: X-axis
+        text?: text
+        textColor?: text color
+   */
+  drawText(params?: DrawTextParamsType) {
+    let pm: Required<DrawTextParamsType> = Object.assign(
+      { esGap: 0, x: 0, text: '加载中...', textColor: 'rgba(64,158,255,1)' },
+      params
+    )
+    const op = this.options
+    this.ctx.save()
+    this.ctx.beginPath()
+    this.ctx.fillStyle = pm.textColor
+    this.ctx.fillText(pm.text, pm.x, (op.textGap || 0) + (op.fontSize || 0) + pm.esGap)
+    this.ctx.closePath()
+    this.ctx.restore()
   }
 }

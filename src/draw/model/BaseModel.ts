@@ -117,7 +117,7 @@ export default class BaseModel<T extends OptionsType> {
       if (limits && limits.length) {
         limits.forEach((l: LimitType) => {
           const mayKey = this.options[l.key as keyof typeof this.options]
-          if (!isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
+          if (isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)
         })
       }
     }

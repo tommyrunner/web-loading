@@ -1,5 +1,5 @@
 export enum CIRCULAR_ACTION {
-  COLLISION = 'Collision',
+  COLLISION = 'collision',
   ROTATE = 'rotate'
 }
 

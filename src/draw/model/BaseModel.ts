@@ -195,11 +195,11 @@ export default class BaseModel<T extends OptionsType> {
         textColor?: text color
    */
   drawText(params?: DrawTextParamsType) {
+    const op = this.options
     let pm: Required<DrawTextParamsType> = Object.assign(
-      { esGap: 0, x: 0, text: '加载中...', textColor: 'rgba(64,158,255,1)' },
+      { esGap: op.textGap || 0, x: 0, text: op.text || '', textColor: op.themeColor || 'rgba(64,158,255,1)' },
       params
     )
-    const op = this.options
     this.ctx.save()
     this.ctx.beginPath()
     this.ctx.fillStyle = pm.textColor

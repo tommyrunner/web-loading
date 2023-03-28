@@ -144,9 +144,9 @@ export function clearAnimationFrame(id: number) {
  */
 export function toType(key: any): string | 'not-type' {
   try {
-    let type = Object.prototype.toString.call(key)
-    let t1 = type.split(' ')[1]
-    let t2 = t1.split(']')[0]
+    const type = Object.prototype.toString.call(key)
+    const t1 = type.split(' ')[1]
+    const t2 = t1.split(']')[0]
     return t2.toLowerCase()
   } catch (e) {
     return 'not-type'
@@ -157,6 +157,27 @@ export function toType(key: any): string | 'not-type' {
  * @returns
  */
 export function createLoadingId() {
-  let id = window.crypto.randomUUID()
+  const id = window.crypto.randomUUID()
   return 'wl_' + id.replace(/-/g, '')
+}
+export enum ZOOM_ACTION {
+  SCALE = 'scale',
+  WAVE = 'wave',
+  HEIGHT = 'height'
+}
+export enum PATTERN_CHART {
+  RECT = 'rect',
+  ARC = 'arc',
+  TRIANGLE = 'triangle',
+  HEART = 'heart',
+  POLYGON = 'polygon'
+}
+export enum ROLL_CHART {
+  RECT = 'rect',
+  WHEEL = 'wheel',
+  WINDMILL = 'windmill'
+}
+export enum CIRCULAR_ACTION {
+  COLLISION = 'collision',
+  ROTATE = 'rotate'
 }

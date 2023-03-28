@@ -1,7 +1,6 @@
 import type { ElementType, LimitType } from '../../types'
 import type { PatternOptionsType } from '../types.d'
-import { PATTERN_CHART } from '../utils'
-import { getDefOptions } from '../../utils'
+import { getDefOptions, PATTERN_CHART } from '../../utils'
 import BaseModel from './BaseModel'
 const modelDefOptions: PatternOptionsType = {
   charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],

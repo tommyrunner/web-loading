@@ -1,6 +1,6 @@
 import type { ElementType } from '../../types'
 import type { CircularOptionsType } from '../types'
-import { CIRCULAR_ACTION } from '../utils'
+import { CIRCULAR_ACTION } from '../../utils'
 import BaseModel from './BaseModel'
 const modelDefOptions: CircularOptionsType = {
   arcSize: 8,

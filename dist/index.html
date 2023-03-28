@@ -17,14 +17,13 @@
         // loading
         let docApp = document.querySelector('#app')
         const webLoading = initLoading({
-          text:"123"
-          // custom: CustomLoading,
-          // size: 20
+          custom: CustomLoading,
+          size: 20
         })
         window.addEventListener('resize', webLoading.resize)
         webLoading.loading(docApp)
         setTimeout(() => {
-          // webLoading.close()
+          webLoading.close()
         }, 1500)
       }</script></body><style>#app {
       margin: 12px;

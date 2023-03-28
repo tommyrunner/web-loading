@@ -1,8 +1,7 @@
 import type { ElementType, LimitType } from '../../types'
 import type { RollOptionsType } from '../types'
-import { getDefOptions } from '../../utils'
+import { getDefOptions, ROLL_CHART } from '../../utils'
 import BaseModel from './BaseModel'
-import { ROLL_CHART } from '../utils'
 const modelDefOptions: RollOptionsType = {
   rollGap: 12,
   childNum: 4,

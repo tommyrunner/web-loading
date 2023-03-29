@@ -114,7 +114,7 @@ export default class BaseModel<T extends OptionsType> {
       this.options = Object.assign(modelDefOptions, this.options)
       this.element.$store.options = this.options
       // Judge whether the attribute value needs to be limited (only for prompt)
-      if (limits && limits.length) {
+      if (limits && limits.length && this.options.toast) {
         limits.forEach((l: LimitType) => {
           const mayKey = this.options[l.key as keyof typeof this.options]
           if (isNull(mayKey) && !l.limit(mayKey)) $Log.warn(l.message)

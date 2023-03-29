@@ -111,6 +111,7 @@ let webLoading = initLoading({
 | `shadowOffsetY?:` | `number`                      | `2`                    | Shadow Y                           |
 | `shadowBlur?:`    | `number`                      | `5`                    | Shadow range                        |
 | `pointerEvents?:` | `boolean`                     | `false`                | Event penetration(**DOM**model)           |
+| `toast?:`         | `boolean`                     | `true`                | Whether to display a prompt           |
 
 + LOADING_TYPES
 

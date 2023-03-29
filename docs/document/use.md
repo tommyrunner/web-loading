@@ -111,6 +111,7 @@ let webLoading = initLoading({
 | `shadowOffsetY?:` | `number`                      | `2`                    | 阴影Y                                  |
 | `shadowBlur?:`    | `number`                      | `5`                    | 阴影范围                               |
 | `pointerEvents?:` | `boolean`                     | `false`                | 事件穿透(**DOM**方式)                  |
+| `toast?:`         | `boolean`                     | `true`                | 是否显示提示                            |
 
 + LOADING_TYPES
 

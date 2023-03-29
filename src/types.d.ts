@@ -41,6 +41,8 @@ export interface OptionsType {
   shadowBlur?: number
   // Event penetration (DOM mode)
   pointerEvents?: boolean
+  // show toast
+  toast?: boolean
 }
 export interface WindowType extends Window {
   BaseModel?: typeof BaseModel

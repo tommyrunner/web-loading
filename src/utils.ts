@@ -57,7 +57,8 @@ export function getDefOptions(): Required<OptionsType> {
     shadowOffsetX: 2,
     shadowOffsetY: 2,
     shadowBlur: 5,
-    pointerEvents: false
+    pointerEvents: false,
+    toast: true
   }
 }
 export enum HOOKSCALL_KEY {
@@ -157,7 +158,8 @@ export function toType(key: any): string | 'not-type' {
  * @returns
  */
 export function createLoadingId() {
-  const id = window.crypto.randomUUID()
+  let id = String(Date.now())
+  if (window.crypto && window.crypto.randomUUID) id = window.crypto.randomUUID()
   return 'wl_' + id.replace(/-/g, '')
 }
 export enum ZOOM_ACTION {

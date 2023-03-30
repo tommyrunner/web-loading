@@ -112,8 +112,9 @@ window.onload = function () {
 
 ```typescript
 import type { LoadingType } from 'web-loading/src/types.d'
+import { LOADING_TYPES } from "web-loading/src/utils";
 let webLoading: LoadingType = initLoading({
-  type: 'mini' // or full
+  type: LOADING_TYPES.MINI // or LOADING_TYPES.FULL
 })
 // start
 webLoading.loading()

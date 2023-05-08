@@ -71,7 +71,7 @@ export default [
   },
   {
     title: '关闭动画延迟',
-    key: 'delayColse',
+    key: 'delayInto',
     type: OPTIONS_TYPE.NUMBER,
     form: OPTIONS_FORM.GG,
     value: 520,

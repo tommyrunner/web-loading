@@ -21,8 +21,8 @@ export interface OptionsType {
   fontFamily?: string
   // delay
   delay?: number
-  // delayColse
-  delayColse?: number
+  // delayInto
+  delayInto?: number
   // optimization
   optimization?: boolean
   // loading Hierarchy

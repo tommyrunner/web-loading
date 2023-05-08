@@ -45,7 +45,7 @@ console.log(webLoading)
 + 参数：无
 + 返回：void
 
-> `close`首先会清空所有`WebLoading`的`store`以及其他记录，并停止`requestAnimationFrame`调用，最后根据`delayColse`清除相关元素，关闭过程中`WebLoading`会使用`hookCall`触发`hook`关闭**钩子函数**(`BEFORE_COLSE`:关闭前，`COLSED`：关闭后，也就是清除元素后)，以便于绘制**model**。
+> `close`首先会清空所有`WebLoading`的`store`以及其他记录，并停止`requestAnimationFrame`调用，最后根据`delayInto`清除相关元素，关闭过程中`WebLoading`会使用`hookCall`触发`hook`关闭**钩子函数**(`BEFORE_COLSE`:关闭前，`COLSED`：关闭后，也就是清除元素后)，以便于绘制**model**。
 
 ### update
 
@@ -101,7 +101,7 @@ let webLoading = initLoading({
 | `fontSize?:`      | `number`                      | `12`                   | 字体大小                               |
 | `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | 字体类型                               |
 | `delay?:`         | `number`                      | `65`                   | 动画延迟                               |
-| `delayColse?:`    | `number`                      | `520`                  | 关闭动画延迟                           |
+| `delayInto?:`    | `number`                      | `520`                  | 关闭动画延迟                           |
 | `optimization?:`  | `boolean`                     | `false`                | 优化处理（暂不支持）                   |
 | `zIndex?:`        | `string`                      | `2001`                 | loading层级                            |
 | `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | 主题色                                 |

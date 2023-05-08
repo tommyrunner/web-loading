@@ -48,7 +48,7 @@ export function getDefOptions(): Required<OptionsType> {
     fontSize: 12,
     fontFamily: 'Microsoft YaHei',
     delay: 65,
-    delayColse: 520,
+    delayInto: 520,
     optimization: false,
     zIndex: '2001',
     themeColor: 'rgba(64,158,255,1)',

@@ -45,7 +45,7 @@ console.log(webLoading)
 + Parameter: None
 + Return: void
 
->`close` will first clear all `stores` and other records of` WebLoading `, and stop the` requestAnimationFrame `call, and finally clear the relevant elements according to` delayColse `. During the closing process,` WebLoading `will use` hookCall `to trigger the` hook `to close **hook function** (` BEFORE _COLSE `: before closing,` COLSED `: after closing, that is, after clearing the elements) to facilitate the drawing of **model**.
+>`close` will first clear all `stores` and other records of` WebLoading `, and stop the` requestAnimationFrame `call, and finally clear the relevant elements according to` delayInto `. During the closing process,` WebLoading `will use` hookCall `to trigger the` hook `to close **hook function** (` BEFORE _COLSE `: before closing,` COLSED `: after closing, that is, after clearing the elements) to facilitate the drawing of **model**.
 
 ### update
 
@@ -101,7 +101,7 @@ let webLoading = initLoading({
 | `fontSize?:`      | `number`                      | `12`                   | Font size                        |
 | `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | Font type                        |
 | `delay?:`         | `number`                      | `65`                   | Animation delay                        |
-| `delayColse?:`    | `number`                      | `520`                  | Turn off animation delay                    |
+| `delayInto?:`    | `number`                      | `520`                  | Turn off animation delay                    |
 | `optimization?:`  | `boolean`                     | `false`                | Optimization processing (not supported temporarily)            |
 | `zIndex?:`        | `string`                      | `2001`                 | Loading level                     |
 | `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | Theme color                          |

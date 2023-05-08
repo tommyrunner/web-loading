@@ -55,7 +55,7 @@ export default class WebLoading {
           this.htmlElement.style.height = `${h}px`
         }
         this.resizeTimeId = null
-      }, this.options.delayColse)
+      }, this.options.delayInto)
   }
   /**
    * Turn off animation
@@ -89,7 +89,7 @@ export default class WebLoading {
       this.callEvent(HOOKSCALL_KEY.COLSED)
       // Callback after closing
       this.hooks = this.initHooksCall()
-    }, op.delayColse)
+    }, op.delayInto)
   }
 
   private initCanvas() {
@@ -140,12 +140,12 @@ export default class WebLoading {
     animaEl.id = loadingId
     if ($window.document.styleSheets[0]) $window.document.styleSheets[0].insertRule(style)
     else $Log.warn('The $window.document has not been loaded yet,You can try to use onload')
-    animaEl.style.animation = `wl_show ${op.delayColse / 1000}s linear`
+    animaEl.style.animation = `wl_show ${op.delayInto / 1000}s linear`
     contentStyle.position = 'absolute'
     contentStyle.left = `${op.pointerEvents ? 0 : element.scrollLeft}px`
     contentStyle.top = `${op.pointerEvents ? 0 : element.scrollTop}px`
     contentStyle.zIndex = op.zIndex
-    contentStyle.transition = `${op.delayColse / 1000}s`
+    contentStyle.transition = `${op.delayInto / 1000}s`
     contentStyle.backgroundColor = op.bgColor
     contentStyle.borderRadius = readElementStyle.borderRadius
     // Set canvas size

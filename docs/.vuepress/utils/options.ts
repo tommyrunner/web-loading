@@ -70,7 +70,7 @@ export default [
     max: 500
   },
   {
-    title: '关闭动画延迟',
+    title: '关闭/进入 动画延迟',
     key: 'delayInto',
     type: OPTIONS_TYPE.NUMBER,
     form: OPTIONS_FORM.GG,

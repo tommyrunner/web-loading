@@ -101,7 +101,7 @@ let webLoading = initLoading({
 | `fontSize?:`      | `number`                      | `12`                   | Font size                        |
 | `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | Font type                        |
 | `delay?:`         | `number`                      | `65`                   | Animation delay                        |
-| `delayInto?:`    | `number`                      | `520`                  | Turn off animation delay                    |
+| `delayInto?:`    | `number`                      | `520`                  | Turn off/enter animation delay                    |
 | `optimization?:`  | `boolean`                     | `false`                | Optimization processing (not supported temporarily)            |
 | `zIndex?:`        | `string`                      | `2001`                 | Loading level                     |
 | `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | Theme color                          |

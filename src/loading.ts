@@ -3,8 +3,10 @@ import ExtendLoading from './ExtendLoading'
 import type { OptionsType, LoadingType, ElementType } from './types.d'
 import { LOADING_TYPES, getDefOptions, $Log } from './utils'
 import drawController from './draw/index'
+const $window = window
 export default function initLoading(options?: OptionsType): LoadingType {
   const webLoading = new WebLoading(options)
+  let feelPromiseResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null
   const resize = () => {
     utlWL('resize')
   }
@@ -12,13 +14,28 @@ export default function initLoading(options?: OptionsType): LoadingType {
     // Keep the last passed in parameter
     const op = Object.assign(webLoading.options, options)
     // Prevent duplicate registration
-    if (!webLoading.loadingId) {
+    if (!webLoading.loadingId && !feelPromiseResolve) {
       // Create extended dom
       if (op.type !== LOADING_TYPES.DOM) {
         dom = new ExtendLoading(op).getElement() as ElementType
       }
       if (!dom) $Log.error('The loading function cannot find an HTMLElement element!')
-      else webLoading.draw(dom)
+      else {
+        // Processing Senseless Loading through rece
+        const loadingPromise = new Promise<boolean>((res) => {
+          // If the time of notFeed exceeds the close time, it is considered as an insensitive load
+          $window.setTimeout(() => {
+            res(true)
+          }, op.notFeel)
+        })
+        const feelPromise = new Promise<boolean>((res) => {
+          feelPromiseResolve = res
+        })
+        Promise.race([loadingPromise, feelPromise]).then((res) => {
+          if (res) webLoading.draw(dom)
+          feelPromiseResolve = null
+        })
+      }
     }
   }
   const update = (options?: OptionsType) => {
@@ -29,6 +46,7 @@ export default function initLoading(options?: OptionsType): LoadingType {
       drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, op, element)
   }
   const close = () => {
+    feelPromiseResolve && feelPromiseResolve(false)
     utlWL('close')
   }
   // Throw basic information

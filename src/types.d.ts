@@ -23,6 +23,8 @@ export interface OptionsType {
   delay?: number
   // delayInto
   delayInto?: number
+  // Senseless refresh
+  notFeel?: number
   // optimization
   optimization?: boolean
   // loading Hierarchy

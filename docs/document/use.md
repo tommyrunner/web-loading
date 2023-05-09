@@ -102,6 +102,7 @@ let webLoading = initLoading({
 | `fontFamily?:`    | `string`                      | `Microsoft YaHei`      | 字体类型                               |
 | `delay?:`         | `number`                      | `65`                   | 动画延迟                               |
 | `delayInto?:`    | `number`                      | `320`                  | 进入/关闭 动画延迟                           |
+| `notFeel` | `number` | `0` | 无感刷新(300：300毫秒以内调用close不绘制loading) |
 | `optimization?:`  | `boolean`                     | `false`                | 优化处理（暂不支持）                   |
 | `zIndex?:`        | `string`                      | `2001`                 | loading层级                            |
 | `themeColor?:`    | `string`                      | `rgba(64,158,255,1)`   | 主题色                                 |

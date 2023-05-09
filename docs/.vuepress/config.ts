@@ -16,7 +16,7 @@ export default {
   locales: {
     '/': {
       lang: 'zh-CN',
-      description: 'web 加载动画'
+      description: 'web 加载动画(支持无感刷新)'
     },
     '/us/': {
       lang: 'en-US',

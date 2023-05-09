@@ -79,6 +79,15 @@ export default [
     max: 10000
   },
   {
+    title: '无感刷新',
+    key: 'notFeel',
+    type: OPTIONS_TYPE.NUMBER,
+    form: OPTIONS_FORM.GG,
+    value: 0,
+    min: 0,
+    max: 5000
+  },
+  {
     title: '层级',
     key: 'zIndex',
     type: OPTIONS_TYPE.STRING,

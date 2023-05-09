@@ -1,16 +1,9 @@
-import type { ElementType, HooksCallType, OptionsType } from '../types'
+import type { ElementType, OptionsType } from '../types'
 import type { HooksType } from './type'
-import {
-  LOADING_TYPES,
-  toType,
-  getDefOptions,
-  clearAnimationFrame,
-  $Log,
-  HOOKSCALL_KEY,
-  createLoadingId,
-  onTransitionEndEvent
-} from '../utils'
+import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log, HOOKSCALL_KEY, onTransitionEndEvent } from '../utils'
 import drawController from '../draw/index'
+import { initStore, initHooksCall, initCanvas, initHtml } from './init'
+import { initContentStyle, setupCanvas, clearStyle } from './style'
 const $window = window
 export default class WebLoading {
   // canvas animation elements
@@ -48,7 +41,7 @@ export default class WebLoading {
           h = element.offsetHeight
         }
         if (this.canvas) {
-          this.setupCanvas(canvas, w, h)
+          setupCanvas(canvas, w, h)
           if (element.$store) drawController(w, h, canvas, this.options, element)
         } else if (this.htmlElement) {
           this.htmlElement.style.width = `${w}px`
@@ -68,7 +61,7 @@ export default class WebLoading {
     $window.setTimeout(
       () => {
         // Trigger Close Animation
-        this.clearStyle(element, animaEl)
+        clearStyle(element, op, animaEl)
         if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
           element.style.pointerEvents = 'auto'
         }
@@ -92,7 +85,7 @@ export default class WebLoading {
           // Callback after closing
           this.callEvent(HOOKSCALL_KEY.COLSED)
           // Callback after closing
-          this.hooks = this.initHooksCall()
+          this.hooks = initHooksCall()
         })
       },
       // If the seconds are off, it is necessary to actively add a delay
@@ -100,94 +93,6 @@ export default class WebLoading {
     )
   }
 
-  private initCanvas() {
-    this.canvas = $window.document.createElement('canvas')
-    this.hooks = this.initHooksCall()
-    this.loadingId = createLoadingId()
-    return {
-      canvas: this.canvas,
-      hooks: this.hooks,
-      loadingId: this.loadingId
-    }
-  }
-  private initHtml() {
-    const op = this.options
-    // Create container
-    this.htmlElement = $window.document.createElement('div')
-    // Add content
-    this.htmlElement.innerHTML = op.html
-    this.loadingId = createLoadingId()
-    return {
-      content: this.htmlElement,
-      loadingId: this.loadingId
-    }
-  }
-  private clearStyle(element: ElementType, canvas: HTMLCanvasElement | HTMLDivElement) {
-    // First visual transition
-    canvas.style.opacity = '0'
-    // Clear Extension
-    if (this.options.type !== LOADING_TYPES.DOM) {
-      element.style.boxShadow = 'none'
-    }
-  }
-  private initContentStyle(element: ElementType, loadingId: string, animaEl: HTMLCanvasElement | HTMLDivElement) {
-    const op = this.options
-    // The client takes the true width and height. If penetration is enabled, the rolling width and height are taken
-    const elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth,
-      elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight,
-      readElementStyle = $window.getComputedStyle(element),
-      elementStyle = element.style,
-      contentStyle = animaEl.style
-    if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
-      element.style.pointerEvents = 'none'
-    }
-    if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
-    // Initialize canvas style
-    animaEl.id = loadingId
-    contentStyle.opacity = '0'
-    contentStyle.position = 'absolute'
-    contentStyle.left = `${op.pointerEvents ? 0 : element.scrollLeft}px`
-    contentStyle.top = `${op.pointerEvents ? 0 : element.scrollTop}px`
-    contentStyle.zIndex = op.zIndex
-    contentStyle.transition = `${op.delayInto / 1000}s ease-in-out`
-    contentStyle.backgroundColor = op.bgColor
-    contentStyle.borderRadius = readElementStyle.borderRadius
-    // Set canvas size
-    if (toType(animaEl) === 'htmlcanvaselement') {
-      this.setupCanvas(animaEl as HTMLCanvasElement, elementW, elementH)
-    } else if (toType(animaEl) === 'htmldivelement') {
-      // Initialize compatible html styles
-      contentStyle.width = `${elementW}px`
-      contentStyle.height = `${elementH}px`
-      // Center
-      contentStyle.display = 'flex'
-      contentStyle.alignItems = 'center'
-      contentStyle.justifyContent = 'center'
-    }
-    // injection
-    element.append(animaEl)
-    this.element = element
-    // Trigger to enter animation
-    $window.setTimeout(() => (contentStyle.opacity = '1'), 0)
-    onTransitionEndEvent(element, () => {
-      // Wait for all elements to appear and complete (animation ends)
-      element.$store.loadingId = loadingId
-    })
-  }
-  /**
-   * Handle the amplification distortion. At the same time,
-   * changing the height and width will also reset all contents of the canvas.
-   * @param canvas
-   * @param w
-   * @param h
-   */
-  private setupCanvas(canvas: HTMLCanvasElement, w: number, h: number) {
-    const dpr = $window.devicePixelRatio || 1
-    canvas.width = w * dpr
-    canvas.height = h * dpr
-    canvas.style.width = `${w}px`
-    canvas.style.height = `${h}px`
-  }
   /**
    * Draw animation
    * @param element Container element
@@ -197,53 +102,26 @@ export default class WebLoading {
     // Compatible with html
     if (op.html) {
       // Initialize basic data
-      const initValue = this.initHtml()
+      const { content, loadingId } = initHtml()
+      this.htmlElement = content
+      this.htmlElement.innerHTML = op.html
+      this.loadingId = loadingId
       // Initialize style
-      this.initContentStyle(element, initValue.loadingId, initValue.content)
+      this.element = initContentStyle(element, op, loadingId, content)
     } else {
       // Initialize basic data
-      const initValue = this.initCanvas()
+      const { canvas, hooks, loadingId } = initCanvas()
+      this.canvas = canvas
+      this.hooks = hooks
+      this.loadingId = loadingId
       // Initialize store
-      this.initStore(element, initValue.hooks)
+      initStore(element, op, hooks)
       // Initialize style
-      this.initContentStyle(element, initValue.loadingId, initValue.canvas)
+      this.element = initContentStyle(element, op, loadingId, canvas)
       if (element.$store) {
-        const canvas = initValue.canvas
         drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element)
       } else {
         $Log.error('WebLoading:canvas or ctx null')
-      }
-    }
-  }
-  /**
-   * Initialize $store
-   * @param element Container element
-   * @param hooks Hook function
-   */
-  private initStore(element: ElementType, hooks: HooksType) {
-    // Storage status
-    element.$store = {
-      options: this.options,
-      animationId: undefined,
-      loadingId: null,
-      model: null,
-      hookCall: this.initStoreHooksCall(hooks)
-    }
-  }
-  private initHooksCall(): HooksType {
-    return {
-      [HOOKSCALL_KEY.BEFORE_COLSE]: [],
-      [HOOKSCALL_KEY.COLSED]: []
-    }
-  }
-  // Initialize hooks
-  private initStoreHooksCall(hooks: HooksType): HooksCallType {
-    return {
-      [HOOKSCALL_KEY.BEFORE_COLSE]: (fun: Function) => {
-        hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun)
-      },
-      [HOOKSCALL_KEY.COLSED]: (fun: (params?: any) => any) => {
-        hooks[HOOKSCALL_KEY.COLSED].push(fun)
       }
     }
   }

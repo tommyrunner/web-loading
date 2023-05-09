@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>web-loading</title><script defer="defer" src="main.js"></script><script defer="defer" src="main.js"></script></head><body><div id="app"><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div></div><button id="open">开</button> <button id="close">开</button><script src="https://cdn.jsdelivr.net/npm/web-loading"></script><script>window.onload = () => {
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>web-loading</title><script defer="defer" src="main.js"></script><script defer="defer" src="main.js"></script></head><body><div id="app"><div class="item"><div>id: <span class="value">001</span></div><div>user: <span class="value">use1</span></div></div></div><script src="https://cdn.jsdelivr.net/npm/web-loading"></script><script>window.onload = () => {
         // encapsulation
         let modelDefOptions = {
           size: 10
@@ -25,12 +25,6 @@
         setTimeout(() => {
           webLoading.close()
         }, 1500)
-        document.getElementById('open').onclick = function () {
-          webLoading.loading(docApp)
-        }
-        document.getElementById('close').onclick = function () {
-          webLoading.close()
-        }
       }</script></body><style>#app {
       margin: 12px;
       padding: 12px;

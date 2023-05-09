@@ -15,7 +15,7 @@ export default class BaseModel<T extends OptionsType> {
   // Provides Callback function for model initialization
   modelDefCall: ((model: BaseModel<T>) => void) | undefined = undefined
   webLog: $Log = $Log
-  private stepClear: number = 1
+  private stepClear = 1
   /**
    * Custom BaseModel
    * @param w Canvas width
@@ -196,7 +196,7 @@ export default class BaseModel<T extends OptionsType> {
    */
   drawText(params?: DrawTextParamsType) {
     const op = this.options
-    let pm: Required<DrawTextParamsType> = Object.assign(
+    const pm: Required<DrawTextParamsType> = Object.assign(
       { esGap: op.textGap || 0, x: 0, text: op.text || '', textColor: op.themeColor || 'rgba(64,158,255,1)' },
       params
     )

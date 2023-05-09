@@ -27,8 +27,8 @@ export default class Bean extends BaseModel<CircularOptionsType> {
   ) {
     super(w, h, canvas, options, element, modelDefOptions)
     // Initialize data
-    let op = this.options
-    let gap = op.arcSize * 2 + op.arcGap
+    const op = this.options
+    const gap = op.arcSize * 2 + op.arcGap
     this.collsionPoint = [
       {
         key: 0,
@@ -61,7 +61,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
   draw() {
     this.clearRect()
     this.ctx.save()
-    let op = this.options
+    const op = this.options
     // technological process
     if (op.action === CIRCULAR_ACTION.COLLISION) this.controller()
     // rotate
@@ -74,7 +74,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     this.drawText({ esGap: op.arcSize * 4 + op.arcGap * 2 })
   }
   controller() {
-    let op = this.options
+    const op = this.options
     this.collsionPoint.forEach((cp: any) => {
       let key = 'y'
       switch (cp.key) {
@@ -91,7 +91,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
           key = 'x'
           break
       }
-      let gap = op.arcSize * 2 + op.arcGap
+      const gap = op.arcSize * 2 + op.arcGap
       if (cp[key] === -gap) cp.state = true
       if (cp[key] === gap) cp.state = false
       if (cp.state) cp[key]++
@@ -99,12 +99,12 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     })
   }
   drawCircular() {
-    let op = this.options
+    const op = this.options
     this.collsionPoint.forEach((cp, index) => {
       this.ctx.save()
       this.ctx.beginPath()
       if (op.arcColors[index]) {
-        let color = op.arcColors[index]
+        const color = op.arcColors[index]
         this.setShadow(color)
         this.ctx.fillStyle = color
       }

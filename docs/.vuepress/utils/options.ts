@@ -74,7 +74,7 @@ export default [
     key: 'delayInto',
     type: OPTIONS_TYPE.NUMBER,
     form: OPTIONS_FORM.GG,
-    value: 520,
+    value: 320,
     min: 65,
     max: 10000
   },

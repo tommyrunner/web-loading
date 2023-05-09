@@ -48,7 +48,7 @@ export function getDefOptions(): Required<OptionsType> {
     fontSize: 12,
     fontFamily: 'Microsoft YaHei',
     delay: 65,
-    delayInto: 520,
+    delayInto: 320,
     optimization: false,
     zIndex: '2001',
     themeColor: 'rgba(64,158,255,1)',
@@ -151,6 +151,35 @@ export function toType(key: any): string | 'not-type' {
     return t2.toLowerCase()
   } catch (e) {
     return 'not-type'
+  }
+}
+/**
+ * Listening to animation end function
+ * @param el element
+ * @param fun Execute Function
+ */
+export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
+  let transitionsName: string | null = null
+  const transitions: { [key in string]: string } = {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd'
+  }
+  for (const t in transitions) {
+    if (el.style[t as any] !== undefined) {
+      transitionsName = transitions[t]
+      break
+    }
+  }
+  if (!transitionsName) {
+    fun()
+  } else {
+    const transitionFun = () => {
+      fun()
+      el.removeEventListener(transitionsName as string, transitionFun)
+    }
+    el.addEventListener(transitionsName, transitionFun)
   }
 }
 /**

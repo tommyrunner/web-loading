@@ -43,7 +43,7 @@ export default function initLoading(options?: OptionsType): LoadingType {
       if (webLoading.htmlElement) temEl = webLoading.htmlElement
       // set up
       if (temEl) webLoading[key](webLoading.element, temEl)
-      else $Log.warn("Animation element not found!")
+      else $Log.warn('Animation element not found!')
     }
   }
   return {

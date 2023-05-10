@@ -1,6 +1,6 @@
 {
   "name": "web-loading",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "main": "./dist/main.js",
   "scripts": {
     "docs": "docs.sh",
@@ -12,14 +12,12 @@
     "@vuepress/plugin-register-components": "^2.0.0-beta.61",
     "element-plus": "^2.3.4",
     "highlight.js": "^11.8.0",
-    "vuepress": "^2.0.0-beta.61"
+    "t-point-sdk": "^2.2.1",
+    "vuepress": "^2.0.0-beta.61",
+    "web-loading": "^1.4.2"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/tommyrunner/web-loading.git"
-  },
-  "dependencies": {
-    "t-point-sdk": "^2.2.1",
-    "web-loading": "^1.4.0"
   }
 }

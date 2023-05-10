@@ -94,7 +94,7 @@ let webLoading = initLoading({
 | `html?:` | `string` | `''` | **Html ** loading method (**priority is higher than custom**) |
 | `custom?:`        | `typeof BaseModel or null`                         | `null`                 | Custom **model** (**has the highest priority**) |
 | `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | Start mode                        |
-| `miniClass?:`     | `string or null or undefined` | `mini`                 | Start by**MINI**is**class** |
+| `extendClass?:`     | `string or null or undefined` | `mini`                 | Start by**MINI**is**class** |
 | `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | Model module                       |
 | `text?:`          | `string`                      | `加载中...`            | Font content                        |
 | `textGap?:`       | `number`                      | `8`                    | Font spacing                        |

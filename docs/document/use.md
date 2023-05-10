@@ -94,7 +94,7 @@ let webLoading = initLoading({
 | `html?:`          | `string`                      | `''`                   | **html**加载方式(**优先级大于custom**) |
 | `custom?:`        | `typeof BaseModel 或 null`                         | `null`                 | 自定义**model**(**优先级大于model**)   |
 | `type?:`          | `LOADING_TYPES`               | `LOADING_TYPES.DOM`    | 启动方式                               |
-| `miniClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class**        |
+| `extendClass?:`     | `string 或 null 或 undefined` | `mini`                 | 启动方式为**MINI**时的**class**        |
 | `model?:`         | `MODEL_TYPES`                 | `MODEL_TYPES.RING`     | model模块                              |
 | `text?:`          | `string`                      | `加载中...`            | 字体内容                               |
 | `textGap?:`       | `number`                      | `8`                    | 字体间距                               |

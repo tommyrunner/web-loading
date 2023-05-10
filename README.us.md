@@ -1,5 +1,11 @@
 # guide
 
+> Recent changes:
+>
+> + New Senseless Refresh
+> + Optimize source code
+> + Resolve the second flash screen bug
+
 ## introduce
 
 There are many ways to implement loading on the Web, such as using `css` animation,`js` operation element, `gif` image, `svg` animation, and `loading` in the `ui` framework. Each has its own advantages. The operation element may be more convenient, but it will affect performance or other elements. The dynamic image performance is good, but the customization is not ideal.

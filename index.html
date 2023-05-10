@@ -39,15 +39,17 @@
         }
         // loading
         let docApp = document.querySelector('#app')
-        const webLoading = initLoading({
-          custom: CustomLoading,
-          size: 20
+        const webLoading = fullLoading({
+          // custom: CustomLoading,
+          model:'Ring',
+          notFeel: 1000,
+          // size: 20
         })
         window.addEventListener('resize', webLoading.resize)
         webLoading.loading(docApp)
         setTimeout(() => {
           webLoading.close()
-        }, 1500)
+        }, 300)
       }
     </script>
   </body>

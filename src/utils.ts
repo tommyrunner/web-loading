@@ -41,7 +41,7 @@ export function getDefOptions(): Required<OptionsType> {
     custom: null,
     html: '',
     type: LOADING_TYPES.DOM,
-    miniClass: 'mini',
+    extendClass: 'extend',
     model: MODEL_TYPES.GEAR,
     text: '加载中...',
     textGap: 8,

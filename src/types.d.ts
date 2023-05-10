@@ -6,7 +6,7 @@ export interface OptionsType {
   // loading Startup mode (default DEF) [read-only]
   type?: LOADING_TYPES
   // Class of mini mode
-  miniClass?: string | null | undefined
+  extendClass?: string | null | undefined
   // models
   model?: MODEL_TYPES
   // Html load content

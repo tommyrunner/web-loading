@@ -33,6 +33,10 @@ export default function initLoading(options?: OptionsType): LoadingType {
         })
         Promise.race([loadingPromise, feelPromise]).then((res) => {
           if (res) webLoading.draw(dom)
+          else {
+            // Process extended dom
+            if (op.type !== LOADING_TYPES.DOM) dom.remove()
+          }
           feelPromiseResolve = null
         })
       }

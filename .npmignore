@@ -1,7 +1,8 @@
-/src
-/temp
-/lib
-/.eslint*
+src
+temp
+lib
+.eslint*
+docs
 api-extractor.json
 rollup.config*
 tsconfig*

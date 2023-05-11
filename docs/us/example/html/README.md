@@ -37,8 +37,8 @@ let webLoading = null
 // 初始化基础数据
 initData()
 onMounted(() => {
-  import('web-loading/src/loading').then((res) => {
-    webLoading = res.default()
+  import('web-loading').then((params) => {
+    webLoading = params.initLoading()
     onLoading()
   })
 })

@@ -14,7 +14,7 @@
     "highlight.js": "^11.8.0",
     "t-point-sdk": "^2.2.1",
     "vuepress": "^2.0.0-beta.61",
-    "web-loading": "^1.4.5"
+    "web-loading": "^1.4.13"
   },
   "repository": {
     "type": "git",

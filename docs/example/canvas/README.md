@@ -56,7 +56,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { LOADING_TYPES, MODEL_TYPES } from 'web-loading/src/utils'
+import { LOADING_TYPES, MODEL_TYPES } from 'web-loading'
 import 'element-plus/dist/index.css'
 import {
   ElCard,
@@ -94,8 +94,8 @@ const getOptions = computed(() => {
 // 初始化基础数据
 initData()
 onMounted(() => {
-  import('web-loading/src/loading').then((res) => {
-    webLoading = res.default()
+  import('web-loading').then((params) => {
+    webLoading = params.initLoading()
     isShowSkeleton.value = false
     onLoading()
   })

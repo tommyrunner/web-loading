@@ -7,8 +7,8 @@
 > Whether it is `DOM`, `FULL `or `MINI `, it will eventually go to `WebLoading`.
 
 ```typescript
-import { LoadingType } from "web-loading/src/types.d";
-import initLoading from 'web-loading/src/loading'
+import type { LoadingType } from "web-loading";
+import { initLoading } from 'web-loading'
 let webLoading:LoadingType = initLoading({})
 console.log(webLoading)
 ```
@@ -80,8 +80,7 @@ console.log(webLoading)
 ## options
 
 ```typescript
-import { MODEL_TYPES } from "web-loading/src/utils";
-import initLoading from 'web-loading/src/loading'
+import { initLoading, MODEL_TYPES } from "web-loading";
 let webLoading = initLoading({
     model:MODEL_TYPES.GEAR
 })
@@ -137,8 +136,8 @@ let webLoading = initLoading({
 + custom
 
 ```typescript
-import type { OptionsType, LimitType, ElementType } from "web-loading/src/types.d";
-import BaseModel from "web-loading/src/draw/model/BaseModel";
+import type { OptionsType, LimitType, ElementType } from "web-loading";
+import { BaseModel } from "web-loading";
 // 1?.If options in the model need custom parameters, define options type
 interface CustomOptionsType extends OptionsType {
   size?: number;
@@ -187,8 +186,8 @@ class CustomLoading extends BaseModel<CustomOptionsType> {
 + loading
 
 ```typescript
-import { LoadingType } from "web-loading/src/types.d";
-import initLoading from "web-loading/src/loading";
+import type { LoadingType, CustomOptionsType } from "web-loading";
+import { initLoading, BaseModel } from 'web-loading'
 let dom = document.querySelector("xxx");
 // configuration parameter
 let options: CustomOptionsType = {
@@ -429,7 +428,7 @@ this.run(()=>{
 ### initialization
 
 ```ts
-import initLoading from 'web-loading/src/loading'
+import { initLoading } from 'web-loading'
 let webLoading = initLoading({
     html:`<div class="spinner">
     <svg viewBox="25 25 50 50" class="circular">

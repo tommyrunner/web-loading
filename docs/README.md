@@ -50,10 +50,10 @@ onMounted(()=>{
     occImgRef.value.classList.add('show-img') 
   },300)
   // 该插件用到了操作dom，只能异步引入
-  import('web-loading/src/loading').then((initLoading) => {
+  import('web-loading').then((params) => {
     clearTimeout(callTime)
     occImgRef.value.classList.add('hide-img') 
-    webLoading =  initLoading.default(getOption())
+    webLoading =  params.initLoading(getOption())
     webLoading.loading(occRef.value)
   })
   // 初始化埋点

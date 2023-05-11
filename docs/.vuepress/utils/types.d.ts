@@ -1,4 +1,4 @@
-import { MODEL_TYPES } from 'web-loading/src/utils'
+import { MODEL_TYPES } from 'web-loading'
 import { OPTIONS_FORM, OPTIONS_TYPE } from './enum'
 export interface OptionsItemsModelType {
   GEAR: 'Gear'

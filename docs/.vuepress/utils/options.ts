@@ -1,5 +1,5 @@
 import type { OptionsType } from './types'
-import { MODEL_TYPES, LOADING_TYPES } from 'web-loading/src/utils'
+import { MODEL_TYPES, LOADING_TYPES } from 'web-loading'
 import {
   ZOOM_ACTION,
   OPTIONS_TYPE,

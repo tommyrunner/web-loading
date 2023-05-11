@@ -81,7 +81,6 @@ export enum LOG_TYPES {
  * @param message - content
  * @param config - to configure
  */
-/** @public */
 export class $Log {
   static info(message: string) {
     this.call(message, LOG_TYPES.INFO)
@@ -119,7 +118,7 @@ export class $Log {
  * @param value - Judgment value
  * @returns boolean
  */
-/** @public */
+/** @function */
 export function isNull(value: any): value is boolean | Function {
   switch (toType(value)) {
     case 'object':
@@ -138,7 +137,7 @@ export function isNull(value: any): value is boolean | Function {
  * empty aniamtions
  * @param id -
  */
-/** @public */
+/** @function */
 export function clearAnimationFrame(id: number) {
   if (!window.requestAnimationFrame) {
     window.clearInterval(id)
@@ -151,7 +150,6 @@ export function clearAnimationFrame(id: number) {
  * @param key -
  * @returns
  */
-/** @public */
 export function toType(key: any): string | 'not-type' {
   try {
     const type = Object.prototype.toString.call(key)
@@ -167,7 +165,6 @@ export function toType(key: any): string | 'not-type' {
  * @param el - element
  * @param fun - Execute Function
  */
-/** @public */
 export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
   let transitionsName: string | null = null
   const transitions: { [key in string]: string } = {
@@ -196,7 +193,6 @@ export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
  * Create a unique loadingid
  * @returns
  */
-/** @public */
 export function createLoadingId() {
   let id = String(Date.now())
   if (window.crypto && window.crypto.randomUUID) id = window.crypto.randomUUID()

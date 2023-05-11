@@ -53,7 +53,7 @@ function replaceDev(format, minify) {
 function createOption(format, minify) {
   const name = `web-loading${format === 'umd' ? '' : `.${format}`}${minify ? '.min' : ''}.js`
   return {
-    input: join(__dirname, 'lib/main.js'),
+    input: join(__dirname, 'lib/index.js'),
     plugins: [
       rollupNodeResolve({
         mainFields: ['browser', 'module', 'main']

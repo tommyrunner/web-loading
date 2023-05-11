@@ -8,17 +8,17 @@
      * Supported loading methods
      */
     /** @public */
-    var LOADING_TYPES;
+    exports.LOADING_TYPES = void 0;
     (function (LOADING_TYPES) {
         LOADING_TYPES["DOM"] = "dom";
         LOADING_TYPES["FULL"] = "full";
         LOADING_TYPES["MINI"] = "mini";
-    })(LOADING_TYPES || (LOADING_TYPES = {}));
+    })(exports.LOADING_TYPES || (exports.LOADING_TYPES = {}));
     /**
      * Supported models
      */
     /** @public */
-    var MODEL_TYPES;
+    exports.MODEL_TYPES = void 0;
     (function (MODEL_TYPES) {
         // Gear
         MODEL_TYPES["GEAR"] = "Gear";
@@ -40,7 +40,7 @@
         MODEL_TYPES["IMG"] = "Img";
         // SKELETON
         MODEL_TYPES["SKELETON"] = "Skeleton";
-    })(MODEL_TYPES || (MODEL_TYPES = {}));
+    })(exports.MODEL_TYPES || (exports.MODEL_TYPES = {}));
     /**
      *
      * @returns Return to default configuration
@@ -50,9 +50,9 @@
         return {
             custom: null,
             html: '',
-            type: LOADING_TYPES.DOM,
+            type: exports.LOADING_TYPES.DOM,
             extendClass: 'extend',
-            model: MODEL_TYPES.GEAR,
+            model: exports.MODEL_TYPES.GEAR,
             text: '加载中...',
             textGap: 8,
             fontSize: 12,
@@ -73,38 +73,37 @@
         };
     }
     /** @public */
-    var HOOKSCALL_KEY;
+    exports.HOOKSCALL_KEY = void 0;
     (function (HOOKSCALL_KEY) {
         HOOKSCALL_KEY["BEFORE_COLSE"] = "beforeColse";
         HOOKSCALL_KEY["COLSED"] = "colsed";
-    })(HOOKSCALL_KEY || (HOOKSCALL_KEY = {}));
+    })(exports.HOOKSCALL_KEY || (exports.HOOKSCALL_KEY = {}));
     /** @public */
-    var LOG_TYPES;
+    exports.LOG_TYPES = void 0;
     (function (LOG_TYPES) {
         LOG_TYPES[LOG_TYPES["INFO"] = 1] = "INFO";
         LOG_TYPES[LOG_TYPES["WARN"] = 2] = "WARN";
         LOG_TYPES[LOG_TYPES["ERROR"] = 3] = "ERROR";
-    })(LOG_TYPES || (LOG_TYPES = {}));
+    })(exports.LOG_TYPES || (exports.LOG_TYPES = {}));
     /**
      * Log output
      * @param message - content
      * @param config - to configure
      */
-    /** @public */
     var $Log = /*#__PURE__*/ (function () {
         function $Log() {
         }
         $Log.info = function (message) {
-            this.call(message, LOG_TYPES.INFO);
+            this.call(message, exports.LOG_TYPES.INFO);
         };
         $Log.warn = function (message) {
-            this.call(message, LOG_TYPES.WARN);
+            this.call(message, exports.LOG_TYPES.WARN);
         };
         $Log.error = function (message) {
-            this.call(message, LOG_TYPES.ERROR);
+            this.call(message, exports.LOG_TYPES.ERROR);
         };
         $Log.call = function (message, type, config) {
-            if (type === void 0) { type = LOG_TYPES.INFO; }
+            if (type === void 0) { type = exports.LOG_TYPES.INFO; }
             if (config === void 0) { config = {
                 color: getDefOptions().themeColor,
                 bgColor: getDefOptions().bgColor
@@ -126,7 +125,7 @@
      * @param value - Judgment value
      * @returns boolean
      */
-    /** @public */
+    /** @function */
     function isNull(value) {
         switch (toType(value)) {
             case 'object':
@@ -145,7 +144,7 @@
      * empty aniamtions
      * @param id -
      */
-    /** @public */
+    /** @function */
     function clearAnimationFrame(id) {
         if (!window.requestAnimationFrame) {
             window.clearInterval(id);
@@ -159,7 +158,6 @@
      * @param key -
      * @returns
      */
-    /** @public */
     function toType(key) {
         try {
             var type = Object.prototype.toString.call(key);
@@ -176,7 +174,6 @@
      * @param el - element
      * @param fun - Execute Function
      */
-    /** @public */
     function onTransitionEndEvent(el, fun) {
         var transitionsName = null;
         var transitions = {
@@ -206,7 +203,6 @@
      * Create a unique loadingid
      * @returns
      */
-    /** @public */
     function createLoadingId() {
         var id = String(Date.now());
         if (window.crypto && window.crypto.randomUUID)
@@ -214,34 +210,34 @@
         return 'wl_' + id.replace(/-/g, '');
     }
     /** @public */
-    var ZOOM_ACTION;
+    exports.ZOOM_ACTION = void 0;
     (function (ZOOM_ACTION) {
         ZOOM_ACTION["SCALE"] = "scale";
         ZOOM_ACTION["WAVE"] = "wave";
         ZOOM_ACTION["HEIGHT"] = "height";
-    })(ZOOM_ACTION || (ZOOM_ACTION = {}));
+    })(exports.ZOOM_ACTION || (exports.ZOOM_ACTION = {}));
     /** @public */
-    var PATTERN_CHART;
+    exports.PATTERN_CHART = void 0;
     (function (PATTERN_CHART) {
         PATTERN_CHART["RECT"] = "rect";
         PATTERN_CHART["ARC"] = "arc";
         PATTERN_CHART["TRIANGLE"] = "triangle";
         PATTERN_CHART["HEART"] = "heart";
         PATTERN_CHART["POLYGON"] = "polygon";
-    })(PATTERN_CHART || (PATTERN_CHART = {}));
+    })(exports.PATTERN_CHART || (exports.PATTERN_CHART = {}));
     /** @public */
-    var ROLL_CHART;
+    exports.ROLL_CHART = void 0;
     (function (ROLL_CHART) {
         ROLL_CHART["RECT"] = "rect";
         ROLL_CHART["WHEEL"] = "wheel";
         ROLL_CHART["WINDMILL"] = "windmill";
-    })(ROLL_CHART || (ROLL_CHART = {}));
+    })(exports.ROLL_CHART || (exports.ROLL_CHART = {}));
     /** @public */
-    var CIRCULAR_ACTION;
+    exports.CIRCULAR_ACTION = void 0;
     (function (CIRCULAR_ACTION) {
         CIRCULAR_ACTION["COLLISION"] = "collision";
         CIRCULAR_ACTION["ROTATE"] = "rotate";
-    })(CIRCULAR_ACTION || (CIRCULAR_ACTION = {}));
+    })(exports.CIRCULAR_ACTION || (exports.CIRCULAR_ACTION = {}));
 
     /** @public */
     var BaseModel = /*#__PURE__*/ (function () {
@@ -573,7 +569,7 @@
         lineWidth: 10,
         zoomHeight: 2,
         lineCap: 'round',
-        action: ZOOM_ACTION.SCALE,
+        action: exports.ZOOM_ACTION.SCALE,
         direction: true,
         zoomColors: []
     };
@@ -639,7 +635,7 @@
                     this.list[i].value += 2;
                 else if (this.list[i].state === 2 && this.list[i].value >= op.lineWidth)
                     this.list[i].value--;
-                if (op.action === ZOOM_ACTION.SCALE)
+                if (op.action === exports.ZOOM_ACTION.SCALE)
                     this.ctx.lineWidth = this.list[i].value;
                 // State change
                 if (i === this.zoomIndex) {
@@ -661,10 +657,10 @@
                 else
                     this.ctx.strokeStyle = op.themeColor;
                 var sH = 0, eH = op.zoomHeight;
-                if (op.action === ZOOM_ACTION.HEIGHT || op.action === ZOOM_ACTION.WAVE) {
+                if (op.action === exports.ZOOM_ACTION.HEIGHT || op.action === exports.ZOOM_ACTION.WAVE) {
                     sH = -this.list[i].value;
                 }
-                if (op.action === ZOOM_ACTION.WAVE) {
+                if (op.action === exports.ZOOM_ACTION.WAVE) {
                     eH = -this.list[i].value;
                 }
                 this.ctx.moveTo((i + 1) * (op.lineWidth + op.zoomGap), sH);
@@ -1009,7 +1005,7 @@
     }(BaseModel));
 
     var modelDefOptions$4 = {
-        charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
+        charts: [exports.PATTERN_CHART.ARC, exports.PATTERN_CHART.RECT, exports.PATTERN_CHART.TRIANGLE, exports.PATTERN_CHART.HEART, exports.PATTERN_CHART.POLYGON],
         chartColors: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
         maxHeight: 60,
         chartSize: 12
@@ -1097,19 +1093,19 @@
         };
         Pattern.prototype.selectChart = function (x, y, size) {
             switch (this.pattern.chart) {
-                case PATTERN_CHART.RECT:
+                case exports.PATTERN_CHART.RECT:
                     this.drawRect(x, y, size);
                     break;
-                case PATTERN_CHART.ARC:
+                case exports.PATTERN_CHART.ARC:
                     this.drawArc(x, y, size);
                     break;
-                case PATTERN_CHART.TRIANGLE:
+                case exports.PATTERN_CHART.TRIANGLE:
                     this.drawTriangle(x, y, size);
                     break;
-                case PATTERN_CHART.HEART:
+                case exports.PATTERN_CHART.HEART:
                     this.drawHeart(x, y, size);
                     break;
-                case PATTERN_CHART.POLYGON:
+                case exports.PATTERN_CHART.POLYGON:
                     this.drawPolygon(x, y, size);
                     break;
             }
@@ -1206,7 +1202,7 @@
         childNum: 4,
         rollSize: 16,
         showChild: true,
-        chart: ROLL_CHART.WHEEL,
+        chart: exports.ROLL_CHART.WHEEL,
         windmills: ['#1ab3ea', '#de6834', '#30925d', '#f48ea5'],
         windmillPointColor: '#f2c31f',
         fixad: false
@@ -1264,13 +1260,13 @@
         Roll.prototype.selectChart = function () {
             var op = this.options;
             switch (op.chart) {
-                case ROLL_CHART.RECT:
+                case exports.ROLL_CHART.RECT:
                     this.drawRect();
                     break;
-                case ROLL_CHART.WHEEL:
+                case exports.ROLL_CHART.WHEEL:
                     this.drawWheel();
                     break;
-                case ROLL_CHART.WINDMILL:
+                case exports.ROLL_CHART.WINDMILL:
                     this.drawWindmill();
                     break;
             }
@@ -1380,7 +1376,7 @@
         };
         Roll.prototype.drawGround = function () {
             var op = this.options;
-            if (op.chart !== ROLL_CHART.WHEEL)
+            if (op.chart !== exports.ROLL_CHART.WHEEL)
                 return;
             this.ctx.save();
             this.ctx.beginPath();
@@ -1405,7 +1401,7 @@
         arcSize: 8,
         arcGap: 2,
         arcColors: ['#ec7546', '#8364a4', '#ff6c6e', '#5bc6ab'],
-        action: CIRCULAR_ACTION.COLLISION
+        action: exports.CIRCULAR_ACTION.COLLISION
     };
     var Bean = /*#__PURE__*/ (function (_super) {
         __extends(Bean, _super);
@@ -1449,10 +1445,10 @@
             this.ctx.save();
             var op = this.options;
             // technological process
-            if (op.action === CIRCULAR_ACTION.COLLISION)
+            if (op.action === exports.CIRCULAR_ACTION.COLLISION)
                 this.controller();
             // rotate
-            else if (op.action === CIRCULAR_ACTION.ROTATE) {
+            else if (op.action === exports.CIRCULAR_ACTION.ROTATE) {
                 this.ctx.rotate((this.turn * Math.PI) / 180);
                 this.turn += 10;
             }
@@ -1665,7 +1661,7 @@
         }
     }
 
-    var $window$5 = window;
+    var $window$4 = window;
     /**
      * Initialize $store
      * @param element Container element
@@ -1684,41 +1680,41 @@
     function initHooksCall() {
         var _a;
         return _a = {},
-            _a[HOOKSCALL_KEY.BEFORE_COLSE] = [],
-            _a[HOOKSCALL_KEY.COLSED] = [],
+            _a[exports.HOOKSCALL_KEY.BEFORE_COLSE] = [],
+            _a[exports.HOOKSCALL_KEY.COLSED] = [],
             _a;
     }
     // Initialize hooks
     function initStoreHooksCall(hooks) {
         var _a;
         return _a = {},
-            _a[HOOKSCALL_KEY.BEFORE_COLSE] = function (fun) {
-                hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun);
+            _a[exports.HOOKSCALL_KEY.BEFORE_COLSE] = function (fun) {
+                hooks[exports.HOOKSCALL_KEY.BEFORE_COLSE].push(fun);
             },
-            _a[HOOKSCALL_KEY.COLSED] = function (fun) {
-                hooks[HOOKSCALL_KEY.COLSED].push(fun);
+            _a[exports.HOOKSCALL_KEY.COLSED] = function (fun) {
+                hooks[exports.HOOKSCALL_KEY.COLSED].push(fun);
             },
             _a;
     }
     function initCanvas() {
         return {
-            canvas: $window$5.document.createElement('canvas'),
+            canvas: $window$4.document.createElement('canvas'),
             hooks: initHooksCall(),
             loadingId: createLoadingId()
         };
     }
     function initHtml() {
         return {
-            content: $window$5.document.createElement('div'),
+            content: $window$4.document.createElement('div'),
             loadingId: createLoadingId()
         };
     }
 
-    var $window$4 = window;
+    var $window$3 = window;
     function initContentStyle(element, op, loadingId, animaEl) {
         // The client takes the true width and height. If penetration is enabled, the rolling width and height are taken
-        var elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth, elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight, readElementStyle = $window$4.getComputedStyle(element), elementStyle = element.style, contentStyle = animaEl.style;
-        if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
+        var elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth, elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight, readElementStyle = $window$3.getComputedStyle(element), elementStyle = element.style, contentStyle = animaEl.style;
+        if (op.type === exports.LOADING_TYPES.DOM && !op.pointerEvents) {
             element.style.pointerEvents = 'none';
         }
         if (!readElementStyle.position || readElementStyle.position === 'static')
@@ -1749,7 +1745,7 @@
         // injection
         element.append(animaEl);
         // Trigger to enter animation
-        $window$4.setTimeout(function () { return (contentStyle.opacity = '1'); }, 0);
+        $window$3.setTimeout(function () { return (contentStyle.opacity = '1'); }, 0);
         onTransitionEndEvent(element, function () {
             // Wait for all elements to appear and complete (animation ends)
             element.$store.loadingId = loadingId;
@@ -1764,7 +1760,7 @@
      * @param h
      */
     function setupCanvas(canvas, w, h) {
-        var dpr = $window$4.devicePixelRatio || 1;
+        var dpr = $window$3.devicePixelRatio || 1;
         canvas.width = w * dpr;
         canvas.height = h * dpr;
         canvas.style.width = "".concat(w, "px");
@@ -1774,12 +1770,12 @@
         // First visual transition
         canvas.style.opacity = '0';
         // Clear Extension
-        if (op.type !== LOADING_TYPES.DOM) {
+        if (op.type !== exports.LOADING_TYPES.DOM) {
             element.style.boxShadow = 'none';
         }
     }
 
-    var $window$3 = window;
+    var $window$2 = window;
     var WebLoading = /*#__PURE__*/ (function () {
         function WebLoading(options) {
             // canvas animation elements
@@ -1805,7 +1801,7 @@
         WebLoading.prototype.resize = function (element, animaEl) {
             var _this = this;
             if (!this.resizeTimeId)
-                this.resizeTimeId = $window$3.setTimeout(function () {
+                this.resizeTimeId = $window$2.setTimeout(function () {
                     var canvas = animaEl;
                     var w = element.clientWidth, h = element.clientHeight;
                     if (canvas.width > element.clientWidth) {
@@ -1834,10 +1830,10 @@
             var _this = this;
             var op = this.options;
             var store = element.$store;
-            $window$3.setTimeout(function () {
+            $window$2.setTimeout(function () {
                 // Trigger Close Animation
                 clearStyle(element, op, animaEl);
-                if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
+                if (op.type === exports.LOADING_TYPES.DOM && !op.pointerEvents) {
                     element.style.pointerEvents = 'auto';
                 }
                 // Prevent seconds from closing. If seconds are closed,
@@ -1848,20 +1844,20 @@
                         // Clear model
                         store.model = null;
                         // Callback before closing
-                        _this.callEvent(HOOKSCALL_KEY.BEFORE_COLSE);
+                        _this.callEvent(exports.HOOKSCALL_KEY.BEFORE_COLSE);
                         // stop it animationFrame
                         if (store.animationId)
                             clearAnimationFrame(store.animationId);
                     }
                     // If the dom is extended, clear the parent element (the parent element is created by webLoading)
-                    if (op.type !== LOADING_TYPES.DOM)
+                    if (op.type !== exports.LOADING_TYPES.DOM)
                         element.remove();
                     else
                         animaEl.remove();
                     // erase status
                     _this.loadingId = null;
                     // Callback after closing
-                    _this.callEvent(HOOKSCALL_KEY.COLSED);
+                    _this.callEvent(exports.HOOKSCALL_KEY.COLSED);
                     // Callback after closing
                     _this.hooks = initHooksCall();
                 });
@@ -1913,7 +1909,7 @@
         return WebLoading;
     }());
 
-    var $window$2 = window;
+    var $window$1 = window;
     var ExtendLoading = /*#__PURE__*/ (function () {
         function ExtendLoading(options) {
             this.options = options;
@@ -1924,19 +1920,19 @@
          * @returns extension container element
          */
         ExtendLoading.prototype.initStyle = function () {
-            this.extendEl = $window$2.document.createElement('div');
+            this.extendEl = $window$1.document.createElement('div');
             var op = this.options;
             var w = '100vw', h = '100vh', borderRadius = '0px';
             if (op) {
                 this.extendEl.classList.add('wl_' + (op.extendClass || 'loading'));
-                if (op.type === LOADING_TYPES.MINI) {
+                if (op.type === exports.LOADING_TYPES.MINI) {
                     w = '180px';
                     h = '160px';
                     borderRadius = '10px';
                 }
                 this.extendEl.style.cssText = "\n          position:fixed;\n          width:".concat(w, ";\n          height:").concat(h, ";\n          top:50%;\n          left:50%;\n          transform:translate(-50%, -50%);\n          border-radius: ").concat(borderRadius, ";\n          z-index: ").concat(op.zIndex, ";\n          box-shadow:\n          2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),\n          6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),\n          12.5px 12.5px 10px rgba(0, 0, 0, 0.035),\n          22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),\n          41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),\n          100px 100px 80px rgba(0, 0, 0, 0.07)\n          ;\n      ");
             }
-            $window$2.document.body.appendChild(this.extendEl);
+            $window$1.document.body.appendChild(this.extendEl);
             return this.extendEl;
         };
         ExtendLoading.prototype.getElement = function () {
@@ -1945,7 +1941,7 @@
         return ExtendLoading;
     }());
 
-    var $window$1 = window;
+    var $window = window;
     /** @public */
     function initLoading(options) {
         var webLoading = new WebLoading(options);
@@ -1959,7 +1955,7 @@
             // Prevent duplicate registration
             if (!webLoading.loadingId && !feelPromiseResolve) {
                 // Create extended dom
-                if (op.type !== LOADING_TYPES.DOM) {
+                if (op.type !== exports.LOADING_TYPES.DOM) {
                     dom = new ExtendLoading(op).getElement();
                 }
                 if (!dom)
@@ -1968,7 +1964,7 @@
                     // Processing Senseless Loading through rece
                     var loadingPromise = new Promise(function (res) {
                         // If the time of notFeed exceeds the close time, it is considered as an insensitive load
-                        $window$1.setTimeout(function () {
+                        $window.setTimeout(function () {
                             res(true);
                         }, op.notFeel);
                     });
@@ -1980,7 +1976,7 @@
                             webLoading.draw(dom);
                         else {
                             // Process extended dom
-                            if (op.type !== LOADING_TYPES.DOM)
+                            if (op.type !== exports.LOADING_TYPES.DOM)
                                 dom.remove();
                         }
                         feelPromiseResolve = null;
@@ -2030,31 +2026,19 @@
     function _$extendLoading(type, options) {
         return initLoading(Object.assign(getDefOptions(), options || {}, { type: type }));
     }
+    /** @public */
+    function fullLoading(options) {
+        return _$extendLoading(exports.LOADING_TYPES.FULL, options);
+    }
+    /** @public */
+    function miniLoading(options) {
+        return _$extendLoading(exports.LOADING_TYPES.MINI, options);
+    }
 
-    var $window = window;
-    $window.BaseModel = BaseModel;
-    // initialization
-    $window.initLoading = function (options) {
-        return initLoading(options);
-    };
-    // extend
-    // Mobile terminal
-    $window.miniLoading = function (options) {
-        return _$extendLoading(LOADING_TYPES.MINI, options);
-    };
-    // Full screen
-    $window.fullLoading = function (options) {
-        return _$extendLoading(LOADING_TYPES.FULL, options);
-    };
-    // js project separate import method
-    var main = {
-        initLoading: $window.initLoading,
-        miniLoading: $window.miniLoading,
-        fullLoading: $window.fullLoading,
-        BaseModel: $window.BaseModel
-    };
-
-    exports["default"] = main;
+    exports.BaseModel = BaseModel;
+    exports.fullLoading = fullLoading;
+    exports.initLoading = initLoading;
+    exports.miniLoading = miniLoading;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

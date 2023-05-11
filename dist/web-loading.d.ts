@@ -7,8 +7,7 @@
  * @param message - content
  * @param config - to configure
  */
-/** @public */
-export declare class $Log {
+declare class $Log {
     static info(message: string): void;
     static warn(message: string): void;
     static error(message: string): void;
@@ -103,13 +102,6 @@ export declare interface CircularOptionsType extends OptionsType {
     action?: CIRCULAR_ACTION;
 }
 
-/**
- * empty aniamtions
- * @param id -
- */
-/** @public */
-export declare function clearAnimationFrame(id: number): void;
-
 /** @public */
 export declare interface ClockOptionsType extends OptionsType {
     textTime?: 'time' | 's' | '';
@@ -122,13 +114,6 @@ export declare interface ClockOptionsType extends OptionsType {
     mLine?: boolean;
     sLine?: boolean;
 }
-
-/**
- * Create a unique loadingid
- * @returns
- */
-/** @public */
-export declare function createLoadingId(): string;
 
 /** @public */
 export declare interface DrawTextParamsType {
@@ -168,21 +153,13 @@ export declare interface GearOptionsType extends OptionsType {
     direction?: boolean;
 }
 
-/**
- *
- * @returns Return to default configuration
- */
-/** @public */
-export declare function getDefOptions(): Required<OptionsType>;
-
 /** @public */
 export declare enum HOOKSCALL_KEY {
     BEFORE_COLSE = "beforeColse",
     COLSED = "colsed"
 }
 
-/** @public */
-export declare type HooksCallType<T extends string = HOOKSCALL_KEY> = {
+declare type HooksCallType<T extends string = HOOKSCALL_KEY> = {
     [key in T]: Function;
 };
 
@@ -196,14 +173,6 @@ export declare interface ImageOptionsType extends OptionsType {
 
 /** @public */
 export declare function initLoading(options?: OptionsType): LoadingType;
-
-/**
- * Judge null
- * @param value - Judgment value
- * @returns boolean
- */
-/** @public */
-export declare function isNull(value: any): value is boolean | Function;
 
 /** @public */
 export declare interface LimitType {
@@ -264,14 +233,6 @@ export declare enum MODEL_TYPES {
     IMG = "Img",
     SKELETON = "Skeleton"
 }
-
-/**
- * Listening to animation end function
- * @param el - element
- * @param fun - Execute Function
- */
-/** @public */
-export declare function onTransitionEndEvent(el: HTMLElement, fun: Function): void;
 
 /** @public */
 export declare interface OptionsType {
@@ -356,22 +317,6 @@ export declare interface SkeletonOptionsType extends OptionsType {
     animation?: boolean;
     deep?: boolean;
     appoint?: string;
-}
-
-/**
- * Type acquisition
- * @param key -
- * @returns
- */
-/** @public */
-export declare function toType(key: any): string | 'not-type';
-
-/** @public */
-export declare interface WindowType extends Window {
-    BaseModel?: typeof BaseModel;
-    initLoading?: (options: OptionsType) => LoadingType;
-    fullLoading?: (options: OptionsType) => LoadingType;
-    miniLoading?: (options: OptionsType) => LoadingType;
 }
 
 /** @public */

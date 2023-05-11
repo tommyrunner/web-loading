@@ -1,10 +1,18 @@
 /**
  * @packageDocumentation
  */
-export * from './type'
-import BaseModel from './draw/model/BaseModel'
-export { BaseModel }
+export { OptionsType, LoadingType, ElementStoreType, ElementType, LimitType, LogConfigType } from './type'
 export * from './draw/type'
-export * from './utils'
+export {
+  LOADING_TYPES,
+  LOG_TYPES,
+  MODEL_TYPES,
+  HOOKSCALL_KEY,
+  ZOOM_ACTION,
+  PATTERN_CHART,
+  ROLL_CHART,
+  CIRCULAR_ACTION
+} from './utils'
+import BaseModel from './draw/model/BaseModel'
 import initLoading, { fullLoading, miniLoading } from './loading'
-export { initLoading, fullLoading, miniLoading }
+export { BaseModel, initLoading, fullLoading, miniLoading }

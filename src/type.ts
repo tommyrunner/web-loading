@@ -47,7 +47,6 @@ export interface OptionsType {
   // show toast
   toast?: boolean
 }
-/** @public */
 export interface WindowType extends Window {
   BaseModel?: typeof BaseModel
   initLoading?: (options: OptionsType) => LoadingType
@@ -64,7 +63,6 @@ export interface LoadingType {
   getLoadingId: () => string | null
 }
 // The mapping key is enum
-/** @public */
 export type HooksCallType<T extends string = HOOKSCALL_KEY> = {
   [key in T]: Function
 }

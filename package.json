@@ -1,7 +1,7 @@
 {
   "name": "web-loading",
-  "version": "1.4.5",
-  "main": "./dist/web-loading.js",
+  "version": "1.4.11",
+  "main": "./index.js",
   "typings": "./dist/web-loading.d.ts",
   "jsdelivr": "./dist/web-loading.js",
   "unpkg": "./dist/web-loading.js",

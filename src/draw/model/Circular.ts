@@ -1,5 +1,5 @@
-import type { ElementType } from '../../types'
-import type { CircularOptionsType } from '../types'
+import type { ElementType } from '../../type'
+import type { CircularOptionsType } from '../type'
 import { CIRCULAR_ACTION } from '../../utils'
 import BaseModel from './BaseModel'
 const modelDefOptions: CircularOptionsType = {

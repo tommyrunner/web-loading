@@ -1,4 +1,4 @@
-import type { ElementType, OptionsType } from '../types'
+import type { ElementType, OptionsType } from '../type'
 import { LOADING_TYPES, toType, onTransitionEndEvent } from '../utils'
 const $window = window
 export function initContentStyle(

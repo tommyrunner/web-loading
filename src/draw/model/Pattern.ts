@@ -1,5 +1,5 @@
-import type { ElementType, LimitType } from '../../types'
-import type { PatternOptionsType } from '../types.d'
+import type { ElementType, LimitType } from '../../type'
+import type { PatternOptionsType } from '../type'
 import { getDefOptions, PATTERN_CHART } from '../../utils'
 import BaseModel from './BaseModel'
 const modelDefOptions: PatternOptionsType = {

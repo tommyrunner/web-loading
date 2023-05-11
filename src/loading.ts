@@ -1,9 +1,10 @@
 import WebLoading from './Webloading/index'
 import ExtendLoading from './ExtendLoading'
-import type { OptionsType, LoadingType, ElementType } from './types.d'
+import type { OptionsType, LoadingType, ElementType } from './type'
 import { LOADING_TYPES, getDefOptions, $Log } from './utils'
 import drawController from './draw/index'
 const $window = window
+/** @public */
 export default function initLoading(options?: OptionsType): LoadingType {
   const webLoading = new WebLoading(options)
   let feelPromiseResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null
@@ -81,9 +82,11 @@ export default function initLoading(options?: OptionsType): LoadingType {
 export function _$extendLoading(type: LOADING_TYPES, options?: OptionsType) {
   return initLoading(Object.assign(getDefOptions(), options || {}, { type }))
 }
+/** @public */
 export function fullLoading(options?: OptionsType) {
   return _$extendLoading(LOADING_TYPES.FULL, options)
 }
+/** @public */
 export function miniLoading(options?: OptionsType) {
   return _$extendLoading(LOADING_TYPES.MINI, options)
 }

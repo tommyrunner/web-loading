@@ -1,4 +1,4 @@
-import type { ElementType, OptionsType } from '../types'
+import type { ElementType, OptionsType } from '../type'
 import type { HooksType } from './type'
 import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log, HOOKSCALL_KEY, onTransitionEndEvent } from '../utils'
 import drawController from '../draw/index'

@@ -1,5 +1,5 @@
-import type { ElementType, LimitType } from '../../types'
-import type { RingOptionsType } from '../types'
+import type { ElementType, LimitType } from '../../type'
+import type { RingOptionsType } from '../type'
 import BaseModel from './BaseModel'
 const modelDefOptions: RingOptionsType = {
   arcGap: Math.PI / 4,

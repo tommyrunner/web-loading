@@ -1,4 +1,4 @@
-import type { ElementType, HooksCallType, OptionsType } from '../types'
+import type { ElementType, HooksCallType, OptionsType } from '../type'
 import type { HooksType } from './type'
 import { HOOKSCALL_KEY, createLoadingId } from '../utils'
 const $window = window

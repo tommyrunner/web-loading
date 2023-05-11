@@ -1,6 +1,7 @@
-import type { OptionsType, LimitType, ElementType } from '../../types'
+import type { OptionsType, LimitType, ElementType } from '../../type'
 import { isNull, clearAnimationFrame, $Log } from '../../utils'
-import { DrawTextParamsType } from '../types'
+import { DrawTextParamsType } from '../type'
+/** @public */
 export default class BaseModel<T extends OptionsType> {
   w: number
   h: number
@@ -18,14 +19,14 @@ export default class BaseModel<T extends OptionsType> {
   private stepClear = 1
   /**
    * Custom BaseModel
-   * @param w Canvas width
-   * @param h Canvas height
-   * @param canvas Canvas
-   * @param options Options
-   * @param element Container element
-   * @param modelDefOptions  Default options of model (Optional)
-   * @param limits  Default limits of model (Optional)
-   * @param modelDefCall Provides Callback function for model initialization，Generally initialize "canvas" or "brush" in model (Optional)
+   * @param w - Canvas width
+   * @param h - Canvas height
+   * @param canvas - Canvas
+   * @param options - Options
+   * @param element - Container element
+   * @param modelDefOptions -  Default options of model (Optional)
+   * @param limits -  Default limits of model (Optional)
+   * @param modelDefCall - Provides Callback function for model initialization，Generally initialize "canvas" or "brush" in model (Optional)
    */
   constructor(
     w: number,
@@ -76,7 +77,7 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * Encapsulate requestAnimationFrame to trigger the animation pin
-   * @param fun Trigger function
+   * @param fun - Trigger function
    * @returns
    */
   private _$animationFrame(fun: Function) {
@@ -98,9 +99,9 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * Initialize brush properties
-   * @param modelDefOptions Provides Options for model initialization
-   * @param limits Provides Limits for model initialization
-   * @param modelDefCall Provides Callback function for model initialization
+   * @param modelDefOptions - Provides Options for model initialization
+   * @param limits - Provides Limits for model initialization
+   * @param modelDefCall - Provides Callback function for model initialization
    */
   initContextCall(modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void) {
     // Initialize the point context of base
@@ -135,7 +136,7 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * Cancel animationFrame animation pin
-   * @param id Animation id
+   * @param id - Animation id
    */
   clearAnimationFrame(id: number) {
     clearAnimationFrame(id)
@@ -167,11 +168,11 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * Draw a rounded rectangle
-   * @param x
-   * @param y
-   * @param w
-   * @param h
-   * @param r
+   * @param x - x
+   * @param y - y
+   * @param w - width
+   * @param h - height
+   * @param r - radius
    */
   drowRadiusRect(x: number, y: number, w: number, h: number, r: number) {
     this.ctx.beginPath()
@@ -187,7 +188,7 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * 
-   * @param params 
+   * @param params - 
    * DrawTextParamsType:
    *    esGap?: Extra void
         x?: X-axis

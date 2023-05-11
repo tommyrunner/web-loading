@@ -1,7 +1,8 @@
-import { LogConfigType, OptionsType } from './types'
+import { LogConfigType, OptionsType } from './type'
 /**
  * Supported loading methods
  */
+/** @public */
 export enum LOADING_TYPES {
   DOM = 'dom',
   FULL = 'full',
@@ -10,6 +11,7 @@ export enum LOADING_TYPES {
 /**
  * Supported models
  */
+/** @public */
 export enum MODEL_TYPES {
   // Gear
   GEAR = 'Gear',
@@ -36,6 +38,7 @@ export enum MODEL_TYPES {
  *
  * @returns Return to default configuration
  */
+/** @public */
 export function getDefOptions(): Required<OptionsType> {
   return {
     custom: null,
@@ -62,11 +65,12 @@ export function getDefOptions(): Required<OptionsType> {
     toast: true
   }
 }
+/** @public */
 export enum HOOKSCALL_KEY {
   BEFORE_COLSE = 'beforeColse',
   COLSED = 'colsed'
 }
-
+/** @public */
 export enum LOG_TYPES {
   INFO = 1,
   WARN = 2,
@@ -74,9 +78,10 @@ export enum LOG_TYPES {
 }
 /**
  * Log output
- * @param message content
- * @param config to configure
+ * @param message - content
+ * @param config - to configure
  */
+/** @public */
 export class $Log {
   static info(message: string) {
     this.call(message, LOG_TYPES.INFO)
@@ -111,9 +116,10 @@ export class $Log {
 }
 /**
  * Judge null
- * @param value Judgment value
+ * @param value - Judgment value
  * @returns boolean
  */
+/** @public */
 export function isNull(value: any): value is boolean | Function {
   switch (toType(value)) {
     case 'object':
@@ -130,8 +136,9 @@ export function isNull(value: any): value is boolean | Function {
 }
 /**
  * empty aniamtions
- * @param id
+ * @param id -
  */
+/** @public */
 export function clearAnimationFrame(id: number) {
   if (!window.requestAnimationFrame) {
     window.clearInterval(id)
@@ -141,9 +148,10 @@ export function clearAnimationFrame(id: number) {
 }
 /**
  * Type acquisition
- * @param key
+ * @param key -
  * @returns
  */
+/** @public */
 export function toType(key: any): string | 'not-type' {
   try {
     const type = Object.prototype.toString.call(key)
@@ -156,9 +164,10 @@ export function toType(key: any): string | 'not-type' {
 }
 /**
  * Listening to animation end function
- * @param el element
- * @param fun Execute Function
+ * @param el - element
+ * @param fun - Execute Function
  */
+/** @public */
 export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
   let transitionsName: string | null = null
   const transitions: { [key in string]: string } = {
@@ -187,16 +196,19 @@ export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
  * Create a unique loadingid
  * @returns
  */
+/** @public */
 export function createLoadingId() {
   let id = String(Date.now())
   if (window.crypto && window.crypto.randomUUID) id = window.crypto.randomUUID()
   return 'wl_' + id.replace(/-/g, '')
 }
+/** @public */
 export enum ZOOM_ACTION {
   SCALE = 'scale',
   WAVE = 'wave',
   HEIGHT = 'height'
 }
+/** @public */
 export enum PATTERN_CHART {
   RECT = 'rect',
   ARC = 'arc',
@@ -204,11 +216,13 @@ export enum PATTERN_CHART {
   HEART = 'heart',
   POLYGON = 'polygon'
 }
+/** @public */
 export enum ROLL_CHART {
   RECT = 'rect',
   WHEEL = 'wheel',
   WINDMILL = 'windmill'
 }
+/** @public */
 export enum CIRCULAR_ACTION {
   COLLISION = 'collision',
   ROTATE = 'rotate'

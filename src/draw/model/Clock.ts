@@ -1,5 +1,5 @@
-import type { ElementType, LimitType } from '../../types'
-import type { ClockOptionsType } from '../types.d'
+import type { ElementType, LimitType } from '../../type'
+import type { ClockOptionsType } from '../type'
 import BaseModel from './BaseModel'
 const modelDefOptions: ClockOptionsType = {
   lineCap: 'round',

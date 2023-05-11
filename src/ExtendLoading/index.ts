@@ -1,4 +1,4 @@
-import { OptionsType } from '../types'
+import { OptionsType } from '../type'
 import { LOADING_TYPES } from '../utils'
 const $window = window
 export default class ExtendLoading {

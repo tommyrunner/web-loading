@@ -1,5 +1,5 @@
-import type { ElementType, LimitType } from '../../types'
-import type { BeanOptionsType } from '../types.d'
+import type { ElementType, LimitType } from '../../type'
+import type { BeanOptionsType } from '../type'
 import BaseModel from './BaseModel'
 const modelDefOptions: BeanOptionsType = {
   beanSize: 15,

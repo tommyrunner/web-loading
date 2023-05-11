@@ -1,0 +1,8 @@
+/src
+/temp
+/lib
+/.eslint*
+api-extractor.json
+rollup.config*
+tsconfig*
+package-lock.json

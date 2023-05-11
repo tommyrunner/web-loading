@@ -1,5 +1,5 @@
-import type { ElementType } from '../../types'
-import type { ZoomOptionsType } from '../types'
+import type { ElementType } from '../../type'
+import type { ZoomOptionsType } from '../type'
 import { ZOOM_ACTION } from '../../utils'
 import BaseModel from './BaseModel'
 const modelDefOptions: ZoomOptionsType = {

@@ -1,5 +1,5 @@
-import type { ElementType, LimitType } from '../../types'
-import type { RollOptionsType } from '../types'
+import type { ElementType, LimitType } from '../../type'
+import type { RollOptionsType } from '../type'
 import { getDefOptions, ROLL_CHART } from '../../utils'
 import BaseModel from './BaseModel'
 const modelDefOptions: RollOptionsType = {

@@ -1,5 +1,5 @@
-import type { ElementType, LimitType } from '../../types'
-import type { GearOptionsType } from '../types.d'
+import type { ElementType, LimitType } from '../../type'
+import type { GearOptionsType } from '../type'
 import BaseModel from './BaseModel'
 // Default Options of model
 const modelDefOptions: GearOptionsType = {

@@ -1,4 +1,4 @@
-import type { OptionsType, WindowType } from './types.d'
+import type { OptionsType, WindowType } from './type'
 import _$BaseModel from './draw/model/BaseModel'
 import { LOADING_TYPES } from './utils'
 import _$initLoading, { _$extendLoading } from './loading'

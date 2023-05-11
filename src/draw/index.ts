@@ -1,4 +1,4 @@
-import type { ElementType, OptionsType } from '../types'
+import type { ElementType, OptionsType } from '../type'
 import { $Log } from '../utils'
 import models from './model'
 import BaseModel from './model/BaseModel'

@@ -1,5 +1,5 @@
-import type { ElementType } from '../../types'
-import type { SkeletonOptionsType } from '../types'
+import type { ElementType } from '../../type'
+import type { SkeletonOptionsType } from '../type'
 import BaseModel from './BaseModel'
 const modelDefOptions: SkeletonOptionsType = {
   skeletonColor: 'rgb(240, 240, 240)',

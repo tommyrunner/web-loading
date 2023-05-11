@@ -1,13 +1,13 @@
-import { OptionsType } from '../types'
-import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, CIRCULAR_ACTION } from './utils'
-
-interface DrawTextParamsType {
+import { OptionsType } from '../type'
+import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, CIRCULAR_ACTION } from '../utils'
+/** @public */
+export interface DrawTextParamsType {
   esGap?: number
   x?: number
   text?: string
   textColor?: string
 }
-
+/** @public */
 export interface GearOptionsType extends OptionsType {
   // lineStart
   lineStart?: number
@@ -26,7 +26,7 @@ export interface GearOptionsType extends OptionsType {
   // Direction: true: positive, then negative
   direction?: boolean
 }
-
+/** @public */
 export interface RingOptionsType extends OptionsType {
   // Annular space
   ringGap?: number
@@ -47,7 +47,7 @@ export interface RingOptionsType extends OptionsType {
   // Direction: true: positive, then negative
   direction?: boolean
 }
-
+/** @public */
 export interface ZoomOptionsType extends OptionsType {
   // Zoom changes the most
   maxSize?: number
@@ -68,6 +68,7 @@ export interface ZoomOptionsType extends OptionsType {
   // Direction: true: positive, then negative
   direction?: boolean
 }
+/** @public */
 export interface PatternOptionsType extends OptionsType {
   // Supported graphics
   charts?: Array<PATTERN_CHART>
@@ -78,6 +79,7 @@ export interface PatternOptionsType extends OptionsType {
   // maxHeight
   maxHeight?: number
 }
+/** @public */
 export interface ClockOptionsType extends OptionsType {
   // Text display mode: time: mm/dd/yy, s: sec
   textTime?: 'time' | 's' | ''
@@ -96,14 +98,14 @@ export interface ClockOptionsType extends OptionsType {
   mLine?: boolean
   sLine?: boolean
 }
-
+/** @public */
 export interface BeanOptionsType extends OptionsType {
   // beanSize
   beanSize?: number
   // The number of points in the bean
   pointLength?: number
 }
-
+/** @public */
 export interface RollOptionsType extends OptionsType {
   // rollGap
   rollGap?: number
@@ -122,12 +124,14 @@ export interface RollOptionsType extends OptionsType {
   // Center fixed or not
   fixad?: boolean
 }
+/** @public */
 export interface ImageOptionsType extends OptionsType {
   src?: string
   width?: number
   height?: number
   turn?: boolean
 }
+/** @public */
 export interface SkeletonOptionsType extends OptionsType {
   skeletonColor?: string
   skeletonAnimationColor?: string
@@ -138,6 +142,7 @@ export interface SkeletonOptionsType extends OptionsType {
   // imgColor: string
   // imgSize: number
 }
+/** @public */
 export interface CircularOptionsType extends OptionsType {
   // arcSize
   arcSize?: number

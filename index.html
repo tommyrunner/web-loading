@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>web-loading</title>
-    <script defer="defer" src="main.js"></script>
+    <script defer="defer" src="./dist/web-loading.js"></script>
   </head>
   <body>
     <div id="app">
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/web-loading"></script> -->
     <script>
       window.onload = () => {
         // encapsulation
@@ -41,8 +41,8 @@
         let docApp = document.querySelector('#app')
         const webLoading = fullLoading({
           // custom: CustomLoading,
-          model:'Ring',
-          notFeel: 1000,
+          model: 'Ring'
+          // notFeel: 1000,
           // size: 20
         })
         window.addEventListener('resize', webLoading.resize)

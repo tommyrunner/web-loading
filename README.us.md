@@ -1,7 +1,9 @@
+[official website](https://tommyrunner.github.io/web-loading/)
 # guide
 
 > Recent changes:
 >
+> + ***Due to a change in the packaging method, the path of "Introducing Objects or Types" has changed, and the latest document shall prevail***
 > + New Senseless Refresh
 > + Optimize source code
 > + Resolve the second flash screen bug
@@ -18,7 +20,7 @@ There are many ways to implement loading on the Web, such as using `css` animati
 
 The principle is very similar. For `DOM`, first we need `initLoading` to initialize the **model** that you need to render and provide custom parameters. Of course, this operation is not necessary, because `WebLoading` has initialized all the default data. At this time, the operation `WebLoading` related function is thrown.
 
-Starting the `WebLoading` and calling the `loading` function requires a `HtmlElement` element, which must have `children` instead of a single label element. When you start `WebLoading`, you will get the mounted element and add a `Canvas` in`children`. At the same time, the location and size of the element will be calculated and synchronized to` Canvas` for optimal display`WebLoading`will draw the specific **model** according to the` options` parameter, and the **model** mainly uses the `requestAnimationFrame` to callback and render multiple times to achieve each frame of animation.
+Starting the `WebLoading` and calling the `loading` function requires a `HtmlElement` element, which must have `children` instead of a single label element. When you start `WebLoading`, you will get the mounted element and add a `Canvas` in`children`. At the same time, the location and size of the element will be calculated and synchronized to` Canvas` for optimal display`WebLoading`will draw the specific **model** according to the` options` parameter, **In model** recursive callback rendering is mainly performed using `requestAnimationFrame` to achieve each frame of animation.
 
 Note: If the configuration is rendered through **html**, you will not go to the next step.
 
@@ -48,45 +50,19 @@ let dom = ref()
 // ...(The purpose is to get the dom element)
 ```
 
-### Global introduction
-
-- `Cdn ` introduction
+### CDN introduction
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
 ```
 
-- Project `import` import
+### Introduction of engineering projects
 
 ```typescript
-import 'web-loading'
-// Introduce initLoading globally and mount it on window
-let webLoading = initLoading({
-  // Custom options
-})
-```
-
-- Or so
-
-```typescript
-import WL from 'web-loading'
-let webLoading = WL.initLoading({
-  // Custom options
-})
-```
-
-> - parameter
->   - `options?:OptionsType`
-> - return
->   - `webLoading:LoadingType`
-
-### TypeScript project import
-
-```typescript
-import initLoading from 'web-loading/src/loading'
-import type { LoadingType } from 'web-loading/src/types.d'
+import type { LoadingType } from "web-loading";
+import { initLoading } from "web-loading";
 let webLoading: LoadingType = initLoading({
-  // Custom options
+    // Custom options
 })
 ```
 
@@ -98,7 +74,7 @@ let webLoading: LoadingType = initLoading({
 ### start-up
 
 ```typescript
-// Note: After the web page is loaded, call loading
+// Note: After the dom loading is completed, call loading
 window.onload = function () {
   webLoading.loading(dom)
 }
@@ -108,7 +84,7 @@ window.onload = function () {
 >
 > - `dom`:Mounted`HtmlElement`element
 >
-> - `options?:OptionsType`, each startup supports coverage`options`.
+> - `options?:OptionsType`, Support Overrides`options`.
 
 ## Start mode
 
@@ -117,24 +93,12 @@ window.onload = function () {
 - Modify the `type` switch start mode
 
 ```typescript
-import type { LoadingType } from 'web-loading/src/types.d'
-import { LOADING_TYPES } from "web-loading/src/utils";
-let webLoading: LoadingType = initLoading({
-  type: LOADING_TYPES.MINI // or LOADING_TYPES.FULL
-})
-// start
+import type { LoadingType } from "web-loading";
+import { fullLoading,miniLoading LOADING_TYPES } from "web-loading";
+
+let webLoading: LoadingType = fullLoading() // full screen
+// let webLoading: LoadingType = miniLoading() // mobile terminal
+
+// Start (if it is MINI or FULL, there is no need to pass dom)
 webLoading.loading()
 ```
-
-- Function modification
-
-```typescript
-import { fullLoading, miniLoading } from 'web-loading/src/loading'
-let webLoading: LoadingType = fullLoading() // miniLoading
-// start
-webLoading.loading()
-```
-
-> - Global introduction. Similarly, functions have been mounted on `window`.
-> - Function modification `WebLoading` is also implemented internally by modifying `type`.
-> - The extension start mode does not need to provide elements.

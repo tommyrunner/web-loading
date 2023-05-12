@@ -3,6 +3,7 @@
 
 >  最近改动:
 >
+> + ***因更换打包方式《引入对象或类型》路径发生改变，按最新文档为准***
 > + 新增 无感刷新
 > + 优化源码
 > + 解决秒关闪屏bug
@@ -19,7 +20,7 @@ Web 中实现 loading 的方式有很多种，例如使用`css`动画、`js`操�
 
 原理大同小异，这里以`DOM`来讲述，首先我们需要`initLoading`初始化你需要渲染的**model**并提供自定义参数，当然，这个操作不是必须的，因为`WebLoading`已经初始化所以的默认数据，此时抛出操作`WebLoading`相关函数。
 
-启动`WebLoading`调用`loading`函数需要一个`HtmlElement`元素，该元素必须拥有`children`，而不是一个单标签元素。启动`WebLoading`时会获取到这个挂载的元素，并在`children`添加一个`Canvas`，同时会计算该元素位置以及大小以最优显示同步到`Canvas`上。`WebLoading`会根据`options`参数来绘制具体的**model**，**model**中主要以`requestAnimationFrame`来进行回调多次渲染，以来实现每一帧动画。
+启动`WebLoading`调用`loading`函数需要一个`HtmlElement`元素，该元素必须拥有`children`，而不是一个单标签元素。启动`WebLoading`时会获取到这个挂载的元素，并在`children`添加一个`Canvas`，同时会计算该元素位置以及大小以最优显示同步到`Canvas`上。`WebLoading`会根据`options`参数来绘制具体的**model**，**model**中主要以`requestAnimationFrame`来进行递归回调渲染，以来实现每一帧动画。
 
 注意：如果配置是通过**html**渲染，那么就不会走上一步。
 
@@ -49,43 +50,17 @@ let dom = ref()
 // ...(目的是获取dom元素)
 ```
 
-### 全局引入
-
-- `cdn`引入
+### CDN引入
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
 ```
 
-- 工程项目 `import` 引入
+### 工程项目引入
 
 ```typescript
-import 'web-loading'
-// 全局引入initLoading挂载在window上
-let webLoading = initLoading({
-  // 自定义options
-})
-```
-
-+ 或者这样
-
-```typescript
-import WL from 'web-loading'
-let webLoading = WL.initLoading({
-  // 自定义options
-})
-```
-
-> - 参数
->   - `options?:OptionsType`
-> - 返回
->   - `webLoading:LoadingType`
-
-### TypeScript项目引入
-
-```typescript
-import initLoading from 'web-loading/src/loading'
-import type { LoadingType } from 'web-loading/src/types.d'
+import type { LoadingType } from "web-loading";
+import { initLoading } from "web-loading";
 let webLoading: LoadingType = initLoading({
   // 自定义options
 })
@@ -99,7 +74,7 @@ let webLoading: LoadingType = initLoading({
 ### 启动
 
 ```typescript
-// 注意:在网页加载完成后在调用loading
+// 注意:在dom加载完成后在调用loading
 window.onload = function () {
   webLoading.loading(dom)
 }
@@ -109,7 +84,7 @@ window.onload = function () {
 >
 > - `dom`:挂载的`HtmlElement`元素
 >
-> - `options?:OptionsType`，每次启动支持覆盖`options`。
+> - `options?:OptionsType`，支持覆盖`options`。
 
 ## 启动方式
 
@@ -118,24 +93,13 @@ window.onload = function () {
 - 修改`type`切换启动方式
 
 ```typescript
-import type { LoadingType } from 'web-loading/src/types.d'
-import { LOADING_TYPES } from "web-loading/src/utils";
-let webLoading: LoadingType = initLoading({
-  type: LOADING_TYPES.MINI // 或 LOADING_TYPES.FULL
-})
-// 启动
+import type { LoadingType } from "web-loading";
+import { fullLoading,miniLoading LOADING_TYPES } from "web-loading";
+
+let webLoading: LoadingType = fullLoading() // 全屏
+// let webLoading: LoadingType = miniLoading() // 移动端
+
+// 启动(如果是MINI或者FULL无需传递dom)
 webLoading.loading()
 ```
 
-- 函数修改
-
-```typescript
-import { fullLoading, miniLoading } from 'web-loading/src/loading'
-let webLoading: LoadingType = fullLoading() // miniLoading
-// 启动
-webLoading.loading()
-```
-
-> - 全局引入，同理，函数都已经挂载`window`上。
-> - 函数修改`WebLoading`内部也是修改`type`实现。
-> - 扩展启动方式无需提供元素。

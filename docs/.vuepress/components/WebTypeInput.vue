@@ -87,7 +87,7 @@ import { ref, watch } from 'vue'
 interface PropsType {
   options: OptionsType
   modelValue: any
-  label: string
+  label?: string
 }
 const props = withDefaults(defineProps<PropsType>(), {
   label: 'title'

@@ -56,7 +56,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { LOADING_TYPES, MODEL_TYPES } from 'web-loading'
 import 'element-plus/dist/index.css'
 import {
   ElCard,
@@ -71,7 +70,7 @@ import {
   ElNotification,
   ElSkeleton
 } from 'element-plus'
-import { OPTIONS_FORM } from '../../../../utils/enum'
+import { OPTIONS_FORM,LOADING_TYPES, MODEL_TYPES} from '../../../../utils/enum'
 import defOptions from '../../../../utils/options'
 import { canvasList } from '../../../../utils/listData.ts'
 let list = reactive([])

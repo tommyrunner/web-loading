@@ -43,4 +43,24 @@ export enum CANVAS_LINE_CAP {
   round = 'round',
   square = 'square'
 }
+
+export enum MODEL_TYPES {
+  GEAR = 'Gear',
+  RING = 'Ring',
+  ZOOM = 'Zoom',
+  PATTERN = 'Pattern',
+  CLOCK = 'Clock',
+  BEAN = 'Bean',
+  ROLL = 'Roll',
+  Circular = 'Circular',
+  IMG = 'Img',
+  SKELETON = 'Skeleton'
+}
+
+export enum LOADING_TYPES {
+  DOM = 'dom',
+  FULL = 'full',
+  MINI = 'mini'
+}
+
 export default {}

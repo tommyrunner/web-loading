@@ -30,7 +30,7 @@ export default [
     link: '/document/',
     children: [
       {
-        text: 'web-loading(v1.3.x)',
+        text: 'web-loading(v1.4.x)',
         link: 'https://tommyrunner.github.io/web-loading/'
       },
       {

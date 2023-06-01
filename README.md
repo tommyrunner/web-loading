@@ -40,16 +40,6 @@ npm install web-loading
 
 ## 使用
 
-### 获取元素
-
-```typescript
-// 无框架情况
-let dom = document.querySelector('xxx')
-// vue
-let dom = ref()
-// ...(目的是获取dom元素)
-```
-
 ### CDN引入
 
 ```html
@@ -70,6 +60,16 @@ let webLoading: LoadingType = initLoading({
 >   - `options?:OptionsType`
 > - 返回
 >   - `webLoading:LoadingType`
+
+### 获取元素
+
+```typescript
+// 无框架情况
+let dom = document.querySelector('xxx')
+// vue
+let dom = ref()
+// ...(目的是获取dom元素)
+```
 
 ### 启动
 

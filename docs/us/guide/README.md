@@ -39,16 +39,6 @@ npm install web-loading
 
 ## use
 
-### Get Element
-
-```typescript
-// No frame
-let dom = document.querySelector('xxx')
-// vue
-let dom = ref()
-// ...(The purpose is to get the dom element)
-```
-
 ### CDN introduction
 
 ```html
@@ -69,6 +59,16 @@ let webLoading: LoadingType = initLoading({
 >   - `options?:OptionsType`
 > - return
 >   - `webLoading:LoadingType`
+
+### Get Element
+
+```typescript
+// No frame
+let dom = document.querySelector('xxx')
+// vue
+let dom = ref()
+// ...(The purpose is to get the dom element)
+```
 
 ### start-up
 

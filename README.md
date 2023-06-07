@@ -68,7 +68,7 @@ let webLoading: LoadingType = initLoading({
 let dom = document.querySelector('xxx')
 // vue
 let dom = ref()
-// ...(目的是获取dom元素)
+// ...如果是FULL或MINI不需要获取元素
 ```
 
 ### 启动
@@ -89,8 +89,6 @@ window.onload = function () {
 ## 启动方式
 
 `DOM`、`FULL`、`MINI`三种启动方式都需要基于`HtmlElement`，这里`FULL`、`MINI`是扩展的启动方式，参数中无须提供`HtemlElment`，是因为`WebLoading`已经处理的元素的创建到消失的流程。
-
-- 修改`type`切换启动方式
 
 ```typescript
 import type { LoadingType } from "web-loading";

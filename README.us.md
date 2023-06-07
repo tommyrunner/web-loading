@@ -68,7 +68,7 @@ let webLoading: LoadingType = initLoading({
 let dom = document.querySelector('xxx')
 // vue
 let dom = ref()
-// ...(The purpose is to get the dom element)
+// ...If it is FULL or MINI, it is not necessary to obtain the element
 ```
 
 ### start-up
@@ -89,8 +89,6 @@ window.onload = function () {
 ## Start mode
 
 `DOM `,`FULL`,`MINI`All three startup methods need to be based on`HtmlElement`, where`FULL`and`MINI`are the extended startup methods, and`HtmlElement`is not required in the parameters, because`WebLoading`has processed the process from creation to disappearance of elements.
-
-- Modify the `type` switch start mode
 
 ```typescript
 import type { LoadingType } from "web-loading";

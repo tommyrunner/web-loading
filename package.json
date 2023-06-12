@@ -1,7 +1,7 @@
 {
   "name": "web-loading",
-  "version": "1.4.17",
-  "main": "./index.js",
+  "version": "1.4.19",
+  "main": "./dist/web-loading.js",
   "typings": "./dist/web-loading.d.ts",
   "jsdelivr": "./dist/web-loading.js",
   "unpkg": "./dist/web-loading.js",
@@ -12,6 +12,7 @@
     "push": "npm run build & npm publish"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.35.2",
     "@rollup/plugin-commonjs": "^21.0.3",
     "@rollup/plugin-inject": "^4.0.4",
     "@rollup/plugin-json": "^4.1.0",

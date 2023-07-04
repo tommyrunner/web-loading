@@ -17,9 +17,9 @@ Web 中实现 loading 的方式有很多种，例如使用`css`动画、`js`操�
 
 `WebLoading`中每一个**model**都是使用`Canvas`绘制，启动方式分别有`DOM`(元素挂载)、`FULL`(全屏)、`MINI`(移动端)。
 
-原理大同小异，这里以`DOM`来讲述，首先我们需要`initLoading`初始化你需要渲染的**model**并提供自定义参数，当然，这个操作不是必须的，因为`WebLoading`已经初始化所以的默认数据，此时抛出操作`WebLoading`相关函数。
+原理大同小异，这里以`DOM`来讲述，首先我们需要`initLoading`初始化你需要渲染的**model**并提供自定义参数，当然，这个操作不是必须的，因为`WebLoading`已经初始化所有的默认数据，此时抛出操作`WebLoading`相关函数。
 
-启动`WebLoading`调用`loading`函数需要一个`HtmlElement`元素，该元素必须拥有`children`，而不是一个单标签元素。启动`WebLoading`时会获取到这个挂载的元素，并在`children`添加一个`Canvas`，同时会计算该元素位置以及大小以最优显示同步到`Canvas`上。`WebLoading`会根据`options`参数来绘制具体的**model**，**model**中主要以`requestAnimationFrame`来进行递归回调渲染，以来实现每一帧动画。
+启动`WebLoading`调用`loading`函数需要一个`HtmlElement`元素，该元素必须拥有`children`，而不是一个单标签元素。启动`WebLoading`时会获取到这个挂载的元素，并在`children`添加一个`Canvas`，同时会计算该元素位置以及大小以最优显示同步到`Canvas`上。`WebLoading`会根据`options`参数来绘制具体的**model**，**model**中主要以`requestAnimationFrame`来进行递归回调渲染，以此来实现每一帧动画。
 
 注意：如果配置是通过**html**渲染，那么就不会走上一步。
 
@@ -73,7 +73,7 @@ let dom = ref()
 ### 启动
 
 ```typescript
-// 注意:在dom加载完成后在调用loading
+// 注意:在dom加载完成后再调用loading
 window.onload = function () {
   webLoading.loading(dom)
 }

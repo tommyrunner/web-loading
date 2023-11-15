@@ -44,6 +44,10 @@ npm install web-loading
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
+<script>
+	const webLoading = window.fullLoading({})
+    // initLoading、fullLoading、miniLoading All bound to the window...
+</script>
 ```
 
 ### Introduction of engineering projects

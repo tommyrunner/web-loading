@@ -1655,7 +1655,7 @@ function drawController(w, h, canvas, options, element) {
     }
 }
 
-var $window$4 = window;
+var $window$5 = window;
 /**
  * Initialize $store
  * @param element Container element
@@ -1692,22 +1692,22 @@ function initStoreHooksCall(hooks) {
 }
 function initCanvas() {
     return {
-        canvas: $window$4.document.createElement('canvas'),
+        canvas: $window$5.document.createElement('canvas'),
         hooks: initHooksCall(),
         loadingId: createLoadingId()
     };
 }
 function initHtml() {
     return {
-        content: $window$4.document.createElement('div'),
+        content: $window$5.document.createElement('div'),
         loadingId: createLoadingId()
     };
 }
 
-var $window$3 = window;
+var $window$4 = window;
 function initContentStyle(element, op, loadingId, animaEl) {
     // The client takes the true width and height. If penetration is enabled, the rolling width and height are taken
-    var elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth, elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight, readElementStyle = $window$3.getComputedStyle(element), elementStyle = element.style, contentStyle = animaEl.style;
+    var elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth, elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight, readElementStyle = $window$4.getComputedStyle(element), elementStyle = element.style, contentStyle = animaEl.style;
     if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
         element.style.pointerEvents = 'none';
     }
@@ -1739,7 +1739,7 @@ function initContentStyle(element, op, loadingId, animaEl) {
     // injection
     element.append(animaEl);
     // Trigger to enter animation
-    $window$3.setTimeout(function () { return (contentStyle.opacity = '1'); }, 0);
+    $window$4.setTimeout(function () { return (contentStyle.opacity = '1'); }, 0);
     onTransitionEndEvent(element, function () {
         // Wait for all elements to appear and complete (animation ends)
         element.$store.loadingId = loadingId;
@@ -1754,7 +1754,7 @@ function initContentStyle(element, op, loadingId, animaEl) {
  * @param h
  */
 function setupCanvas(canvas, w, h) {
-    var dpr = $window$3.devicePixelRatio || 1;
+    var dpr = $window$4.devicePixelRatio || 1;
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     canvas.style.width = "".concat(w, "px");
@@ -1769,7 +1769,7 @@ function clearStyle(element, op, canvas) {
     }
 }
 
-var $window$2 = window;
+var $window$3 = window;
 var WebLoading = /*#__PURE__*/ (function () {
     function WebLoading(options) {
         // canvas animation elements
@@ -1795,7 +1795,7 @@ var WebLoading = /*#__PURE__*/ (function () {
     WebLoading.prototype.resize = function (element, animaEl) {
         var _this = this;
         if (!this.resizeTimeId)
-            this.resizeTimeId = $window$2.setTimeout(function () {
+            this.resizeTimeId = $window$3.setTimeout(function () {
                 var canvas = animaEl;
                 var w = element.clientWidth, h = element.clientHeight;
                 if (canvas.width > element.clientWidth) {
@@ -1824,7 +1824,7 @@ var WebLoading = /*#__PURE__*/ (function () {
         var _this = this;
         var op = this.options;
         var store = element.$store;
-        $window$2.setTimeout(function () {
+        $window$3.setTimeout(function () {
             // Trigger Close Animation
             clearStyle(element, op, animaEl);
             if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
@@ -1903,7 +1903,7 @@ var WebLoading = /*#__PURE__*/ (function () {
     return WebLoading;
 }());
 
-var $window$1 = window;
+var $window$2 = window;
 var ExtendLoading = /*#__PURE__*/ (function () {
     function ExtendLoading(options) {
         this.options = options;
@@ -1914,7 +1914,7 @@ var ExtendLoading = /*#__PURE__*/ (function () {
      * @returns extension container element
      */
     ExtendLoading.prototype.initStyle = function () {
-        this.extendEl = $window$1.document.createElement('div');
+        this.extendEl = $window$2.document.createElement('div');
         var op = this.options;
         var w = '100vw', h = '100vh', borderRadius = '0px';
         if (op) {
@@ -1926,7 +1926,7 @@ var ExtendLoading = /*#__PURE__*/ (function () {
             }
             this.extendEl.style.cssText = "\n          position:fixed;\n          width:".concat(w, ";\n          height:").concat(h, ";\n          top:50%;\n          left:50%;\n          transform:translate(-50%, -50%);\n          border-radius: ").concat(borderRadius, ";\n          z-index: ").concat(op.zIndex, ";\n          box-shadow:\n          2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),\n          6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),\n          12.5px 12.5px 10px rgba(0, 0, 0, 0.035),\n          22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),\n          41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),\n          100px 100px 80px rgba(0, 0, 0, 0.07)\n          ;\n      ");
         }
-        $window$1.document.body.appendChild(this.extendEl);
+        $window$2.document.body.appendChild(this.extendEl);
         return this.extendEl;
     };
     ExtendLoading.prototype.getElement = function () {
@@ -1935,7 +1935,7 @@ var ExtendLoading = /*#__PURE__*/ (function () {
     return ExtendLoading;
 }());
 
-var $window = window;
+var $window$1 = window;
 /** @public */
 function initLoading(options) {
     var webLoading = new WebLoading(options);
@@ -1958,7 +1958,7 @@ function initLoading(options) {
                 // Processing Senseless Loading through rece
                 var loadingPromise = new Promise(function (res) {
                     // If the time of notFeed exceeds the close time, it is considered as an insensitive load
-                    $window.setTimeout(function () {
+                    $window$1.setTimeout(function () {
                         res(true);
                     }, op.notFeel);
                 });
@@ -2028,5 +2028,21 @@ function fullLoading(options) {
 function miniLoading(options) {
     return _$extendLoading(LOADING_TYPES.MINI, options);
 }
+
+var $window = window;
+$window.BaseModel = BaseModel;
+// initialization
+$window.initLoading = function (options) {
+    return initLoading(options);
+};
+// extend
+// Mobile terminal
+$window.miniLoading = function (options) {
+    return _$extendLoading(LOADING_TYPES.MINI, options);
+};
+// Full screen
+$window.fullLoading = function (options) {
+    return _$extendLoading(LOADING_TYPES.FULL, options);
+};
 
 export { BaseModel, CIRCULAR_ACTION, HOOKSCALL_KEY, LOADING_TYPES, LOG_TYPES, MODEL_TYPES, PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, fullLoading, initLoading, miniLoading };

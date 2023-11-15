@@ -2,6 +2,7 @@
  * @packageDocumentation
  */
 export { OptionsType, LoadingType, ElementStoreType, ElementType, LimitType, LogConfigType } from './type'
+import './main'
 export * from './draw/type'
 export {
   LOADING_TYPES,

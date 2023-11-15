@@ -1,6 +1,6 @@
 {
   "name": "web-loading",
-  "version": "1.4.19",
+  "version": "1.4.25",
   "main": "./dist/web-loading.js",
   "typings": "./dist/web-loading.d.ts",
   "jsdelivr": "./dist/web-loading.js",

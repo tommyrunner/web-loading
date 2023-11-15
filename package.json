@@ -1,6 +1,6 @@
 {
   "name": "web-loading",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "main": "./dist/main.js",
   "scripts": {
     "docs": "docs.sh",

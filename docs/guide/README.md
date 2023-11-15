@@ -43,7 +43,13 @@ npm install web-loading
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
+<script>
+	const webLoading = window.fullLoading({})
+    // initLoading、fullLoading、miniLoading都绑定在window上...
+</script>
 ```
+[html例子入口](../document/use.md#原生html项目例子)
+
 
 ### 工程项目引入
 

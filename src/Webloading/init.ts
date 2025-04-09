@@ -1,6 +1,6 @@
 import type { ElementType, HooksCallType, OptionsType } from '../type'
 import type { HooksType } from './type'
-import { HOOKSCALL_KEY, createLoadingId } from '../utils'
+import { HOOKS_CALL_KEY, createLoadingId } from '../utils'
 const $window = window
 /**
  * Initialize $store
@@ -19,18 +19,18 @@ export function initStore(element: ElementType, options: OptionsType, hooks: Hoo
 }
 export function initHooksCall(): HooksType {
   return {
-    [HOOKSCALL_KEY.BEFORE_COLSE]: [],
-    [HOOKSCALL_KEY.COLSED]: []
+    [HOOKS_CALL_KEY.BEFORE_CLOSE]: [],
+    [HOOKS_CALL_KEY.CLOSED]: []
   }
 }
 // Initialize hooks
 export function initStoreHooksCall(hooks: HooksType): HooksCallType {
   return {
-    [HOOKSCALL_KEY.BEFORE_COLSE]: (fun: Function) => {
-      hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun)
+    [HOOKS_CALL_KEY.BEFORE_CLOSE]: (fun: Function) => {
+      hooks[HOOKS_CALL_KEY.BEFORE_CLOSE].push(fun)
     },
-    [HOOKSCALL_KEY.COLSED]: (fun: (params?: any) => any) => {
-      hooks[HOOKSCALL_KEY.COLSED].push(fun)
+    [HOOKS_CALL_KEY.CLOSED]: (fun: (params?: any) => any) => {
+      hooks[HOOKS_CALL_KEY.CLOSED].push(fun)
     }
   }
 }

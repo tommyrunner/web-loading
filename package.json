@@ -1,6 +1,6 @@
 {
   "name": "web-loading",
-  "version": "1.4.25",
+  "version": "1.5.0",
   "main": "./dist/web-loading.js",
   "typings": "./dist/web-loading.d.ts",
   "jsdelivr": "./dist/web-loading.js",
@@ -33,5 +33,16 @@
   },
   "dependencies": {
     "tslib": "^2.5.0"
-  }
+  },
+  "keywords": [
+    "Vue3",
+    "HTML",
+    "Canvas",
+    "Loading"
+  ],
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "author": "tommyrunner",
+  "license": "ISC"
 }

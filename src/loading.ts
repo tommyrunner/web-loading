@@ -1,4 +1,4 @@
-import WebLoading from './Webloading/index'
+import WebLoading from './WebLoading/index'
 import ExtendLoading from './ExtendLoading'
 import type { OptionsType, LoadingType, ElementType } from './type'
 import { LOADING_TYPES, getDefOptions, $Log } from './utils'

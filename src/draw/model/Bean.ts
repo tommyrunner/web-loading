@@ -65,7 +65,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     // Draw points
     this.drawPoint()
     // Filter Canvas
-    this.drawFillter()
+    this.drawFilter()
     // Draw text
     this.drawText({ esGap: op.beanSize })
     // technological process
@@ -101,7 +101,7 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.bean.beanAnimaIndex += 0.2
     this.ctx.restore()
   }
-  drawFillter() {
+  drawFilter() {
     const op = this.options
     // eye
     this.clearRect(-op.beanSize / 3 + this.bean.nowX, -op.beanSize / 2, op.beanSize / 4)

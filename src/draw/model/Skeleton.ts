@@ -68,7 +68,7 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     this.skeleton.forEach((s) => {
       const el = s.element
       // Handle the problem of fillet exposure
-      this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius)
+      this.drawRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius)
       this.ctx.fill()
     })
     if (op.animation) {

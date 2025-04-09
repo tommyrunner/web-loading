@@ -1,4 +1,4 @@
-import { MODEL_TYPES, LOADING_TYPES, HOOKSCALL_KEY } from './utils'
+import { MODEL_TYPES, LOADING_TYPES, HOOKS_CALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
 /** @public */
 export interface OptionsType {
@@ -63,7 +63,7 @@ export interface LoadingType {
   getLoadingId: () => string | null
 }
 // The mapping key is enum
-export type HooksCallType<T extends string = HOOKSCALL_KEY> = {
+export type HooksCallType<T extends string = HOOKS_CALL_KEY> = {
   [key in T]: Function
 }
 /** @public */

@@ -1,6 +1,6 @@
 import type { ElementType, OptionsType } from '../type'
 import type { HooksType } from './type'
-import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log, HOOKSCALL_KEY, onTransitionEndEvent } from '../utils'
+import { LOADING_TYPES, getDefOptions, clearAnimationFrame, $Log, HOOKS_CALL_KEY, onTransitionEndEvent } from '../utils'
 import drawController from '../draw/index'
 import { initStore, initHooksCall, initCanvas, initHtml } from './init'
 import { initContentStyle, setupCanvas, clearStyle } from './style'
@@ -73,7 +73,7 @@ export default class WebLoading {
             // Clear model
             store.model = null
             // Callback before closing
-            this.callEvent(HOOKSCALL_KEY.BEFORE_COLSE)
+            this.callEvent(HOOKS_CALL_KEY.BEFORE_CLOSE)
             // stop it animationFrame
             if (store.animationId) clearAnimationFrame(store.animationId)
           }
@@ -83,7 +83,7 @@ export default class WebLoading {
           // erase status
           this.loadingId = null
           // Callback after closing
-          this.callEvent(HOOKSCALL_KEY.COLSED)
+          this.callEvent(HOOKS_CALL_KEY.CLOSED)
           // Callback after closing
           this.hooks = initHooksCall()
         })
@@ -126,7 +126,7 @@ export default class WebLoading {
     }
   }
   // Trigger hooks
-  private callEvent(hooksKey: HOOKSCALL_KEY) {
+  private callEvent(hooksKey: HOOKS_CALL_KEY) {
     if (this.hooks)
       this.hooks[hooksKey].forEach((event: Function) => {
         event()

@@ -47,15 +47,6 @@ export default class Clock extends BaseModel<ClockOptionsType> {
     // Draw clock
     this.drawClock()
   }
-  // drawText(h: number, m: number, s: number) {
-  //   const op = this.options
-  //   this.ctx.save()
-  //   this.ctx.beginPath()
-
-  //   this.ctx.fillText(op.text, 0, y)
-  //   this.ctx.closePath()
-  //   this.ctx.restore()
-  // }
   drawClock() {
     const op = this.options
     const s = new Date().getSeconds()

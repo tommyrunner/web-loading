@@ -27,8 +27,8 @@ export enum MODEL_TYPES {
   BEAN = 'Bean',
   // ROLL
   ROLL = 'Roll',
-  // Circular
-  Circular = 'Circular',
+  // CIRCULAR
+  CIRCULAR = 'Circular',
   // IMG
   IMG = 'Img',
   // SKELETON
@@ -66,9 +66,9 @@ export function getDefOptions(): Required<OptionsType> {
   }
 }
 /** @public */
-export enum HOOKSCALL_KEY {
-  BEFORE_COLSE = 'beforeColse',
-  COLSED = 'colsed'
+export enum HOOKS_CALL_KEY {
+  BEFORE_CLOSE = 'beforeClose',
+  CLOSED = 'closed'
 }
 /** @public */
 export enum LOG_TYPES {
@@ -134,7 +134,7 @@ export function isNull(value: any): value is boolean | Function {
   }
 }
 /**
- * empty aniamtions
+ * Empty animation
  * @param id -
  */
 /** @function */

@@ -51,7 +51,7 @@ export interface RingOptionsType extends OptionsType {
 export interface ZoomOptionsType extends OptionsType {
   // Zoom changes the most
   maxSize?: number
-  // Zomm distance
+  // Zoom distance
   zoomGap?: number
   // Height of zomm
   zoomHeight?: number
@@ -122,7 +122,7 @@ export interface RollOptionsType extends OptionsType {
   // Windmill center color
   windmillPointColor?: string
   // Center fixed or not
-  fixad?: boolean
+  fixed?: boolean
 }
 /** @public */
 export interface ImageOptionsType extends OptionsType {

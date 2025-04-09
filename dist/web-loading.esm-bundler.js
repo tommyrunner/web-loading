@@ -28,8 +28,8 @@ var MODEL_TYPES;
     MODEL_TYPES["BEAN"] = "Bean";
     // ROLL
     MODEL_TYPES["ROLL"] = "Roll";
-    // Circular
-    MODEL_TYPES["Circular"] = "Circular";
+    // CIRCULAR
+    MODEL_TYPES["CIRCULAR"] = "Circular";
     // IMG
     MODEL_TYPES["IMG"] = "Img";
     // SKELETON
@@ -67,11 +67,11 @@ function getDefOptions() {
     };
 }
 /** @public */
-var HOOKSCALL_KEY;
-(function (HOOKSCALL_KEY) {
-    HOOKSCALL_KEY["BEFORE_COLSE"] = "beforeColse";
-    HOOKSCALL_KEY["COLSED"] = "colsed";
-})(HOOKSCALL_KEY || (HOOKSCALL_KEY = {}));
+var HOOKS_CALL_KEY;
+(function (HOOKS_CALL_KEY) {
+    HOOKS_CALL_KEY["BEFORE_CLOSE"] = "beforeClose";
+    HOOKS_CALL_KEY["CLOSED"] = "closed";
+})(HOOKS_CALL_KEY || (HOOKS_CALL_KEY = {}));
 /** @public */
 var LOG_TYPES;
 (function (LOG_TYPES) {
@@ -135,7 +135,7 @@ function isNull(value) {
     }
 }
 /**
- * empty aniamtions
+ * Empty animation
  * @param id -
  */
 /** @function */
@@ -287,7 +287,7 @@ var BaseModel = /*#__PURE__*/ (function () {
     BaseModel.prototype._$initEvent = function () {
         var _this = this;
         // Empty canvas before closing
-        this.element.$store.hookCall.beforeColse(function () {
+        this.element.$store.hookCall.beforeClose(function () {
             _this.clearRect();
         });
     };
@@ -397,7 +397,7 @@ var BaseModel = /*#__PURE__*/ (function () {
      * @param h - height
      * @param r - radius
      */
-    BaseModel.prototype.drowRadiusRect = function (x, y, w, h, r) {
+    BaseModel.prototype.drawRadiusRect = function (x, y, w, h, r) {
         this.ctx.beginPath();
         this.ctx.arc(x + r, y + r, r, 1 * Math.PI, 1.5 * Math.PI);
         this.ctx.lineTo(x + w - r, y);
@@ -793,7 +793,7 @@ var Bean$1 = /*#__PURE__*/ (function (_super) {
         // Draw points
         this.drawPoint();
         // Filter Canvas
-        this.drawFillter();
+        this.drawFilter();
         // Draw text
         this.drawText({ esGap: op.beanSize });
         // technological process
@@ -836,7 +836,7 @@ var Bean$1 = /*#__PURE__*/ (function (_super) {
         this.bean.beanAnimaIndex += 0.2;
         this.ctx.restore();
     };
-    Bean.prototype.drawFillter = function () {
+    Bean.prototype.drawFilter = function () {
         var op = this.options;
         // eye
         this.clearRect(-op.beanSize / 3 + this.bean.nowX, -op.beanSize / 2, op.beanSize / 4);
@@ -895,14 +895,6 @@ var Clock = /*#__PURE__*/ (function (_super) {
         // Draw clock
         this.drawClock();
     };
-    // drawText(h: number, m: number, s: number) {
-    //   const op = this.options
-    //   this.ctx.save()
-    //   this.ctx.beginPath()
-    //   this.ctx.fillText(op.text, 0, y)
-    //   this.ctx.closePath()
-    //   this.ctx.restore()
-    // }
     Clock.prototype.drawClock = function () {
         var op = this.options;
         var s = new Date().getSeconds();
@@ -1031,7 +1023,7 @@ var Pattern = /*#__PURE__*/ (function (_super) {
             nowHeight: 10,
             chart: _this.randomState('charts'),
             shadow: 0,
-            nowSatate: 1,
+            nowState: 1,
             turn: 0
         };
         _this.run(_this.draw);
@@ -1058,11 +1050,11 @@ var Pattern = /*#__PURE__*/ (function (_super) {
     Pattern.prototype.controller = function (op) {
         this.pattern.turn += 10; // angle
         // Height and shadow
-        if (this.pattern.nowSatate === 1) {
+        if (this.pattern.nowState === 1) {
             this.pattern.nowHeight--;
             this.pattern.shadow += 0.2;
         }
-        else if (this.pattern.nowSatate === 2) {
+        else if (this.pattern.nowState === 2) {
             this.pattern.nowHeight++;
             this.pattern.shadow -= 0.2;
         }
@@ -1074,10 +1066,10 @@ var Pattern = /*#__PURE__*/ (function (_super) {
         }
         // Range
         if (this.pattern.nowHeight <= -op.maxHeight) {
-            this.pattern.nowSatate = 2;
+            this.pattern.nowState = 2;
         }
         else if (this.pattern.nowHeight >= op.chartSize) {
-            this.pattern.nowSatate = 1;
+            this.pattern.nowState = 1;
             op.delay = 10;
             // Toggle Graphics
             this.pattern.chart = this.randomState('charts');
@@ -1199,7 +1191,7 @@ var modelDefOptions$3 = {
     chart: ROLL_CHART.WHEEL,
     windmills: ['#1ab3ea', '#de6834', '#30925d', '#f48ea5'],
     windmillPointColor: '#f2c31f',
-    fixad: false
+    fixed: false
 };
 var limits = [
     {
@@ -1223,7 +1215,7 @@ var Roll = /*#__PURE__*/ (function (_super) {
         var _this = _super.call(this, w, h, canvas, options, element, modelDefOptions$3, limits) || this;
         _this.Roll = {
             turn: 1,
-            nowX: _this.options.fixad
+            nowX: _this.options.fixed
                 ? 0
                 : (_this.options.childNum / 2) * (_this.options.rollSize + _this.options.rollGap) + _this.options.rollGap / 2,
             state: 2,
@@ -1269,15 +1261,15 @@ var Roll = /*#__PURE__*/ (function (_super) {
         var op = this.options;
         if (this.Roll.state === 1) {
             this.Roll.turn -= 10;
-            if (op.delay < 20 && !op.fixad)
+            if (op.delay < 20 && !op.fixed)
                 op.delay += 2;
         }
         if (this.Roll.state === 2) {
             this.Roll.turn += 10;
-            if (op.delay > 10 && !op.fixad)
+            if (op.delay > 10 && !op.fixed)
                 op.delay -= 5;
         }
-        if (op.fixad)
+        if (op.fixed)
             return;
         if (this.Roll.nowX <= -(op.childNum / 2) * (op.rollSize + op.rollGap / 1.6))
             this.Roll.state = 1;
@@ -1404,7 +1396,7 @@ var Bean = /*#__PURE__*/ (function (_super) {
         // Initialize data
         var op = _this.options;
         var gap = op.arcSize * 2 + op.arcGap;
-        _this.collsionPoint = [
+        _this.collisionPoint = [
             {
                 key: 0,
                 state: false,
@@ -1452,7 +1444,7 @@ var Bean = /*#__PURE__*/ (function (_super) {
     };
     Bean.prototype.controller = function () {
         var op = this.options;
-        this.collsionPoint.forEach(function (cp) {
+        this.collisionPoint.forEach(function (cp) {
             var key = 'y';
             switch (cp.key) {
                 case 0:
@@ -1482,7 +1474,7 @@ var Bean = /*#__PURE__*/ (function (_super) {
     Bean.prototype.drawCircular = function () {
         var _this = this;
         var op = this.options;
-        this.collsionPoint.forEach(function (cp, index) {
+        this.collisionPoint.forEach(function (cp, index) {
             _this.ctx.save();
             _this.ctx.beginPath();
             if (op.arcColors[index]) {
@@ -1507,7 +1499,7 @@ var Bean = /*#__PURE__*/ (function (_super) {
 }(BaseModel));
 
 var modelDefOptions$1 = {
-    src: 'data:image/png;base64,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',
+    src: 'https://tommyrunner.github.io/web-loading/images/logo.png',
     width: 52,
     height: 52,
     turn: true
@@ -1606,7 +1598,7 @@ var Skeleton = /*#__PURE__*/ (function (_super) {
         this.skeleton.forEach(function (s) {
             var el = s.element;
             // Handle the problem of fillet exposure
-            _this.drowRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius);
+            _this.drawRadiusRect(el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight, op.radius);
             _this.ctx.fill();
         });
         if (op.animation) {
@@ -1674,19 +1666,19 @@ function initStore(element, options, hooks) {
 function initHooksCall() {
     var _a;
     return _a = {},
-        _a[HOOKSCALL_KEY.BEFORE_COLSE] = [],
-        _a[HOOKSCALL_KEY.COLSED] = [],
+        _a[HOOKS_CALL_KEY.BEFORE_CLOSE] = [],
+        _a[HOOKS_CALL_KEY.CLOSED] = [],
         _a;
 }
 // Initialize hooks
 function initStoreHooksCall(hooks) {
     var _a;
     return _a = {},
-        _a[HOOKSCALL_KEY.BEFORE_COLSE] = function (fun) {
-            hooks[HOOKSCALL_KEY.BEFORE_COLSE].push(fun);
+        _a[HOOKS_CALL_KEY.BEFORE_CLOSE] = function (fun) {
+            hooks[HOOKS_CALL_KEY.BEFORE_CLOSE].push(fun);
         },
-        _a[HOOKSCALL_KEY.COLSED] = function (fun) {
-            hooks[HOOKSCALL_KEY.COLSED].push(fun);
+        _a[HOOKS_CALL_KEY.CLOSED] = function (fun) {
+            hooks[HOOKS_CALL_KEY.CLOSED].push(fun);
         },
         _a;
 }
@@ -1838,7 +1830,7 @@ var WebLoading = /*#__PURE__*/ (function () {
                     // Clear model
                     store.model = null;
                     // Callback before closing
-                    _this.callEvent(HOOKSCALL_KEY.BEFORE_COLSE);
+                    _this.callEvent(HOOKS_CALL_KEY.BEFORE_CLOSE);
                     // stop it animationFrame
                     if (store.animationId)
                         clearAnimationFrame(store.animationId);
@@ -1851,7 +1843,7 @@ var WebLoading = /*#__PURE__*/ (function () {
                 // erase status
                 _this.loadingId = null;
                 // Callback after closing
-                _this.callEvent(HOOKSCALL_KEY.COLSED);
+                _this.callEvent(HOOKS_CALL_KEY.CLOSED);
                 // Callback after closing
                 _this.hooks = initHooksCall();
             });
@@ -2045,4 +2037,4 @@ $window.fullLoading = function (options) {
     return _$extendLoading(LOADING_TYPES.FULL, options);
 };
 
-export { BaseModel, CIRCULAR_ACTION, HOOKSCALL_KEY, LOADING_TYPES, LOG_TYPES, MODEL_TYPES, PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, fullLoading, initLoading, miniLoading };
+export { BaseModel, CIRCULAR_ACTION, HOOKS_CALL_KEY, LOADING_TYPES, LOG_TYPES, MODEL_TYPES, PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, fullLoading, initLoading, miniLoading };

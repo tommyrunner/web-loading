@@ -69,7 +69,7 @@ export declare class BaseModel<T extends OptionsType> {
      * @param h - height
      * @param r - radius
      */
-    drowRadiusRect(x: number, y: number, w: number, h: number, r: number): void;
+    drawRadiusRect(x: number, y: number, w: number, h: number, r: number): void;
     /**
      *
      * @param params -
@@ -154,12 +154,12 @@ export declare interface GearOptionsType extends OptionsType {
 }
 
 /** @public */
-export declare enum HOOKSCALL_KEY {
-    BEFORE_COLSE = "beforeColse",
-    COLSED = "colsed"
+export declare enum HOOKS_CALL_KEY {
+    BEFORE_CLOSE = "beforeClose",
+    CLOSED = "closed"
 }
 
-declare type HooksCallType<T extends string = HOOKSCALL_KEY> = {
+declare type HooksCallType<T extends string = HOOKS_CALL_KEY> = {
     [key in T]: Function;
 };
 
@@ -229,7 +229,7 @@ export declare enum MODEL_TYPES {
     CLOCK = "Clock",
     BEAN = "Bean",
     ROLL = "Roll",
-    Circular = "Circular",
+    CIRCULAR = "Circular",
     IMG = "Img",
     SKELETON = "Skeleton"
 }
@@ -306,7 +306,7 @@ export declare interface RollOptionsType extends OptionsType {
     chart?: ROLL_CHART;
     windmills?: Array<string>;
     windmillPointColor?: string;
-    fixad?: boolean;
+    fixed?: boolean;
 }
 
 /** @public */

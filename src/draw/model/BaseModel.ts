@@ -71,7 +71,7 @@ export default class BaseModel<T extends OptionsType> {
   // Initialize default events
   private _$initEvent() {
     // Empty canvas before closing
-    this.element.$store.hookCall.beforeColse(() => {
+    this.element.$store.hookCall.beforeClose(() => {
       this.clearRect()
     })
   }
@@ -174,7 +174,7 @@ export default class BaseModel<T extends OptionsType> {
    * @param h - height
    * @param r - radius
    */
-  drowRadiusRect(x: number, y: number, w: number, h: number, r: number) {
+  drawRadiusRect(x: number, y: number, w: number, h: number, r: number) {
     this.ctx.beginPath()
     this.ctx.arc(x + r, y + r, r, 1 * Math.PI, 1.5 * Math.PI)
     this.ctx.lineTo(x + w - r, y)

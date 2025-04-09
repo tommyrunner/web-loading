@@ -10,7 +10,7 @@ const modelDefOptions: RollOptionsType = {
   chart: ROLL_CHART.WHEEL,
   windmills: ['#1ab3ea', '#de6834', '#30925d', '#f48ea5'],
   windmillPointColor: '#f2c31f',
-  fixad: false
+  fixed: false
 }
 
 const limits: Array<LimitType> = [
@@ -51,7 +51,7 @@ export default class Roll extends BaseModel<RollOptionsType> {
     super(w, h, canvas, options, element, modelDefOptions, limits)
     this.Roll = {
       turn: 1,
-      nowX: this.options.fixad
+      nowX: this.options.fixed
         ? 0
         : (this.options.childNum / 2) * (this.options.rollSize + this.options.rollGap) + this.options.rollGap / 2,
       state: 2,
@@ -96,13 +96,13 @@ export default class Roll extends BaseModel<RollOptionsType> {
     const op = this.options
     if (this.Roll.state === 1) {
       this.Roll.turn -= 10
-      if (op.delay < 20 && !op.fixad) op.delay += 2
+      if (op.delay < 20 && !op.fixed) op.delay += 2
     }
     if (this.Roll.state === 2) {
       this.Roll.turn += 10
-      if (op.delay > 10 && !op.fixad) op.delay -= 5
+      if (op.delay > 10 && !op.fixed) op.delay -= 5
     }
-    if (op.fixad) return
+    if (op.fixed) return
     if (this.Roll.nowX <= -(op.childNum / 2) * (op.rollSize + op.rollGap / 1.6)) this.Roll.state = 1
     if (this.Roll.nowX >= (op.childNum / 2) * (op.rollSize + op.rollGap) + op.rollGap / 2) this.Roll.state = 2
     if (this.Roll.state === 1) this.Roll.nowX++

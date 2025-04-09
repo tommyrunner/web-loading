@@ -9,14 +9,14 @@ const modelDefOptions: CircularOptionsType = {
   action: CIRCULAR_ACTION.COLLISION
 }
 
-interface CollsionType {
+interface CollisionType {
   key: number
   state: boolean
   y: number
   x: number
 }
 export default class Bean extends BaseModel<CircularOptionsType> {
-  collsionPoint: Array<CollsionType>
+  collisionPoint: Array<CollisionType>
   turn: number
   constructor(
     w: number,
@@ -29,7 +29,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     // Initialize data
     const op = this.options
     const gap = op.arcSize * 2 + op.arcGap
-    this.collsionPoint = [
+    this.collisionPoint = [
       {
         key: 0,
         state: false,
@@ -75,8 +75,8 @@ export default class Bean extends BaseModel<CircularOptionsType> {
   }
   controller() {
     const op = this.options
-    this.collsionPoint.forEach((cp: any) => {
-      let key = 'y'
+    this.collisionPoint.forEach((cp: CollisionType) => {
+      let key: 'y' | 'x' = 'y'
       switch (cp.key) {
         case 0:
           key = 'y'
@@ -100,7 +100,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
   }
   drawCircular() {
     const op = this.options
-    this.collsionPoint.forEach((cp, index) => {
+    this.collisionPoint.forEach((cp: CollisionType, index: number) => {
       this.ctx.save()
       this.ctx.beginPath()
       if (op.arcColors[index]) {

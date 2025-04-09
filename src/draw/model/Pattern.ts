@@ -36,7 +36,7 @@ interface PatternType {
   // shadow
   shadow: number
   // 0: initialization, 1: rise, 2: fall
-  nowSatate: number
+  nowState: number
 }
 export default class Pattern extends BaseModel<PatternOptionsType> {
   pattern: PatternType
@@ -55,7 +55,7 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
       nowHeight: 10,
       chart: this.randomState('charts'),
       shadow: 0,
-      nowSatate: 1,
+      nowState: 1,
       turn: 0
     }
     this.run(this.draw)
@@ -81,10 +81,10 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
   controller(op: Required<PatternOptionsType>) {
     this.pattern.turn += 10 // angle
     // Height and shadow
-    if (this.pattern.nowSatate === 1) {
+    if (this.pattern.nowState === 1) {
       this.pattern.nowHeight--
       this.pattern.shadow += 0.2
-    } else if (this.pattern.nowSatate === 2) {
+    } else if (this.pattern.nowState === 2) {
       this.pattern.nowHeight++
       this.pattern.shadow -= 0.2
     }
@@ -96,9 +96,9 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     }
     // Range
     if (this.pattern.nowHeight <= -op.maxHeight) {
-      this.pattern.nowSatate = 2
+      this.pattern.nowState = 2
     } else if (this.pattern.nowHeight >= op.chartSize) {
-      this.pattern.nowSatate = 1
+      this.pattern.nowState = 1
       op.delay = 10
       // Toggle Graphics
       this.pattern.chart = this.randomState('charts')

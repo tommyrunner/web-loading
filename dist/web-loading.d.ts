@@ -1,20 +1,41 @@
 /**
  * @packageDocumentation
+ * @description 包文档说明
  */
 
 /**
- * Log output
- * @param message - content
- * @param config - to configure
+ * @description 日志输出类
+ * @public
  */
 declare class $Log {
+    /**
+     * @description 输出信息日志
+     * @param {string} message - 日志内容
+     */
     static info(message: string): void;
+    /**
+     * @description 输出警告日志
+     * @param {string} message - 日志内容
+     */
     static warn(message: string): void;
+    /**
+     * @description 输出错误日志
+     * @param {string} message - 日志内容
+     */
     static error(message: string): void;
+    /**
+     * @description 调用日志输出
+     * @param {string} message - 日志内容
+     * @param {LOG_TYPES} type - 日志类型
+     * @param {LogConfigType} config - 日志配置
+     */
     static call(message: string, type?: LOG_TYPES, config?: LogConfigType): void;
 }
 
-/** @public */
+/**
+ * @description 基础模型类
+ * @public
+ */
 export declare class BaseModel<T extends OptionsType> {
     w: number;
     h: number;
@@ -28,73 +49,93 @@ export declare class BaseModel<T extends OptionsType> {
     webLog: $Log;
     private stepClear;
     /**
-     * Custom BaseModel
-     * @param w - Canvas width
-     * @param h - Canvas height
-     * @param canvas - Canvas
-     * @param options - Options
-     * @param element - Container element
-     * @param modelDefOptions -  Default options of model (Optional)
-     * @param limits -  Default limits of model (Optional)
-     * @param modelDefCall - Provides Callback function for model initialization，Generally initialize "canvas" or "brush" in model (Optional)
+     * @description 自定义基础模型
+     * @param {number} w - Canvas宽度
+     * @param {number} h - Canvas高度
+     * @param {HTMLCanvasElement} canvas - Canvas元素
+     * @param {Required<T>} options - 配置选项
+     * @param {ElementType} element - 容器元素
+     * @param {T} [modelDefOptions] - 模型默认选项（可选）
+     * @param {Array<LimitType>} [limits] - 模型默认限制（可选）
+     * @param {Function} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
      */
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, element: ElementType, modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void);
     private _$initBaseContext;
     private _$initEvent;
     /**
-     * Encapsulate requestAnimationFrame to trigger the animation pin
-     * @param fun - Trigger function
-     * @returns
+     * @description 封装requestAnimationFrame触发动画针
+     * @param {Function} fun - 触发函数
+     * @private
      */
     private _$animationFrame;
     /**
-     * Initialize brush properties
-     * @param modelDefOptions - Provides Options for model initialization
-     * @param limits - Provides Limits for model initialization
-     * @param modelDefCall - Provides Callback function for model initialization
+     * @description 初始化画笔属性
+     * @param {T} [modelDefOptions] - 提供模型初始化的选项
+     * @param {Array<LimitType>} [limits] - 提供模型初始化的限制
+     * @param {Function} [modelDefCall] - 提供模型初始化的回调函数
      */
     initContextCall(modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void): void;
+    /**
+     * @description 开始动画
+     * @param {Function} fun - 动画函数
+     */
     run(fun: Function): void;
     /**
-     * Cancel animationFrame animation pin
-     * @param id - Animation id
+     * @description 取消animationFrame动画针
+     * @param {number} id - 动画ID
      */
     clearAnimationFrame(id: number): void;
+    /**
+     * @description 清空画布
+     * @param {number} [x] - x坐标
+     * @param {number} [y] - y坐标
+     * @param {number} [w_r] - 宽度或半径
+     * @param {number} [h] - 高度
+     */
     clearRect(x?: number, y?: number, w_r?: number, h?: number): void;
     /**
-     * Draw a rounded rectangle
-     * @param x - x
-     * @param y - y
-     * @param w - width
-     * @param h - height
-     * @param r - radius
+     * @description 绘制圆角矩形
+     * @param {number} x - x坐标
+     * @param {number} y - y坐标
+     * @param {number} w - 宽度
+     * @param {number} h - 高度
+     * @param {number} r - 圆角半径
      */
     drawRadiusRect(x: number, y: number, w: number, h: number, r: number): void;
     /**
-     *
-     * @param params -
+     * @description 绘制文本
+     * @param {DrawTextParamsType} [params] - 文本参数
      * DrawTextParamsType:
-     *    esGap?: Extra void
-     x?: X-axis
-     text?: text
-     textColor?: text color
+     *    esGap?: 额外空隙
+     *    x?: X轴位置
+     *    text?: 文本内容
+     *    textColor?: 文本颜色
      */
     drawText(params?: DrawTextParamsType): void;
 }
 
-/** @public */
+/**
+ * @description 豆形模型配置类型
+ * @public
+ */
 export declare interface BeanOptionsType extends OptionsType {
     beanSize?: number;
     pointLength?: number;
 }
 
-/** @public */
+/**
+ * @description 圆形动作枚举
+ * @public
+ */
 export declare enum CIRCULAR_ACTION {
     COLLISION = "collision",
     ROTATE = "rotate"
 }
 
-/** @public */
+/**
+ * @description 圆形模型配置类型
+ * @public
+ */
 export declare interface CircularOptionsType extends OptionsType {
     arcSize?: number;
     arcGap?: number;
@@ -102,7 +143,10 @@ export declare interface CircularOptionsType extends OptionsType {
     action?: CIRCULAR_ACTION;
 }
 
-/** @public */
+/**
+ * @description 时钟模型配置类型
+ * @public
+ */
 export declare interface ClockOptionsType extends OptionsType {
     textTime?: 'time' | 's' | '';
     lineColors?: Array<string>;
@@ -115,7 +159,10 @@ export declare interface ClockOptionsType extends OptionsType {
     sLine?: boolean;
 }
 
-/** @public */
+/**
+ * @description 绘制文本参数类型
+ * @public
+ */
 export declare interface DrawTextParamsType {
     esGap?: number;
     x?: number;
@@ -123,7 +170,10 @@ export declare interface DrawTextParamsType {
     textColor?: string;
 }
 
-/** @public */
+/**
+ * @description 元素存储类型接口
+ * @public
+ */
 export declare interface ElementStoreType {
     options: OptionsType;
     animationId: number | undefined;
@@ -132,16 +182,27 @@ export declare interface ElementStoreType {
     model: BaseModel<OptionsType> | null;
 }
 
-/** @public */
+/**
+ * @description 元素类型接口
+ * @public
+ */
 export declare interface ElementType extends HTMLElement {
     loadingId?: string | null;
     $store: ElementStoreType;
 }
 
-/** @public */
+/**
+ * @description 全屏加载
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @public
+ */
 export declare function fullLoading(options?: OptionsType): LoadingType;
 
-/** @public */
+/**
+ * @description 齿轮模型配置类型
+ * @public
+ */
 export declare interface GearOptionsType extends OptionsType {
     lineStart?: number;
     lineEnd?: number;
@@ -153,17 +214,27 @@ export declare interface GearOptionsType extends OptionsType {
     direction?: boolean;
 }
 
-/** @public */
+/**
+ * @description 钩子调用键枚举
+ * @public
+ */
 export declare enum HOOKS_CALL_KEY {
     BEFORE_CLOSE = "beforeClose",
     CLOSED = "closed"
 }
 
+/**
+ * @description 钩子调用类型
+ * 映射键是枚举
+ */
 declare type HooksCallType<T extends string = HOOKS_CALL_KEY> = {
     [key in T]: Function;
 };
 
-/** @public */
+/**
+ * @description 图片模型配置类型
+ * @public
+ */
 export declare interface ImageOptionsType extends OptionsType {
     src?: string;
     width?: number;
@@ -171,10 +242,18 @@ export declare interface ImageOptionsType extends OptionsType {
     turn?: boolean;
 }
 
-/** @public */
+/**
+ * @description 初始化加载动画
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @public
+ */
 export declare function initLoading(options?: OptionsType): LoadingType;
 
-/** @public */
+/**
+ * @description 限制类型接口
+ * @public
+ */
 export declare interface LimitType {
     key: string;
     message: string;
@@ -182,16 +261,19 @@ export declare interface LimitType {
 }
 
 /**
- * Supported loading methods
+ * @description 支持的加载方法
+ * @public
  */
-/** @public */
 export declare enum LOADING_TYPES {
     DOM = "dom",
     FULL = "full",
     MINI = "mini"
 }
 
-/** @public */
+/**
+ * @description 加载类型接口
+ * @public
+ */
 export declare interface LoadingType {
     loading: Function;
     resize: Function;
@@ -201,26 +283,37 @@ export declare interface LoadingType {
     getLoadingId: () => string | null;
 }
 
-/** @public */
+/**
+ * @description 日志类型枚举
+ * @public
+ */
 export declare enum LOG_TYPES {
     INFO = 1,
     WARN = 2,
     ERROR = 3
 }
 
-/** @public */
+/**
+ * @description 日志配置类型
+ * @public
+ */
 export declare type LogConfigType = {
     color?: string;
     bgColor?: string;
 };
 
-/** @public */
+/**
+ * @description 迷你加载
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @public
+ */
 export declare function miniLoading(options?: OptionsType): LoadingType;
 
 /**
- * Supported models
+ * @description 支持的模型类型
+ * @public
  */
-/** @public */
 export declare enum MODEL_TYPES {
     GEAR = "Gear",
     RING = "Ring",
@@ -234,7 +327,10 @@ export declare enum MODEL_TYPES {
     SKELETON = "Skeleton"
 }
 
-/** @public */
+/**
+ * @description 配置选项接口
+ * @public
+ */
 export declare interface OptionsType {
     custom?: typeof BaseModel | null;
     type?: LOADING_TYPES;
@@ -260,7 +356,10 @@ export declare interface OptionsType {
     toast?: boolean;
 }
 
-/** @public */
+/**
+ * @description 图案类型枚举
+ * @public
+ */
 export declare enum PATTERN_CHART {
     RECT = "rect",
     ARC = "arc",
@@ -269,7 +368,10 @@ export declare enum PATTERN_CHART {
     POLYGON = "polygon"
 }
 
-/** @public */
+/**
+ * @description 图案模型配置类型
+ * @public
+ */
 export declare interface PatternOptionsType extends OptionsType {
     charts?: Array<PATTERN_CHART>;
     chartSize?: number;
@@ -277,7 +379,10 @@ export declare interface PatternOptionsType extends OptionsType {
     maxHeight?: number;
 }
 
-/** @public */
+/**
+ * @description 环形模型配置类型
+ * @public
+ */
 export declare interface RingOptionsType extends OptionsType {
     ringGap?: number;
     arcGap?: number;
@@ -290,14 +395,20 @@ export declare interface RingOptionsType extends OptionsType {
     direction?: boolean;
 }
 
-/** @public */
+/**
+ * @description 滚动图表类型枚举
+ * @public
+ */
 export declare enum ROLL_CHART {
     RECT = "rect",
     WHEEL = "wheel",
     WINDMILL = "windmill"
 }
 
-/** @public */
+/**
+ * @description 滚动模型配置类型
+ * @public
+ */
 export declare interface RollOptionsType extends OptionsType {
     rollGap?: number;
     rollSize?: number;
@@ -309,7 +420,10 @@ export declare interface RollOptionsType extends OptionsType {
     fixed?: boolean;
 }
 
-/** @public */
+/**
+ * @description 骨架屏模型配置类型
+ * @public
+ */
 export declare interface SkeletonOptionsType extends OptionsType {
     skeletonColor?: string;
     skeletonAnimationColor?: string;
@@ -319,14 +433,20 @@ export declare interface SkeletonOptionsType extends OptionsType {
     appointElementClass?: Array<string>;
 }
 
-/** @public */
+/**
+ * @description 缩放动作枚举
+ * @public
+ */
 export declare enum ZOOM_ACTION {
     SCALE = "scale",
     WAVE = "wave",
     HEIGHT = "height"
 }
 
-/** @public */
+/**
+ * @description 缩放模型配置类型
+ * @public
+ */
 export declare interface ZoomOptionsType extends OptionsType {
     maxSize?: number;
     zoomGap?: number;

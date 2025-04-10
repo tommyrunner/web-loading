@@ -316,7 +316,7 @@ export declare interface SkeletonOptionsType extends OptionsType {
     radius?: number;
     animation?: boolean;
     deep?: boolean;
-    appoint?: string;
+    appointElementClass?: Array<string>;
 }
 
 /** @public */

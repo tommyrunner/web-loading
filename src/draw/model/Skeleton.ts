@@ -7,7 +7,7 @@ const modelDefOptions: SkeletonOptionsType = {
   radius: 5,
   animation: true,
   deep: true,
-  appoint: ''
+  appointElementClass: []
 }
 interface SkeletonType {
   element: HTMLElement
@@ -17,7 +17,6 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
   skeleton: Array<SkeletonType>
   colorFlow: number
   state: number
-  WL_IMG: 'wl-img'
   constructor(
     w: number,
     h: number,
@@ -36,7 +35,6 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     this.skeleton = []
     this.colorFlow = 0
     this.state = 1
-    this.WL_IMG = 'wl-img'
     this.controller(this.element.children)
     this.run(this.draw)
   }
@@ -44,17 +42,43 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
     this.clearRect()
     this.drawSkeleton()
   }
+  /**
+   * 将元素添加到骨架屏元素列表中
+   * @param element - 要添加的元素
+   */
+  addElementToSkeleton(element: Element) {
+    const op = this.options
+    const filter = op.appointElementClass
+    // 如果设置了appointElementClass，只处理具有该类的元素
+    if (filter && filter.length > 0) {
+      console.log(element.classList)
+      if (filter.some((c) => element.classList.contains(c))) {
+        this.skeleton.push({ title: element.nodeName, element: element as HTMLElement })
+      }
+    } else {
+      this.skeleton.push({ title: element.nodeName, element: element as HTMLElement })
+    }
+  }
+
+  /**
+   * 控制器函数，处理DOM元素
+   * @param els - HTML元素集合
+   */
   controller(els: HTMLCollection) {
     const op = this.options
-    for (const e of Array.from(els)) {
-      if (this.element.loadingId === e.id) continue
-      if (op.appoint.length > 0 && e.getAttribute(op.appoint) === null) continue
+    for (const e of Array.from<Element>(els)) {
+      // 排除绘制canvas元素
+      if (this.canvas === e) continue
       if (op.deep) {
         if (e.children.length <= 0) {
-          this.skeleton.push({ title: e.nodeName, element: e as HTMLElement })
-        } else this.controller(e.children)
+          this.addElementToSkeleton(e)
+        } else {
+          // 如果指定了appointElementClass，则包含父元素，否则只包含所有根元素
+          if (op.appointElementClass && op.appointElementClass.length) this.addElementToSkeleton(e)
+          this.controller(e.children)
+        }
       } else {
-        this.skeleton.push({ title: e.nodeName, element: e as HTMLElement })
+        this.addElementToSkeleton(e)
       }
     }
   }
@@ -78,30 +102,4 @@ export default class Skeleton extends BaseModel<SkeletonOptionsType> {
       if (this.state === 2) this.colorFlow -= 0.06
     }
   }
-  // Draw a picture Skeleton
-  // drawSkeletonImg(x: number, y: number, size: number) {
-  //     let op = this.options
-  //     this.ctx.save()
-  //     this.ctx.fillStyle = op.imgColor
-  //     this.ctx.strokeStyle = op.imgColor
-  //     this.ctx.beginPath()
-  //     this.ctx.lineWidth = 2.8
-  //     this.ctx.strokeRect(x, y, size, size)
-  //     this.ctx.closePath()
-
-  //     this.ctx.beginPath()
-  //     this.ctx.arc(x + size / 3.6, y + size / 3.6, size / 6, 0, Math.PI * 2)
-  //     this.ctx.fill()
-  //     this.ctx.closePath()
-
-  //     this.ctx.beginPath()
-  //     this.ctx.lineWidth = 2
-  //     this.ctx.moveTo(x, y + size)
-  //     this.ctx.lineTo(x + size / 4, y + size - size / 3)
-  //     this.ctx.lineTo(x + size / 2, y + size - size / 6)
-  //     this.ctx.lineTo(x + size / 1.5, y + size - size / 2)
-  //     this.ctx.lineTo(x + size, y + size)
-  //     this.ctx.stroke()
-  //     this.ctx.restore()
-  // }
 }

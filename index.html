@@ -13,7 +13,7 @@
           id:
           <span class="value">001</span>
         </div>
-        <div>
+        <div class="web-loading">
           user:
           <span class="value">use1</span>
         </div>
@@ -39,16 +39,18 @@
         }
         // loading
         let docApp = document.querySelector('#app')
-        const webLoading = fullLoading({
+        const webLoading = initLoading({
           // custom: CustomLoading,
-          model: 'Img'
+          bgColor: 'transparent',
+          appointElementClass: ['web-loading'],
+          model: 'Skeleton'
           // notFeel: 1000,
           // size: 20
         })
         window.addEventListener('resize', webLoading.resize)
         webLoading.loading(docApp)
         setTimeout(() => {
-          webLoading.close()
+          // webLoading.close()
         }, 300)
       }
     </script>

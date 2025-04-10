@@ -1545,7 +1545,7 @@ var modelDefOptions = {
     radius: 5,
     animation: true,
     deep: true,
-    appoint: ''
+    appointElementClass: []
 };
 var Skeleton = /*#__PURE__*/ (function (_super) {
     __extends(Skeleton, _super);
@@ -1561,7 +1561,6 @@ var Skeleton = /*#__PURE__*/ (function (_super) {
         _this.skeleton = [];
         _this.colorFlow = 0;
         _this.state = 1;
-        _this.WL_IMG = 'wl-img';
         _this.controller(_this.element.children);
         _this.run(_this.draw);
         return _this;
@@ -1570,23 +1569,48 @@ var Skeleton = /*#__PURE__*/ (function (_super) {
         this.clearRect();
         this.drawSkeleton();
     };
+    /**
+     * 将元素添加到骨架屏元素列表中
+     * @param element - 要添加的元素
+     */
+    Skeleton.prototype.addElementToSkeleton = function (element) {
+        var op = this.options;
+        var filter = op.appointElementClass;
+        // 如果设置了appointElementClass，只处理具有该类的元素
+        if (filter && filter.length > 0) {
+            console.log(element.classList);
+            if (filter.some(function (c) { return element.classList.contains(c); })) {
+                this.skeleton.push({ title: element.nodeName, element: element });
+            }
+        }
+        else {
+            this.skeleton.push({ title: element.nodeName, element: element });
+        }
+    };
+    /**
+     * 控制器函数，处理DOM元素
+     * @param els - HTML元素集合
+     */
     Skeleton.prototype.controller = function (els) {
         var op = this.options;
         for (var _i = 0, _a = Array.from(els); _i < _a.length; _i++) {
             var e = _a[_i];
-            if (this.element.loadingId === e.id)
-                continue;
-            if (op.appoint.length > 0 && e.getAttribute(op.appoint) === null)
+            // 排除绘制canvas元素
+            if (this.canvas === e)
                 continue;
             if (op.deep) {
                 if (e.children.length <= 0) {
-                    this.skeleton.push({ title: e.nodeName, element: e });
+                    this.addElementToSkeleton(e);
                 }
-                else
+                else {
+                    // 如果指定了appointElementClass，则包含父元素
+                    if (op.appointElementClass && op.appointElementClass.length)
+                        this.addElementToSkeleton(e);
                     this.controller(e.children);
+                }
             }
             else {
-                this.skeleton.push({ title: e.nodeName, element: e });
+                this.addElementToSkeleton(e);
             }
         }
     };

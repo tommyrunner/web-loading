@@ -138,9 +138,7 @@ export interface SkeletonOptionsType extends OptionsType {
   radius?: number
   animation?: boolean
   deep?: boolean
-  appoint?: string
-  // imgColor: string
-  // imgSize: number
+  appointElementClass?: Array<string>
 }
 /** @public */
 export interface CircularOptionsType extends OptionsType {

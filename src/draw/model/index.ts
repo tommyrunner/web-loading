@@ -1,4 +1,7 @@
-// 动态引入会导致404
+/**
+ * @description 动态导入所有模型
+ * @note 动态引入会导致404，因此使用静态导入
+ */
 import Gear from './Gear'
 import Zoom from './Zoom'
 import Ring from './Ring'

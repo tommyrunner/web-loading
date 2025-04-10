@@ -1,5 +1,6 @@
 /**
  * @packageDocumentation
+ * @description 包文档说明
  */
 export { OptionsType, LoadingType, ElementStoreType, ElementType, LimitType, LogConfigType } from './type'
 import './main'

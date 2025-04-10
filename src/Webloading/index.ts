@@ -5,29 +5,36 @@ import drawController from '../draw/index'
 import { initStore, initHooksCall, initCanvas, initHtml } from './init'
 import { initContentStyle, setupCanvas, clearStyle } from './style'
 const $window = window
+/**
+ * @description Web加载类
+ */
 export default class WebLoading {
-  // canvas animation elements
+  // canvas动画元素
   canvas: HTMLCanvasElement | null = null
-  // Html animation elements
+  // Html动画元素
   htmlElement: HTMLDivElement | null = null
-  // Animation element id
+  // 动画元素ID
   loadingId: string | null = null
-  // Container element
+  // 容器元素
   element: ElementType | null = null
-  // Configure options
+  // 配置选项
   options: Required<OptionsType>
-  // hooks
+  // 钩子
   hooks: HooksType | null = null
-  // Resize control
+  // 大小调整控制
   resizeTimeId: number | null = null
+  /**
+   * @description 构造函数
+   * @param {OptionsType} [options] - 配置选项
+   */
   constructor(options?: OptionsType) {
-    // Initialize default configuration
+    // 初始化默认配置
     this.options = Object.assign(getDefOptions(), options)
   }
   /**
-   * Reset Animation Container Size
-   * @param element Container element
-   * @param animaEl animation elements
+   * @description 重置动画容器大小
+   * @param {ElementType} element - 容器元素
+   * @param {HTMLCanvasElement | HTMLDivElement} animaEl - 动画元素
    */
   resize(element: ElementType, animaEl: HTMLCanvasElement | HTMLDivElement) {
     if (!this.resizeTimeId)
@@ -36,7 +43,7 @@ export default class WebLoading {
         let w = element.clientWidth,
           h = element.clientHeight
         if (canvas.width > element.clientWidth) {
-          // The scroll bar needs to be calculated when shrinking
+          // 收缩时需要计算滚动条
           w = element.offsetWidth
           h = element.offsetHeight
         }
@@ -51,72 +58,71 @@ export default class WebLoading {
       }, this.options.delayInto)
   }
   /**
-   * Turn off animation
-   * @param element Container element
-   * @param animaEl animation elements
+   * @description 关闭动画
+   * @param {ElementType} element - 容器元素
+   * @param {HTMLCanvasElement | HTMLDivElement} animaEl - 动画元素
    */
   close(element: ElementType, animaEl: HTMLCanvasElement | HTMLDivElement) {
     const op = this.options
     const store = element.$store
     $window.setTimeout(
       () => {
-        // Trigger Close Animation
+        // 触发关闭动画
         clearStyle(element, op, animaEl)
         if (op.type === LOADING_TYPES.DOM && !op.pointerEvents) {
           element.style.pointerEvents = 'auto'
         }
-        // Prevent seconds from closing. If seconds are closed,
-        // it is necessary to wait for the previous animation to end before clearing the cache
+        // 防止二次关闭，如果二次关闭，需要等待上一个动画结束后再清除缓存
         onTransitionEndEvent(element, () => {
-          // Need to end the style before ending the canvas animation
+          // 结束canvas动画前需要结束样式
           if (store) {
-            // Clear model
+            // 清除模型
             store.model = null
-            // Callback before closing
+            // 关闭前回调
             this.callEvent(HOOKS_CALL_KEY.BEFORE_CLOSE)
-            // stop it animationFrame
+            // 停止animationFrame
             if (store.animationId) clearAnimationFrame(store.animationId)
           }
-          // If the dom is extended, clear the parent element (the parent element is created by webLoading)
+          // 如果dom是扩展的，清除父元素（父元素由webLoading创建）
           if (op.type !== LOADING_TYPES.DOM) element.remove()
           else animaEl.remove()
-          // erase status
+          // 擦除状态
           this.loadingId = null
-          // Callback after closing
+          // 关闭后回调
           this.callEvent(HOOKS_CALL_KEY.CLOSED)
-          // Callback after closing
+          // 重置钩子
           this.hooks = initHooksCall()
         })
       },
-      // If the seconds are off, it is necessary to actively add a delay
+      // 如果是二次关闭，需要主动添加延迟
       !store.loadingId ? op.delayInto : 0
     )
   }
 
   /**
-   * Draw animation
-   * @param element Container element
+   * @description 绘制动画
+   * @param {ElementType} element - 容器元素
    */
   draw(element: ElementType) {
     const op = this.options
-    // Compatible with html
+    // 兼容html
     if (op.html) {
-      // Initialize basic data
+      // 初始化基础数据
       const { content, loadingId } = initHtml()
       this.htmlElement = content
       this.htmlElement.innerHTML = op.html
       this.loadingId = loadingId
-      // Initialize style
+      // 初始化样式
       this.element = initContentStyle(element, op, loadingId, content)
     } else {
-      // Initialize basic data
+      // 初始化基础数据
       const { canvas, hooks, loadingId } = initCanvas()
       this.canvas = canvas
       this.hooks = hooks
       this.loadingId = loadingId
-      // Initialize store
+      // 初始化存储
       initStore(element, op, hooks)
-      // Initialize style
+      // 初始化样式
       this.element = initContentStyle(element, op, loadingId, canvas)
       if (element.$store) {
         drawController(canvas.offsetWidth, canvas.offsetHeight, canvas, this.options, element)
@@ -125,7 +131,11 @@ export default class WebLoading {
       }
     }
   }
-  // Trigger hooks
+  /**
+   * @description 触发钩子
+   * @param {HOOKS_CALL_KEY} hooksKey - 钩子键
+   * @private
+   */
   private callEvent(hooksKey: HOOKS_CALL_KEY) {
     if (this.hooks)
       this.hooks[hooksKey].forEach((event: Function) => {

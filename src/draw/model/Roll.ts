@@ -2,6 +2,9 @@ import type { ElementType, LimitType } from '../../type'
 import type { RollOptionsType } from '../type'
 import { getDefOptions, ROLL_CHART } from '../../utils'
 import BaseModel from './BaseModel'
+/**
+ * @description 滚动模型默认配置选项
+ */
 const modelDefOptions: RollOptionsType = {
   rollGap: 12,
   childNum: 4,
@@ -13,6 +16,9 @@ const modelDefOptions: RollOptionsType = {
   fixed: false
 }
 
+/**
+ * @description 滚动模型限制条件
+ */
 const limits: Array<LimitType> = [
   {
     key: 'childNum',
@@ -29,18 +35,36 @@ const limits: Array<LimitType> = [
     }
   }
 ]
+/**
+ * @description 子元素类型接口
+ */
 interface childType {
   turn: number
   x: number
 }
+/**
+ * @description 滚动类型接口
+ */
 interface RollType {
   turn: number
   nowX: number
   state: number
   child: Array<childType>
 }
+/**
+ * @description 滚动模型类
+ * @extends BaseModel<RollOptionsType>
+ */
 export default class Roll extends BaseModel<RollOptionsType> {
   Roll: RollType
+  /**
+   * @description 构造函数
+   * @param {number} w - 宽度
+   * @param {number} h - 高度
+   * @param {HTMLCanvasElement} canvas - Canvas元素
+   * @param {Required<RollOptionsType>} options - 配置选项
+   * @param {ElementType} element - 容器元素
+   */
   constructor(
     w: number,
     h: number,
@@ -59,25 +83,31 @@ export default class Roll extends BaseModel<RollOptionsType> {
     }
     this.run(this.draw)
   }
+  /**
+   * @description 绘制滚动模型
+   */
   draw() {
     this.clearRect()
-    // ground
+    // 地面
     this.drawGround()
-    // Draw child
+    // 绘制子元素
     this.drawChild()
     this.ctx.save()
     this.ctx.beginPath()
     this.ctx.translate(-this.Roll.nowX, 0)
     this.ctx.rotate((this.Roll.turn * Math.PI) / 180)
-    // Draw Graph
+    // 绘制图形
     this.selectChart()
-    // technological process
+    // 控制进程
     this.controller()
     this.ctx.restore()
-    // Draw text
+    // 绘制文本
     const op = this.options
     this.drawText({ esGap: op.rollSize })
   }
+  /**
+   * @description 选择图形类型
+   */
   selectChart() {
     const op = this.options
     switch (op.chart) {
@@ -92,6 +122,9 @@ export default class Roll extends BaseModel<RollOptionsType> {
         break
     }
   }
+  /**
+   * @description 控制滚动动画
+   */
   controller() {
     const op = this.options
     if (this.Roll.state === 1) {
@@ -116,7 +149,9 @@ export default class Roll extends BaseModel<RollOptionsType> {
       this.Roll.child.pop()
     }
   }
-  // square
+  /**
+   * @description 绘制矩形
+   */
   drawRect() {
     const op = this.options
     this.ctx.save()
@@ -125,27 +160,29 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.ctx.fillRect(0, 0, op.rollSize, op.rollSize)
     this.ctx.restore()
   }
-  // wheel
+  /**
+   * @description 绘制轮子
+   */
   drawWheel() {
     const op = this.options
     this.ctx.save()
     this.ctx.lineWidth = 4
-    // Inner circle 1
+    // 内圆1
     this.ctx.beginPath()
     this.ctx.arc(0, 0, op.rollSize / 6, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
-    // Inner circle 2
+    // 内圆2
     this.ctx.beginPath()
     this.ctx.arc(0, 0, op.rollSize / 2, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
-    // Outer circle
+    // 外圆
     this.ctx.beginPath()
     this.ctx.arc(0, 0, op.rollSize, 0, Math.PI * 2)
     this.ctx.stroke()
     this.ctx.closePath()
-    // hub
+    // 轮辐
     for (let i = 0; i < 6; i++) {
       this.ctx.beginPath()
       this.ctx.moveTo(0, op.rollSize / 2)
@@ -156,7 +193,9 @@ export default class Roll extends BaseModel<RollOptionsType> {
     }
     this.ctx.restore()
   }
-  // windmill
+  /**
+   * @description 绘制风车
+   */
   drawWindmill() {
     const op = this.options
     this.ctx.save()
@@ -168,13 +207,16 @@ export default class Roll extends BaseModel<RollOptionsType> {
       this.ctx.closePath()
       this.ctx.rotate(((360 / 4) * Math.PI) / 180)
     }
-    // Upper level consolidation
+    // 上层固定点
     this.ctx.beginPath()
     this.ctx.fillStyle = op.windmillPointColor
     this.ctx.arc(0, 0, op.rollSize / 2, 0, Math.PI * 2)
     this.ctx.fill()
     this.ctx.restore()
   }
+  /**
+   * @description 绘制子元素
+   */
   drawChild() {
     const op = this.options
     if (!op.showChild) return
@@ -187,6 +229,9 @@ export default class Roll extends BaseModel<RollOptionsType> {
       this.ctx.restore()
     })
   }
+  /**
+   * @description 绘制地面
+   */
   drawGround() {
     const op = this.options
     if (op.chart !== ROLL_CHART.WHEEL) return
@@ -200,6 +245,9 @@ export default class Roll extends BaseModel<RollOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
   }
+  /**
+   * @description 设置阴影
+   */
   setShadow() {
     const op = this.options
     this.ctx.shadowOffsetX = op.shadowOffsetX

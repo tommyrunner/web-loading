@@ -1,13 +1,21 @@
 import type { ElementType, OptionsType } from '../type'
 import { LOADING_TYPES, toType, onTransitionEndEvent } from '../utils'
 const $window = window
+/**
+ * @description 初始化内容样式
+ * @param {ElementType} element - 容器元素
+ * @param {Required<OptionsType>} op - 配置选项
+ * @param {string} loadingId - 加载ID
+ * @param {HTMLCanvasElement | HTMLDivElement} animaEl - 动画元素
+ * @returns {ElementType} 容器元素
+ */
 export function initContentStyle(
   element: ElementType,
   op: Required<OptionsType>,
   loadingId: string,
   animaEl: HTMLCanvasElement | HTMLDivElement
 ): ElementType {
-  // The client takes the true width and height. If penetration is enabled, the rolling width and height are taken
+  // 客户端获取真实宽高，如果启用穿透则获取滚动宽高
   const elementW = op.pointerEvents ? element.scrollWidth : element.clientWidth,
     elementH = op.pointerEvents ? element.scrollHeight : element.clientHeight,
     readElementStyle = $window.getComputedStyle(element),
@@ -17,7 +25,7 @@ export function initContentStyle(
     element.style.pointerEvents = 'none'
   }
   if (!readElementStyle.position || readElementStyle.position === 'static') elementStyle.position = 'relative'
-  // Initialize canvas style
+  // 初始化canvas样式
   animaEl.id = loadingId
   contentStyle.opacity = '0'
   contentStyle.position = 'absolute'
@@ -27,34 +35,33 @@ export function initContentStyle(
   contentStyle.transition = `${op.delayInto / 1000}s ease-in-out`
   contentStyle.backgroundColor = op.bgColor
   contentStyle.borderRadius = readElementStyle.borderRadius
-  // Set canvas size
+  // 设置canvas大小
   if (toType(animaEl) === 'htmlcanvaselement') {
     setupCanvas(animaEl as HTMLCanvasElement, elementW, elementH)
   } else if (toType(animaEl) === 'htmldivelement') {
-    // Initialize compatible html styles
+    // 初始化兼容html样式
     contentStyle.width = `${elementW}px`
     contentStyle.height = `${elementH}px`
-    // Center
+    // 居中
     contentStyle.display = 'flex'
     contentStyle.alignItems = 'center'
     contentStyle.justifyContent = 'center'
   }
-  // injection
+  // 注入
   element.append(animaEl)
-  // Trigger to enter animation
+  // 触发进入动画
   $window.setTimeout(() => (contentStyle.opacity = '1'), 0)
   onTransitionEndEvent(element, () => {
-    // Wait for all elements to appear and complete (animation ends)
+    // 等待所有元素出现并完成（动画结束）
     element.$store.loadingId = loadingId
   })
   return element
 }
 /**
- * Handle the amplification distortion. At the same time,
- * changing the height and width will also reset all contents of the canvas.
- * @param canvas
- * @param w
- * @param h
+ * @description 处理放大失真，同时更改高度和宽度也会重置canvas的所有内容
+ * @param {HTMLCanvasElement} canvas - Canvas元素
+ * @param {number} w - 宽度
+ * @param {number} h - 高度
  */
 export function setupCanvas(canvas: HTMLCanvasElement, w: number, h: number) {
   const dpr = $window.devicePixelRatio || 1
@@ -63,10 +70,16 @@ export function setupCanvas(canvas: HTMLCanvasElement, w: number, h: number) {
   canvas.style.width = `${w}px`
   canvas.style.height = `${h}px`
 }
+/**
+ * @description 清除样式
+ * @param {ElementType} element - 容器元素
+ * @param {OptionsType} op - 配置选项
+ * @param {HTMLCanvasElement | HTMLDivElement} canvas - Canvas或DIV元素
+ */
 export function clearStyle(element: ElementType, op: OptionsType, canvas: HTMLCanvasElement | HTMLDivElement) {
-  // First visual transition
+  // 首先视觉过渡
   canvas.style.opacity = '0'
-  // Clear Extension
+  // 清除扩展
   if (op.type !== LOADING_TYPES.DOM) {
     element.style.boxShadow = 'none'
   }

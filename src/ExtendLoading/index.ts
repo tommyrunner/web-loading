@@ -1,16 +1,24 @@
 import { OptionsType } from '../type'
 import { LOADING_TYPES } from '../utils'
 const $window = window
+/**
+ * @description 扩展加载类
+ */
 export default class ExtendLoading {
   extendEl: HTMLElement
   options?: OptionsType
+  /**
+   * @description 构造函数
+   * @param {OptionsType} [options] - 配置选项
+   */
   constructor(options?: OptionsType) {
     this.options = options
     this.extendEl = this.initStyle()
   }
   /**
-   * Initialize extension container element style
-   * @returns extension container element
+   * @description 初始化扩展容器元素样式
+   * @returns {HTMLElement} 扩展容器元素
+   * @private
    */
   private initStyle(): HTMLElement {
     this.extendEl = $window.document.createElement('div')
@@ -47,6 +55,10 @@ export default class ExtendLoading {
     $window.document.body.appendChild(this.extendEl)
     return this.extendEl
   }
+  /**
+   * @description 获取元素
+   * @returns {HTMLElement} 扩展容器元素
+   */
   getElement(): HTMLElement {
     return this.extendEl
   }

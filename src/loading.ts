@@ -4,7 +4,12 @@ import type { OptionsType, LoadingType, ElementType } from './type'
 import { LOADING_TYPES, getDefOptions, $Log } from './utils'
 import drawController from './draw/index'
 const $window = window
-/** @public */
+/**
+ * @description 初始化加载动画
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @public
+ */
 export default function initLoading(options?: OptionsType): LoadingType {
   const webLoading = new WebLoading(options)
   let feelPromiseResolve: ((value: boolean | PromiseLike<boolean>) => void) | null = null
@@ -12,19 +17,19 @@ export default function initLoading(options?: OptionsType): LoadingType {
     utlWL('resize')
   }
   const loading = (dom: ElementType, options?: OptionsType) => {
-    // Keep the last passed in parameter
+    // 保存最后传入的参数
     const op = Object.assign(webLoading.options, options)
-    // Prevent duplicate registration
+    // 防止重复注册
     if (!webLoading.loadingId && !feelPromiseResolve) {
-      // Create extended dom
+      // 创建扩展DOM
       if (op.type !== LOADING_TYPES.DOM) {
         dom = new ExtendLoading(op).getElement() as ElementType
       }
       if (!dom) $Log.error('The loading function cannot find an HTMLElement element!')
       else {
-        // Processing Senseless Loading through rece
+        // 通过Promise.race处理无感加载
         const loadingPromise = new Promise<boolean>((res) => {
-          // If the time of notFeed exceeds the close time, it is considered as an insensitive load
+          // 如果notFeel的时间超过关闭时间，则认为是无感加载
           $window.setTimeout(() => {
             res(true)
           }, op.notFeel)
@@ -35,7 +40,7 @@ export default function initLoading(options?: OptionsType): LoadingType {
         Promise.race([loadingPromise, feelPromise]).then((res) => {
           if (res) webLoading.draw(dom)
           else {
-            // Process extended dom
+            // 处理扩展DOM
             if (op.type !== LOADING_TYPES.DOM) dom.remove()
           }
           feelPromiseResolve = null
@@ -54,17 +59,17 @@ export default function initLoading(options?: OptionsType): LoadingType {
     feelPromiseResolve && feelPromiseResolve(false)
     utlWL('close')
   }
-  // Throw basic information
+  // 获取基本信息
   const getLoadingId = () => webLoading.loadingId
   const getOptions = () => webLoading.options
-  // WebLoading operation
+  // WebLoading操作工具函数
   function utlWL(key: 'resize' | 'close') {
     if (webLoading.element) {
-      // canvas
+      // canvas元素
       let temEl: HTMLCanvasElement | HTMLDivElement | null = webLoading.canvas
-      // html
+      // html元素
       if (webLoading.htmlElement) temEl = webLoading.htmlElement
-      // set up
+      // 设置
       if (temEl) webLoading[key](webLoading.element, temEl)
       else $Log.warn('Animation element not found!')
     }
@@ -78,15 +83,31 @@ export default function initLoading(options?: OptionsType): LoadingType {
     getLoadingId
   }
 }
-// Extended Load Method
+/**
+ * @description 扩展加载方法
+ * @param {LOADING_TYPES} type - 加载类型
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @private
+ */
 export function _$extendLoading(type: LOADING_TYPES, options?: OptionsType) {
   return initLoading(Object.assign(getDefOptions(), options || {}, { type }))
 }
-/** @public */
+/**
+ * @description 全屏加载
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @public
+ */
 export function fullLoading(options?: OptionsType) {
   return _$extendLoading(LOADING_TYPES.FULL, options)
 }
-/** @public */
+/**
+ * @description 迷你加载
+ * @param {OptionsType} options - 配置选项
+ * @returns {LoadingType} 返回加载操作对象
+ * @public
+ */
 export function miniLoading(options?: OptionsType) {
   return _$extendLoading(LOADING_TYPES.MINI, options)
 }

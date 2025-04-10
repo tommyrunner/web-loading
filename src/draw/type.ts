@@ -1,137 +1,167 @@
 import { OptionsType } from '../type'
 import { PATTERN_CHART, ROLL_CHART, ZOOM_ACTION, CIRCULAR_ACTION } from '../utils'
-/** @public */
+/**
+ * @description 绘制文本参数类型
+ * @public
+ */
 export interface DrawTextParamsType {
   esGap?: number
   x?: number
   text?: string
   textColor?: string
 }
-/** @public */
+/**
+ * @description 齿轮模型配置类型
+ * @public
+ */
 export interface GearOptionsType extends OptionsType {
-  // lineStart
+  // 线条起始
   lineStart?: number
-  // lineEnd
+  // 线条结束
   lineEnd?: number
-  // lineStartSkew
+  // 线条起始倾斜度
   lineStartSkew?: number
-  // lineEndSkew
+  // 线条结束倾斜度
   lineEndSkew?: number
-  // lineWidth
+  // 线条宽度
   lineWidth?: number
-  // 线的样式
+  // 线条样式
   lineCap?: CanvasLineCap
-  // lineNum
+  // 线条数量
   lineNum?: number
-  // Direction: true: positive, then negative
+  // 方向：true-正向，然后逆向
   direction?: boolean
 }
-/** @public */
+/**
+ * @description 环形模型配置类型
+ * @public
+ */
 export interface RingOptionsType extends OptionsType {
-  // Annular space
+  // 环形间隔
   ringGap?: number
-  // Interval between arcs
+  // 弧线间隔
   arcGap?: number
-  // lineWidth
+  // 线条宽度
   lineWidth?: number
-  // ringNum
+  // 环形数量
   ringNum?: number
-  // radius
+  // 半径
   radius?: number
-  // lineCap
+  // 线条样式
   lineCap?: CanvasLineCap
-  // Rotation angle
+  // 旋转角度
   turn?: number
-  // Initial angle of multiple rings
+  // 多个环形的初始角度
   ringsTurn?: Array<number>
-  // Direction: true: positive, then negative
+  // 方向：true-正向，然后逆向
   direction?: boolean
 }
-/** @public */
+/**
+ * @description 缩放模型配置类型
+ * @public
+ */
 export interface ZoomOptionsType extends OptionsType {
-  // Zoom changes the most
+  // 缩放最大尺寸
   maxSize?: number
-  // Zoom distance
+  // 缩放间距
   zoomGap?: number
-  // Height of zomm
+  // 缩放高度
   zoomHeight?: number
-  // zoomNum
+  // 缩放数量
   zoomNum?: number
-  // Custom colors for zoom
+  // 自定义缩放颜色
   zoomColors?: Array<string>
-  // lineCap
+  // 线条样式
   lineCap?: CanvasLineCap
-  // lineWidth
+  // 线条宽度
   lineWidth?: number
-  // action
+  // 动作类型
   action: ZOOM_ACTION
-  // Direction: true: positive, then negative
+  // 方向：true-正向，然后逆向
   direction?: boolean
 }
-/** @public */
+/**
+ * @description 图案模型配置类型
+ * @public
+ */
 export interface PatternOptionsType extends OptionsType {
-  // Supported graphics
+  // 支持的图形
   charts?: Array<PATTERN_CHART>
-  // largeness of the shape of the figure
+  // 图形尺寸大小
   chartSize?: number
-  // Dynamic color
+  // 动态颜色
   chartColors?: Array<string>
-  // maxHeight
+  // 最大高度
   maxHeight?: number
 }
-/** @public */
+/**
+ * @description 时钟模型配置类型
+ * @public
+ */
 export interface ClockOptionsType extends OptionsType {
-  // Text display mode: time: mm/dd/yy, s: sec
+  // 文本显示模式：time-日期时间，s-秒
   textTime?: 'time' | 's' | ''
-  // lineColors
+  // 线条颜色
   lineColors?: Array<string>
-  // lineCap
+  // 线条样式
   lineCap?: CanvasLineCap
-  // lineWidth
+  // 线条宽度
   lineWidth?: number
-  // clockSize
+  // 时钟尺寸
   clockSize?: number
-  // clockGap
+  // 时钟间隔
   clockGap?: number
-  // Hour minute second pointer
+  // 时分秒指针
   hLine?: boolean
   mLine?: boolean
   sLine?: boolean
 }
-/** @public */
+/**
+ * @description 豆形模型配置类型
+ * @public
+ */
 export interface BeanOptionsType extends OptionsType {
-  // beanSize
+  // 豆形尺寸
   beanSize?: number
-  // The number of points in the bean
+  // 豆形中的点数量
   pointLength?: number
 }
-/** @public */
+/**
+ * @description 滚动模型配置类型
+ * @public
+ */
 export interface RollOptionsType extends OptionsType {
-  // rollGap
+  // 滚动间隔
   rollGap?: number
-  // rollSize
+  // 滚动尺寸
   rollSize?: number
-  // showChild
+  // 显示子元素
   showChild?: boolean
-  // childNum
+  // 子元素数量
   childNum?: number
-  // Displayed graphics
+  // 显示的图形
   chart?: ROLL_CHART
-  // The blade color when the graph is Windmills.
+  // 风车图形时的叶片颜色
   windmills?: Array<string>
-  // Windmill center color
+  // 风车中心颜色
   windmillPointColor?: string
-  // Center fixed or not
+  // 中心是否固定
   fixed?: boolean
 }
-/** @public */
+/**
+ * @description 图片模型配置类型
+ * @public
+ */
 export interface ImageOptionsType extends OptionsType {
   src?: string
   width?: number
   height?: number
   turn?: boolean
 }
-/** @public */
+/**
+ * @description 骨架屏模型配置类型
+ * @public
+ */
 export interface SkeletonOptionsType extends OptionsType {
   skeletonColor?: string
   skeletonAnimationColor?: string
@@ -140,14 +170,17 @@ export interface SkeletonOptionsType extends OptionsType {
   deep?: boolean
   appointElementClass?: Array<string>
 }
-/** @public */
+/**
+ * @description 圆形模型配置类型
+ * @public
+ */
 export interface CircularOptionsType extends OptionsType {
-  // arcSize
+  // 弧线尺寸
   arcSize?: number
-  // arcGap
+  // 弧线间隔
   arcGap?: number
-  // arcColors
+  // 弧线颜色
   arcColors?: Array<string>
-  // action
+  // 动作类型
   action?: CIRCULAR_ACTION
 }

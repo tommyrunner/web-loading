@@ -4,20 +4,23 @@ import { LOADING_TYPES } from './utils'
 import _$initLoading, { _$extendLoading } from './loading'
 const $window: WindowType = window
 $window.BaseModel = _$BaseModel
-// initialization
+// 初始化
 $window.initLoading = function (options?: OptionsType) {
   return _$initLoading(options)
 }
-// extend
-// Mobile terminal
+// 扩展加载方法
+// 移动端
 $window.miniLoading = (options?: OptionsType) => {
   return _$extendLoading(LOADING_TYPES.MINI, options)
 }
-// Full screen
+// 全屏
 $window.fullLoading = (options?: OptionsType) => {
   return _$extendLoading(LOADING_TYPES.FULL, options)
 }
-// js project separate import method
+/**
+ * @description JS项目单独导入方法
+ * @public
+ */
 export default {
   initLoading: $window.initLoading,
   miniLoading: $window.miniLoading,

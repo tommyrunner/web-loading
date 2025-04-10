@@ -2,12 +2,18 @@ import type { ElementType, LimitType } from '../../type'
 import type { PatternOptionsType } from '../type'
 import { getDefOptions, PATTERN_CHART } from '../../utils'
 import BaseModel from './BaseModel'
+/**
+ * @description 图案模型默认配置选项
+ */
 const modelDefOptions: PatternOptionsType = {
   charts: [PATTERN_CHART.ARC, PATTERN_CHART.RECT, PATTERN_CHART.TRIANGLE, PATTERN_CHART.HEART, PATTERN_CHART.POLYGON],
   chartColors: ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#0960bd'],
   maxHeight: 60,
   chartSize: 12
 }
+/**
+ * @description 图案模型限制条件
+ */
 const limits: Array<LimitType> = [
   {
     key: 'chartSize',
@@ -24,22 +30,37 @@ const limits: Array<LimitType> = [
     }
   }
 ]
+/**
+ * @description 图案类型接口
+ */
 interface PatternType {
-  // Current height
+  // 当前高度
   nowHeight: number
-  // Current chart
+  // 当前图形
   chart: PATTERN_CHART
-  // Current color
+  // 当前颜色
   color: string
-  // Current rotation angle
+  // 当前旋转角度
   turn: number
-  // shadow
+  // 阴影
   shadow: number
-  // 0: initialization, 1: rise, 2: fall
+  // 0: 初始化, 1: 上升, 2: 下降
   nowState: number
 }
+/**
+ * @description 图案模型类
+ * @extends BaseModel<PatternOptionsType>
+ */
 export default class Pattern extends BaseModel<PatternOptionsType> {
   pattern: PatternType
+  /**
+   * @description 构造函数
+   * @param {number} w - 宽度
+   * @param {number} h - 高度
+   * @param {HTMLCanvasElement} canvas - Canvas元素
+   * @param {Required<PatternOptionsType>} options - 配置选项
+   * @param {ElementType} element - 容器元素
+   */
   constructor(
     w: number,
     h: number,
@@ -60,6 +81,9 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     }
     this.run(this.draw)
   }
+  /**
+   * @description 绘制图案
+   */
   draw() {
     const op = this.options
     this.clearRect()
@@ -72,15 +96,19 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
     this.drawShadow()
-    // Empty hidden part
+    // 清空隐藏部分
     this.clearRect(-this.w, 0, this.w * 2, this.h)
-    // Control value change
+    // 控制值变化
     this.controller(op)
     this.drawText({ textColor: this.pattern.color })
   }
+  /**
+   * @description 控制图案动画
+   * @param {Required<PatternOptionsType>} op - 配置选项
+   */
   controller(op: Required<PatternOptionsType>) {
-    this.pattern.turn += 10 // angle
-    // Height and shadow
+    this.pattern.turn += 10 // 角度
+    // 高度和阴影
     if (this.pattern.nowState === 1) {
       this.pattern.nowHeight--
       this.pattern.shadow += 0.2
@@ -89,23 +117,29 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
       this.pattern.shadow -= 0.2
     }
     this.pattern.shadow = Math.floor(this.pattern.shadow * 100) / 100
-    // speed
+    // 速度
     if (this.pattern.nowHeight <= -op.chartSize && this.pattern.nowHeight % 8 == 0) {
       op.delay += 0.5
       op.delay = Math.floor(op.delay * 100) / 100
     }
-    // Range
+    // 范围
     if (this.pattern.nowHeight <= -op.maxHeight) {
       this.pattern.nowState = 2
     } else if (this.pattern.nowHeight >= op.chartSize) {
       this.pattern.nowState = 1
       op.delay = 10
-      // Toggle Graphics
+      // 切换图形
       this.pattern.chart = this.randomState('charts')
-      // Toggle Color
+      // 切换颜色
       this.pattern.color = this.randomState('chartColors')
     }
   }
+  /**
+   * @description 选择图形类型
+   * @param {number} x - x坐标
+   * @param {number} y - y坐标
+   * @param {number} size - 尺寸
+   */
   selectChart(x: number, y: number, size: number) {
     switch (this.pattern.chart) {
       case PATTERN_CHART.RECT:
@@ -125,10 +159,18 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
         break
     }
   }
+  /**
+   * @description 随机选择状态
+   * @param {any} key - 键名
+   * @returns {PATTERN_CHART} 返回随机选择的图形类型
+   */
   randomState(key: any): PATTERN_CHART {
     const op: any = this.options
     return op[key][parseInt(String(Math.random() * op[key].length))]
   }
+  /**
+   * @description 绘制阴影
+   */
   drawShadow() {
     this.ctx.save()
     this.ctx.beginPath()
@@ -141,6 +183,12 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.beginPath()
     this.ctx.restore()
   }
+  /**
+   * @description 绘制矩形
+   * @param {number} x - x坐标
+   * @param {number} y - y坐标
+   * @param {number} size - 尺寸
+   */
   drawRect(x: number, y: number, size: number) {
     this.ctx.save()
     this.ctx.beginPath()
@@ -150,6 +198,12 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
   }
+  /**
+   * @description 绘制圆形
+   * @param {number} x - x坐标
+   * @param {number} y - y坐标
+   * @param {number} size - 尺寸
+   */
   drawArc(x: number, y: number, size: number) {
     this.ctx.save()
     this.ctx.beginPath()
@@ -159,6 +213,12 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
   }
+  /**
+   * @description 绘制三角形
+   * @param {number} x - x坐标
+   * @param {number} y - y坐标
+   * @param {number} size - 尺寸
+   */
   drawTriangle(x: number, y: number, size: number) {
     this.ctx.save()
     this.ctx.beginPath()
@@ -172,6 +232,12 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
   }
+  /**
+   * @description 绘制心形
+   * @param {number} x - x坐标
+   * @param {number} y - y坐标
+   * @param {number} size - 尺寸
+   */
   drawHeart(x: number, y: number, size: number) {
     size = size / 2
     this.ctx.save()
@@ -186,6 +252,12 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.closePath()
     this.ctx.restore()
   }
+  /**
+   * @description 绘制多边形
+   * @param {number} x - x坐标
+   * @param {number} y - y坐标
+   * @param {number} size - 尺寸
+   */
   drawPolygon(x: number, y: number, size: number) {
     this.ctx.save()
     this.ctx.beginPath()
@@ -203,6 +275,9 @@ export default class Pattern extends BaseModel<PatternOptionsType> {
     this.ctx.restore()
   }
 
+  /**
+   * @description 设置阴影
+   */
   setShadow() {
     const op = this.options
     this.ctx.shadowColor = this.pattern.color

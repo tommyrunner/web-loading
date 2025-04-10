@@ -2,6 +2,9 @@ import type { ElementType } from '../../type'
 import type { CircularOptionsType } from '../type'
 import { CIRCULAR_ACTION } from '../../utils'
 import BaseModel from './BaseModel'
+/**
+ * @description Circular模型默认配置选项
+ */
 const modelDefOptions: CircularOptionsType = {
   arcSize: 8,
   arcGap: 2,
@@ -9,15 +12,30 @@ const modelDefOptions: CircularOptionsType = {
   action: CIRCULAR_ACTION.COLLISION
 }
 
+/**
+ * @description 碰撞类型接口
+ */
 interface CollisionType {
   key: number
   state: boolean
   y: number
   x: number
 }
-export default class Bean extends BaseModel<CircularOptionsType> {
+/**
+ * @description 圆形模型类
+ * @extends BaseModel<CircularOptionsType>
+ */
+export default class Circular extends BaseModel<CircularOptionsType> {
   collisionPoint: Array<CollisionType>
   turn: number
+  /**
+   * @description 构造函数
+   * @param {number} w - 宽度
+   * @param {number} h - 高度
+   * @param {HTMLCanvasElement} canvas - Canvas元素
+   * @param {Required<CircularOptionsType>} options - 配置选项
+   * @param {ElementType} element - 容器元素
+   */
   constructor(
     w: number,
     h: number,
@@ -26,7 +44,7 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     element: ElementType
   ) {
     super(w, h, canvas, options, element, modelDefOptions)
-    // Initialize data
+    // 初始化数据
     const op = this.options
     const gap = op.arcSize * 2 + op.arcGap
     this.collisionPoint = [
@@ -58,13 +76,16 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     this.turn = 0
     this.run(this.draw)
   }
+  /**
+   * @description 绘制圆形
+   */
   draw() {
     this.clearRect()
     this.ctx.save()
     const op = this.options
-    // technological process
+    // 控制进程
     if (op.action === CIRCULAR_ACTION.COLLISION) this.controller()
-    // rotate
+    // 旋转
     else if (op.action === CIRCULAR_ACTION.ROTATE) {
       this.ctx.rotate((this.turn * Math.PI) / 180)
       this.turn += 10
@@ -73,6 +94,9 @@ export default class Bean extends BaseModel<CircularOptionsType> {
     this.ctx.restore()
     this.drawText({ esGap: op.arcSize * 4 + op.arcGap * 2 })
   }
+  /**
+   * @description 控制圆形动画
+   */
   controller() {
     const op = this.options
     this.collisionPoint.forEach((cp: CollisionType) => {
@@ -98,6 +122,9 @@ export default class Bean extends BaseModel<CircularOptionsType> {
       else cp[key]--
     })
   }
+  /**
+   * @description 绘制圆形元素
+   */
   drawCircular() {
     const op = this.options
     this.collisionPoint.forEach((cp: CollisionType, index: number) => {
@@ -114,6 +141,10 @@ export default class Bean extends BaseModel<CircularOptionsType> {
       this.ctx.restore()
     })
   }
+  /**
+   * @description 设置阴影
+   * @param {string} [color] - 阴影颜色
+   */
   setShadow(color?: string) {
     const op = this.options
     color && (this.ctx.shadowColor = color)

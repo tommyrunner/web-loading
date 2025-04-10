@@ -3,12 +3,12 @@ import { $Log } from '../utils'
 import models from './model'
 import BaseModel from './model/BaseModel'
 /**
- * Model controller: which controls the displayed model
- * @param w
- * @param h
- * @param canvas
- * @param options
- * @param element
+ * @description 模型控制器：控制显示的模型
+ * @param {number} w - 宽度
+ * @param {number} h - 高度
+ * @param {HTMLCanvasElement} canvas - Canvas元素
+ * @param {Required<OptionsType>} options - 配置选项
+ * @param {ElementType} element - 元素
  */
 export default function drawController(
   w: number,
@@ -25,7 +25,7 @@ export default function drawController(
       else model = new options.custom(w, h, canvas, options, element)
       storeModel = model
     } else {
-      // Optimize:Because canvas will be reset after changing height and width, initialization is required
+      // 优化：因为更改高度和宽度后canvas会被重置，需要重新初始化
       storeModel.initContextCall(storeModel.modelDefOptions, storeModel.limits, storeModel.modelDefCall)
     }
   } catch (e) {

@@ -1,44 +1,44 @@
 import { LogConfigType, OptionsType } from './type'
 /**
- * Supported loading methods
+ * @description 支持的加载方法
+ * @public
  */
-/** @public */
 export enum LOADING_TYPES {
   DOM = 'dom',
   FULL = 'full',
   MINI = 'mini'
 }
 /**
- * Supported models
+ * @description 支持的模型类型
+ * @public
  */
-/** @public */
 export enum MODEL_TYPES {
-  // Gear
+  // 齿轮
   GEAR = 'Gear',
-  // RING
+  // 环形
   RING = 'Ring',
-  // ZOOM
+  // 缩放
   ZOOM = 'Zoom',
-  // PATTERN
+  // 图案
   PATTERN = 'Pattern',
-  // CLOCK
+  // 时钟
   CLOCK = 'Clock',
-  // BEAN
+  // 豆形
   BEAN = 'Bean',
-  // ROLL
+  // 滚动
   ROLL = 'Roll',
-  // CIRCULAR
+  // 圆形
   CIRCULAR = 'Circular',
-  // IMG
+  // 图片
   IMG = 'Img',
-  // SKELETON
+  // 骨架屏
   SKELETON = 'Skeleton'
 }
 /**
- *
- * @returns Return to default configuration
+ * @description 返回默认配置
+ * @returns {Required<OptionsType>} 返回默认配置对象
+ * @public
  */
-/** @public */
 export function getDefOptions(): Required<OptionsType> {
   return {
     custom: null,
@@ -65,32 +65,55 @@ export function getDefOptions(): Required<OptionsType> {
     toast: true
   }
 }
-/** @public */
+/**
+ * @description 钩子调用键枚举
+ * @public
+ */
 export enum HOOKS_CALL_KEY {
   BEFORE_CLOSE = 'beforeClose',
   CLOSED = 'closed'
 }
-/** @public */
+/**
+ * @description 日志类型枚举
+ * @public
+ */
 export enum LOG_TYPES {
   INFO = 1,
   WARN = 2,
   ERROR = 3
 }
 /**
- * Log output
- * @param message - content
- * @param config - to configure
+ * @description 日志输出类
+ * @public
  */
 export class $Log {
+  /**
+   * @description 输出信息日志
+   * @param {string} message - 日志内容
+   */
   static info(message: string) {
     this.call(message, LOG_TYPES.INFO)
   }
+  /**
+   * @description 输出警告日志
+   * @param {string} message - 日志内容
+   */
   static warn(message: string) {
     this.call(message, LOG_TYPES.WARN)
   }
+  /**
+   * @description 输出错误日志
+   * @param {string} message - 日志内容
+   */
   static error(message: string) {
     this.call(message, LOG_TYPES.ERROR)
   }
+  /**
+   * @description 调用日志输出
+   * @param {string} message - 日志内容
+   * @param {LOG_TYPES} type - 日志类型
+   * @param {LogConfigType} config - 日志配置
+   */
   static call(
     message: string,
     type: LOG_TYPES = LOG_TYPES.INFO,
@@ -100,9 +123,9 @@ export class $Log {
     }
   ) {
     let bgColor = config.bgColor
-    // Warning color cannot be changed
+    // 警告颜色不能被更改
     if (type === 2) bgColor = '#fffbe5'
-    // The wrong color cannot be changed
+    // 错误颜色不能被更改
     if (type === 3) bgColor = '#fff0f0'
     const style = `
       background:${bgColor};
@@ -114,11 +137,11 @@ export class $Log {
   }
 }
 /**
- * Judge null
- * @param value - Judgment value
- * @returns boolean
+ * @description 判断值是否为空
+ * @param {any} value - 待判断的值
+ * @returns {boolean} 返回判断结果
+ * @public
  */
-/** @function */
 export function isNull(value: any): value is boolean | Function {
   switch (toType(value)) {
     case 'object':
@@ -134,10 +157,10 @@ export function isNull(value: any): value is boolean | Function {
   }
 }
 /**
- * Empty animation
- * @param id -
+ * @description 清除动画帧
+ * @param {number} id - 动画帧ID
+ * @public
  */
-/** @function */
 export function clearAnimationFrame(id: number) {
   if (!window.requestAnimationFrame) {
     window.clearInterval(id)
@@ -146,9 +169,10 @@ export function clearAnimationFrame(id: number) {
   }
 }
 /**
- * Type acquisition
- * @param key -
- * @returns
+ * @description 获取数据类型
+ * @param {any} key - 待检测的值
+ * @returns {string | 'not-type'} 返回类型字符串
+ * @public
  */
 export function toType(key: any): string | 'not-type' {
   try {
@@ -161,9 +185,10 @@ export function toType(key: any): string | 'not-type' {
   }
 }
 /**
- * Listening to animation end function
- * @param el - element
- * @param fun - Execute Function
+ * @description 监听动画结束事件
+ * @param {HTMLElement} el - 元素
+ * @param {Function} fun - 执行函数
+ * @public
  */
 export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
   let transitionsName: string | null = null
@@ -190,21 +215,28 @@ export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
   }
 }
 /**
- * Create a unique loadingid
- * @returns
+ * @description 创建唯一的loadingID
+ * @returns {string} 返回生成的唯一ID
+ * @public
  */
 export function createLoadingId() {
   let id = String(Date.now())
   if (window.crypto && window.crypto.randomUUID) id = window.crypto.randomUUID()
   return 'wl_' + id.replace(/-/g, '')
 }
-/** @public */
+/**
+ * @description 缩放动作枚举
+ * @public
+ */
 export enum ZOOM_ACTION {
   SCALE = 'scale',
   WAVE = 'wave',
   HEIGHT = 'height'
 }
-/** @public */
+/**
+ * @description 图案类型枚举
+ * @public
+ */
 export enum PATTERN_CHART {
   RECT = 'rect',
   ARC = 'arc',
@@ -212,13 +244,19 @@ export enum PATTERN_CHART {
   HEART = 'heart',
   POLYGON = 'polygon'
 }
-/** @public */
+/**
+ * @description 滚动图表类型枚举
+ * @public
+ */
 export enum ROLL_CHART {
   RECT = 'rect',
   WHEEL = 'wheel',
   WINDMILL = 'windmill'
 }
-/** @public */
+/**
+ * @description 圆形动作枚举
+ * @public
+ */
 export enum CIRCULAR_ACTION {
   COLLISION = 'collision',
   ROTATE = 'rotate'

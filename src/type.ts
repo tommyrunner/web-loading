@@ -1,59 +1,68 @@
 import { MODEL_TYPES, LOADING_TYPES, HOOKS_CALL_KEY } from './utils'
 import BaseModel from './draw/model/BaseModel'
-/** @public */
+/**
+ * @description 配置选项接口
+ * @public
+ */
 export interface OptionsType {
-  // custom model
+  // 自定义模型
   custom?: typeof BaseModel | null
-  // loading Startup mode (default DEF) [read-only]
+  // 加载启动模式（默认DEF）[只读]
   type?: LOADING_TYPES
-  // Class of mini mode
+  // mini模式的类名
   extendClass?: string | null | undefined
-  // models
+  // 模型类型
   model?: MODEL_TYPES
-  // Html load content
+  // Html加载内容
   html?: string
-  // text
+  // 文本内容
   text?: string
-  // textGap
+  // 文本间距
   textGap?: number
-  // fontSize
+  // 字体大小
   fontSize?: number
-  // fontFamily
+  // 字体系列
   fontFamily?: string
-  // delay
+  // 延迟时间
   delay?: number
-  // delayInto
+  // 进入延迟
   delayInto?: number
-  // Senseless refresh
+  // 无感刷新
   notFeel?: number
-  // optimization
+  // 性能优化
   optimization?: boolean
-  // loading Hierarchy
+  // 加载层级
   zIndex?: string
-  // Theme color
+  // 主题颜色
   themeColor?: string
-  // Background color
+  // 背景颜色
   bgColor?: string
-  // shadowColor
+  // 阴影颜色
   shadowColor?: string
-  // shadowOffsetX
+  // 阴影X偏移
   shadowOffsetX?: number
-  // shadowOffsetY
+  // 阴影Y偏移
   shadowOffsetY?: number
-  // shadowBlur
+  // 阴影模糊度
   shadowBlur?: number
-  // Event penetration (DOM mode)
+  // 事件穿透（DOM模式）
   pointerEvents?: boolean
-  // show toast
+  // 显示提示
   toast?: boolean
 }
+/**
+ * @description 扩展Window类型接口
+ */
 export interface WindowType extends Window {
   BaseModel?: typeof BaseModel
   initLoading?: (options: OptionsType) => LoadingType
   fullLoading?: (options: OptionsType) => LoadingType
   miniLoading?: (options: OptionsType) => LoadingType
 }
-/** @public */
+/**
+ * @description 加载类型接口
+ * @public
+ */
 export interface LoadingType {
   loading: Function
   resize: Function
@@ -62,38 +71,53 @@ export interface LoadingType {
   getOptions: () => OptionsType
   getLoadingId: () => string | null
 }
-// The mapping key is enum
+/**
+ * @description 钩子调用类型
+ * 映射键是枚举
+ */
 export type HooksCallType<T extends string = HOOKS_CALL_KEY> = {
   [key in T]: Function
 }
-/** @public */
+/**
+ * @description 元素存储类型接口
+ * @public
+ */
 export interface ElementStoreType {
-  // Save the options parameter of the final merge
+  // 保存最终合并的选项参数
   options: OptionsType
-  // Used to record the animation status
+  // 用于记录动画状态
   animationId: number | undefined
-  // Record the loading element id
+  // 记录loading元素id
   loadingId: string | null
-  // `Hook function of loading `
+  // loading的钩子函数
   hookCall: HooksCallType
-  // Model in use
+  // 使用中的模型
   model: BaseModel<OptionsType> | null
 }
-/** @public */
+/**
+ * @description 元素类型接口
+ * @public
+ */
 export interface ElementType extends HTMLElement {
   loadingId?: string | null
   $store: ElementStoreType
 }
-/** @public */
+/**
+ * @description 限制类型接口
+ * @public
+ */
 export interface LimitType {
   key: string
   message: string
   limit: (key: any) => boolean
 }
-/** @public */
+/**
+ * @description 日志配置类型
+ * @public
+ */
 export type LogConfigType = {
-  // Text color
+  // 文本颜色
   color?: string
-  // Hint After all
+  // 背景提示颜色
   bgColor?: string
 }

@@ -1,11 +1,17 @@
 import type { ElementType, LimitType } from '../../type'
 import type { BeanOptionsType } from '../type'
 import BaseModel from './BaseModel'
+/**
+ * @description Bean模型默认配置选项
+ */
 const modelDefOptions: BeanOptionsType = {
   beanSize: 15,
   pointLength: 15
 }
 
+/**
+ * @description Bean模型限制条件
+ */
 const limits: Array<LimitType> = [
   {
     key: 'pointLength',
@@ -22,6 +28,9 @@ const limits: Array<LimitType> = [
     }
   }
 ]
+/**
+ * @description Bean类型接口
+ */
 interface BeanType {
   turn: number
   state: number
@@ -30,8 +39,20 @@ interface BeanType {
   beanState: number
   beanAnimaIndex: number
 }
+/**
+ * @description Bean模型类
+ * @extends BaseModel<BeanOptionsType>
+ */
 export default class Bean extends BaseModel<BeanOptionsType> {
   bean: BeanType
+  /**
+   * @description 构造函数
+   * @param {number} w - 宽度
+   * @param {number} h - 高度
+   * @param {HTMLCanvasElement} canvas - Canvas元素
+   * @param {Required<BeanOptionsType>} options - 配置选项
+   * @param {ElementType} element - 容器元素
+   */
   constructor(
     w: number,
     h: number,
@@ -51,6 +72,9 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.options.delay = 10
     this.run(this.draw)
   }
+  /**
+   * @description 绘制豆形
+   */
   draw() {
     const op = this.options
     this.clearRect()
@@ -62,15 +86,18 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.ctx.fill()
     this.ctx.closePath()
     this.ctx.restore()
-    // Draw points
+    // 绘制点
     this.drawPoint()
-    // Filter Canvas
+    // 绘制过滤器
     this.drawFilter()
-    // Draw text
+    // 绘制文本
     this.drawText({ esGap: op.beanSize })
-    // technological process
+    // 控制进程
     this.controller()
   }
+  /**
+   * @description 控制豆形动画
+   */
   controller() {
     const op = this.options
     if (this.bean.nowX >= (op.pointLength * op.beanSize) / 2 + op.beanSize * 2) {
@@ -87,6 +114,9 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     if (this.bean.beanState === 1) this.bean.nowX -= 1
     if (this.bean.beanState === 2) this.bean.nowX += 1
   }
+  /**
+   * @description 绘制点
+   */
   drawPoint() {
     const op = this.options
     this.ctx.save()
@@ -101,22 +131,28 @@ export default class Bean extends BaseModel<BeanOptionsType> {
     this.bean.beanAnimaIndex += 0.2
     this.ctx.restore()
   }
+  /**
+   * @description 绘制过滤器
+   */
   drawFilter() {
     const op = this.options
-    // eye
+    // 眼睛
     this.clearRect(-op.beanSize / 3 + this.bean.nowX, -op.beanSize / 2, op.beanSize / 4)
-    // follow
+    // 轨迹
     this.clearRect(
       -(op.pointLength * op.beanSize) / 2 - op.beanSize / 2 + 0.2,
       -this.h,
       this.bean.nowX + (op.pointLength * op.beanSize) / 2 - op.beanSize / 2,
       this.h * 2
     )
-    // get into
+    // 进入
     this.clearRect(-(op.pointLength * op.beanSize) / 2, -this.h, -180, this.h * 2)
-    // leave
+    // 离开
     this.clearRect((op.pointLength * op.beanSize) / 2, -this.h, 180, this.h * 2)
   }
+  /**
+   * @description 设置阴影
+   */
   setShadow() {
     const op = this.options
     this.ctx.shadowOffsetX = op.shadowOffsetX

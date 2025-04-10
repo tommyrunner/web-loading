@@ -1,6 +1,9 @@
 import type { ElementType, LimitType } from '../../type'
 import type { RingOptionsType } from '../type'
 import BaseModel from './BaseModel'
+/**
+ * @description 环形模型默认配置选项
+ */
 const modelDefOptions: RingOptionsType = {
   arcGap: Math.PI / 4,
   ringGap: 10,
@@ -12,6 +15,9 @@ const modelDefOptions: RingOptionsType = {
   ringsTurn: [Math.PI, Math.PI / 4],
   direction: true
 }
+/**
+ * @description 环形模型限制条件
+ */
 const limits: Array<LimitType> = [
   {
     key: 'ringNum',
@@ -28,8 +34,21 @@ const limits: Array<LimitType> = [
     }
   }
 ]
+/**
+ * @description 环形模型类
+ * @extends BaseModel<RingOptionsType>
+ */
 export default class Ring extends BaseModel<RingOptionsType> {
-  rotate: number // Angle per rotation (default 10 per rotation)
+  /** 每次旋转的角度（默认每次旋转10） */
+  rotate: number
+  /**
+   * @description 构造函数
+   * @param {number} w - 宽度
+   * @param {number} h - 高度
+   * @param {HTMLCanvasElement} canvas - Canvas元素
+   * @param {Required<RingOptionsType>} options - 配置选项
+   * @param {ElementType} element - 容器元素
+   */
   constructor(
     w: number,
     h: number,
@@ -46,12 +65,18 @@ export default class Ring extends BaseModel<RingOptionsType> {
     this.rotate = 10
     this.run(this.draw)
   }
+  /**
+   * @description 绘制环形
+   */
   draw() {
     this.clearRect()
     this.controller()
     const op = this.options
     this.drawText({ esGap: op.ringNum * (op.radius + op.ringGap / 2) })
   }
+  /**
+   * @description 控制环形动画
+   */
   controller() {
     this.ctx.save()
     const op = this.options
@@ -70,13 +95,19 @@ export default class Ring extends BaseModel<RingOptionsType> {
     this.rotate += op.turn
     this.ctx.restore()
   }
+  /**
+   * @description 绘制单个环形
+   * @param {number} r - 半径
+   * @param {number} [arcGap=1] - 弧线间隔
+   * @param {number} [angle=0] - 角度
+   */
   drawRing(r: number, arcGap = 1, angle = 0) {
-    // First arc
+    // 第一个弧
     this.ctx.beginPath()
     this.ctx.arc(0, 0, r, arcGap + angle, Math.PI + angle)
     this.ctx.stroke()
     this.ctx.closePath()
-    // Second arc
+    // 第二个弧
     this.ctx.beginPath()
     this.ctx.arc(0, 0, r, Math.PI + arcGap + angle, angle)
     this.ctx.stroke()

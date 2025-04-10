@@ -197,13 +197,13 @@
 | `radius`                 | `number`  | `5`                  | skeleton 圆角     |
 | `animation`              | `boolean` | `true`               | 显示动画          |
 | `deep`                   | `boolean` | `true`               | 深度 skeleton     |
-| `appoint`                | `string`  | `''`                 | 指定元素 skeleton |
+| `appointElementClass`                | `Array<string>`  | `[]`                 | 指定元素(class) skeleton |
 
 ### SKELETON 上拉加载例子
-
+-
 > 业务场景：功能是**指定某些元素**，显示骨架，比如上拉加载，只需要动态显示最后一个或多个模块元素显示骨架，此时推荐指定元素。
 > @[code](./SKELETON.html)
-> 这里使用原生 html 方式引入，并显示，其余 web 框架同理。这里用的是**元素分隔**的方式，当然也可以使用`appoint`指定元素实现。
+> 这里使用原生 html 方式引入，并显示，其余 web 框架同理。这里用的是**元素分隔**的方式，当然也可以使用`appointElementClass`指定元素实现。
 
 ## 涉及到的 HTEMLElment 类型
 

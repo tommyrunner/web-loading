@@ -197,13 +197,13 @@
 | `radius`                 | `number`  | `5`                  | Skeleton fillet     |
 | `animation`              | `boolean` | `true`               | Show Animation         |
 | `deep`                   | `boolean` | `true`               | deep skeleton     |
-| `appoint`                | `string`  | `''`                 | Specify the element skeleton |
+| `appointElementClass`                | `Array<string>`  | `[]`                 | Specify element (class) skeleton |
 
 ### SKELETON上拉加载例子
 
 > Business scenario: The function is to **specify some elements** to display the skeleton, such as pull-up loading. Only the last or more module elements need to be dynamically displayed to display the skeleton. At this time, it is recommended to specify the elements.
 @[code](./SKELETON.html)
-> Here, the native html method is used to introduce and display, and other web frameworks are the same. Here, **elements are used to separate**. Of course, `appoint` can also be used to specify elements.
+> Here, the native html method is used to introduce and display, and other web frameworks are the same. Here, **elements are used to separate**. Of course, `appointElementClass` can also be used to specify elements.
 
 ## HTEMLElmenttype involved
 

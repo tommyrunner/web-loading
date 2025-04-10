@@ -1,12 +1,45 @@
-[official website](https://tommyrunner.github.io/web-loading/)
-# guide
+# web-loading
 
-> Recent changes:
->
-> + ***Due to a change in the packaging method, the path of "Introducing Objects or Types" has changed, and the latest document shall prevail***
-> + New Senseless Refresh
-> + Optimize source code
-> + Resolve the second flash screen bug
+<p align="center">
+  <img src="https://tommyrunner.github.io/web-loading/images/logo.png" width="200" alt="web-loading logo">
+</p>
+
+<p align="center">
+  High-performance Web loading animation library based on Canvas, providing smooth loading effects for your applications
+</p>
+
+<p align="center">
+  <a href="https://github.com/tommyrunner/web-loading/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/tommyrunner/web-loading.svg" alt="license">
+  </a>
+  <a href="https://www.npmjs.com/package/web-loading">
+    <img src="https://img.shields.io/npm/v/web-loading.svg" alt="npm">
+  </a>
+  <a href="https://github.com/tommyrunner/web-loading/stargazers">
+    <img src="https://img.shields.io/github/stars/tommyrunner/web-loading.svg" alt="stars">
+  </a>
+</p>
+
+## 🔥 Features
+
+- 💪 Based on Canvas rendering, excellent performance
+- 🔥 Written in TypeScript, providing complete type definitions
+- 📦 Multiple out-of-the-box loading animation effects
+- 🌈 Supports three mounting modes: DOM, full-screen, and mobile
+- 👓 Provides complete lifecycle hook functions
+- ⚡ Supports custom animation models
+
+## 📋 Changelog
+
+- Optimized source code structure
+- Added seamless refresh functionality
+- Fixed flash screen bug on quick close
+- Changed packaging method, import paths have changed
+
+## 🎬 Official Documentation
+
+[View official documentation and examples](https://tommyrunner.github.io/web-loading/)
+
 
 ## introduce
 
@@ -44,6 +77,10 @@ npm install web-loading
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
+<script>
+	const webLoading = window.fullLoading({})
+    // initLoading、fullLoading、miniLoading All bound to the window...
+</script>
 ```
 
 ### Introduction of engineering projects

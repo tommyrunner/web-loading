@@ -1,12 +1,44 @@
-[官网](https://tommyrunner.github.io/web-loading/)
-# 指南
+# web-loading
 
->  最近改动:
->
-> + ***因更换打包方式《引入对象或类型》路径发生改变，按最新文档为准***
-> + 新增 无感刷新
-> + 优化源码
-> + 解决秒关闪屏bug
+<p align="center">
+  <img src="https://tommyrunner.github.io/web-loading/images/logo.png" width="200" alt="web-loading logo">
+</p>
+
+<p align="center">
+  基于 Canvas 的高性能 Web 加载动画库，为您的应用提供丝滑加载效果
+</p>
+
+<p align="center">
+  <a href="https://github.com/tommyrunner/web-loading/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/tommyrunner/web-loading.svg" alt="license">
+  </a>
+  <a href="https://www.npmjs.com/package/web-loading">
+    <img src="https://img.shields.io/npm/v/web-loading.svg" alt="npm">
+  </a>
+  <a href="https://github.com/tommyrunner/web-loading/stargazers">
+    <img src="https://img.shields.io/github/stars/tommyrunner/web-loading.svg" alt="stars">
+  </a>
+</p>
+
+## 🔥 特性
+
+- 💪 基于 Canvas 绘制，性能优异
+- 🔥 使用 TypeScript 编写，提供完整的类型定义
+- 📦 开箱即用的多种加载动画效果
+- 🌈 支持三种挂载模式：DOM、全屏、移动端
+- 👓 提供完整的生命周期钩子函数
+- ⚡ 支持自定义动画模型
+
+## 📋 更新日志
+
+- 优化源码文件结构
+- 新增无感刷新功能
+- 解决秒关闪屏 bug
+- 更换打包方式，引入路径有变化
+
+## 🎬 官方文档
+
+[查看官方文档和示例](https://tommyrunner.github.io/web-loading/)
 
 ## 介绍
 
@@ -40,17 +72,21 @@ npm install web-loading
 
 ## 使用
 
-### CDN引入
+### CDN 引入
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-loading"></script>
+<script>
+  const webLoading = window.fullLoading({})
+  // initLoading、fullLoading、miniLoading都绑定在window上...
+</script>
 ```
 
 ### 工程项目引入
 
 ```typescript
-import type { LoadingType } from "web-loading";
-import { initLoading } from "web-loading";
+import type { LoadingType } from 'web-loading'
+import { initLoading } from 'web-loading'
 let webLoading: LoadingType = initLoading({
   // 自定义options
 })
@@ -100,4 +136,3 @@ let webLoading: LoadingType = fullLoading() // 全屏
 // 启动(如果是MINI或者FULL无需传递dom)
 webLoading.loading()
 ```
-

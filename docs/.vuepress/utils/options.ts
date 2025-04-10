@@ -946,10 +946,10 @@ export default [
   },
   {
     model: MODEL_TYPES.SKELETON,
-    title: '指定元素',
-    key: 'appoint',
-    type: OPTIONS_TYPE.STRING,
+    title: '指定元素(class标记)',
+    key: 'appointElementClass',
+    type: OPTIONS_TYPE.BOOLEAN,
     form: OPTIONS_FORM.MODEL,
-    value: ''
+    value: false
   }
 ] as Array<OptionsType>

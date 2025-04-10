@@ -23,6 +23,18 @@ features:
   <img src="/images/logo.png" ref="occImgRef">
 </div>
 
+<p align="center" >
+  <a href="https://github.com/tommyrunner/web-loading/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/tommyrunner/web-loading.svg" alt="license">
+  </a>&nbsp;&nbsp;
+  <a href="https://www.npmjs.com/package/web-loading">
+    <img src="https://img.shields.io/npm/v/web-loading.svg" alt="npm">
+  </a>&nbsp;&nbsp;
+  <a href="https://github.com/tommyrunner/web-loading/stargazers">
+    <img src="https://img.shields.io/github/stars/tommyrunner/web-loading.svg" alt="stars">
+  </a>
+</p>
+
 <script setup>
 import { ref, onMounted,onUnmounted,getCurrentInstance} from 'vue'
 // 默认样式

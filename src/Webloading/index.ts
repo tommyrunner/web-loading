@@ -138,7 +138,7 @@ export default class WebLoading {
    */
   private callEvent(hooksKey: HOOKS_CALL_KEY) {
     if (this.hooks)
-      this.hooks[hooksKey].forEach((event: Function) => {
+      this.hooks[hooksKey].forEach((event: () => void) => {
         event()
       })
   }

@@ -35,7 +35,7 @@ export function initHooksCall(): HooksType {
  */
 export function initStoreHooksCall(hooks: HooksType): HooksCallType {
   return {
-    [HOOKS_CALL_KEY.BEFORE_CLOSE]: (fun: Function) => {
+    [HOOKS_CALL_KEY.BEFORE_CLOSE]: (fun: (params?: any) => any) => {
       hooks[HOOKS_CALL_KEY.BEFORE_CLOSE].push(fun)
     },
     [HOOKS_CALL_KEY.CLOSED]: (fun: (params?: any) => any) => {

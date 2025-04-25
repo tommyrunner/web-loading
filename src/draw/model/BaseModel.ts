@@ -29,7 +29,7 @@ export default class BaseModel<T extends OptionsType> {
    * @param {ElementType} element - 容器元素
    * @param {T} [modelDefOptions] - 模型默认选项（可选）
    * @param {Array<LimitType>} [limits] - 模型默认限制（可选）
-   * @param {Function} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
+   * @param {(model: BaseModel<T>) => void} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
    */
   constructor(
     w: number,
@@ -80,10 +80,10 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * @description 封装requestAnimationFrame触发动画针
-   * @param {Function} fun - 触发函数
+   * @param {() => void} fun - 触发函数
    * @private
    */
-  private _$animationFrame(fun: Function) {
+  private _$animationFrame(fun: () => void) {
     // 兼容处理
     if (!window.requestAnimationFrame) {
       this.element.$store.animationId = window.setInterval(fun, this.options.delay)
@@ -104,7 +104,7 @@ export default class BaseModel<T extends OptionsType> {
    * @description 初始化画笔属性
    * @param {T} [modelDefOptions] - 提供模型初始化的选项
    * @param {Array<LimitType>} [limits] - 提供模型初始化的限制
-   * @param {Function} [modelDefCall] - 提供模型初始化的回调函数
+   * @param {(model: BaseModel<T>) => void} [modelDefCall] - 提供模型初始化的回调函数
    */
   initContextCall(modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void) {
     // 初始化基础点上下文
@@ -133,9 +133,9 @@ export default class BaseModel<T extends OptionsType> {
   }
   /**
    * @description 开始动画
-   * @param {Function} fun - 动画函数
+   * @param {() => void} fun - 动画函数
    */
-  run(fun: Function) {
+  run(fun: () => void) {
     // 如果已经处于加载状态，无需重新实例化
     if (this.element.$store.animationId) this.clearAnimationFrame(this.element.$store.animationId)
     this._$animationFrame(fun)

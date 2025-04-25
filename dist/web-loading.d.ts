@@ -57,14 +57,14 @@ export declare class BaseModel<T extends OptionsType> {
      * @param {ElementType} element - 容器元素
      * @param {T} [modelDefOptions] - 模型默认选项（可选）
      * @param {Array<LimitType>} [limits] - 模型默认限制（可选）
-     * @param {Function} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
+     * @param {(model: BaseModel<T>) => void} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
      */
     constructor(w: number, h: number, canvas: HTMLCanvasElement, options: Required<T>, element: ElementType, modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void);
     private _$initBaseContext;
     private _$initEvent;
     /**
      * @description 封装requestAnimationFrame触发动画针
-     * @param {Function} fun - 触发函数
+     * @param {() => void} fun - 触发函数
      * @private
      */
     private _$animationFrame;
@@ -72,14 +72,14 @@ export declare class BaseModel<T extends OptionsType> {
      * @description 初始化画笔属性
      * @param {T} [modelDefOptions] - 提供模型初始化的选项
      * @param {Array<LimitType>} [limits] - 提供模型初始化的限制
-     * @param {Function} [modelDefCall] - 提供模型初始化的回调函数
+     * @param {(model: BaseModel<T>) => void} [modelDefCall] - 提供模型初始化的回调函数
      */
     initContextCall(modelDefOptions?: T, limits?: Array<LimitType>, modelDefCall?: (model: BaseModel<T>) => void): void;
     /**
      * @description 开始动画
-     * @param {Function} fun - 动画函数
+     * @param {() => void} fun - 动画函数
      */
-    run(fun: Function): void;
+    run(fun: () => void): void;
     /**
      * @description 取消animationFrame动画针
      * @param {number} id - 动画ID
@@ -228,7 +228,7 @@ export declare enum HOOKS_CALL_KEY {
  * 映射键是枚举
  */
 declare type HooksCallType<T extends string = HOOKS_CALL_KEY> = {
-    [key in T]: Function;
+    [key in T]: (...args: any[]) => void;
 };
 
 /**
@@ -275,10 +275,10 @@ export declare enum LOADING_TYPES {
  * @public
  */
 export declare interface LoadingType {
-    loading: Function;
-    resize: Function;
-    close: Function;
-    update: Function;
+    loading: (dom: ElementType, options?: OptionsType) => void;
+    resize: () => void;
+    close: () => void;
+    update: (options?: OptionsType) => void;
     getOptions: () => OptionsType;
     getLoadingId: () => string | null;
 }

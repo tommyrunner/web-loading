@@ -196,7 +196,7 @@
     /**
      * @description 监听动画结束事件
      * @param {HTMLElement} el - 元素
-     * @param {Function} fun - 执行函数
+     * @param {() => void} fun - 执行函数
      * @public
      */
     function onTransitionEndEvent(el, fun) {
@@ -291,7 +291,7 @@
          * @param {ElementType} element - 容器元素
          * @param {T} [modelDefOptions] - 模型默认选项（可选）
          * @param {Array<LimitType>} [limits] - 模型默认限制（可选）
-         * @param {Function} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
+         * @param {(model: BaseModel<T>) => void} [modelDefCall] - 提供模型初始化的回调函数，通常在模型中初始化"canvas"或"画笔"（可选）
          */
         function BaseModel(w, h, canvas, options, element, modelDefOptions, limits, modelDefCall) {
             // 模型默认选项
@@ -340,7 +340,7 @@
         };
         /**
          * @description 封装requestAnimationFrame触发动画针
-         * @param {Function} fun - 触发函数
+         * @param {() => void} fun - 触发函数
          * @private
          */
         BaseModel.prototype._$animationFrame = function (fun) {
@@ -365,7 +365,7 @@
          * @description 初始化画笔属性
          * @param {T} [modelDefOptions] - 提供模型初始化的选项
          * @param {Array<LimitType>} [limits] - 提供模型初始化的限制
-         * @param {Function} [modelDefCall] - 提供模型初始化的回调函数
+         * @param {(model: BaseModel<T>) => void} [modelDefCall] - 提供模型初始化的回调函数
          */
         BaseModel.prototype.initContextCall = function (modelDefOptions, limits, modelDefCall) {
             var _this = this;
@@ -397,7 +397,7 @@
         };
         /**
          * @description 开始动画
-         * @param {Function} fun - 动画函数
+         * @param {() => void} fun - 动画函数
          */
         BaseModel.prototype.run = function (fun) {
             // 如果已经处于加载状态，无需重新实例化

@@ -64,10 +64,10 @@ export interface WindowType extends Window {
  * @public
  */
 export interface LoadingType {
-  loading: Function
-  resize: Function
-  close: Function
-  update: Function
+  loading: (dom: ElementType, options?: OptionsType) => void
+  resize: () => void
+  close: () => void
+  update: (options?: OptionsType) => void
   getOptions: () => OptionsType
   getLoadingId: () => string | null
 }
@@ -76,7 +76,7 @@ export interface LoadingType {
  * 映射键是枚举
  */
 export type HooksCallType<T extends string = HOOKS_CALL_KEY> = {
-  [key in T]: Function
+  [key in T]: (...args: any[]) => void
 }
 /**
  * @description 元素存储类型接口

@@ -142,7 +142,7 @@ export class $Log {
  * @returns {boolean} 返回判断结果
  * @public
  */
-export function isNull(value: any): value is boolean | Function {
+export function isNull(value: any): value is boolean | ((...args: any[]) => any) {
   switch (toType(value)) {
     case 'object':
       return Object.keys(value).length > 0
@@ -187,10 +187,10 @@ export function toType(key: any): string | 'not-type' {
 /**
  * @description 监听动画结束事件
  * @param {HTMLElement} el - 元素
- * @param {Function} fun - 执行函数
+ * @param {() => void} fun - 执行函数
  * @public
  */
-export function onTransitionEndEvent(el: HTMLElement, fun: Function) {
+export function onTransitionEndEvent(el: HTMLElement, fun: () => void) {
   let transitionsName: string | null = null
   const transitions: { [key in string]: string } = {
     transition: 'transitionend',

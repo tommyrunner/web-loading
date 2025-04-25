@@ -74,9 +74,10 @@ export default class BaseModel<T extends OptionsType> {
   // 初始化默认事件
   private _$initEvent() {
     // 关闭前清空画布
-    this.element.$store.hookCall.beforeClose(() => {
-      this.clearRect()
-    })
+    if (this.element.$store)
+      this.element.$store.hookCall.beforeClose(() => {
+        this.clearRect()
+      })
   }
   /**
    * @description 封装requestAnimationFrame触发动画针
@@ -84,9 +85,11 @@ export default class BaseModel<T extends OptionsType> {
    * @private
    */
   private _$animationFrame(fun: () => void) {
+    const $store = this.element.$store
+    if (!$store) return
     // 兼容处理
     if (!window.requestAnimationFrame) {
-      this.element.$store.animationId = window.setInterval(fun, this.options.delay)
+      $store.animationId = window.setInterval(fun, this.options.delay)
     }
     // 使用时间轴控制触发时间
     let endTime = Date.now() + this.options.delay!
@@ -96,9 +99,9 @@ export default class BaseModel<T extends OptionsType> {
         fun.call(this)
         endTime = Date.now() + this.options.delay!
       }
-      this.element.$store.animationId = window.requestAnimationFrame(run)
+      $store.animationId = window.requestAnimationFrame(run)
     }
-    this.element.$store.animationId = window.requestAnimationFrame(run)
+    $store.animationId = window.requestAnimationFrame(run)
   }
   /**
    * @description 初始化画笔属性
@@ -116,7 +119,7 @@ export default class BaseModel<T extends OptionsType> {
       // 记录选项
       this.modelDefOptions = modelDefOptions
       this.options = Object.assign(modelDefOptions, this.options)
-      this.element.$store.options = this.options
+      if (this.element.$store) this.element.$store.options = this.options
       // 判断属性值是否需要限制（仅用于提示）
       if (limits && limits.length && this.options.toast) {
         limits.forEach((l: LimitType) => {
@@ -137,7 +140,8 @@ export default class BaseModel<T extends OptionsType> {
    */
   run(fun: () => void) {
     // 如果已经处于加载状态，无需重新实例化
-    if (this.element.$store.animationId) this.clearAnimationFrame(this.element.$store.animationId)
+    const $store = this.element.$store
+    if ($store && $store.animationId) this.clearAnimationFrame($store.animationId)
     this._$animationFrame(fun)
   }
   /**

@@ -100,7 +100,7 @@ export interface ElementStoreType {
  */
 export interface ElementType extends HTMLElement {
   loadingId?: string | null
-  $store: ElementStoreType
+  $store?: ElementStoreType
 }
 /**
  * @description 限制类型接口

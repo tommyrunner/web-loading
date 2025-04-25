@@ -64,7 +64,7 @@ export default class WebLoading {
    */
   close(element: ElementType, animaEl: HTMLCanvasElement | HTMLDivElement) {
     const op = this.options
-    const store = element.$store
+    const $store = element.$store
     $window.setTimeout(
       () => {
         // 触发关闭动画
@@ -75,13 +75,13 @@ export default class WebLoading {
         // 防止二次关闭，如果二次关闭，需要等待上一个动画结束后再清除缓存
         onTransitionEndEvent(element, () => {
           // 结束canvas动画前需要结束样式
-          if (store) {
+          if ($store) {
             // 清除模型
-            store.model = null
+            $store.model = null
             // 关闭前回调
             this.callEvent(HOOKS_CALL_KEY.BEFORE_CLOSE)
             // 停止animationFrame
-            if (store.animationId) clearAnimationFrame(store.animationId)
+            if ($store.animationId) clearAnimationFrame($store.animationId)
           }
           // 如果dom是扩展的，清除父元素（父元素由webLoading创建）
           if (op.type !== LOADING_TYPES.DOM) element.remove()
@@ -95,7 +95,7 @@ export default class WebLoading {
         })
       },
       // 如果是二次关闭，需要主动添加延迟
-      !store.loadingId ? op.delayInto : 0
+      $store && !$store.loadingId ? op.delayInto : 0
     )
   }
 

@@ -328,9 +328,10 @@ var BaseModel = /*#__PURE__*/ (function () {
     BaseModel.prototype._$initEvent = function () {
         var _this = this;
         // 关闭前清空画布
-        this.element.$store.hookCall.beforeClose(function () {
-            _this.clearRect();
-        });
+        if (this.element.$store)
+            this.element.$store.hookCall.beforeClose(function () {
+                _this.clearRect();
+            });
     };
     /**
      * @description 封装requestAnimationFrame触发动画针
@@ -339,9 +340,12 @@ var BaseModel = /*#__PURE__*/ (function () {
      */
     BaseModel.prototype._$animationFrame = function (fun) {
         var _this = this;
+        var $store = this.element.$store;
+        if (!$store)
+            return;
         // 兼容处理
         if (!window.requestAnimationFrame) {
-            this.element.$store.animationId = window.setInterval(fun, this.options.delay);
+            $store.animationId = window.setInterval(fun, this.options.delay);
         }
         // 使用时间轴控制触发时间
         var endTime = Date.now() + this.options.delay;
@@ -351,9 +355,9 @@ var BaseModel = /*#__PURE__*/ (function () {
                 fun.call(_this);
                 endTime = Date.now() + _this.options.delay;
             }
-            _this.element.$store.animationId = window.requestAnimationFrame(run);
+            $store.animationId = window.requestAnimationFrame(run);
         };
-        this.element.$store.animationId = window.requestAnimationFrame(run);
+        $store.animationId = window.requestAnimationFrame(run);
     };
     /**
      * @description 初始化画笔属性
@@ -372,7 +376,8 @@ var BaseModel = /*#__PURE__*/ (function () {
             // 记录选项
             this.modelDefOptions = modelDefOptions;
             this.options = Object.assign(modelDefOptions, this.options);
-            this.element.$store.options = this.options;
+            if (this.element.$store)
+                this.element.$store.options = this.options;
             // 判断属性值是否需要限制（仅用于提示）
             if (limits && limits.length && this.options.toast) {
                 limits.forEach(function (l) {
@@ -395,8 +400,9 @@ var BaseModel = /*#__PURE__*/ (function () {
      */
     BaseModel.prototype.run = function (fun) {
         // 如果已经处于加载状态，无需重新实例化
-        if (this.element.$store.animationId)
-            this.clearAnimationFrame(this.element.$store.animationId);
+        var $store = this.element.$store;
+        if ($store && $store.animationId)
+            this.clearAnimationFrame($store.animationId);
         this._$animationFrame(fun);
     };
     /**
@@ -2030,6 +2036,8 @@ var models = { Gear: Gear, Zoom: Zoom, Ring: Ring, Bean: Bean, Clock: Clock, Pat
  */
 function drawController(w, h, canvas, options, element) {
     try {
+        if (!element.$store)
+            return;
         var storeModel = element.$store.model;
         if (!storeModel) {
             var model = null;
@@ -2161,7 +2169,8 @@ function initContentStyle(element, op, loadingId, animaEl) {
     $window$4.setTimeout(function () { return (contentStyle.opacity = '1'); }, 0);
     onTransitionEndEvent(element, function () {
         // 等待所有元素出现并完成（动画结束）
-        element.$store.loadingId = loadingId;
+        if (element.$store)
+            element.$store.loadingId = loadingId;
     });
     return element;
 }
@@ -2254,7 +2263,7 @@ var WebLoading = /*#__PURE__*/ (function () {
     WebLoading.prototype.close = function (element, animaEl) {
         var _this = this;
         var op = this.options;
-        var store = element.$store;
+        var $store = element.$store;
         $window$3.setTimeout(function () {
             // 触发关闭动画
             clearStyle(element, op, animaEl);
@@ -2264,14 +2273,14 @@ var WebLoading = /*#__PURE__*/ (function () {
             // 防止二次关闭，如果二次关闭，需要等待上一个动画结束后再清除缓存
             onTransitionEndEvent(element, function () {
                 // 结束canvas动画前需要结束样式
-                if (store) {
+                if ($store) {
                     // 清除模型
-                    store.model = null;
+                    $store.model = null;
                     // 关闭前回调
                     _this.callEvent(HOOKS_CALL_KEY.BEFORE_CLOSE);
                     // 停止animationFrame
-                    if (store.animationId)
-                        clearAnimationFrame(store.animationId);
+                    if ($store.animationId)
+                        clearAnimationFrame($store.animationId);
                 }
                 // 如果dom是扩展的，清除父元素（父元素由webLoading创建）
                 if (op.type !== LOADING_TYPES.DOM)
@@ -2287,7 +2296,7 @@ var WebLoading = /*#__PURE__*/ (function () {
             });
         }, 
         // 如果是二次关闭，需要主动添加延迟
-        !store.loadingId ? op.delayInto : 0);
+        $store && !$store.loadingId ? op.delayInto : 0);
     };
     /**
      * @description 绘制动画

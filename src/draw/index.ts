@@ -18,6 +18,7 @@ export default function drawController(
   element: ElementType
 ) {
   try {
+    if (!element.$store) return
     let storeModel = element.$store.model
     if (!storeModel) {
       let model = null

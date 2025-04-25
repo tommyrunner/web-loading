@@ -188,7 +188,7 @@ export declare interface ElementStoreType {
  */
 export declare interface ElementType extends HTMLElement {
     loadingId?: string | null;
-    $store: ElementStoreType;
+    $store?: ElementStoreType;
 }
 
 /**

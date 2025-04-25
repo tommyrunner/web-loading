@@ -53,7 +53,7 @@ export function initContentStyle(
   $window.setTimeout(() => (contentStyle.opacity = '1'), 0)
   onTransitionEndEvent(element, () => {
     // 等待所有元素出现并完成（动画结束）
-    element.$store.loadingId = loadingId
+    if (element.$store) element.$store.loadingId = loadingId
   })
   return element
 }
